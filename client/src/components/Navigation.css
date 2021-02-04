@@ -1,0 +1,28 @@
+.img-logo{
+  margin-right: 1100px;
+}
+.signup-button {
+  background-color: black;
+  color:white;
+  border-radius: 30px;
+  height:50px;
+  width:200px;
+  font-size:20px;
+  position:absolute;
+  right:70px;
+  top:50px
+  
+}
+
+.login-button{
+  background-color: black;
+  color:white;
+  border-radius: 30px;
+  height:50px;
+  width:200px;
+  font-size:20px;
+  position: absolute;
+  right:300px;
+  top:50px
+
+}
