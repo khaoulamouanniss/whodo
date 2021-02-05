@@ -38,7 +38,7 @@ module.exports = db => {
           console.log(newUser);
           
           // req.session['userID'] = newUser['id'];
-          res.send({message: "registered new user" });
+          res.send(newUser);
           return;
         })
           .catch(e => res.send("error"));

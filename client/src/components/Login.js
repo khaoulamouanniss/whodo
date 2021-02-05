@@ -7,6 +7,7 @@ export default function Login(props) {
 
   const submitHandler = event => {
     event.preventDefault();
+    console.log("details from Login component",details)
     login(details);
   };
 

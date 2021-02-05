@@ -23,7 +23,7 @@ export default function App() {
     id:0,
     name: "",
     lastName:"",     
-    birthDate: Date(),
+    birthDate: "",
     gender:"",
     email: "",
     password: "",
@@ -41,10 +41,11 @@ export default function App() {
     axios.post("http://localhost:8001/login",{ email:details.email, password:details.password })
     .then(res =>
       {
-       
-        if(res.data === "Email does not exist" || res.data === "Password is incorrect") {
+       if(res.data === "Email does not exist" || res.data === "Password is incorrect") {
             setError ("Informations do not match!");
         } else {
+          console.log("details in function login", details)
+          console.log("login request data", res.data)
           setError(null);
           setUser(res.data);
           console.log("Logged in");
