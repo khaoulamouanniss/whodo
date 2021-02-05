@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require('bcrypt');
+//const getUserByEmail = require ("../helpers");
 
 const getUserByEmail = (email, db) => {
   return db.query(`
@@ -14,7 +15,6 @@ const getUserByEmail = (email, db) => {
       return null;
     });
 };
-
 module.exports = db => {
  
   router.post('/login', (req, res) => {
@@ -23,7 +23,7 @@ module.exports = db => {
       .then(user => {
         if (!user) {
           res.send("Email does not exist");
-        } else if /*(password === user['password']) {*/(!bcrypt.compareSync(password, user['password'])) {
+        } else if /*(password !== user['password']) {*/(!bcrypt.compare(password, user['password'])) {
           res.send("Password is incorrect");
           return;
         }

@@ -14,7 +14,7 @@ const users = require("./routes/users");
 const topics = require("./routes/topics");
 const questions = require("./routes/questions");
 const login = require("./routes/login");
-
+const signup = require("./routes/signup");
 
 function read(file) {
   return new Promise((resolve, reject) => {
@@ -42,7 +42,7 @@ module.exports = function application(
   app.use("", topics(db));
   app.use("", questions(db));
   app.use("", login(db));
-
+  app.use("", signup(db));
 
  
     Promise.all([
