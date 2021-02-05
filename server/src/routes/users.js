@@ -1,5 +1,6 @@
 const router = require("express").Router();
 
+
 module.exports = db => {
   router.get("/users", (request, response) => {
     db.query(
@@ -13,5 +14,6 @@ module.exports = db => {
     });
   });
 
+  
   return router;
 };
