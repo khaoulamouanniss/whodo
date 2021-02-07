@@ -1,15 +1,15 @@
 const router = require("express").Router();
 
 module.exports = db => {
-  router.get("/questions", (request, response) => {
+  router.get("/items", (request, response) => {
     db.query(
       `
       SELECT
         *
-        FROM questions;
+        FROM items;
     `
-    ).then(({ rows: questions }) => {
-      response.json(questions);
+    ).then(({ rows: quesitemstions }) => {
+      response.json(items);
     });
   });
 

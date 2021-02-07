@@ -14,7 +14,7 @@ VALUES
 ('School'),
 ('Work'),
 ('General');
-INSERT INTO questions (creator_id, question, time, approved)
+INSERT INTO items (creator_id, item, time, approved)
 VALUES
 (3, 'Allowing yourself to be seated at a bad table even though you had reservations', '2020-01-15 04:05:06', true),
 (3, 'Asking to share a table with strangers at a crowded restaurant or bar', '2020-01-16 04:05:06', true),
@@ -61,13 +61,13 @@ VALUES
 (3, 'Letting someone tell you what to do', '2020-01-20 10:15:06',true),
 (3, 'Continuing a story no matter how many times you get interrupted', '2020-01-20 10:20:06',true),
 (3, 'Taking charge in an emergency', '2020-01-20 10:25:06',true);
-INSERT INTO answer_questions (question_id, user_id, answer, date)
+INSERT INTO answer_items (item_id, user_id, answer, date)
 VALUES
 (2, 1, 1, '2020-11-20 10:25:06'),
 (4, 2, 4, '2020-11-20 10:30:16'),
 (5, 1, 3, '2020-11-21 10:25:06'),
 (6, 2, 4, '2020-11-22 10:30:16');
-INSERT INTO question_topics (question_id, topic_id)
+INSERT INTO item_topics (item_id, topic_id)
 VALUES
 (1, 1),
 (2, 1),
@@ -113,7 +113,7 @@ VALUES
 (43, 9),
 (44, 9),
 (45, 9);
-INSERT INTO question_topics (question_id, topic_id)
+INSERT INTO item_topics (item_id, topic_id)
 VALUES
 (1,1),
 (1,2),

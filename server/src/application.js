@@ -12,7 +12,7 @@ const db = require("./db");
 
 const users = require("./routes/users");
 const topics = require("./routes/topics");
-const questions = require("./routes/questions");
+const questions = require("./routes/items");
 const login = require("./routes/login");
 const signup = require("./routes/signup");
 
@@ -40,7 +40,7 @@ module.exports = function application(
 
   app.use("", users(db));
   app.use("", topics(db));
-  app.use("", questions(db));
+  app.use("", items(db));
   app.use("", login(db));
   app.use("", signup(db));
 
