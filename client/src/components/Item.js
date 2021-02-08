@@ -1,9 +1,14 @@
+
 import React from "react";
 
-export default function Item() {
+export default function Item(props) {
+
+  //let items = props.getItems()
+
+
   return (
     <div>
-     Item
+     {props.item}
     </div>
   )
 }

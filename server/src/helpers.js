@@ -1,3 +1,5 @@
+const { request } = require("express");
+
 const getUserByEmail = (email, db) => {
   return db.query(`
     SELECT * 
@@ -26,7 +28,39 @@ const addUser = (userData, db) => {
       return null;
     });
 };
+
+const getItemsByUserType = (email, type, db) => {
+
+  let sql = `
+    SELECT item 
+    FROM items
+    LIMIT 20;`
+  
+  if (type === "normal"){
+    sql = `
+    SELECT item FROM items A
+    JOIN item_topics B ON B.item_id = A.id
+    JOIN user_topics C ON B.topic_id = C.topic_id
+    JOIN users D ON C.user_id = D.id
+      WHERE D.email = $1;
+    
+    `,[email];
+  }
+  
+  return db.query(sql)
+    .then(res => {
+      console.log("query of getitemsbyusertype",sql)
+      console.log("res in function getItemByUserType",res.rows)
+      let items = res.rows.map(element => element.item);
+      return items;
+    })
+    .catch(e => {
+      return null;
+    });
+};
+
 module.exports = {
   getUserByEmail,
-  addUser
+  addUser,
+  getItemsByUserType
 };

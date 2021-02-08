@@ -12,7 +12,7 @@ const db = require("./db");
 
 const users = require("./routes/users");
 const topics = require("./routes/topics");
-const questions = require("./routes/items");
+const items = require("./routes/items");
 const login = require("./routes/login");
 const signup = require("./routes/signup");
 
