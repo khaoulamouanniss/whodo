@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {getItemsByUserType} = require ("../helpers");
+const {getItemsAndTopicsByUserType} = require ("../helpers");
 
 module.exports = db => {
   router.get("/items", (request, response) => {
@@ -17,7 +17,7 @@ module.exports = db => {
   router.get('/', (req, res) => {
     const {email, type} = req.body;
     console.log("email and type in the router items", email, type)
-    getItemsByUserType(email,type, db)
+    getItemsAndTopicsByUserType(email,type, db)
       .then(items => {
         console.log("item in router items",items)        
         res.send(items);

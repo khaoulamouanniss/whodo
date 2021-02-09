@@ -29,20 +29,31 @@ const addUser = (userData, db) => {
     });
 };
 
-const getItemsByUserType = (email, type, db) => {
+const getItemsAndTopicsByUserType = (email, type, db) => {
 
   let sql = `
-    SELECT item 
-    FROM items
+    SELECT item, D.topic, count(B.id) as answers
+    FROM items A
+    LEFT OUTER JOIN answer_items B ON A.id = B.item_id
+    JOIN item_topics C ON  A.id = C.item_id
+    JOIN topics D ON C.topic_id = D.id
+    GROUP BY A.item, D.topic
+    ORDER BY random ()
     LIMIT 20;`
   
   if (type === "normal"){
     sql = `
-    SELECT item FROM items A
-    JOIN item_topics B ON B.item_id = A.id
-    JOIN user_topics C ON B.topic_id = C.topic_id
-    JOIN users D ON C.user_id = D.id
-      WHERE D.email = $1;
+    SELECT item, D.topic AS topics, count(B.id) as answers
+    FROM items A
+    LEFT OUTER JOIN answer_items B ON A.id = B.item_id
+    JOIN item_topics C ON C.item_id = A.id
+    JOIN topics D ON C.topic_id = D.id
+    JOIN user_topics E ON D.id = E.topic_id
+    JOIN users F ON E.user_id = F.id
+    WHERE F.email = $1
+    GROUP BY A.item, D.topic
+    ORDER BY random ()
+    LIMIT 20;
     
     `,[email];
   }
@@ -51,16 +62,45 @@ const getItemsByUserType = (email, type, db) => {
     .then(res => {
       console.log("query of getitemsbyusertype",sql)
       console.log("res in function getItemByUserType",res.rows)
-      let items = res.rows.map(element => element.item);
-      return items;
+      
+      return res.rows;
     })
     .catch(e => {
       return null;
     });
 };
 
+const getItemsByTopic = (topics)  => {
+  const itemsForTopic=[];
+      itemsForTopic = topics.map(topic =>
+      db.query(`
+      select * from items
+      join item_topics on id = item_topics.item_id
+      where item_topics.topic_id =$1
+      `, [topic])
+      .then(res => {
+          return res.rows[0];
+        })
+        .catch(e => {
+          return null;
+        })
+  );
+}
+const getNbAnswersByItem = (item) => {
+   db.query('SELECT COUNT(id) FROM answer_items  WHERE item_id = $1 ', [item])
+   .then(res => {
+      return res.rows[0];
+    })
+    .catch(e => {
+      return null;
+    })
+  }
+
+
 module.exports = {
   getUserByEmail,
   addUser,
-  getItemsByUserType
+  getItemsAndTopicsByUserType,
+  getItemsByTopic,
+  getNbAnswersByItem
 };

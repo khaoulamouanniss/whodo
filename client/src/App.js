@@ -7,6 +7,7 @@ import SignUp from './components/SignUp';
 //import Submit from './components/Submit';
 //import Item from './components/Item';
 import ListItems from './components/ListItems';
+//import users from '../../server/src/routes/users';
 //import Account from './components/Account';
 
 export default function App() {
@@ -15,6 +16,28 @@ export default function App() {
     email : 'test@test.com',
     password : 'test'
   }
+*/
+/*
+  const [topics,setTopics] = useState(null);
+
+  const chooseTopics = topics => {
+    axios.post("http://localhost:8001/topics",{ 
+        topic: topics.topic
+  })
+  .then( res =>
+    {
+        console.log(res.data);
+        setTopics([...topic]);
+    }
+    )
+  }
+  const generateRandomTopics = () => {
+    let arrayTopicIds =[];
+    for (const i = 0 ; i <4 ; i++) {
+        arrayTopicIds.push (Math.floor(Math.random() * 10));
+    }
+    return arrayTopicIds;
+}
 */
 
     const[items, setItems] = useState([])
@@ -26,8 +49,7 @@ export default function App() {
         console.log(res.data);
         setItems(res.data);
       })
-  
-    },[])
+      },[]);
   
   const [error, setError] = useState(null);
   //const [loading, setLoading] = useState(false);
@@ -119,15 +141,18 @@ export default function App() {
   };
   return (
     <div >
-      <Navigation />
-      <ListItems email={user.email} items={items} />    
-{/* 
+      <Navigation />   
+      
+  
       {(user.email !== '') ? (<div>
         <h1> Welcome <span>{user.email}</span></h1>
-          <button onClick={Logout}>Logout</button>
-          <ListItems email={user.email} items={items} />     
+          <button onClick={Logout}>Logout</button>  
         </div>
-          ) : <div><Login login={login} error={error}/> <SignUp signup={signup} error={error} /></div>}*/}
+          ) : <div>
+            <Login login={login} error={error}/> 
+            <SignUp signup={signup} error={error} />
+            </div>}
+            <ListItems email={user.email} items={items} />
     </div>
   );
 }

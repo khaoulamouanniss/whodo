@@ -3,12 +3,12 @@ import React from "react";
 
 export default function Item(props) {
 
-  //let items = props.getItems()
-
+  let topics=' #'+ props.topics.replace('/',' #');
+  let answers =' ' + props.answers + ' answers';
 
   return (
     <div>
-     {props.item}
+     {props.item}{topics}{answers}
     </div>
   )
 }
