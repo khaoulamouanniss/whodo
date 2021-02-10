@@ -29,5 +29,22 @@ module.exports = db => {
       });
   })
     
+  router.get('/items/:id', (req, res) => {
+   
+    console.log("id of item in the router",  Number(req.params.id))
+    db.query(`
+      SELECT item 
+        FROM items
+        WHERE id = $1;
+    `, [ Number(req.params.id)])
+    .then(item => {
+      res.send(item.rows[0]);
+    })
+    .catch(e => {
+      if (e) {
+        res.status(401).json({ error: e.message });
+        }
+      });
+  })
   return router;
 };

@@ -1,14 +1,21 @@
 const router = require("express").Router();
 
 module.exports = db => {
-  router.get("/topics", (request, response) => {
+  router.get("/topics", (req, res) => {
     db.query(
       `
-      SELECT *
+      SELECT topic
         FROM topics;
     `
-    ).then(({ rows: topics }) => {
-      response.json(topics);
+    ).then(topics => {
+      console.log("topics in router topics",topics.rows)  
+      
+      res.send(topics.rows);
+    })
+    .catch(e => {
+      if (e) {
+        res.status(401).json({ error: e.message });
+      }
     });
   });
 

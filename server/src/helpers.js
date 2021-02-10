@@ -32,18 +32,18 @@ const addUser = (userData, db) => {
 const getItemsAndTopicsByUserType = (email, type, db) => {
 
   let sql = `
-    SELECT item, D.topic, count(B.id) as answers
+    SELECT A.id, item, D.topic, count(B.id) as answers
     FROM items A
     LEFT OUTER JOIN answer_items B ON A.id = B.item_id
     JOIN item_topics C ON  A.id = C.item_id
     JOIN topics D ON C.topic_id = D.id
-    GROUP BY A.item, D.topic
+    GROUP BY A.id, A.item, D.topic
     ORDER BY random ()
     LIMIT 20;`
   
   if (type === "normal"){
     sql = `
-    SELECT item, D.topic AS topics, count(B.id) as answers
+    SELECT A.id, item, D.topic AS topics, count(B.id) as answers
     FROM items A
     LEFT OUTER JOIN answer_items B ON A.id = B.item_id
     JOIN item_topics C ON C.item_id = A.id
@@ -51,7 +51,7 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
     JOIN user_topics E ON D.id = E.topic_id
     JOIN users F ON E.user_id = F.id
     WHERE F.email = $1
-    GROUP BY A.item, D.topic
+    GROUP BY A.id, A.item, D.topic
     ORDER BY random ()
     LIMIT 20;
     

@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Navigation from './components/Navigation';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
-//import Answer from './components/Answer';
+import Answer from './components/Answer';
 //import Submit from './components/Submit';
 //import Item from './components/Item';
 import ListItems from './components/ListItems';
+import ListTopics from './components/ListTopics';
 //import users from '../../server/src/routes/users';
 //import Account from './components/Account';
 
@@ -17,9 +19,9 @@ export default function App() {
     password : 'test'
   }
 */
-/*
-  const [topics,setTopics] = useState(null);
 
+  const [topics,setTopics] = useState(null);
+/*
   const chooseTopics = topics => {
     axios.post("http://localhost:8001/topics",{ 
         topic: topics.topic
@@ -44,12 +46,19 @@ export default function App() {
   
   
     useEffect(() => {
-      axios.get('http://localhost:8001/',{ email:user.email || '', type:user.type || 'anonymous' })
-      .then(res=> {
-        console.log(res.data);
-        setItems(res.data);
+
+      Promise.all([
+          axios.get('http://localhost:8001/topics'), 
+          axios.get('http://localhost:8001/'),
+        ]
+      ).then(all => {
+        setTopics(all[0].data);
+        setItems(all[1].data);
       })
-      },[]);
+  
+    }, []);
+  
+      
   
   const [error, setError] = useState(null);
   //const [loading, setLoading] = useState(false);
@@ -139,9 +148,37 @@ export default function App() {
         }
       })
   };
-  return (
-    <div >
-      <Navigation />   
+
+  const answerItem = (id) => {
+
+    axios.get(`http://localhost:8001/items/${id}`)
+    .then((res) => {
+      console.log(res.data);
+      return res.data;
+    })
+  }
+  return ( 
+  
+  <div >  
+    <Router>
+      <Navigation />
+      <Switch>
+        <Route path="/login">
+          {!user.email && <Login login={login} /> }
+        </Route>
+        <Route path="/signup">
+          {!user.email && <SignUp signup={signup} />}
+        </Route>
+        <Route path="/" exact>
+        <ListItems email={user.email} items={items} answerItem={answerItem}/>
+       </Route>
+      </Switch>
+      
+    </Router>
+
+ {/*
+
+       <Navigation />   
       
   
       {(user.email !== '') ? (<div>
@@ -152,7 +189,9 @@ export default function App() {
             <Login login={login} error={error}/> 
             <SignUp signup={signup} error={error} />
             </div>}
-            <ListItems email={user.email} items={items} />
+            <ListTopics topics={topics} />
+            <ListItems email={user.email} items={items} answerItem={answerItem}/>
+             */}
     </div>
   );
 }

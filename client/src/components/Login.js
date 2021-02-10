@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Link} from "react-router-dom";
  
 export default function Login(props) {
   const{login, error} = props;
@@ -12,6 +13,8 @@ export default function Login(props) {
   };
 
   return (
+    <div>
+      
     <form onSubmit={submitHandler}>
       Login<br /><br />
       {(error !== "") ? (<div>{error}</div>) : "" }
@@ -27,5 +30,6 @@ export default function Login(props) {
       <input type="submit" value ="Login"></input>
       </div>
     </form>
+    </div>
   );
 }
