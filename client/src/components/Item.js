@@ -22,10 +22,11 @@ export default function Item(props) {
     <div className = "w3-card"> 
 ​
     <div className = "w3-container ">{props.item}{topics}{answers}</div>
-    <button className = "btn"><i className = "fa-envelope"></i>Answers</button>
+    <Link to="/answer" onClick={() => props.setCurrentItem(props.item)}>Answer</Link>
+    
    
     
-     {/* <Link to="/answer">Answer</Link>
+     {/* <button className = "btn"><i className = "fa-envelope"></i>Answers</button>
      {mode === ITEM && <div>{props.item}{topics}{answers}
      <button onClick={() => transition(ANSWER)}>Answer</button> </div>}
      {mode === ANSWER && <AnswerItem item={props.item} />}

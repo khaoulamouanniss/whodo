@@ -41,7 +41,7 @@ export default function App() {
     return arrayTopicIds;
 }
 */
-
+    const[currentItem,setCurrentItem] = useState("");
     const[items, setItems] = useState([])
   
   
@@ -170,7 +170,10 @@ export default function App() {
           {!user.email && <SignUp signup={signup} />}
         </Route>
         <Route path="/" exact>
-        <ListItems email={user.email} items={items} answerItem={answerItem}/>
+        <ListItems email={user.email} items={items} answerItem={answerItem} setCurrentItem={setCurrentItem}/>
+       </Route>
+       <Route>
+         <Answer item ={currentItem}/>
        </Route>
       </Switch>
       
