@@ -95,12 +95,70 @@ const getNbAnswersByItem = (item) => {
       return null;
     })
   }
+const addItem = (itemData,db) => {
+  const {creator,item,time,approved} = itemData;
+  db.query(`INSERT INTO items (creator_id, item, time, approved)
+  VALUES ($1, $2, $3, $4)
+  RETURNING *;`, 
+  [creator,item,time,approved])
+  .then(res => {
+    console.log("item added in the function addItem",res.rows[0])
+    return res.rows[0];
+  })
+  .catch(e => {
+    return null;
+  });
+}
+  const addTopic = (t,db) => {
+    console.log("I am in topic function")
+    console.log("topic in addTopic",t)
+    db.query(`SELECT * FROM topics 
+    WHERE topic = $1;`, [t])
+    .then(res => {
+      if (res.rows.length === 0) {
+       
+    db.query(`INSERT INTO topics (topic)
+        VALUES ($1)
+        RETURNING *;`, 
+        [t])
+    .then(res1 => {
+          console.log("topic id added in the function addTopic",res1.rows[0].id)
+          return res1.rows[0];
+        })
+    .catch(e => {
+          return null;
+        });
+      } else {
+        console.log("line 131 of addTopic")
 
+          return res.rows[0];
+      }
+    })
+    
+   
+  }
+const addItemTopic = (item_id,topic_id,db) => {
+  
+db.query(`INSERT INTO item_topics (item_id, topic_id)
+VALUES ($1,$2)
+RETURNING *;`, 
+[item_id, topic_id])
+.then(res => {
+  console.log("Association item_topics added in the function addItemTopic",res.rows[0])
+  return res.rows[0];
+})
+.catch(e => {
+  return null;
+});
+}
 
 module.exports = {
   getUserByEmail,
   addUser,
   getItemsAndTopicsByUserType,
   getItemsByTopic,
-  getNbAnswersByItem
+  getNbAnswersByItem,
+  addItem,
+  addTopic,
+  addItemTopic
 };

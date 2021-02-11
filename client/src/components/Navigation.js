@@ -11,6 +11,7 @@ export default function Navigation() {
     <a href="#home" className="logo"> <img classNameName = "img-logo" src = "./images/whodo_logo.png" alt=""/> </a>
     <Link to={"/signup"} className="nav-signup" ><i className="fa fa-th"></i>Sign up</Link> 
     <Link to={"/login"} className="nav-login" ><i className="fa fa-user"></i> login</Link> 
+    <Link to={"/submit"} className="nav-login" ><i className="fa fa-user"></i> Submit</Link> 
     {/* <Popup trigger={<a className="nav-login" ><i className="fa fa-user"></i> login</a> } position = "left center">
    <div><Login /> </div>
    </Popup>

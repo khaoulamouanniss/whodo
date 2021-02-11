@@ -19,9 +19,9 @@ export default function Item(props) {
   console.log(props);
   
   return (
-    <div className = "w3-card"> 
+    <div className = "item-card"> 
 ​
-    <div className = "w3-container ">{props.item}{topics}{answers}</div>
+    <div>{props.item}{topics}{answers}</div>
     <Link to="/answer" onClick={() => props.setCurrentItem(props.item)}>Answer</Link>
     
    

@@ -5,7 +5,7 @@ import Navigation from './components/Navigation';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Answer from './components/Answer';
-//import Submit from './components/Submit';
+import Submit from './components/Submit';
 //import Item from './components/Item';
 import ListItems from './components/ListItems';
 import ListTopics from './components/ListTopics';
@@ -149,14 +149,30 @@ export default function App() {
       })
   };
 
-  const answerItem = (id) => {
+ 
 
-    axios.get(`http://localhost:8001/items/${id}`)
-    .then((res) => {
-      console.log(res.data);
-      return res.data;
-    })
-  }
+  const submitItem  = (submittedItem) => {
+    const re = /#([a-zA-Z0-9])+/gm
+    console.log("submittedItem",submittedItem)
+  const submittedTopics = submittedItem instanceof String ? submittedItem.matches(re) : [];
+  //submittedTopics = Array.from(submittedTopics); 
+  console.log(submittedTopics)
+   
+
+  //  while ((topics = re.exec(submitteditem)) != null) {
+  //   if (topics.index === re.lastIndex) {
+  //   re.lastIndex++;
+  //   topics.push(topics)
+  //   }
+  // }
+    let time = new Date();
+  axios.post("http://localhost:8001/items",{creator:1, item:submittedItem, time:time, approved:false, topics:['Family', 'Testing']})
+  .then(res => {
+    console.log("submittedItem",res.data);
+  })
+ }
+
+
   return ( 
   
   <div >  
@@ -170,10 +186,13 @@ export default function App() {
           {!user.email && <SignUp signup={signup} />}
         </Route>
         <Route path="/" exact>
-        <ListItems email={user.email} items={items} answerItem={answerItem} setCurrentItem={setCurrentItem}/>
+        <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem}/>
        </Route>
-       <Route>
+       <Route path="/answer">
          <Answer item ={currentItem}/>
+       </Route>
+       <Route path="/submit">
+         <Submit  submitItem ={submitItem}/>
        </Route>
       </Switch>
       

@@ -1,8 +1,9 @@
 const router = require("express").Router();
-const {getItemsAndTopicsByUserType} = require ("../helpers");
+const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic} = require ("../helpers");
 
 module.exports = db => {
   router.get("/items", (request, response) => {
+    console.log("db in items",db)
     db.query(
       `
       SELECT
@@ -45,6 +46,26 @@ module.exports = db => {
         res.status(401).json({ error: e.message });
         }
       });
+  })
+
+  router.post('/items', async(req,res) => {
+    const {creator, item, time, approved, topics} = req.body;
+    const newItem = await addItem ({creator,item,time,approved},db);
+    console.log("topics",topics)
+    
+    for(let t of topics) {
+      console.log("t",t)
+       const topic = await addTopic(t,db);
+       
+        console.log("topic_id in route",topic);
+        if(topic) {
+          await addItemTopic(newItem.id,topic.id,db);
+        }
+        
+       }    
+    
+    
+    
   })
   return router;
 };
