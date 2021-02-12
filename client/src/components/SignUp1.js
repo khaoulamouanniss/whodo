@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
+import "./SignUp.css";
 
- 
 export default function SignUp(props) {
   const{signup, error} = props;
 
@@ -25,57 +25,57 @@ export default function SignUp(props) {
     event.preventDefault();
     signup(details);
   };
-
+  
   return (
-    <form onSubmit={submitHandler}>
+    <form className = "form-signup" onSubmit={submitHandler}>
       Sign Up<br /><br />
       {(error !== "") ? (<div>{error}</div>) : "" }
-      <div>
+      {/* <div>
         Email<br />
         <input type="email" value={details.email} onChange={event => setDetails({...details, email:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
         Password<br />
         <input type="password" value={details.password} onChange={event => setDetails({...details, password:event.target.value})}/>
-      </div>
+      </div> */}
       <div style={{ marginTop: 10 }}>
-        Name<br />
+        <label for = "name">Name</label><br />
         <input type="text" value={details.name} onChange={event => setDetails({...details, name:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
-        Last name<br />
+        <label> Last name</label><br />
         <input type="text" value={details.lastName} onChange={event => setDetails({...details, lastName:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
-        Date of birth<br />
+        <label> Date of birth</label><br />
         <input type="date" value={details.birthDate} onChange={event => setDetails({...details, birthDate:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
-        Gender<br />
+        <label>Gender</label><br />
         <input type="text" value={details.gender} onChange={event => setDetails({...details, gender:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
-        Country<br />
+        <label>Country</label><br />
         <input type="text" value={details.country} onChange={event => setDetails({...details, country:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
-        Region<br />
+        <label>Region</label><br />
         <input type="text" value={details.region} onChange={event => setDetails({...details, region:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
-        City<br />
+        <label>City</label><br />
         <input type="text" value={details.city} onChange={event => setDetails({...details, city:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
-        Relationship<br />
+        <label>Relationship</label><br />
         <input type="text" value={details.relationship} onChange={event => setDetails({...details, relationship:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
-        Family<br />
+        <label>Family</label><br />
         <input type="text" value={details.family} onChange={event => setDetails({...details, family:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
-      <input type="submit" value ="Register"></input>
+      <button type="submit" value ="Register" className = "signup-button">Register</button>
       </div>
     </form>
   );

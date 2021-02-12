@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import Navigation from './components/Navigation';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
@@ -9,7 +9,7 @@ import Submit from './components/Submit';
 import Account from './components/Account'
 //import Item from './components/Item';
 import ListItems from './components/ListItems';
-import ListTopics from './components/ListTopics';
+import ListTopics from './components/SignUp/ListTopics';
 //import users from '../../server/src/routes/users';
 //import Account from './components/Account';
 
@@ -21,6 +21,7 @@ export default function App() {
   }
 */
 
+const[navButtons,setNavButtons]=useState(["Login", "/login", "Register", "/signup"]);
   const [topics,setTopics] = useState(null);
 /*
   const chooseTopics = topics => {
@@ -92,8 +93,10 @@ export default function App() {
           console.log('login request data', res.data)
           setError(null);
           setUser(res.data);
+          setNavButtons(["Account","/account", "Submit","/submit"]);
           console.log('Logged in');
-          console.log(user.email)
+          console.log(user.email);
+         
         }
       })
   };
@@ -178,13 +181,15 @@ export default function App() {
   
   <div >  
     <Router>
-      <Navigation />
+      <Navigation email={user.email} buttons={navButtons} />
+      
       <Switch>
         <Route path="/login">
           {!user.email && <Login login={login}  error={error}/> }
+          
         </Route>
         <Route path="/signup">
-          {!user.email && <SignUp signup={signup} error={error}/>}
+          {!user.email && <SignUp signup={signup} error={error} topics={topics}/>}
         </Route>
         <Route path="/" exact>
         <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem}/>
@@ -196,8 +201,8 @@ export default function App() {
          <Submit  submitItem ={submitItem}/>
        </Route>
        <Route path="/account">
-         <Account signup={signup} error={error}/>
-       </Route>
+         <Account signup={signup} error={error} user={user}/>
+       </Route> 
       </Switch>
       
     </Router>

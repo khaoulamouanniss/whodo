@@ -3,16 +3,16 @@ import {Link} from "react-router-dom";
 import "./Navigation.css";
 //import SignUp from "./SignUp";
 
-export default function Navigation() {
+export default function Navigation(props) {
 
-  return (
+  return !props.email ?(
   <div className="nav-top">
   <div className="nav-bar nav-white nav-card">
-    <a href="#home" className="logo"> <img classNameName = "img-logo" src = "./images/whodo_logo.png" alt=""/> </a>
+    <Link to ="/" className="logo"> <img classNameName = "img-logo" src = "./images/whodo_logo.png" alt=""/> </Link>
+
     <Link to={"/signup"} className="nav-signup" ><i className="fa fa-th"></i>Sign up</Link> 
     <Link to={"/login"} className="nav-login" ><i className="fa fa-user"></i> login</Link> 
-    <Link to={"/submit"} className="nav-login" ><i className="fa fa-user"></i> Submit</Link> 
-    <Link to={"/account"} className="nav-login" ><i className="fa fa-user"></i> Account</Link>
+    
     {/* <Popup trigger={<a className="nav-login" ><i className="fa fa-user"></i> login</a> } position = "left center">
    <div><Login /> </div>
    </Popup>
@@ -34,5 +34,13 @@ export default function Navigation() {
   //      <button classNameName = "signup-button">Sign Up</button> 
   //      <button classNameName = "login-button">Login</button> 
   //   </div> 
-  )
+  ):
+<div className="nav-top">
+  <div className="nav-bar nav-white nav-card">
+    <Link to ="/" className="logo"> <img classNameName = "img-logo" src = "./images/whodo_logo.png" alt=""/> </Link>
+    <label>Welcome {props.email}</label>
+  <Link to={"/submit"} className="nav-login" ><i className="fa fa-user"></i> Submit</Link> 
+    <Link to={"/account"} className="nav-login" ><i className="fa fa-user"></i> Account</Link>
+</div>
+</div>
 }
