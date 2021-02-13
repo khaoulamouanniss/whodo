@@ -3,7 +3,7 @@ import React,{useState} from "react";
 export default function Form2(props) {
   const {details,setDetails, onNext, error} = props;
   return (
-    <form>
+    <div >
       <div>
         Name<br />
         <input type="text" value={details.name} onChange={event => setDetails({...details, name:event.target.value})}/>
@@ -22,6 +22,6 @@ export default function Form2(props) {
       </div>
       <button onClick={onNext}>Next</button>
       <button>Back</button>
-    </form>
+   </div>
   )
 }

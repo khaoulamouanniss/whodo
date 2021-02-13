@@ -1,9 +1,12 @@
 import React,{useState} from "react";
 
-export default function Form2(props) {
+export default function Form3(props) {
   const {details,setDetails, onNext, error} = props;
+  
+
+
   return (
-    <form>
+   <div>
       <div>
         Country<br />
         <input type="text" value={details.country} onChange={event => setDetails({...details, country:event.target.value})}/>
@@ -18,6 +21,6 @@ export default function Form2(props) {
       </div>
       <button onClick={onNext}>Next</button>
       <button>Back</button>
-    </form>
+   </div>
   )
 }

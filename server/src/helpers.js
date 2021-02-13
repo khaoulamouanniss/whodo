@@ -95,7 +95,7 @@ const getNbAnswersByItem = (item) => {
       return null;
     })
   }
-const addItem = (itemData,db) => {
+const addItem = async (itemData,db) => {
   const {creator,item,time,approved} = itemData;
   db.query(`INSERT INTO items (creator_id, item, time, approved)
   VALUES ($1, $2, $3, $4)
@@ -109,36 +109,33 @@ const addItem = (itemData,db) => {
     return null;
   });
 }
-  const addTopic = (t,db) => {
-    console.log("I am in topic function")
-    console.log("topic in addTopic",t)
+  const addTopic = async (t,db) => {
     db.query(`SELECT * FROM topics 
     WHERE topic = $1;`, [t])
     .then(res => {
       if (res.rows.length === 0) {
        
-    db.query(`INSERT INTO topics (topic)
-        VALUES ($1)
-        RETURNING *;`, 
-        [t])
-    .then(res1 => {
-          console.log("topic id added in the function addTopic",res1.rows[0].id)
-          return res1.rows[0];
-        })
-    .catch(e => {
-          return null;
-        });
+        return db.query(`INSERT INTO topics (topic)
+            VALUES ($1)
+            RETURNING *;`, 
+            [t])
+        .then(res1 => {
+              console.log("topic id added in the function addTopic",res1.rows[0].id)
+              return res1.rows[0];
+            })
+        .catch(e => {
+              return null;
+            });
       } else {
-        console.log("line 131 of addTopic")
-
-          return res.rows[0];
+        console.log("line 131 of addTopic");
+        return res.rows[0];
       }
     })
     
    
   }
-const addItemTopic = (item_id,topic_id,db) => {
-  
+const addItemTopic = async (item_id,topic_id,db) => {
+  console.log("i am here")
 db.query(`INSERT INTO item_topics (item_id, topic_id)
 VALUES ($1,$2)
 RETURNING *;`, 
@@ -152,6 +149,19 @@ RETURNING *;`,
 });
 }
 
+const addUserTopic = (user_id, topic_id, db) => {
+  db.query(`INSERT INTO user_topics (user_id, topic_id)
+  VALUES ($1,$2)
+  RETURNING *;`, 
+[user_id, topic_id])
+.then(res => {
+  console.log("Association user_topics added in the function addFavTopic",res.rows[0])
+  return res.rows[0];
+})
+.catch(e => {
+  return null;
+});
+}
 module.exports = {
   getUserByEmail,
   addUser,
@@ -160,5 +170,6 @@ module.exports = {
   getNbAnswersByItem,
   addItem,
   addTopic,
-  addItemTopic
+  addItemTopic,
+  addUserTopic
 };

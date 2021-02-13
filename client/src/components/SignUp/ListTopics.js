@@ -4,7 +4,7 @@ import Topic from "./Topic";
 
 export default function ListTopics(props) {
 
-  const topicData = props.topics.map(t => <Topic topic={t.topic}/>)
+  const topicData = props.topics.map(t => <Topic topicID={t.id} topic={t.topic} userId={props.userId} addFavTopic={props.addFavTopic}/>)
   return (
     <ul>
       {topicData}

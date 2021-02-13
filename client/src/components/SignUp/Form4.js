@@ -1,19 +1,21 @@
 import React,{useState} from "react";
 
-export default function Form2(props) {
-  const {details,setDetails, onNext, error} = props;
+export default function Form4(props) {
+  const {details,setDetails, error,submitHandler} = props;
+  
+  
   return (
-    <form>
+   <div>
       <div>
-      Relationship<br />
+      Relationship<br/>
         <input type="text" value={details.relationship} onChange={event => setDetails({...details, relationship:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
         Family<br />
         <input type="text" value={details.family} onChange={event => setDetails({...details, family:event.target.value})}/>
       </div>
-      <button onClick={onNext}>Register</button>
+      <button  onClick={submitHandler}> Register</button>
       <button>Back</button>
-    </form>
+    </div>
   )
 }

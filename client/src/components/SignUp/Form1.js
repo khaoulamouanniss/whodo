@@ -4,7 +4,7 @@ export default function Form1(props) {
   const {details,setDetails, onNext, error} = props;
   return (
     <div>
-     <form>
+     
       Sign Up<br /><br />
       {(error !== "") ? (<div>{error}</div>) : "" }
       <div>
@@ -21,7 +21,7 @@ export default function Form1(props) {
       </div>
       <button onClick={onNext}>Next</button>
       <button>Cancel</button>
-     </form>
+    
 
     </div>
   )

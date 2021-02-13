@@ -36,17 +36,20 @@ const { mode, transition, back } = useVisualMode(FORM1);
   });
 
   const submitHandler = event => {
-    event.preventDefault();
-    signup(details);
+      signup(details);
+      console.log("Iam into then")
+      transition(TOPICS);
   };
 
   return (
     <div>
-     {mode === FORM1 && <Form1 details={details} setDetails={setDetails} onNext={() => transition(FORM2)} error={props.error}/>}
-     {mode === FORM2 && <Form2 details={details} setDetails={setDetails} onNext={() => transition(FORM3)} error={props.error}/>}
-     {mode === FORM3 && <Form3 details={details} setDetails={setDetails} onNext={() => transition(FORM4)} error={props.error}/>}
-     {mode === FORM4 && <Form4 details={details} setDetails={setDetails} onNext={() => transition(TOPICS)} error={props.error}/>} 
-    {mode === TOPICS && <ListTopics topics={props.topics}/> }
+        {mode === FORM1 && <Form1 details={details} setDetails={setDetails} onNext={() => transition(FORM2)} error={props.error}/>}
+        {mode === FORM2 && <Form2 details={details} setDetails={setDetails} onNext={() => transition(FORM3)} error={props.error}/>}
+        {mode === FORM3 && <Form3 details={details} setDetails={setDetails} onNext={() => transition(FORM4)} error={props.error}/>}
+        {mode === FORM4 && <Form4 details={details} setDetails={setDetails} onNext={() => transition(TOPICS)} error={props.error} submitHandler={submitHandler}/>} 
+      
+       
+      {mode === TOPICS && <ListTopics topics={props.topics}/> }
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Navigation from './components/Navigation';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
@@ -9,7 +9,7 @@ import Submit from './components/Submit';
 import Account from './components/Account'
 //import Item from './components/Item';
 import ListItems from './components/ListItems';
-import ListTopics from './components/SignUp/ListTopics';
+//import ListTopics from './components/SignUp/ListTopics';
 //import users from '../../server/src/routes/users';
 //import Account from './components/Account';
 
@@ -20,9 +20,25 @@ export default function App() {
     password : 'test'
   }
 */
+const [user, setUser] = useState({
+  id:0,
+  name: '',
+  lastName:'',     
+  birthDate: '',
+  gender:'',
+  email: '',
+  password: '',
+  profilePic : '',
+  country: '',
+  region: '',
+  city: '',
+  referrer: '',
+  type: '' || 'anonymous',
+  relationship: '',
+  family: '' 
+})
 
-const[navButtons,setNavButtons]=useState(["Login", "/login", "Register", "/signup"]);
-  const [topics,setTopics] = useState(null);
+  const [topics,setTopics] = useState({});
 /*
   const chooseTopics = topics => {
     axios.post("http://localhost:8001/topics",{ 
@@ -51,36 +67,20 @@ const[navButtons,setNavButtons]=useState(["Login", "/login", "Register", "/signu
 
       Promise.all([
           axios.get('http://localhost:8001/topics'), 
-          axios.get('http://localhost:8001/'),
+          axios.get('http://localhost:8001/',{email:user.email,type:user.type}),
         ]
       ).then(all => {
         setTopics(all[0].data);
         setItems(all[1].data);
       })
   
-    }, []);
+    }, [user]);
   
       
   
   const [error, setError] = useState(null);
   //const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({
-    id:0,
-    name: '',
-    lastName:'',     
-    birthDate: '',
-    gender:'',
-    email: '',
-    password: '',
-    profilePic : '',
-    country: '',
-    region: '',
-    city: '',
-    referrer: '',
-    type: '' || 'anonymous',
-    relationship: '',
-    family: '' 
-  })
+  
 
   const login = details => {
     axios.post('http://localhost:8001/login',{ email:details.email, password:details.password })
@@ -93,14 +93,13 @@ const[navButtons,setNavButtons]=useState(["Login", "/login", "Register", "/signu
           console.log('login request data', res.data)
           setError(null);
           setUser(res.data);
-          setNavButtons(["Account","/account", "Submit","/submit"]);
           console.log('Logged in');
           console.log(user.email);
          
         }
       })
   };
-  const Logout = () => {
+  const logout = () => {
     console.log('Logout');
     setUser({
       id:0,
@@ -118,11 +117,12 @@ const[navButtons,setNavButtons]=useState(["Login", "/login", "Register", "/signu
       type: '',
       relationship: '',
       family: '' 
-    })
+    });
+    <Redirect to="/"></Redirect>
   };
 
   const signup = details => {
-    axios.post('http://localhost:8001/signup',{ 
+   return axios.post('http://localhost:8001/signup',{ 
       name: details.name, 
       lastName: details.lastName, 
       birthDate: details.birthDate, 
@@ -150,6 +150,7 @@ const[navButtons,setNavButtons]=useState(["Login", "/login", "Register", "/signu
           console.log('Signed up');
           console.log(user.email)
         }
+        return res.data;
       })
   };
 
@@ -157,10 +158,22 @@ const[navButtons,setNavButtons]=useState(["Login", "/login", "Register", "/signu
 
   const submitItem  = (submittedItem) => {
     const re = /#([a-zA-Z0-9])+/gm
-    console.log("submittedItem",submittedItem)
-  const submittedTopics = submittedItem instanceof String ? submittedItem.matches(re) : [];
-  //submittedTopics = Array.from(submittedTopics); 
-  console.log(submittedTopics)
+    let submittedTopics = [];
+    let matches =[];
+    let topic = "";
+    let item = submittedItem;
+    while (matches = re.exec(submittedItem)) {
+      
+      topic=matches[0].replace('#','');
+      submittedTopics.push(topic);  
+      console.log("topic",topic);
+      item = item.replace(matches[0],'').trimEnd();  
+      console.log("item",item)
+    }
+   // const submittedTopics = submittedItem instanceof String ? submittedItem.matches(re) : [];
+    //submittedTopics = Array.from(submittedTopics); 
+    console.log("item",item)
+    console.log("submittedTopics",submittedTopics)
    
 
   //  while ((topics = re.exec(submitteditem)) != null) {
@@ -170,18 +183,24 @@ const[navButtons,setNavButtons]=useState(["Login", "/login", "Register", "/signu
   //   }
   // }
     let time = new Date();
-  axios.post("http://localhost:8001/items",{creator:1, item:submittedItem, time:time, approved:false, topics:['Family', 'Testing']})
+  axios.post("http://localhost:8001/items",{creator:1, item:item, time:time, approved:false, topics:submittedTopics})
   .then(res => {
     console.log("submittedItem",res.data);
   })
  }
 
+ const addFavTopic = (user_id,topic_id) => {
+  axios.post("http://localhost:8001/favtopics",{user_id:user_id, topic_id:topic_id})
+  .then(res => {
+    console.log("Favtopic added",res.data);
+  })
+ }
 
   return ( 
   
   <div >  
     <Router>
-      <Navigation email={user.email} buttons={navButtons} />
+      <Navigation email={user.email} logout={logout}/>
       
       <Switch>
         <Route path="/login">
@@ -189,7 +208,7 @@ const[navButtons,setNavButtons]=useState(["Login", "/login", "Register", "/signu
           
         </Route>
         <Route path="/signup">
-          {!user.email && <SignUp signup={signup} error={error} topics={topics}/>}
+          <SignUp signup={signup} error={error} topics={topics} userId={user.id} addFavTopic={addFavTopic}/>
         </Route>
         <Route path="/" exact>
         <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem}/>

@@ -56,16 +56,13 @@ module.exports = db => {
     for(let t of topics) {
       console.log("t",t)
        const topic = await addTopic(t,db);
-       
-        console.log("topic_id in route",topic);
         if(topic) {
+          
           await addItemTopic(newItem.id,topic.id,db);
+          
         }
-        
+        console.log("topic in route",topic);
        }    
-    
-    
-    
   })
   return router;
 };

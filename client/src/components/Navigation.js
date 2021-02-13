@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link,Redirect} from "react-router-dom";
 import "./Navigation.css";
 //import SignUp from "./SignUp";
 
@@ -41,6 +41,7 @@ export default function Navigation(props) {
     <label>Welcome {props.email}</label>
   <Link to={"/submit"} className="nav-login" ><i className="fa fa-user"></i> Submit</Link> 
     <Link to={"/account"} className="nav-login" ><i className="fa fa-user"></i> Account</Link>
+    <Link to={"/"} className="nav-login" onClick={props.logout}><i className="fa fa-user"></i> Logout</Link>
 </div>
 </div>
 }
