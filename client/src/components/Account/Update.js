@@ -2,25 +2,8 @@ import React, {useState} from 'react';
 
 
 export default function Update(props) {
-  const{signup, error} = props;
-
-  const [details, setDetails] = useState({
-    name: "",
-    lastName:"",     
-    birthDate:"",
-    gender:"",
-    email: "",
-    password: "",
-    profilePic : "",
-    country: "",
-    region: "",
-    city: "",
-    referrer: "referrer",
-    type: "normal",
-    relationship: "",
-    family: "" 
-  });
-
+  const{user, signup, details, setDetails, error} = props;
+  setDetails(user)
   const submitHandler = event => {
     event.preventDefault();
     signup(details);
@@ -40,15 +23,15 @@ export default function Update(props) {
       </div> */}
       <div style={{ marginTop: 10 }}>
         <label for = "name">Name</label><br />
-        <input type="text" value={details.name} onChange={event => setDetails({...details, name:event.target.value})}/>
+        <input type="text"  value={user.name} onChange={event => setDetails({...details, name:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
         <label> Last name</label><br />
-        <input type="text" value={details.lastName} onChange={event => setDetails({...details, lastName:event.target.value})}/>
+        <input type="text" value={user.last_name} onChange={event => setDetails({...details, lastName:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
         <label> Date of birth</label><br />
-        <input type="date" value={details.birthDate} onChange={event => setDetails({...details, birthDate:event.target.value})}/>
+        <input type="date" value={user.birth_date} onChange={event => setDetails({...details, birthDate:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
         <label>Gender</label><br />

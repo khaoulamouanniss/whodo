@@ -51,15 +51,14 @@ module.exports = db => {
   router.post('/items', async(req,res) => {
     const {creator, item, time, approved, topics} = req.body;
     const newItem = await addItem ({creator,item,time,approved},db);
-    console.log("topics",topics)
+    console.log("addItem",newItem)
     
     for(let t of topics) {
       console.log("t",t)
        const topic = await addTopic(t,db);
+       console.log("addTopic",topic)
         if(topic) {
-          
-          await addItemTopic(newItem.id,topic.id,db);
-          
+           addItemTopic(newItem.id,topic.id,db);
         }
         console.log("topic in route",topic);
        }    
