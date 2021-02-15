@@ -14,7 +14,9 @@ const topicButton = {
   margin: "4px 2px",
   height:"auto",
   borderRadius: "12px",
-  outline:"none"
+  outline:"none",
+  float:"left",
+  margin:"10px"
 }
 
 export default function Topic(props) {
