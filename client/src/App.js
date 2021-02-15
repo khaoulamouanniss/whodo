@@ -21,7 +21,7 @@ export default function App() {
   }
 */
 const [user, setUser] = useState({
-  id:0,
+  id: 0,
   name: '',
   last_name:'',     
   birth_date: '',
@@ -38,7 +38,17 @@ const [user, setUser] = useState({
   family: '' 
 })
 
-  const [topics,setTopics] = useState({});
+const userInStorage = useState(localStorage.getItem("user"));
+//const [user, setUser] = useState(userInStorage ? userInStorage : null);
+useEffect(() => {
+  const localUser = localStorage.getItem("user")
+  console.log("LocalUser",localUser)
+  setUser(localUser)
+}, [])
+useEffect(() => {
+  localStorage.setItem("user", user)
+}, [user])
+  const [topics,setTopics] = useState([]);
 /*
   const chooseTopics = topics => {
     axios.post("http://localhost:8001/topics",{ 
@@ -70,6 +80,7 @@ const [user, setUser] = useState({
           axios.get('http://localhost:8001/',{email:user.email,type:user.type}),
         ]
       ).then(all => {
+        console.log("topics",all[0].data)
         setTopics(all[0].data);
         setItems(all[1].data);
       })
@@ -94,7 +105,7 @@ const [user, setUser] = useState({
           setError(null);
           setUser(res.data);
           console.log('Logged in');
-          console.log(user.email);
+          
          
         }
       })
@@ -144,7 +155,7 @@ const [user, setUser] = useState({
         if(res.data === 'An account with this email exist') {
             setError ('An account with this email exist');
         } else {
-          console.log(res.data);
+          console.log("user",res.data);
           setError(null);
           setUser(res.data);
           console.log('Signed up');
@@ -211,8 +222,11 @@ const [user, setUser] = useState({
           <SignUp signup={signup} error={error} topics={topics} userId={user.id} addFavTopic={addFavTopic}/>
         </Route>
         <Route path="/" exact>
-        <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem}/>
+        <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem} topics={topics}/>
        </Route>
+       {/* <Route path="/topics" exact>
+        <Topics />
+       </Route> */}
        <Route path="/answer">
          <Answer item ={currentItem}/>
        </Route>

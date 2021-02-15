@@ -5,11 +5,11 @@ export default function Show(props) {
   return (
     <div>
     <div>name: {user.name}</div>
-   <div>lastName:{user.last_name}   </div>
-   <div>birthDate: {user.birth_date}</div>
+   <div>last_name:{user.last_name}   </div>
+   <div>birth_date: {user.birth_date}</div>
    <div>gender: {user.gender}</div>
    <div>email: {user.email}</div>
-   <div>profilePic : {user.profile_pic}</div>
+   <div>profile_pic : {user.profile_pic}</div>
    <div>country: {user.country}</div>
    <div>region: {user.region}</div>
    <div>city: {user.city}</div>

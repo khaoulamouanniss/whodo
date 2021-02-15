@@ -48,20 +48,29 @@ module.exports = db => {
       });
   })
 
-  router.post('/items', async(req,res) => {
+  
+  router.post('/items', (req,res) => {
     const {creator, item, time, approved, topics} = req.body;
-    const newItem = await addItem ({creator,item,time,approved},db);
-    console.log("addItem",newItem)
-    
-    for(let t of topics) {
-      console.log("t",t)
-       const topic = await addTopic(t,db);
-       console.log("addTopic",topic)
-        if(topic) {
-           addItemTopic(newItem.id,topic.id,db);
-        }
-        console.log("topic in route",topic);
-       }    
-  })
+    addItem(creator, item, time, approved, db)
+       .then(newItem => {
+        console.log("addItem",newItem)
+       for(let t of topics) {
+        console.log("t",t)
+         addTopic(t,db)
+         .then(topic => {
+          console.log("addTopic",topic)
+         // if(newItem && topic) {
+            addItemTopic(newItem.id,topic.id, db);
+         // }
+          console.log("topic in route",topic);
+         })
+         }
+       })
+       
+         
+      
+     
+  }
+  )
   return router;
 };

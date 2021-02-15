@@ -14,12 +14,12 @@ const getUserByEmail = (email, db) => {
     });
 };
 const addUser = (userData, db) => {
-  const {name, lastName, birthDate, gender, email, password, profilePic, country, region, city, referrer, type, relationship, family} = userData;
+  const {name, last_name, birth_date, gender, email, password, profile_pic, country, region, city, referrer, type, relationship, family} = userData;
   return db.query(`
   INSERT INTO users (name, last_name, birth_date, gender,  email, password, profile_pic, country, region, city, referrer, type, relationship, family)
     VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
     RETURNING *;
-    `, [name, lastName, birthDate, gender, email, password, profilePic, country, region, city, referrer, type, relationship, family])
+    `, [name, last_name, birth_date, gender, email, password, profile_pic, country, region, city, referrer, type, relationship, family])
     .then(res => {
       console.log(res.rows[0])
       return res.rows[0];
@@ -95,32 +95,37 @@ const getNbAnswersByItem = (item) => {
       return null;
     })
   }
-const addItem = async (itemData,db) => {
-  const {creator,item,time,approved} = itemData;
+  let click = 0;
+const addItem =  (creator,item,time,approved,db) => {
+ click++;
+ console.log ("click", click);
   db.query(`INSERT INTO items (creator_id, item, time, approved)
   VALUES ($1, $2, $3, $4)
   RETURNING *;`, 
-  [creator,item,time,approved])
+  [creator, item, time, approved])
   .then(res => {
     console.log("item added in the function addItem",res.rows[0])
     return res.rows[0];
   })
   .catch(e => {
-    return null;
+    console.log("error", e)
+    return e;
   });
 }
-  const addTopic = async (t,db) => {
+  const addTopic = (t,db) => {
+    console.log("topic",t)
     db.query(`SELECT * FROM topics 
     WHERE topic = $1;`, [t])
     .then(res => {
+     
       if (res.rows.length === 0) {
-       
-        return db.query(`INSERT INTO topics (topic)
+        console.log("res of 1st query",res.rows)
+          db.query(`INSERT INTO topics (topic)
             VALUES ($1)
             RETURNING *;`, 
             [t])
         .then(res1 => {
-              console.log("topic id added in the function addTopic",res1.rows[0].id)
+              console.log("topic id added in the function addTopic",res1.rows[0])
               return res1.rows[0];
             })
         .catch(e => {
@@ -134,7 +139,7 @@ const addItem = async (itemData,db) => {
     
    
   }
-const addItemTopic = async (item_id,topic_id,db) => {
+const addItemTopic =  (item_id,topic_id,db) => {
   console.log("i am here")
 db.query(`INSERT INTO item_topics (item_id, topic_id)
 VALUES ($1,$2)

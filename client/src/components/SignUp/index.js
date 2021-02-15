@@ -16,16 +16,16 @@ export default function SignUp(props) {
 
 const { mode, transition, back } = useVisualMode(FORM1);
 
-  const{signup, error} = props;
+  const{signup, error, addFavTopic} = props;
 
   const [details, setDetails] = useState({
     name: "",
-    lastName:"",     
-    birthDate:"",
+    last_name:"",     
+    birth_date:"",
     gender:"",
     email: "",
     password: "",
-    profilePic : "",
+    profile_pic : "",
     country: "",
     region: "",
     city: "",
@@ -36,9 +36,11 @@ const { mode, transition, back } = useVisualMode(FORM1);
   });
 
   const submitHandler = event => {
-      signup(details);
+      signup(details)
       console.log("Iam into then")
       transition(TOPICS);
+      
+     
   };
 
   return (
@@ -49,7 +51,7 @@ const { mode, transition, back } = useVisualMode(FORM1);
         {mode === FORM4 && <Form4 details={details} setDetails={setDetails} onNext={() => transition(TOPICS)} error={props.error} submitHandler={submitHandler}/>} 
       
        
-      {mode === TOPICS && <ListTopics topics={props.topics}/> }
+      {mode === TOPICS && <ListTopics addFavTopic={addFavTopic} topics={props.topics} userId={props.userId}/> }
     </div>
   )
 }

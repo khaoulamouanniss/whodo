@@ -5,21 +5,21 @@ const { getUserByEmail, addUser } = require("../helpers");
 module.exports = db => {
  
    router.post('/signup', (req, res) => {
-    const { name, lastName, birthDate, gender, email, password, profilePic, country, region, city, referrer, type, relationship, family} = req.body;
+    const { name, last_name, birth_date, gender, email, password, profile_pic, country, region, city, referrer, type, relationship, family} = req.body;
     const hashedPassword = bcrypt.hashSync(password, 12);
   
-    if (!name || !lastName || !birthDate || !gender|| !email | !password || !country || !region || !city || !relationship || !family) {
+    if (!name || !last_name || !birth_date || !gender|| !email | !password || !country || !region || !city || !relationship || !family) {
       res.send("You are missing a field");
       return;
     }
     const userData = {
       name: name,
-      lastName:lastName,     
-      birthDate:birthDate,
+      last_name:last_name,     
+      birth_date:birth_date,
       gender:gender,
       email: email,
       password: hashedPassword,
-      profilePic : profilePic,
+      profile_pic : profile_pic,
       country: country,
       region: region,
       city: city,

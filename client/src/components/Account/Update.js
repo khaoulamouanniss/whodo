@@ -27,11 +27,11 @@ export default function Update(props) {
       </div>
       <div style={{ marginTop: 10 }}>
         <label> Last name</label><br />
-        <input type="text" value={user.last_name} onChange={event => setDetails({...details, lastName:event.target.value})}/>
+        <input type="text" value={user.last_name} onChange={event => setDetails({...details, last_name:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
         <label> Date of birth</label><br />
-        <input type="date" value={user.birth_date} onChange={event => setDetails({...details, birthDate:event.target.value})}/>
+        <input type="date" value={user.birth_date} onChange={event => setDetails({...details, birth_date:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
         <label>Gender</label><br />
