@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import Navigation from './components/Navigation';
-import Login from './components/Login';
-import SignUp from './components/SignUp';
-import Answer from './components/Answer';
-import Submit from './components/Submit';
-import Account from './components/Account'
-//import Item from './components/Item';
-import ListItems from './components/ListItems';
-//import ListTopics from './components/SignUp/ListTopics';
+import Navigation from './components/User/Navigation';
+import Login from './components/User/Login';
+import SignUp from './components/User/SignUp';
+import Answer from './components/User/Answer';
+import Submit from './components/User/Submit';
+import Account from './components/User/Account';
+import ListItems from './components/User/ListItems';
+import Topics from './components/Admin/Topics';
+import TopicShow from './components/Admin/TopicShow';
 //import users from '../../server/src/routes/users';
 //import Account from './components/Account';
 
@@ -38,16 +38,16 @@ const [user, setUser] = useState({
   family: '' 
 })
 
-const userInStorage = useState(localStorage.getItem("user"));
+//const userInStorage = useState(localStorage.getItem("user"));
 //const [user, setUser] = useState(userInStorage ? userInStorage : null);
-useEffect(() => {
-  const localUser = localStorage.getItem("user")
-  console.log("LocalUser",localUser)
-  setUser(localUser)
-}, [])
-useEffect(() => {
-  localStorage.setItem("user", user)
-}, [user])
+// useEffect(() => {
+//   const localUser = localStorage.getItem("user")
+//   console.log("LocalUser",localUser)
+//   setUser(localUser)
+// }, [])
+// useEffect(() => {
+//   localStorage.setItem("user", user)
+// }, [user])
   const [topics,setTopics] = useState([]);
 /*
   const chooseTopics = topics => {
@@ -71,7 +71,7 @@ useEffect(() => {
 */
     const[currentItem,setCurrentItem] = useState("");
     const[items, setItems] = useState([])
-  
+    const [currentTopic,setCurrentTopic]= useState({topic_id:0,topic:""});
   
     useEffect(() => {
 
@@ -205,11 +205,21 @@ useEffect(() => {
   .then(res => {
     console.log("Favtopic added",res.data);
   })
+
+  //Admin functions
+
+  // const showItemsByTopic = (id) =>
+  // {
+  //   axios.get("http://localhost:8001/itemsoftopic",id)
+  //   .then(()=> {})
+  // }
+
  }
 
   return ( 
   
   <div >  
+
     <Router>
       <Navigation email={user.email} logout={logout}/>
       
@@ -234,8 +244,14 @@ useEffect(() => {
          <Submit  submitItem ={submitItem}/>
        </Route>
        <Route path="/account">
-         <Account signup={signup} error={error} user={user}/>
+         <Account signup={signup} error={error} user={user} />
        </Route> 
+       <Route path="/topics">
+         <Topics topics={topics} setCurrentTopic={setCurrentTopic}/>
+       </Route>
+       <Route path="/topicShow" >
+          <TopicShow currentTopic={currentTopic}/>
+       </Route>
       </Switch>
       
     </Router>
