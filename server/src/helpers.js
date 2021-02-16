@@ -96,10 +96,9 @@ const getNbAnswersByItem = (item) => {
     })
   }
   let click = 0;
-const addItem =  (creator,item,time,approved,db) => {
- click++;
- console.log ("click", click);
-  db.query(`INSERT INTO items (creator_id, item, time, approved)
+const addItem = (creator,item,time,approved,db) => {
+
+  return db.query(`INSERT INTO items (creator_id, item, time, approved)
   VALUES ($1, $2, $3, $4)
   RETURNING *;`, 
   [creator, item, time, approved])
@@ -111,16 +110,17 @@ const addItem =  (creator,item,time,approved,db) => {
     console.log("error", e)
     return e;
   });
+ 
 }
   const addTopic = (t,db) => {
     console.log("topic",t)
-    db.query(`SELECT * FROM topics 
+    return db.query(`SELECT * FROM topics 
     WHERE topic = $1;`, [t])
     .then(res => {
      
       if (res.rows.length === 0) {
         console.log("res of 1st query",res.rows)
-          db.query(`INSERT INTO topics (topic)
+          return db.query(`INSERT INTO topics (topic)
             VALUES ($1)
             RETURNING *;`, 
             [t])
@@ -141,7 +141,7 @@ const addItem =  (creator,item,time,approved,db) => {
   }
 const addItemTopic =  (item_id,topic_id,db) => {
   console.log("i am here")
-db.query(`INSERT INTO item_topics (item_id, topic_id)
+return db.query(`INSERT INTO item_topics (item_id, topic_id)
 VALUES ($1,$2)
 RETURNING *;`, 
 [item_id, topic_id])

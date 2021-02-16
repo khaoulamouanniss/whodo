@@ -1,16 +1,18 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import "./Navigation.css";
+//import "./Navigation.css";
 //import SignUp from "./SignUp";
-
+const navBlack ={
+  backgroundColor:"black"
+}
 export default function Navigation(props) {
 
   return !props.email ?(
   <div className="nav-top">
-  <div className="nav-bar nav-white nav-card">
+  <div style={navBlack}>
     <Link to ="/" className="logo"> <img classNameName = "img-logo" src = "./images/whodo_logo.png" alt=""/> </Link>
 
-    <Link to={"/signup"} className="nav-signup" ><i class="fa fa-user-plus"></i>Sign up</Link> 
+    <Link to={"/signup"} className="nav-signup" ><i className="fa fa-user-plus"></i>Sign up</Link> 
     <Link to={"/login"} className="nav-login" ><i className="fa fa-user"></i> login</Link> 
     
     {/* <Popup trigger={<a className="nav-login" ><i className="fa fa-user"></i> login</a> } position = "left center">
