@@ -95,7 +95,7 @@ const getNbAnswersByItem = (item) => {
       return null;
     })
   }
-  let click = 0;
+ 
 const addItem = (creator,item,time,approved,db) => {
 
   return db.query(`INSERT INTO items (creator_id, item, time, approved)
@@ -167,6 +167,28 @@ const addUserTopic = (user_id, topic_id, db) => {
   return null;
 });
 }
+
+//For admin
+
+const getItemsByTopicId =(id,db) => {
+
+  return db.query(`
+    SELECT A.*
+    FROM items A
+    JOIN item_topics B ON B.item_id = A.id
+    JOIN topics C ON C.id = B.topic_id
+    WHERE C.id = $1;
+  `, [id])
+    .then(res => {
+      console.log("items in function", res)
+      return res.rows;
+    })
+    .catch(e => {
+      return null;
+    });
+
+  
+}
 module.exports = {
   getUserByEmail,
   addUser,
@@ -176,5 +198,6 @@ module.exports = {
   addItem,
   addTopic,
   addItemTopic,
-  addUserTopic
+  addUserTopic,
+  getItemsByTopicId
 };

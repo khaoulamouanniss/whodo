@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic} = require ("../helpers");
+const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, getItemsByTopicId} = require ("../helpers");
 
 module.exports = db => {
   router.get("/items", (request, response) => {
@@ -20,7 +20,6 @@ module.exports = db => {
     console.log("email and type in the router items", email, type)
     getItemsAndTopicsByUserType(email,type, db)
       .then(items => {
-        console.log("item in router items",items)        
         res.send(items);
       })
       .catch(e => {
@@ -64,12 +63,21 @@ module.exports = db => {
           console.log("topic in route",topic);
          
         }
-      }
-       
-         
-      
-     
-  
-  )
+      });
+
+  router.post("/itemsoftopic", (req, res) => {
+    const {id} = req.body;
+    db.query(`
+    SELECT A.*
+    FROM items A
+    JOIN item_topics B ON B.item_id = A.id
+    JOIN topics C ON C.id = B.topic_id
+    WHERE C.id = $1;
+  `, [id])
+  .then(({ rows: items }) => {
+    
+    res.send(items);
+  });
+      });
   return router;
 };

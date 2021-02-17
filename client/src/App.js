@@ -10,6 +10,7 @@ import Account from './components/User/Account';
 import ListItems from './components/User/ListItems';
 import Topics from './components/Admin/Topics';
 import TopicShow from './components/Admin/TopicShow';
+import ItemShow from './components/Admin/ItemShow';
 //import users from '../../server/src/routes/users';
 //import Account from './components/Account';
 
@@ -71,7 +72,7 @@ const [user, setUser] = useState({
 */
     const[currentItem,setCurrentItem] = useState("");
     const[items, setItems] = useState([])
-    const [currentTopic,setCurrentTopic]= useState({topic_id:0,topic:""});
+    const [currentTopic,setCurrentTopic]= useState({});
   
     useEffect(() => {
 
@@ -183,8 +184,7 @@ const [user, setUser] = useState({
     }
    // const submittedTopics = submittedItem instanceof String ? submittedItem.matches(re) : [];
     //submittedTopics = Array.from(submittedTopics); 
-    console.log("item",item)
-    console.log("submittedTopics",submittedTopics)
+   
    
 
   //  while ((topics = re.exec(submitteditem)) != null) {
@@ -201,20 +201,25 @@ const [user, setUser] = useState({
  }
 
  const addFavTopic = (user_id,topic_id) => {
+  
   axios.post("http://localhost:8001/favtopics",{user_id:user_id, topic_id:topic_id})
   .then(res => {
     console.log("Favtopic added",res.data);
   })
+ }
 
   //Admin functions
 
-  // const showItemsByTopic = (id) =>
-  // {
-  //   axios.get("http://localhost:8001/itemsoftopic",id)
-  //   .then(()=> {})
-  // }
-
- }
+  const showItemsByTopic = (id) =>
+  {
+    console.log("id in the function", id)
+    axios.post("http://localhost:8001/itemsoftopic",{id:id})
+    .then((res)=> {
+      //console.log("items",res.data)
+      setItems(res.data);
+      return res.data;
+    })
+  }
 
   return ( 
   
@@ -247,10 +252,13 @@ const [user, setUser] = useState({
          <Account signup={signup} error={error} user={user} />
        </Route> 
        <Route path="/topics">
-         <Topics topics={topics} setCurrentTopic={setCurrentTopic}/>
+         <Topics topics={topics} setCurrentTopic={setCurrentTopic} showItemsByTopic={showItemsByTopic}/>
        </Route>
        <Route path="/topicShow" >
-          <TopicShow currentTopic={currentTopic}/>
+          <TopicShow currentTopic={currentTopic} items={items} setCurrentItem={setCurrentItem}  />
+       </Route>
+       <Route path="/itemShow" >
+          <ItemShow currentItem={currentItem} />
        </Route>
       </Switch>
       
