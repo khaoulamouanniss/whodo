@@ -9,7 +9,7 @@ export default function Item(props) {
   return (
     <div>
       {/* <th scope="col"><Link to="/topicShow" onClick={() => setCurrentTopic({topic_id:topicID,topic:topic})}>{topic}</Link></th> */}
-      <th scope="col"><Link to="/itemShow" onClick={()=>setCurrentItem(item)}>{item}</Link></th>
+      <th scope="col"><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item}</Link></th>
       <th scope="col"><button>Delete</button></th>
     </div>
   )

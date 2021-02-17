@@ -9,7 +9,7 @@ export default function ItemShow(props) {
  
   return (
     <>
-      <h1>{currentItem}</h1>
+      <h1>{currentItem.id}{currentItem.item}</h1>
       
     </>
   )

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {addUserTopic} =require("../helpers");
+const {addUserTopic, addTopic, deleteTopic} =require("../helpers");
 
 module.exports = db => {
   router.get("/topics", (req, res) => {
@@ -7,7 +7,7 @@ module.exports = db => {
       `
       SELECT A.*, count(B.id) as items
         FROM topics A
-        JOIN item_topics B ON A.id = B.topic_id
+        LEFT JOIN item_topics B ON A.id = B.topic_id
         GROUP BY A.id;
       `
     ).then(topics => {
@@ -36,6 +36,27 @@ module.exports = db => {
     //   }
     // });
   });
+  router.post("/addtopic", (req, res) => {
+    const {topic} = req.body;
+    addTopic(topic, db)
+    .then(newTopic => {
+      res.send(newTopic);
+    })
+   
+  });
+
+  router.delete("/deletetopic/:id", (req, res) => {
+    console.log("req.params", req.params)
+    const id = Number(req.params.id);
+    console.log("req.params parsed", id)
+    deleteTopic(id,db)
+    .then(() => {
+      res.status(204).json({});
+    })
+    
+   
+  });
+  
   return router;
 
 }

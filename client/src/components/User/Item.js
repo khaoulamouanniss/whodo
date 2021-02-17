@@ -63,7 +63,7 @@ export default function Item(props) {
     <div>{props.item}</div>
     <div style={itemTopic}>{topics}</div>
     <div style={itemAnswer}>{answers}</div>
-    <Link  to="/answer" style={itemButton} onClick={() => props.setCurrentItem(props.item)}>Answer</Link>
+    <Link  to="/answer" style={itemButton} onClick={() => props.setCurrentItem({id:props.id, item:props.item})}>Answer</Link>
     
    
     

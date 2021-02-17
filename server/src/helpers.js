@@ -119,7 +119,7 @@ const addItem = (creator,item,time,approved,db) => {
     .then(res => {
      
       if (res.rows.length === 0) {
-        console.log("res of 1st query",res.rows)
+        
           return db.query(`INSERT INTO topics (topic)
             VALUES ($1)
             RETURNING *;`, 
@@ -186,8 +186,18 @@ const getItemsByTopicId =(id,db) => {
     .catch(e => {
       return null;
     });
+}
 
-  
+const deleteTopic = (id,db) => {
+ return db.query(`DELETE FROM topics WHERE id = $1`, [id])
+    .then(() => {
+       return db.query(`DELETE FROM user_topics WHERE topic_id = $1`, [id])
+      .then(() => {
+         return db.query(`DELETE FROM item_topics WHERE topic_id = $1`, [id])
+         .then(() => console.log("I am in deleteTopic function"))
+      })
+      
+    })
 }
 module.exports = {
   getUserByEmail,
@@ -199,5 +209,6 @@ module.exports = {
   addTopic,
   addItemTopic,
   addUserTopic,
-  getItemsByTopicId
+  getItemsByTopicId,
+  deleteTopic
 };

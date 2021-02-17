@@ -70,7 +70,7 @@ const [user, setUser] = useState({
     return arrayTopicIds;
 }
 */
-    const[currentItem,setCurrentItem] = useState("");
+    const[currentItem,setCurrentItem] = useState({});
     const[items, setItems] = useState([])
     const [currentTopic,setCurrentTopic]= useState({});
   
@@ -221,6 +221,22 @@ const [user, setUser] = useState({
     })
   }
 
+  const addTopic = (topic) => {
+    axios.post("http://localhost:8001/addtopic",{topic:topic})
+    .then((res)=> {
+      topics.push(res.data);
+      return res.data;
+    })
+  }
+
+  const deleteTopic = (id) => {
+    axios.delete(`http://localhost:8001/deletetopic/${id}`)
+    .then(()=> {
+      console.log("topic deleted")
+      
+    })
+  }
+
   return ( 
   
   <div >  
@@ -252,7 +268,7 @@ const [user, setUser] = useState({
          <Account signup={signup} error={error} user={user} />
        </Route> 
        <Route path="/topics">
-         <Topics topics={topics} setCurrentTopic={setCurrentTopic} showItemsByTopic={showItemsByTopic}/>
+         <Topics topics={topics} setCurrentTopic={setCurrentTopic} showItemsByTopic={showItemsByTopic} addTopic={addTopic} deleteTopic={deleteTopic}/>
        </Route>
        <Route path="/topicShow" >
           <TopicShow currentTopic={currentTopic} items={items} setCurrentItem={setCurrentItem}  />

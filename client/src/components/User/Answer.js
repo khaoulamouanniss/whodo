@@ -5,7 +5,7 @@ export default function Answer (props) {
   return (
     
       <>
-      {props.item}
+      {props.item.item}
       <div>
       <button>Always</button>
       <button>Usually</button>
