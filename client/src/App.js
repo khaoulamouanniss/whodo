@@ -11,6 +11,8 @@ import ListItems from './components/User/ListItems';
 import Topics from './components/Admin/Topics';
 import TopicShow from './components/Admin/TopicShow';
 import ItemShow from './components/Admin/ItemShow';
+import Items from './components/Admin/Items';
+import ItemsApprove from './components/Admin/ItemsApprove';
 //import users from '../../server/src/routes/users';
 //import Account from './components/Account';
 
@@ -21,24 +23,8 @@ export default function App() {
     password : 'test'
   }
 */
-const [user, setUser] = useState({
-  id: 0,
-  name: '',
-  last_name:'',     
-  birth_date: '',
-  gender:'',
-  email: '',
-  password: '',
-  profile_pic : '',
-  country: '',
-  region: '',
-  city: '',
-  referrer: '',
-  type: '' || 'anonymous',
-  relationship: '',
-  family: '' 
-})
-
+const [user, setUser] = useState({})
+const [change,setChange]= useState("")
 //const userInStorage = useState(localStorage.getItem("user"));
 //const [user, setUser] = useState(userInStorage ? userInStorage : null);
 // useEffect(() => {
@@ -73,20 +59,22 @@ const [user, setUser] = useState({
     const[currentItem,setCurrentItem] = useState({});
     const[items, setItems] = useState([])
     const [currentTopic,setCurrentTopic]= useState({});
-  
+    const [itemsToApprove,setItemsToApprove]= useState([])
     useEffect(() => {
 
       Promise.all([
           axios.get('http://localhost:8001/topics'), 
-          axios.get('http://localhost:8001/',{email:user.email,type:user.type}),
+          axios.post('http://localhost:8001/',{email:user.email,type:user.type}),
+          axios.get("http://localhost:8001/itemstoapprove")
         ]
       ).then(all => {
         console.log("topics",all[0].data)
         setTopics(all[0].data);
         setItems(all[1].data);
+        setItemsToApprove(all[2].data);
       })
   
-    }, [user]);
+    }, [change]);
   
       
   
@@ -102,11 +90,11 @@ const [user, setUser] = useState({
             setError ('Informations do not match!');
         } else {
           console.log('details in function login', details)
-          console.log('login request data', res.data)
+          console.log('login res data', res.data)
           setError(null);
           setUser(res.data);
-          console.log('Logged in');
-          
+          console.log('Logged in' ,user);
+          setChange("login");
          
         }
       })
@@ -130,6 +118,7 @@ const [user, setUser] = useState({
       relationship: '',
       family: '' 
     });
+    setChange("logout");
     <Redirect to="/"></Redirect>
   };
 
@@ -160,7 +149,8 @@ const [user, setUser] = useState({
           setError(null);
           setUser(res.data);
           console.log('Signed up');
-          console.log(user.email)
+          console.log(user.email);
+          setChange("signup")
         }
         return res.data;
       })
@@ -168,7 +158,7 @@ const [user, setUser] = useState({
 
  
 
-  const submitItem  = (submittedItem) => {
+  const submitItem  = (submittedItem,approved) => {
     const re = /#([a-zA-Z0-9])+/gm
     let submittedTopics = [];
     let matches =[];
@@ -182,22 +172,12 @@ const [user, setUser] = useState({
       item = item.replace(matches[0],'').trimEnd();  
       console.log("item",item)
     }
-   // const submittedTopics = submittedItem instanceof String ? submittedItem.matches(re) : [];
-    //submittedTopics = Array.from(submittedTopics); 
-   
-   
-
-  //  while ((topics = re.exec(submitteditem)) != null) {
-  //   if (topics.index === re.lastIndex) {
-  //   re.lastIndex++;
-  //   topics.push(topics)
-  //   }
-  // }
     let time = new Date();
-  axios.post("http://localhost:8001/items",{creator:1, item:item, time:time, approved:false, topics:submittedTopics})
+  axios.post("http://localhost:8001/items",{creator:user.id, item:item, time:time, approved:approved, topics:submittedTopics})
   .then(res => {
     console.log("submittedItem",res.data);
   })
+  setChange("submit item")
  }
 
  const addFavTopic = (user_id,topic_id) => {
@@ -209,7 +189,6 @@ const [user, setUser] = useState({
  }
 
   //Admin functions
-
   const showItemsByTopic = (id) =>
   {
     console.log("id in the function", id)
@@ -225,15 +204,44 @@ const [user, setUser] = useState({
     axios.post("http://localhost:8001/addtopic",{topic:topic})
     .then((res)=> {
       topics.push(res.data);
+      setChange("add topic")
       return res.data;
     })
   }
 
+  const addItem = (item,topic,approved) => {
+    const time = new Date();
+    axios.post("http://localhost:8001/items",{creator:user.id, item:item, time:time, approved:approved, topics:[topic]})
+    .then((res)=> {
+      console.log("item added",res.data)
+      items.push(res.data);
+      setChange("add item")
+      return res.data;
+    })
+  }
   const deleteTopic = (id) => {
     axios.delete(`http://localhost:8001/deletetopic/${id}`)
     .then(()=> {
       console.log("topic deleted")
+      setChange("delete topic")
       
+    })
+  }
+
+  const deleteItem = (id) => {
+    axios.delete(`http://localhost:8001/deleteitem/${id}`)
+    .then(()=> {
+      console.log("item deleted");
+      setChange("delete item")
+    })
+  }
+
+  const approveItem = (id) => {
+    axios.get(`http://localhost:8001/approveitem/${id}`)
+    .then(res => {
+      setChange("item approved")
+      console.log("item approved",res.data);
+      return res.data;
     })
   }
 
@@ -253,7 +261,7 @@ const [user, setUser] = useState({
           <SignUp signup={signup} error={error} topics={topics} userId={user.id} addFavTopic={addFavTopic}/>
         </Route>
         <Route path="/" exact>
-        <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem} topics={topics}/>
+        <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem} topics={topics} />
        </Route>
        {/* <Route path="/topics" exact>
         <Topics />
@@ -271,10 +279,16 @@ const [user, setUser] = useState({
          <Topics topics={topics} setCurrentTopic={setCurrentTopic} showItemsByTopic={showItemsByTopic} addTopic={addTopic} deleteTopic={deleteTopic}/>
        </Route>
        <Route path="/topicShow" >
-          <TopicShow currentTopic={currentTopic} items={items} setCurrentItem={setCurrentItem}  />
+          <TopicShow currentTopic={currentTopic} items={items} setCurrentItem={setCurrentItem}  addItem={addItem} deleteItem={deleteItem}/>
        </Route>
        <Route path="/itemShow" >
           <ItemShow currentItem={currentItem} />
+       </Route>
+       <Route path="/items" >
+          <Items items={items} setCurrentItem={setCurrentItem}  submitItem ={submitItem} deleteItem={deleteItem}/>
+       </Route>
+       <Route path="/itemstoapprove" >
+          <ItemsApprove items={itemsToApprove} setCurrentItem={setCurrentItem} approveItem={approveItem} deleteItem={deleteItem}/>
        </Route>
       </Switch>
       

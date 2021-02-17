@@ -11,7 +11,7 @@ export default function Submit(props) {
       
     <textarea id="item" type ="text" rows="5" cols="50"></textarea>
     <div>
-    <Link to ="/submit" onClick={() => props.submitItem(document.getElementById("item").value)}>Submit</Link>
+    <Link to ="/submit" onClick={() => props.submitItem(document.getElementById("item").value, false)}>Submit</Link>
     </div></div>
   )
 }

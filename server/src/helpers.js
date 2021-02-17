@@ -21,7 +21,7 @@ const addUser = (userData, db) => {
     RETURNING *;
     `, [name, last_name, birth_date, gender, email, password, profile_pic, country, region, city, referrer, type, relationship, family])
     .then(res => {
-      console.log(res.rows[0])
+     console.log(res.rows[0])
       return res.rows[0];
     })
     .catch(e => {
@@ -31,19 +31,12 @@ const addUser = (userData, db) => {
 
 const getItemsAndTopicsByUserType = (email, type, db) => {
 
-  let sql = `
-    SELECT A.id, item, D.topic, count(B.id) as answers
-    FROM items A
-    LEFT OUTER JOIN answer_items B ON A.id = B.item_id
-    JOIN item_topics C ON  A.id = C.item_id
-    JOIN topics D ON C.topic_id = D.id
-    GROUP BY A.id, A.item, D.topic
-    ORDER BY random ()
-    LIMIT 20;`
+  let sql;
   
   if (type === "normal"){
+    console.log("I am in normal")
     sql = `
-    SELECT A.id, item, D.topic AS topics, count(B.id) as answers
+    SELECT A.id, item, D.topic AS topic, count(B.id) as answers
     FROM items A
     LEFT OUTER JOIN answer_items B ON A.id = B.item_id
     JOIN item_topics C ON C.item_id = A.id
@@ -56,12 +49,31 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
     LIMIT 20;
     
     `,[email];
+  } else if (type === "super") {
+    console.log("I am in super")
+    sql = `
+    SELECT A.id, item, D.topic AS topic, count(B.id) as answers
+    FROM items A
+    LEFT OUTER JOIN answer_items B ON A.id = B.item_id
+    JOIN item_topics C ON  A.id = C.item_id
+    JOIN topics D ON C.topic_id = D.id
+    GROUP BY A.id, A.item, D.topic;`
+  } else {
+    console.log("I am in anonymous")
+    sql = `
+    SELECT A.id, item, D.topic AS topic, count(B.id) as answers
+    FROM items A
+    LEFT OUTER JOIN answer_items B ON A.id = B.item_id
+    JOIN item_topics C ON  A.id = C.item_id
+    JOIN topics D ON C.topic_id = D.id
+    GROUP BY A.id, A.item, D.topic
+    ORDER BY random ()
+    LIMIT 20;`
   }
-  
   return db.query(sql)
     .then(res => {
       console.log("query of getitemsbyusertype",sql)
-      console.log("res in function getItemByUserType",res.rows)
+      //console.log("res in function getItemByUserType",res.rows)
       
       return res.rows;
     })
@@ -76,7 +88,7 @@ const getItemsByTopic = (topics)  => {
       db.query(`
       select * from items
       join item_topics on id = item_topics.item_id
-      where item_topics.topic_id =$1
+      where item_topics.topic_id =$1;
       `, [topic])
       .then(res => {
           return res.rows[0];
@@ -87,7 +99,7 @@ const getItemsByTopic = (topics)  => {
   );
 }
 const getNbAnswersByItem = (item) => {
-   db.query('SELECT COUNT(id) FROM answer_items  WHERE item_id = $1 ', [item])
+   db.query('SELECT COUNT(id) FROM answer_items  WHERE item_id = $1;', [item])
    .then(res => {
       return res.rows[0];
     })
@@ -103,7 +115,7 @@ const addItem = (creator,item,time,approved,db) => {
   RETURNING *;`, 
   [creator, item, time, approved])
   .then(res => {
-    console.log("item added in the function addItem",res.rows[0])
+   // console.log("item added in the function addItem",res.rows[0])
     return res.rows[0];
   })
   .catch(e => {
@@ -113,7 +125,7 @@ const addItem = (creator,item,time,approved,db) => {
  
 }
   const addTopic = (t,db) => {
-    console.log("topic",t)
+   // console.log("topic",t)
     return db.query(`SELECT * FROM topics 
     WHERE topic = $1;`, [t])
     .then(res => {
@@ -125,14 +137,14 @@ const addItem = (creator,item,time,approved,db) => {
             RETURNING *;`, 
             [t])
         .then(res1 => {
-              console.log("topic id added in the function addTopic",res1.rows[0])
+             // console.log("topic id added in the function addTopic",res1.rows[0])
               return res1.rows[0];
             })
         .catch(e => {
               return null;
             });
       } else {
-        console.log("line 131 of addTopic");
+       // console.log("line 131 of addTopic");
         return res.rows[0];
       }
     })
@@ -140,13 +152,13 @@ const addItem = (creator,item,time,approved,db) => {
    
   }
 const addItemTopic =  (item_id,topic_id,db) => {
-  console.log("i am here")
+ // console.log("i am here")
 return db.query(`INSERT INTO item_topics (item_id, topic_id)
 VALUES ($1,$2)
 RETURNING *;`, 
 [item_id, topic_id])
 .then(res => {
-  console.log("Association item_topics added in the function addItemTopic",res.rows[0])
+ // console.log("Association item_topics added in the function addItemTopic",res.rows[0])
   return res.rows[0];
 })
 .catch(e => {
@@ -160,7 +172,7 @@ const addUserTopic = (user_id, topic_id, db) => {
   RETURNING *;`, 
 [user_id, topic_id])
 .then(res => {
-  console.log("Association user_topics added in the function addFavTopic",res.rows[0])
+  //console.log("Association user_topics added in the function addFavTopic",res.rows[0])
   return res.rows[0];
 })
 .catch(e => {
@@ -180,7 +192,7 @@ const getItemsByTopicId =(id,db) => {
     WHERE C.id = $1;
   `, [id])
     .then(res => {
-      console.log("items in function", res)
+      //console.log("items in function", res)
       return res.rows;
     })
     .catch(e => {
@@ -189,16 +201,28 @@ const getItemsByTopicId =(id,db) => {
 }
 
 const deleteTopic = (id,db) => {
- return db.query(`DELETE FROM topics WHERE id = $1`, [id])
+ return db.query(`DELETE FROM topics WHERE id = $1;`, [id])
     .then(() => {
-       return db.query(`DELETE FROM user_topics WHERE topic_id = $1`, [id])
+       return db.query(`DELETE FROM user_topics WHERE topic_id = $1;`, [id])
       .then(() => {
-         return db.query(`DELETE FROM item_topics WHERE topic_id = $1`, [id])
+         return db.query(`DELETE FROM item_topics WHERE topic_id = $1;`, [id])
          .then(() => console.log("I am in deleteTopic function"))
       })
       
     })
 }
+
+const deleteItem = (id,db) => {
+  return db.query(`DELETE FROM items WHERE id = $1;`, [id])
+     .then(() => {
+        return db.query(`DELETE FROM item_topics WHERE item_id = $1;`, [id])
+       .then(() => {
+          return db.query(`DELETE FROM answer_items WHERE item_id = $1;`, [id])
+          .then(() => console.log("I am in deleteItem function"))
+       })
+       
+     })
+ }
 module.exports = {
   getUserByEmail,
   addUser,
@@ -210,5 +234,6 @@ module.exports = {
   addItemTopic,
   addUserTopic,
   getItemsByTopicId,
-  deleteTopic
+  deleteTopic,
+  deleteItem
 };

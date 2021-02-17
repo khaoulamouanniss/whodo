@@ -2,7 +2,6 @@ const router = require("express").Router();
 const bcrypt = require('bcrypt');
 const {getUserByEmail} = require ("../helpers");
 
-
 module.exports = db => {
  
   router.post('/login', (req, res) => {

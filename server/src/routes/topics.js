@@ -11,7 +11,7 @@ module.exports = db => {
         GROUP BY A.id;
       `
     ).then(topics => {
-      console.log("topics in router topics",topics.rows)  
+     // console.log("topics in router topics",topics.rows)  
       
       res.send(topics.rows);
     })
@@ -24,7 +24,7 @@ module.exports = db => {
 
   router.post("/favtopics", (req, res) => {
     const {user_id,topic_id} = req.body;
-    console.log("req.body",req.body)
+    //console.log("req.body",req.body)
     addUserTopic(user_id, topic_id, db)
     // .then (res => {
     
@@ -48,7 +48,7 @@ module.exports = db => {
   router.delete("/deletetopic/:id", (req, res) => {
     console.log("req.params", req.params)
     const id = Number(req.params.id);
-    console.log("req.params parsed", id)
+    //console.log("req.params parsed", id)
     deleteTopic(id,db)
     .then(() => {
       res.status(204).json({});
