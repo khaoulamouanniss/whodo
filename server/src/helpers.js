@@ -34,8 +34,9 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
   let sql;
   
   if (type === "normal"){
-    console.log("I am in normal")
-    sql = `
+    console.log("I am in normal", email)
+    return db.query(
+      `
     SELECT A.id, item, D.topic AS topic, count(B.id) as answers
     FROM items A
     LEFT OUTER JOIN answer_items B ON A.id = B.item_id
@@ -43,12 +44,19 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
     JOIN topics D ON C.topic_id = D.id
     JOIN user_topics E ON D.id = E.topic_id
     JOIN users F ON E.user_id = F.id
-    WHERE F.email = $1
+    WHERE F.email = $1 AND A.approved = true
     GROUP BY A.id, A.item, D.topic
     ORDER BY random ()
     LIMIT 20;
-    
-    `,[email];
+    `,[email]
+    )
+    .then(res => {
+      console.log("query of getitemsbyusertype",sql)
+      console.log("items in function getItemByUserType",res.rows)
+      
+      return res.rows;
+    })
+   
   } else if (type === "super") {
     console.log("I am in super")
     sql = `
@@ -57,7 +65,7 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
     LEFT OUTER JOIN answer_items B ON A.id = B.item_id
     JOIN item_topics C ON  A.id = C.item_id
     JOIN topics D ON C.topic_id = D.id
-    GROUP BY A.id, A.item, D.topic;`
+    GROUP BY A.id, A.item, D.topic;`;
   } else {
     console.log("I am in anonymous")
     sql = `
@@ -66,15 +74,13 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
     LEFT OUTER JOIN answer_items B ON A.id = B.item_id
     JOIN item_topics C ON  A.id = C.item_id
     JOIN topics D ON C.topic_id = D.id
+    WHERE A.approved = true
     GROUP BY A.id, A.item, D.topic
     ORDER BY random ()
-    LIMIT 20;`
+    LIMIT 20;`;
   }
   return db.query(sql)
     .then(res => {
-      console.log("query of getitemsbyusertype",sql)
-      //console.log("res in function getItemByUserType",res.rows)
-      
       return res.rows;
     })
     .catch(e => {
@@ -91,6 +97,7 @@ const getItemsByTopic = (topics)  => {
       where item_topics.topic_id =$1;
       `, [topic])
       .then(res => {
+        console.log("res in the function", res)
           return res.rows[0];
         })
         .catch(e => {

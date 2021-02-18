@@ -5,8 +5,8 @@ import {Link} from "react-router-dom"
 export default function Item(props) {
 
   const {id,item,setCurrentItem,deleteItem} = props;
-  let topics=' #'+ props.topics.replace('/',' #');
-  let answers =' ' + props.answers + ' answers';
+  let topics= props.topics? ' #'+ props.topics.replace('/',' #') : "";
+  let answers = props.answers? ' ' + props.answers + ' answers' : "";
 
   return (
     <div>

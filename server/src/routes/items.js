@@ -66,8 +66,8 @@ module.exports = db => {
         res.send(newItem)
       });
 
-  router.post("/itemsoftopic", (req, res) => {
-    const {id} = req.body;
+  router.get("/itemsoftopic/:id", (req, res) => {
+    const id = Number(req.params.id);
     db.query(`
     SELECT A.*, D.topic As topic, count(B.id) AS answers
     FROM items A
@@ -77,9 +77,9 @@ module.exports = db => {
     WHERE D.id = $1
     GROUP BY A.id, D,topic;
   `, [id])
-  .then(({ rows: items }) => {
+  .then((items) => {
     
-    res.send(items);
+    res.send(items.rows);
   });
       });
 
@@ -127,5 +127,22 @@ module.exports = db => {
           res.send(item.rows[0])
         })       
       });
+
+      router.get("/submitteditems/:id", (req, res) => {
+        const id = Number(req.params.id);
+        db.query(`
+        SELECT A.*, D.topic As topic, count(B.id) AS answers
+        FROM items A
+        LEFT OUTER JOIN answer_items B ON A.id = B.item_id
+        JOIN item_topics C ON C.item_id = A.id
+        JOIN topics D ON D.id = C.topic_id
+        WHERE A.creator_id = $1
+        GROUP BY A.id, D,topic;
+      `, [id])
+      .then((items) => {
+        
+        res.send(items.rows);
+      });
+    });
   return router;
 };

@@ -1,7 +1,6 @@
 // we need to install react-wordcloud first by this command  npm install react-wordcloud
 
 import React from "react";
-import { Link } from "react-router-dom";
 import Item from "./Item";
 import ReactWordcloud from 'react-wordcloud';
 //import wordcloud2 from 'wordcloud2';
@@ -37,9 +36,6 @@ import ReactWordcloud from 'react-wordcloud';
   const itemData = props.items.map(i => <Item id ={i.id} item={i.item} topics={i.topic} answers ={i.answers} setCurrentItem={props.setCurrentItem}/>)
   return (
     <div>
-      <Link to="/topics" >topics</Link>
-      <Link to="/items" >Items</Link>
-      <Link to="/itemsToApprove" >Approve items</Link>
     <div style={{ marginTop: "5px", marginLeft:"200px"}}>
      <ReactWordcloud
       callbacks={callbacks}

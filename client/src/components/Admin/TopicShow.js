@@ -12,7 +12,7 @@ export default function TopicShow(props) {
       <h1>{topic_id}{topic}</h1>
       <button >+</button>
       <input onChange={e => newItem=e.target.value}></input>
-      <button onClick={() => props.addItem(newItem,topic,true)}>Add</button>
+      <button onClick={() => props.addItem(newItem,[topic],true)}>Add</button>
       <tbody>
      <table className="table">
         <thead>

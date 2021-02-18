@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import Navigation from './components/User/Navigation';
+import Navigation from './components/Navigation';
 import Login from './components/User/Login';
 import SignUp from './components/User/SignUp';
 import Answer from './components/User/Answer';
@@ -12,7 +12,9 @@ import Topics from './components/Admin/Topics';
 import TopicShow from './components/Admin/TopicShow';
 import ItemShow from './components/Admin/ItemShow';
 import Items from './components/Admin/Items';
+import Users from './components/Admin/Users';
 import ItemsApprove from './components/Admin/ItemsApprove';
+import SubmittedItems from './components/User/SubmittedItems';
 //import users from '../../server/src/routes/users';
 //import Account from './components/Account';
 
@@ -23,8 +25,10 @@ export default function App() {
     password : 'test'
   }
 */
-const [user, setUser] = useState({})
-const [change,setChange]= useState("")
+const [users,setUsers] = useState([]);
+const [user, setUser] = useState({id:1})
+const [change,setChange]= useState("");
+
 //const userInStorage = useState(localStorage.getItem("user"));
 //const [user, setUser] = useState(userInStorage ? userInStorage : null);
 // useEffect(() => {
@@ -57,24 +61,32 @@ const [change,setChange]= useState("")
 }
 */
     const[currentItem,setCurrentItem] = useState({});
-    const[items, setItems] = useState([])
-    const [currentTopic,setCurrentTopic]= useState({});
+    const[itemsOfTopic,setItemsOfTopic] = useState([]);
+    const[items, setItems] = useState([]);
+    const [currentTopic,setCurrentTopic]= useState({topic_id:1});
     const [itemsToApprove,setItemsToApprove]= useState([])
+    const [submittedItems,setSubmittedItems] = useState([]);
     useEffect(() => {
 
       Promise.all([
           axios.get('http://localhost:8001/topics'), 
           axios.post('http://localhost:8001/',{email:user.email,type:user.type}),
-          axios.get("http://localhost:8001/itemstoapprove")
+          axios.get("http://localhost:8001/itemstoapprove"),
+          axios.get(`http://localhost:8001/itemsoftopic/${currentTopic.topic_id}`),
+          axios.get(`http://localhost:8001/submitteditems/${user.id}`),
         ]
       ).then(all => {
         console.log("topics",all[0].data)
+        console.log("items",all[1].data)
+        console.log("items to approve",all[2].data)
         setTopics(all[0].data);
         setItems(all[1].data);
         setItemsToApprove(all[2].data);
+        setItemsOfTopic(all[3].data);
+        setSubmittedItems(all[4].data);
       })
   
-    }, [change]);
+    }, [user,change]);
   
       
   
@@ -94,31 +106,15 @@ const [change,setChange]= useState("")
           setError(null);
           setUser(res.data);
           console.log('Logged in' ,user);
-          setChange("login");
+          
          
         }
       })
   };
   const logout = () => {
     console.log('Logout');
-    setUser({
-      id:0,
-      name: '',
-      last_name:'',     
-      birth_date:'',
-      gender:'',
-      email: '',
-      password: '',
-      profile_pic : '',
-      country: '',
-      region: '',
-      city: '',
-      referrer: '',
-      type: '',
-      relationship: '',
-      family: '' 
-    });
-    setChange("logout");
+    setUser([]);
+    
     <Redirect to="/"></Redirect>
   };
 
@@ -150,7 +146,6 @@ const [change,setChange]= useState("")
           setUser(res.data);
           console.log('Signed up');
           console.log(user.email);
-          setChange("signup")
         }
         return res.data;
       })
@@ -175,9 +170,10 @@ const [change,setChange]= useState("")
     let time = new Date();
   axios.post("http://localhost:8001/items",{creator:user.id, item:item, time:time, approved:approved, topics:submittedTopics})
   .then(res => {
-    console.log("submittedItem",res.data);
+    console.log("submittedItem",res.data); 
+    setChange("submit item")
   })
-  setChange("submit item")
+ 
  }
 
  const addFavTopic = (user_id,topic_id) => {
@@ -189,13 +185,15 @@ const [change,setChange]= useState("")
  }
 
   //Admin functions
+  
   const showItemsByTopic = (id) =>
   {
     console.log("id in the function", id)
-    axios.post("http://localhost:8001/itemsoftopic",{id:id})
+    axios.get(`http://localhost:8001/itemsoftopic/${id}`)
     .then((res)=> {
       //console.log("items",res.data)
-      setItems(res.data);
+      setItemsOfTopic(res.data);
+      setChange("Show items ot topic")
       return res.data;
     })
   }
@@ -209,9 +207,9 @@ const [change,setChange]= useState("")
     })
   }
 
-  const addItem = (item,topic,approved) => {
+  const addItem = (item,topic,approved) => { 
     const time = new Date();
-    axios.post("http://localhost:8001/items",{creator:user.id, item:item, time:time, approved:approved, topics:[topic]})
+    axios.post("http://localhost:8001/items",{creator:user.id, item:item, time:time, approved:approved, topics:topic})
     .then((res)=> {
       console.log("item added",res.data)
       items.push(res.data);
@@ -245,12 +243,19 @@ const [change,setChange]= useState("")
     })
   }
 
+  const showUsers = () => {
+    axios.get("http://localhost:8001/users")
+    .then(res => {
+      setUsers(res.data);
+    })
+  }
+
   return ( 
   
   <div >  
 
     <Router>
-      <Navigation email={user.email} logout={logout}/>
+      <Navigation user={user} logout={logout} showUsers={showUsers}/>
       
       <Switch>
         <Route path="/login">
@@ -279,7 +284,7 @@ const [change,setChange]= useState("")
          <Topics topics={topics} setCurrentTopic={setCurrentTopic} showItemsByTopic={showItemsByTopic} addTopic={addTopic} deleteTopic={deleteTopic}/>
        </Route>
        <Route path="/topicShow" >
-          <TopicShow currentTopic={currentTopic} items={items} setCurrentItem={setCurrentItem}  addItem={addItem} deleteItem={deleteItem}/>
+          <TopicShow currentTopic={currentTopic} items={itemsOfTopic} setCurrentItem={setCurrentItem}  addItem={addItem} deleteItem={deleteItem}/>
        </Route>
        <Route path="/itemShow" >
           <ItemShow currentItem={currentItem} />
@@ -289,6 +294,12 @@ const [change,setChange]= useState("")
        </Route>
        <Route path="/itemstoapprove" >
           <ItemsApprove items={itemsToApprove} setCurrentItem={setCurrentItem} approveItem={approveItem} deleteItem={deleteItem}/>
+       </Route>
+       <Route path="/myitems">
+         <SubmittedItems items={submittedItems} setCurrentItem={setCurrentItem} deleteItem={deleteItem}/>
+       </Route>
+       <Route path="/users">
+         <Users users={users}/>
        </Route>
       </Switch>
       

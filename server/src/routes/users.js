@@ -6,11 +6,12 @@ module.exports = db => {
     db.query(
       `
       SELECT *
-        FROM users;
+        FROM users
+        WHERE type = 'normal';
     `
-    ).then(({ rows: users }) => {
-      console.log("users.js")
-      response.json(users);
+    ).then(users => {
+      console.log("users.js",users.rows)
+      response.send(users.rows);
     });
   });
 

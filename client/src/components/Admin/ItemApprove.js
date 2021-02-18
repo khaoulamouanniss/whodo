@@ -5,8 +5,8 @@ import {Link} from "react-router-dom"
 export default function ItemApprove(props) {
 
   const {id,item,setCurrentItem,approveItem,deleteItem} = props;
-  let topics=' #'+ props.topics.replace('/',' #');
-  let answers =' ' + props.answers + ' answers';
+  let topics= props.topics? ' #'+ props.topics.replace('/',' #') : "";
+  let answers = props.answers? ' ' + props.answers + ' answers' : "";
 
   return (
     <div>

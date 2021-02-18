@@ -4,7 +4,7 @@ import Topic from "./Topic"
 export default function Topics(props) {
 
   let newTopic="";
-  const topicData = props.topics.map(t => <Topic topicID={t.id} topic={t.topic} NbItems={parseInt(t.items)} setCurrentTopic={props.setCurrentTopic} showItemsByTopic={props.showItemsByTopic} deleteTopic={props.deleteTopic}/>)
+  const topicData = props.topics.map(t => <Topic topicID={t.id} topic={t.topic} NbItems={parseInt(t.items)} setCurrentTopic={props.setCurrentTopic} deleteTopic={props.deleteTopic} showItemsByTopic={props.showItemsByTopic}/>)
   return(
     <>
     <button >+</button>
