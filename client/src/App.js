@@ -184,6 +184,16 @@ const [change,setChange]= useState("");
   })
  }
 
+ const getNbAnsByOption= (item) => {
+  return axios.post('http://localhost:8001/answer', {item: item})
+  .then(res => {
+    console.log('my res is', res.data)
+    return res.data;
+  })
+  .catch(error => {
+    console.log(error)
+  })
+}
   //Admin functions
   
   const showItemsByTopic = (id) =>
@@ -271,9 +281,9 @@ const [change,setChange]= useState("");
        {/* <Route path="/topics" exact>
         <Topics />
        </Route> */}
-       <Route path="/answer">
-         <Answer item ={currentItem}/>
-       </Route>
+       {/* <Route path="/answer">
+         <Answer item ={currentItem} getNbAnsByOption={getNbAnsByOption}/>
+       </Route> */}
        <Route path="/submit">
          <Submit  submitItem ={submitItem}/>
        </Route>

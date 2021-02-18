@@ -230,6 +230,86 @@ const deleteItem = (id,db) => {
        
      })
  }
+
+ const getNbAnswersForOption = (question,option,  db) => {
+  let sql = `
+    SELECT count(A.id) as nbAnswers
+    FROM answer_items A
+    Join items B on B.id = A.item_id
+    WHERE B.item = $1 AND A.answer = $2
+    GROUP BY (B.id);   
+    ` ;
+  return db.query(sql, [question, option])
+    .then(res => {
+     if (res.rows[0]) {
+      return res.rows[0];
+    }
+      return {nbanswers: '0'}
+    })
+    .catch(e => {
+      return null;
+    });
+  };
+  //getting the number of answer for a specific question according to gender 
+  const getNbAnswersForOptionByRelation = (question,option, relation,  db) => {
+    let sql;
+    if (relation ='single') {
+      sql  = `
+      SELECT count(A.id) as nbAnswers
+      FROM answer_items A
+      Join items B on B.id = A.item_id
+      Join users C on C.id =A.user_id
+      WHERE B.id = $1 AND A.answer = $2 AND (C.relationship = 'single' OR C.relationship = 'divorced' OR C.relationship = 'widowed')
+      GROUP BY (B.id);   
+      `
+    }
+    else if (relation ='engaged') {
+      sql  = `
+      SELECT count(A.id) as nbAnswers
+      FROM answer_items A
+      Join items B on B.id = A.item_id
+      Join users C on C.id =A.user_id
+      WHERE B.id = $1 AND A.answer = $2 AND (C.relationship = 'married' OR C.relationship = 'living with a partner')
+      GROUP BY (B.id);   
+      ` 
+    }
+    return db.query(sql, [question, option])
+      .then(res => {
+        console.log('by relation', res.rows[0])
+       if (res.rows[0]) { 
+         console.log('I am inside the if')
+        return res.rows[0];
+      }
+        return { nbanswers: '0'} 
+      })
+      .catch(e => {
+        return null;
+      });
+    };
+     //////////////////
+ //getting the number of answer for a specific question according to gender 
+ const getNbAnswersForOptionByGender = (question,option, gender,  db) => {
+  let sql = `
+    SELECT count(A.id) as nbAnswers
+    FROM answer_items A
+    Join items B on B.id = A.item_id
+    Join users C on C.id =A.user_id
+    WHERE B.id = $1 AND A.answer = $2 AND C.gender = $3
+    GROUP BY (B.id);   
+    ` 
+  return db.query(sql, [question, option, gender])
+    .then(res => {
+      console.log('by gender', res.rows[0])
+     if (res.rows[0]) { 
+       console.log('I am inside the if')
+      return res.rows[0];
+    }
+      return { nbanswers: '0'} 
+    })
+    .catch(e => {
+      return null;
+    });
+  };
 module.exports = {
   getUserByEmail,
   addUser,
@@ -242,5 +322,8 @@ module.exports = {
   addUserTopic,
   getItemsByTopicId,
   deleteTopic,
-  deleteItem
+  deleteItem,
+  getNbAnswersForOption,
+  getNbAnswersForOptionByGender,
+  getNbAnswersForOptionByRelation
 };

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, getItemsByTopicId,deleteItem} = require ("../helpers");
+const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, getItemsByTopicId,deleteItem,getNbAnswersForOption,getNbAnswersForOptionByGender,getNbAnswersForOptionByRelation} = require ("../helpers");
 
 module.exports = db => {
   router.get("/items", (request, response) => {
@@ -14,7 +14,6 @@ module.exports = db => {
       response.json(items);
     });
   });
-
   router.post('/', (req, res) => {
     const {email, type} = req.body;
     console.log("email and type in the router items", email, type)
@@ -27,8 +26,7 @@ module.exports = db => {
           res.status(401).json({ error: e.message });
         }
       });
-  })
-    
+  }) 
   router.get('/items/:id', (req, res) => {
    
    // console.log("id of item in the router",  Number(req.params.id))
@@ -46,8 +44,6 @@ module.exports = db => {
         }
       });
   })
-
-  
   router.post('/items', async (req,res) => {
     const {creator, item, time, approved, topics} = req.body;
    // console.log("I am in router")
@@ -61,11 +57,9 @@ module.exports = db => {
             addItemTopic(newItem.id,topic.id, db);
          // }
           //console.log("topic in route",topic);
-         
         }
         res.send(newItem)
       });
-
   router.get("/itemsoftopic/:id", (req, res) => {
     const id = Number(req.params.id);
     db.query(`
@@ -78,11 +72,9 @@ module.exports = db => {
     GROUP BY A.id, D,topic;
   `, [id])
   .then((items) => {
-    
     res.send(items.rows);
   });
       });
-
       router.delete("/deleteitem/:id", (req, res) => {
         //console.log("req.params", req.params)
         const id = Number(req.params.id);
@@ -91,10 +83,7 @@ module.exports = db => {
         .then(() => {
           res.status(204).json({});
         })
-        
-       
       });
-
       router.get('/itemstoapprove', (req, res) => {
         db.query(
           `SELECT A.id, item, D.topic AS topic, count(B.id) as answers
@@ -127,7 +116,6 @@ module.exports = db => {
           res.send(item.rows[0])
         })       
       });
-
       router.get("/submitteditems/:id", (req, res) => {
         const id = Number(req.params.id);
         db.query(`
@@ -140,9 +128,76 @@ module.exports = db => {
         GROUP BY A.id, D,topic;
       `, [id])
       .then((items) => {
-        
         res.send(items.rows);
       });
     });
+      //when the user wants to filter the results by marital status
+  router.get('/answer/:item_id/filter/relation', (req, res)=> {
+    const item_id = req.params.item_id
+    const singlePromises = [];
+    const engagedPromises = [];
+    for (let i = 1; i < 6; i++) {
+  singlePromises.push( getNbAnswersForOptionByRelation(item_id, i, 'single', db));
+   engagedPromises.push( getNbAnswersForOptionByRelation(item_id, i, 'engaged', db));
+    }
+    Promise.all(
+      singlePromises
+    ).then((single) => {
+      Promise.all(
+       engagedPromises
+      ).then( (engaged)=> {
+        const obj ={ single: single, engaged: engaged}
+        console.log('my obj', obj)
+        res.send(obj)
+      }) 
+     
+    })
+  })
+//when the user wants to filter the results by gender
+router.get('/answer/:item_id/filter/gender', (req, res)=> {
+  const item_id = req.params.item_id
+  const malePromises = [];
+  const femalePromises = [];
+  for (let i = 1; i < 6; i++) {
+malePromises.push( getNbAnswersForOptionByGender(item_id, i, 'male', db));
+ femalePromises.push( getNbAnswersForOptionByGender(item_id, i, 'female', db));
+  }
+  Promise.all(
+    malePromises
+  ).then((male) => {
+    Promise.all(
+      femalePromises
+    ).then( (female)=> {
+      const obj ={ male: male, female: female}
+      console.log('my obj', obj)
+      res.send(obj)
+    }) 
+  })
+})
+//when the user chooses a response to an item
+router.post('/answer/add', (req, res) => {
+  const { user_id, answer, item_id} = req.body
+      addItemAnswer(user_id, item_id, answer, db).then(addedAnswer => {
+        console.log(addedAnswer);
+        res.send(addedAnswer);
+      })
+        .catch(e => res.send("error"));
+});
+  router.post('/answer', async (req, res) => {
+    const { item, user_id, voteOption } = req.body;
+    const promises =[];
+    //making an array of number of votes for each option
+    for (let i = 1; i < 6; i++) {
+      let p = getNbAnswersForOption(item, i, db);
+      promises.push(p);
+    }
+    //we're not sending any data until all the queries are executed
+    Promise.all(
+      promises
+    ).then(data => {
+      res.send(data);
+    })
+      ;
+  })
   return router;
 };
