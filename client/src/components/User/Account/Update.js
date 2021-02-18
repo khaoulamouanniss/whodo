@@ -1,20 +1,14 @@
 import React, {useState} from 'react';
-
-
 export default function Update(props) {
-  const{user, signup, error} = props;
-  const [details, setDetails] = useState(user);
- 
-  //setDetails(user)
-
+  const{user, update, error, onUpdate} = props;
+  const [details, setDetails] = useState(user)
   const submitHandler = event => {
     event.preventDefault();
-    signup(details);
-  };
-  
+    update(details, user.email)
+     onUpdate()
+ };
   return (
     <form className = "form-signup" onSubmit={submitHandler}>
-      
       {(error !== "") ? (<div>{error}</div>) : "" }
       {/* <div>
         Email<br />
@@ -25,6 +19,8 @@ export default function Update(props) {
         <input type="password" value={details.password} onChange={event => setDetails({...details, password:event.target.value})}/>
       </div> */}
       <div style={{ marginTop: 10 }}>
+       <label for="img">Select image:</label>
+       <input type="file" id="img" name="img" accept="image/*"  /><br /><br />
         <label for = "name">Name</label><br />
         <input type="text"  value={details.name} onChange={event => {setDetails({...details, name:event.target.value})}}/>
       </div>
@@ -61,7 +57,7 @@ export default function Update(props) {
         <input type="text" value={details.family} onChange={event => setDetails({...details, family:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
-      <button type="submit" value ="Register" className = "signup-button">Register</button>
+      <button type="submit" value ="Register" className = "signup-button" >Register  </button>
       </div>
     </form>
   );

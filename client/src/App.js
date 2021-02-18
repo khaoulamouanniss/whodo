@@ -183,6 +183,28 @@ const [change,setChange]= useState("");
     console.log("Favtopic added",res.data);
   })
  }
+  const update = (userDeatails, email) => {
+    axios.post('http://localhost:8001/update',{
+      name: userDeatails.name, 
+      last_name: userDeatails.last_name, 
+      birth_date: userDeatails.birth_date, 
+      gender:userDeatails.gender, 
+      profile_pic: userDeatails.profile_pic, 
+      country: userDeatails.country, 
+      region: userDeatails.region, 
+      city: userDeatails.city, 
+      relationship: userDeatails.relationship, 
+      family: userDeatails.family, 
+      email:email
+    })
+    .then(res => {
+      console.log(res.data)
+      setUser(res.data)
+    })
+    .catch(e => {
+      setError(e)
+    })
+  }
 
  const getNbAnsByOption= (item) => {
   return axios.post('http://localhost:8001/answer', {item: item})
@@ -288,7 +310,7 @@ const [change,setChange]= useState("");
          <Submit  submitItem ={submitItem}/>
        </Route>
        <Route path="/account">
-         <Account signup={signup} error={error} user={user} />
+         <Account update={update} error={error} user={user} />
        </Route> 
        <Route path="/topics">
          <Topics topics={topics} setCurrentTopic={setCurrentTopic} showItemsByTopic={showItemsByTopic} addTopic={addTopic} deleteTopic={deleteTopic}/>

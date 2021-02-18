@@ -310,6 +310,19 @@ const deleteItem = (id,db) => {
       return null;
     });
   };
+
+  const updateUser = (userdata, db) => {
+    const {name, last_name, birth_date, gender, profile_pic, country, region, city,  relationship, family, email} = userdata;
+    return db.query(`Update users SET name = $1, last_name = $2, birth_date = $3,gender = $4,  profile_pic = $5, country = $6, region = $7, city = $8, relationship = $9, family = $10 WHERE email = $11 returning *;`, [name, last_name, birth_date, gender, profile_pic, country, region, city, relationship, family, email])
+    .then(res => {
+      console.log(res)
+      return res.rows[0]
+    })
+    .catch(e => {
+      console.log(e)
+      return null;
+    })
+    };
 module.exports = {
   getUserByEmail,
   addUser,
@@ -325,5 +338,6 @@ module.exports = {
   deleteItem,
   getNbAnswersForOption,
   getNbAnswersForOptionByGender,
-  getNbAnswersForOptionByRelation
+  getNbAnswersForOptionByRelation,
+  updateUser
 };
