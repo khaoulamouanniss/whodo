@@ -1,0 +1,35 @@
+
+
+.topicstableFilter{
+  position: absolute;
+  top: 50px;
+  left:0;
+  bottom:0;
+  z-index:1;
+  opacity: -7;
+}
+
+.topicsTable{
+  position:absolute;
+  z-index:1;
+  left:70%;
+  top:50%;
+  right:20%;
+  transform: translate(-50%, -50%);
+  width:60%;
+  text-align: center;
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow: hidden;
+
+}
+.topicstd{
+  width:40%;
+text-align: left;
+margin-left: 50%;
+
+
+}
+
+
+

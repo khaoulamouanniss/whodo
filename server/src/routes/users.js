@@ -10,7 +10,7 @@ module.exports = db => {
         WHERE type = 'normal';
     `
     ).then(users => {
-      console.log("users.js",users.rows)
+      //console.log("users.js",users.rows)
       response.send(users.rows);
     });
   });

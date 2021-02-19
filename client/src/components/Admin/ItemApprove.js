@@ -1,6 +1,7 @@
 
 import React from "react";
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import "./ItemsApprove.css"
 
 export default function ItemApprove(props) {
 
@@ -10,10 +11,13 @@ export default function ItemApprove(props) {
 
   return (
     <div>
-      {/* <th scope="col"><Link to="/topicShow" onClick={() => setCurrentTopic({topic_id:topicID,topic:topic})}>{topic}</Link></th> */}
-      <th scope="col"><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item}{topics}{answers}</Link></th>
-      <th scope="col"><button onClick={() => approveItem(id)}>Approve</button></th>
-      <th scope="col"><button onClick={() => deleteItem(id)}>Delete</button></th>
+      <tr>
+      <td className= "itemsapprovetd"><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item}{topics}{answers}</Link></td>
+      <td className= "itemsapprovetd"><button onClick={() => approveItem(id)}>Approve</button></td>
+      <td className= "itemsapprovetd"><button onClick={() => deleteItem(id)}>Delete</button></td>
+
+      </tr>
+   
     </div>
   )
 }

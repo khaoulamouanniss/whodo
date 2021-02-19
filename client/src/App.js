@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router-dom";
 import Navigation from './components/Navigation';
 import Login from './components/User/Login';
 import SignUp from './components/User/SignUp';
+import Form3 from './components/User/SignUp/Form3';
 import Answer from './components/User/Answer';
 import Submit from './components/User/Submit';
 import Account from './components/User/Account';
@@ -20,6 +21,7 @@ import SubmittedItems from './components/User/SubmittedItems';
 
 export default function App() {
 
+  let history=useHistory();
   /*const adminUser = {
     email : 'test@test.com',
     password : 'test'
@@ -76,9 +78,9 @@ const [change,setChange]= useState("");
           axios.get(`http://localhost:8001/submitteditems/${user.id}`),
         ]
       ).then(all => {
-        console.log("topics",all[0].data)
-        console.log("items",all[1].data)
-        console.log("items to approve",all[2].data)
+        //console.log("topics",all[0].data)
+        //console.log("items",all[1].data)
+        //console.log("items to approve",all[2].data)
         setTopics(all[0].data);
         setItems(all[1].data);
         setItemsToApprove(all[2].data);
@@ -114,9 +116,21 @@ const [change,setChange]= useState("");
   const logout = () => {
     console.log('Logout');
     setUser([]);
-    
-    <Redirect to="/"></Redirect>
   };
+  const loginGF = details => {
+    //console.log("I am in loginGF")
+    //console.log("details", details)
+    axios.post('http://localhost:8001/logingf',{ email:details.email, name:details.name, last_name:details.last_name, profile_pic:details.profile_pic })
+    .then(res =>
+      {
+        //console.log('loginGF res data', res.data)
+        setError(null);
+        setUser(res.data);
+        //console.log('Logged in' ,user);
+        return res.data
+      })
+  };
+
 
   const signup = details => {
    return axios.post('http://localhost:8001/signup',{ 
@@ -126,12 +140,12 @@ const [change,setChange]= useState("");
       gender:details.gender, 
       email: details.email, 
       password: details.password, 
-      profile_pic: details.profile_pic, 
+      profile_pic: "", 
       country: details.country, 
       region: details.region, 
       city: details.city, 
-      referrer: details.referrer, 
-      type: details.type, 
+      referrer: "", 
+      type: "normal", 
       relationship: details.relationship, 
       family: details.family
     })
@@ -151,6 +165,33 @@ const [change,setChange]= useState("");
       })
   };
 
+  const signupGF = details => {
+    return axios.post('http://localhost:8001/signupgf',{ 
+       name: details.name, 
+       last_name: details.last_name, 
+       birth_date: details.birth_date, 
+       gender:details.gender, 
+       email: details.email, 
+       profile_pic: details.profile_pic, 
+       country: details.country, 
+       region: details.region, 
+       city: details.city, 
+       referrer: details.referrer, 
+       type: details.type, 
+       relationship: details.relationship, 
+       family: details.family
+     })
+     .then(res =>
+       {
+           console.log("user",res.data);
+           setError(null);
+           setUser(res.data);
+           console.log('Signed up');
+           console.log(user.email);
+        
+         return res.data;
+       })
+   };
  
 
   const submitItem  = (submittedItem,approved) => {
@@ -181,7 +222,9 @@ const [change,setChange]= useState("");
   axios.post("http://localhost:8001/favtopics",{user_id:user_id, topic_id:topic_id})
   .then(res => {
     console.log("Favtopic added",res.data);
+    
   })
+  setChange("Fav topic added")
  }
   const update = (userDeatails, email) => {
     axios.post('http://localhost:8001/update',{
@@ -295,8 +338,11 @@ const [change,setChange]= useState("");
           
         </Route>
         <Route path="/signup">
-          <SignUp signup={signup} error={error} topics={topics} userId={user.id} addFavTopic={addFavTopic}/>
+          <SignUp signup={signup} error={error} topics={topics} userId={user.id} addFavTopic={addFavTopic} loginGF={loginGF} signupGF={signupGF}/>
         </Route>
+        <Route path="/signup3">
+         <Form3  user={user}/>
+       </Route>
         <Route path="/" exact>
         <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem} topics={topics} />
        </Route>

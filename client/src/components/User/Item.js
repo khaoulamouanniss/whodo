@@ -6,27 +6,21 @@ import { Link } from "react-router-dom";
 //import useVisualMode from "../hooks/useVisualMode"
 
 const itemCard  = {
-  boxShadow: "0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)",
+  boxShadow: "0 2px 5px 0 rgb(247,137,37), 0 2px 10px 0 rgb(247,137,37)",
   borderRadius: "40px",
   display: "block",
-  fontFamily: "Verdana, Geneva, Tahoma, sans-serif",
   fontSize: "15px",
   float:"left",
   padding:"30px",
   width: "200px",
   margin:"20px",
-  height:"250px",
+  height:"300px",
   fontWeight: "bold",
-  "&:hover" : {
-    backgroundColor: "linear-gradient(to top, rgba(214, 109, 49, 0.918), rgba(248, 246, 245, 0.856))!important"
-  }
 };
-// const itemCard:hover {
-//   background-image: linear-gradient(to top, rgba(214, 109, 49, 0.918), rgba(248, 246, 245, 0.856))!important;
-// }
+
 const itemTopic = {
   fontSize: "18px",
-  color: "orange"
+  color: "rgb(247,137,37)"
 }
 const itemButton = {
   marginBottom:"50px",
@@ -40,19 +34,13 @@ const itemButton = {
   fontWeight: "bold"
 }
 const itemAnswer = {
-  color :"grey",
-  fontSize : "12px"
+  color :"black",
+  fontSize : "15px",
+  fontWeight:"bold"
 }
 
 export default function Item(props) {
 
- 
-/*
-  const ITEM = "ITEM";
-  const ANSWER = "ANSWER";
-
-
-  const { mode, transition, back } = useVisualMode(ITEM);*/
   let topics=' #'+ props.topics.replace('/',' #');
   let answers =' ' + props.answers + ' answers';
   
@@ -62,19 +50,9 @@ export default function Item(props) {
 ​
     <div>{props.item}</div>
     <div style={itemTopic}>{topics}</div>
-    <div style={itemAnswer}>{answers}</div>
+    <div style={itemAnswer}>{answers}</div><br />
     <Link  to="/answer" style={itemButton} onClick={() => props.setCurrentItem({id:props.id, item:props.item})}>Answer</Link>
     
-   
-    
-     {/* <button className = "btn"><i className = "fa-envelope"></i>Answers</button>
-     {mode === ITEM && <div>{props.item}{topics}{answers}
-     <button onClick={() => transition(ANSWER)}>Answer</button> </div>}
-     {mode === ANSWER && <AnswerItem item={props.item} />}
-     
-      {props.item}{topics}{answers}
-      <button onClick={() => answerItem(props.id)}>Answer</button> 
-      */}  
    
     </div>
   )

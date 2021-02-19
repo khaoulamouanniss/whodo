@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, getItemsByTopicId,deleteItem,getNbAnswersForOption,getNbAnswersForOptionByGender,getNbAnswersForOptionByRelation} = require ("../helpers");
+const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, getItemsByTopicId,deleteItem,getNbAnswersForOption,getNbAnswersForOptionByGender,getNbAnswersForOptionByRelation, addItemAnswer} = require ("../helpers");
 
 module.exports = db => {
   router.get("/items", (request, response) => {
@@ -16,7 +16,7 @@ module.exports = db => {
   });
   router.post('/', (req, res) => {
     const {email, type} = req.body;
-    console.log("email and type in the router items", email, type)
+    //console.log("email and type in the router items", email, type)
     getItemsAndTopicsByUserType(email,type, db)
       .then(items => {
         res.send(items);
@@ -104,7 +104,7 @@ module.exports = db => {
       })
       router.get("/approveitem/:id", (req, res) => {
         const id = Number(req.params.id);
-        console.log("req.params parsed", id)
+        //console.log("req.params parsed", id)
         db.query(
           `
           UPDATE items 
@@ -147,7 +147,7 @@ module.exports = db => {
        engagedPromises
       ).then( (engaged)=> {
         const obj ={ single: single, engaged: engaged}
-        console.log('my obj', obj)
+        //console.log('my obj', obj)
         res.send(obj)
       }) 
      
@@ -169,20 +169,23 @@ malePromises.push( getNbAnswersForOptionByGender(item_id, i, 'male', db));
       femalePromises
     ).then( (female)=> {
       const obj ={ male: male, female: female}
-      console.log('my obj', obj)
+      //console.log('my obj', obj)
       res.send(obj)
     }) 
   })
 })
 //when the user chooses a response to an item
-router.post('/answer/add', (req, res) => {
+router.post('/answer/add',  async (req, res) => {
   const { user_id, answer, item_id} = req.body
-      addItemAnswer(user_id, item_id, answer, db).then(addedAnswer => {
-        console.log(addedAnswer);
+ 
+    const addedAnswer = await   addItemAnswer( item_id, user_id,  answer, db)
+    if (addedAnswer){
+      
         res.send(addedAnswer);
-      })
-        .catch(e => res.send("error"));
+        
+      }else { console.log('something wrong with the insertion')}
 });
+
   router.post('/answer', async (req, res) => {
     const { item, user_id, voteOption } = req.body;
     const promises =[];

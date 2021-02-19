@@ -1,0 +1,64 @@
+.form4Container {
+  margin-top: 30px;
+  margin-left: 150px;
+}
+
+.signupLabelrel{
+  font-weight: bold;
+  font-size: 30px;
+  margin-left: 400px;
+}
+
+.signupLabelfam{
+  font-weight: bold;
+  font-size: 30px;
+  margin-left: 400px;
+}
+.relationshipBtn {
+  padding: 10px;
+  width: 250px;
+  border-radius: 35px;
+  border-color: rgb(247, 137, 37);
+  display: inline;
+  outline: none;
+  margin-left: 100px;
+  margin-right: -20px;
+  font-weight: bold;
+  font-size: 20px;
+  border: solid rgb(247, 137, 37);
+
+}
+.relationshipBtn:hover{
+  background-color:  rgb(247, 137, 37);
+}
+.familyBtn{
+  padding: 10px;
+  width: 250px;
+  border-radius: 25px;
+  border-color: rgb(247, 137, 37);
+  display: inline;
+  outline: none;
+  margin-left: 100px;
+  margin-right: -20px;
+  font-weight: bold;
+  font-size: 20px;
+  border: solid rgb(247, 137, 37);
+}
+
+.familyBtn:hover{
+  background-color:  rgb(247, 137, 37);
+}
+
+.formRegbtn {
+  background-color: black;
+  color: white;
+  padding: 10px 40px;
+  cursor: pointer;
+  width: 20%;
+  height: 50px;
+  margin-left: 200px;
+  border-radius: 18px;
+  outline: none;
+  font-weight: bold;
+
+}

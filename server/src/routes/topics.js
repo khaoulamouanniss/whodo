@@ -46,7 +46,7 @@ module.exports = db => {
   });
 
   router.delete("/deletetopic/:id", (req, res) => {
-    console.log("req.params", req.params)
+    //console.log("req.params", req.params)
     const id = Number(req.params.id);
     //console.log("req.params parsed", id)
     deleteTopic(id,db)

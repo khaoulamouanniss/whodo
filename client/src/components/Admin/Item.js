@@ -1,6 +1,7 @@
 
 import React from "react";
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import "./Items.css"
 
 export default function Item(props) {
 
@@ -10,9 +11,11 @@ export default function Item(props) {
 
   return (
     <div>
-      {/* <th scope="col"><Link to="/topicShow" onClick={() => setCurrentTopic({topic_id:topicID,topic:topic})}>{topic}</Link></th> */}
-      <th scope="col"><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item}{topics}{answers}</Link></th>
-      <th scope="col"><button onClick={() => deleteItem(id)}>Delete</button></th>
+      <tr>
+      <td className = "itemstd"><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item} {topics}{answers}</Link></td>
+      <td className= "itemstd"><button onClick={() => deleteItem(id)}>Delete</button></td>
+      </tr>
+   
     </div>
   )
 }

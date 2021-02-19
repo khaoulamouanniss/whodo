@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const bcrypt = require('bcrypt');
-const { getUserByEmail, addUser,updateUser } = require("../helpers");
+const { getUserByEmail, addUser,updateUser, addUserGF } = require("../helpers");
 
 module.exports = db => {
  
    router.post('/signup', (req, res) => {
+     console.log("req.body into signup router", req.body)
     const { name, last_name, birth_date, gender, email, password, profile_pic, country, region, city, referrer, type, relationship, family} = req.body;
     const hashedPassword = bcrypt.hashSync(password, 12);
   
@@ -35,7 +36,7 @@ module.exports = db => {
           return;
         }
         addUser(userData, db).then(newUser => {
-          console.log(newUser);
+          //console.log(newUser);
           
           // req.session['userID'] = newUser['id'];
           res.send(newUser);
@@ -51,7 +52,7 @@ module.exports = db => {
 
   router.post('/update', (req,res) => {
     const { name, last_name, birth_date, gender, profile_pic, country, region, city, relationship, family, email} = req.body;
-    console.log("Hello")
+   // console.log("Hello")
     if (!name || !last_name || !birth_date || !gender|| !country || !region || !city || !relationship || !family) {
       res.status(500).send("You are missing a field");
       return;
@@ -70,12 +71,44 @@ module.exports = db => {
       email:email
     };
     updateUser(userData, db).then(newUser => {
-      console.log("New USER", newUser)
+      //console.log("New USER", newUser)
         res.send(newUser);
         return;
       })
         .catch(e => res.send("error"));    
   });
+
+  router.post('/signupgf', (req, res) => {
+    const { name, last_name, birth_date, gender, email, profile_pic, country, region, city, type, relationship, family} = req.body;
+      
+    if (!name || !last_name || !birth_date || !gender|| !email || !country || !region || !city || !relationship || !family) {
+      res.send("You are missing a field");
+      return;
+    }
+    const userData = {
+      name: name,
+      last_name:last_name,     
+      birth_date:birth_date,
+      gender:gender,
+      email: email,
+      profile_pic : profile_pic,
+      country: country,
+      region: region,
+      city: city,
+      type: "normal",
+      relationship: relationship,
+      family: family 
+    };
+     addUserGF(userData, db).then(newUser => {
+      console.log("newUser in res of function addUserGf in router signupgf",newUser);
+          
+          // req.session['userID'] = newUser['id'];
+          res.send(newUser);
+          return;
+        })
+          .catch(e => res.send("error"));    
+  
+    });
 
   return router;
 };

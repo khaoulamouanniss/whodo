@@ -1,5 +1,6 @@
 import React from 'react'
 import { Bar } from 'react-chartjs-2';
+//import './styleChart.css';
 export default function ChartByGender(props) {
   let arrMale= [];
   arrMale =props.data.male.map(a => a.nbanswers)
@@ -39,6 +40,7 @@ export default function ChartByGender(props) {
     ],
   }
   const options = {
+    responsive: true,
     scales: {
       yAxes: [
         {
@@ -50,6 +52,8 @@ export default function ChartByGender(props) {
     },
   }
   return (
+    <div className ='chartContainer'>
     <Bar data={data} options={options} />
+    </div>
   )
 }

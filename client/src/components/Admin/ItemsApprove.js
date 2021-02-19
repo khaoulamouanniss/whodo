@@ -1,5 +1,6 @@
 import React from "react";
-import ItemApprove from "./ItemApprove"
+import ItemApprove from "./ItemApprove";
+import "./ItemsApprove.css"
 
 export default function ItemsApprove(props) {
 
@@ -8,13 +9,14 @@ export default function ItemsApprove(props) {
   return(
     <>
     <tbody>
-   <table className="table">
+      <div className="itemsapproveFilter"></div>
+   <table className="itemsapproveTable">
       <thead>
-        <tr>
+        {/* <tr>
           <th scope="col">Item</th>
           <th scope="col">Number of answers</th>
           <th scope="col">Approve</th>
-        </tr>
+        </tr> */}
         <tr>{itemData}</tr>
       </thead>
     </table>

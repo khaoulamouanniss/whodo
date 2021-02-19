@@ -1,7 +1,6 @@
 import React from 'react'
 import { Bar } from 'react-chartjs-2';
-
-
+//import './styleChart.css';
 export default function ChartByRelation(props) {
   let arrSingle= [];
   arrSingle =props.data.single.map(a => a.nbanswers)
@@ -27,9 +26,7 @@ export default function ChartByRelation(props) {
       {
         label: 'engaged',
         data: arrEngaged,
-        backgroundColor: 'blue'
-          
-        ,
+        backgroundColor: 'blue',
         borderColor: [
           'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
@@ -42,8 +39,8 @@ export default function ChartByRelation(props) {
       },
     ],
   }
-
   const options = {
+    responsive: true,
     scales: {
       yAxes: [
         {
@@ -55,6 +52,8 @@ export default function ChartByRelation(props) {
     },
   }
   return (
+    <div className ='chartContainer'>
     <Bar data={data} options={options} />
+    </div>
   )
 }

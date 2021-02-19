@@ -1,0 +1,38 @@
+.showContainer{
+  margin-top:60px;
+  margin-left: 30%;
+  font-weight: bold;
+  font-size: 20px;
+  
+}
+.showUpdateBtn{
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  width: 20%;
+  height: 50px;
+  margin-left: 160px;
+  border-radius: 18px;
+  outline: none;
+  font-weight: bold;
+  font-size: 20px;
+ 
+}
+
+.showtable {
+  border-collapse: collapse;
+  width: 80%;
+}
+
+.showtd, .showth {
+ 
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.showtr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+

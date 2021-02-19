@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {Redirect} from 'react-router-dom';
+ 
+
 const loginForm = {
-  marginTop: "200px",
+  marginTop: "150px",
   marginLeft:"475px"
 }
 const loginButton = {
@@ -18,18 +20,24 @@ const loginButton = {
   fontWeight: "bold",
   fontSize:"20px"
 }
+
 const label1 = {
   fontWeight: "bold",
   fontSize: "25px",
   marginTop:"60px",
-  marginLeft:"150px"
+  marginLeft:"110px"
+  
+
 }
+
 const label2 = {
+
   fontWeight: "bold",
   fontSize: "25px",
   marginLeft:"100px"
  
 }
+
 const inputEmail = {
   borderColor: "rgb(247,137,37)", 
   outline: "none", 
@@ -38,7 +46,9 @@ const inputEmail = {
   width: "50%", 
   borderWidth: "3px", 
   fontSize:"20px"
+
 }
+
 const inputPassword = {
   borderColor:  "rgb(247,137,37)", 
   outline: "none", 
@@ -49,15 +59,20 @@ const inputPassword = {
   borderWidth: "3px",
   fontSize:"20px"
 }
+
 export default function Login(props) {
   const{login, error} = props;
+
   const[loggedIn,setLoggetIn] = useState(false)
   const [details, setDetails] = useState({email:"", password:""})
+
   const submitHandler = event => {
     event.preventDefault();
     login(details);
     setLoggetIn(true);
+
   };
+
   return !loggedIn ? (
     <div>
     <form style = {loginForm} onSubmit={submitHandler}>

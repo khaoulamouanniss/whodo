@@ -1,6 +1,7 @@
 
 import React from "react";
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import "./SubmittedItems.css"
 
 export default function SubmittedItem(props) {
 
@@ -10,12 +11,19 @@ export default function SubmittedItem(props) {
 
   return (approved ? (
     <div>
-      <th scope="col"> <Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item}{topics}</Link>{answers}Approved</th>
+      <th scope="col"> <Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item}{topics}</Link></th>
+      <th scope="col">{answers}</th>
+    <th scope="col"> Approved</th>
       <th scope="col"><button onClick={() => deleteItem(id)}>Delete</button></th>
     </div>
   ) : (<div>
-    <th scope="col">{item}{topics}{answers}Waiting...</th>
-    <th scope="col"><button onClick={() => deleteItem(id)}>Delete</button></th>
+     <div className = "submittedItemsContainer">
+     <th className = "th-Items"scope="col">{item}{topics}</th>
+    <th className = "th-Items" scope="col">{answers}</th>
+    <th className = "th-Items"scope="col"> Waiting...</th>
+    <th scope="col"><button className= "deleteBtn"onClick={() => deleteItem(id)}>Delete</button></th>
+     </div>
+    
   </div>)
   )
 }

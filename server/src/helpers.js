@@ -13,7 +13,25 @@ const getUserByEmail = (email, db) => {
       return null;
     });
 };
+const addUserGF = (userData, db) => {
+  const {name, last_name, birth_date, gender, email, profile_pic, country, region, city, type, relationship, family} = userData;
+  console.log("data in addUserGF", userData)
+  return db.query(`
+  INSERT INTO users (name, last_name, birth_date, gender,  email, profile_pic, country, region, city, type, relationship, family)
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    RETURNING *;
+    `, [name, last_name, birth_date, gender, email, profile_pic, country, region, city, type, relationship, family])
+    .then(res => {
+     console.log("user added in function addUserGF",res.rows[0])
+      return res.rows[0];
+    })
+    .catch(e => {
+      return null;
+    });
+};
+
 const addUser = (userData, db) => {
+  console.log("data in addUser", userData)
   const {name, last_name, birth_date, gender, email, password, profile_pic, country, region, city, referrer, type, relationship, family} = userData;
   return db.query(`
   INSERT INTO users (name, last_name, birth_date, gender,  email, password, profile_pic, country, region, city, referrer, type, relationship, family)
@@ -21,7 +39,7 @@ const addUser = (userData, db) => {
     RETURNING *;
     `, [name, last_name, birth_date, gender, email, password, profile_pic, country, region, city, referrer, type, relationship, family])
     .then(res => {
-     console.log(res.rows[0])
+     //console.log(res.rows[0])
       return res.rows[0];
     })
     .catch(e => {
@@ -34,7 +52,7 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
   let sql;
   
   if (type === "normal"){
-    console.log("I am in normal", email)
+    //console.log("I am in normal", email)
     return db.query(
       `
     SELECT A.id, item, D.topic AS topic, count(B.id) as answers
@@ -51,14 +69,14 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
     `,[email]
     )
     .then(res => {
-      console.log("query of getitemsbyusertype",sql)
-      console.log("items in function getItemByUserType",res.rows)
+     // console.log("query of getitemsbyusertype",sql)
+     // console.log("items in function getItemByUserType",res.rows)
       
       return res.rows;
     })
    
   } else if (type === "super") {
-    console.log("I am in super")
+    //console.log("I am in super")
     sql = `
     SELECT A.id, item, D.topic AS topic, count(B.id) as answers
     FROM items A
@@ -67,7 +85,7 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
     JOIN topics D ON C.topic_id = D.id
     GROUP BY A.id, A.item, D.topic;`;
   } else {
-    console.log("I am in anonymous")
+   // console.log("I am in anonymous")
     sql = `
     SELECT A.id, item, D.topic AS topic, count(B.id) as answers
     FROM items A
@@ -97,7 +115,7 @@ const getItemsByTopic = (topics)  => {
       where item_topics.topic_id =$1;
       `, [topic])
       .then(res => {
-        console.log("res in the function", res)
+       // console.log("res in the function", res)
           return res.rows[0];
         })
         .catch(e => {
@@ -230,6 +248,21 @@ const deleteItem = (id,db) => {
        
      })
  }
+ const addItemAnswer = (item_id,user_id,answer, db) => {
+  if (user_id){
+  db.query(`INSERT INTO answer_items (item_id, user_id, answer, date)
+  VALUES ($1, $2, $3, NOW())
+  RETURNING *;`, 
+  [item_id, user_id, answer])
+  .then(res => {
+    console.log("the inserted row is",res.rows[0])
+    return res.rows[0];
+  })
+  .catch(e => {
+    return null;
+  });
+  }
+}
 
  const getNbAnswersForOption = (question,option,  db) => {
   let sql = `
@@ -275,9 +308,9 @@ const deleteItem = (id,db) => {
     }
     return db.query(sql, [question, option])
       .then(res => {
-        console.log('by relation', res.rows[0])
+        //console.log('by relation', res.rows[0])
        if (res.rows[0]) { 
-         console.log('I am inside the if')
+        // console.log('I am inside the if')
         return res.rows[0];
       }
         return { nbanswers: '0'} 
@@ -299,9 +332,9 @@ const deleteItem = (id,db) => {
     ` 
   return db.query(sql, [question, option, gender])
     .then(res => {
-      console.log('by gender', res.rows[0])
+      //console.log('by gender', res.rows[0])
      if (res.rows[0]) { 
-       console.log('I am inside the if')
+      // console.log('I am inside the if')
       return res.rows[0];
     }
       return { nbanswers: '0'} 
@@ -315,11 +348,11 @@ const deleteItem = (id,db) => {
     const {name, last_name, birth_date, gender, profile_pic, country, region, city,  relationship, family, email} = userdata;
     return db.query(`Update users SET name = $1, last_name = $2, birth_date = $3,gender = $4,  profile_pic = $5, country = $6, region = $7, city = $8, relationship = $9, family = $10 WHERE email = $11 returning *;`, [name, last_name, birth_date, gender, profile_pic, country, region, city, relationship, family, email])
     .then(res => {
-      console.log(res)
+      //console.log(res)
       return res.rows[0]
     })
     .catch(e => {
-      console.log(e)
+      //console.log(e)
       return null;
     })
     };
@@ -339,5 +372,7 @@ module.exports = {
   getNbAnswersForOption,
   getNbAnswersForOptionByGender,
   getNbAnswersForOptionByRelation,
-  updateUser
+  updateUser,
+  addUserGF,
+  addItemAnswer
 };

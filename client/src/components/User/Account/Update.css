@@ -1,0 +1,69 @@
+.updateContainer {
+  margin-top: 20px;
+  margin-left:30%;
+}
+
+.updateLabel{
+  font-weight: bold;
+  font-size: 25px;
+  margin-right: 40px;
+
+
+}
+
+.updateInput{
+  font-weight: bold;
+  font-size: 25px;
+  margin-right: 0px;
+  margin-left:20px;
+ }
+
+.updateInput1{
+  font-weight: bold;
+  font-size: 25px;
+  /* margin-right: -55px; */
+ }
+ .updateInput2{
+  font-weight: bold;
+  font-size: 25px;
+  /* margin-right: -75px; */
+ }
+
+ .updateInput3{
+  font-weight: bold;
+  font-size: 25px;
+  /* margin-right: -15px; */
+ }
+ .updateInput4{
+  font-weight: bold;
+  font-size: 25px;
+  /* margin-right: -20px; */
+ }
+
+ .updateInput5{
+  font-weight: bold;
+  font-size: 25px;
+  /* margin-right: 20px; */
+ }
+
+ input [type= text]{
+   border-radius: 35px;
+   font-weight: bold;
+   outline:none;
+   border: 2px solid black;
+   
+ }
+ .updateBtn {
+  background-color: black;
+  color: white;
+  padding: 10px 14px;
+  cursor: pointer;
+  width: 20%;
+  height: 50px;
+  margin-left: 100px;
+  border-radius: 18px;
+  outline: none;
+  font-weight: bold;
+  font-size: 20px;
+
+ }

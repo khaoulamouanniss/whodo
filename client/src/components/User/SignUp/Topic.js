@@ -3,30 +3,27 @@ import React from "react";
 
 const topicButton = {
   backgroundColor:"transparent",
-  border: "solid black",
-  color:  "white",
-  padding: "20px",
+  border: "solid rgb(247,137,37)",
+  color:  "black",
   textAlign: "center",
-  textDecoration: "none",
-  display: "inline-block",
-  fontSize: "16px",
-  fontWeight: "bold",
   margin: "4px 2px",
-  height:"auto",
-  borderRadius: "12px",
+  height:"50px",
   outline:"none",
   float:"left",
-  margin:"10px"
+  margin:"20px",
+  width:"250px",
+  borderRadius:"35px",
+  fontWeight:"bold",
+  fontSize:"25px",
 }
 
 export default function Topic(props) {
 
   const {topicID,topic,userId,addFavTopic} = props;
-
+//style = {topicButton}
   return (
     <div>
-     
-     <button style = {topicButton} onClick={() =>addFavTopic(userId,topicID)}>{topic}</button>
+     <button  onClick={() => addFavTopic(userId,topicID)}>{topic}</button>
     </div>
   )
 }

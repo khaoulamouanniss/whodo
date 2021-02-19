@@ -2,12 +2,14 @@
   margin-left:550px;
  margin-top:1px
 }
+
 body {
   font-family: 'Work Sans', sans-serif;
   font-size: 15px;
   line-height: 1.5;
   background-color: rgb(241, 239, 238);
 }
+
 .nav-top {
   top: 0;
 }
@@ -35,7 +37,7 @@ body {
   font-size: 30px;
   color: rgb(247,137,37)
 }
-​
+
 .fa {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -44,12 +46,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: rgb(247,137,37)
 }
-​
+
 .fas {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: 50px;
   color: rgb(247,137,37);
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+

@@ -17,10 +17,10 @@ export default function Navigation(props) {
   <div className="nav-bar nav-white nav-card">
     <Link to ="/" className="logo"> <img className = "img-logo" src = "./images/whodo_logo.png" alt=""/> </Link>
     <label>Welcome {props.email}</label>
-  <Link to={"/submit"} className="nav-login" ><i className="fa fa-user"></i> Submit</Link> 
-  <Link to={"/myitems"} className="nav-login" ><i className="fa fa-user"></i> My items</Link> 
+  <Link to={"/submit"} className="nav-login" ><i className="fa fa-check-circle"></i> Submit</Link> 
+  <Link to={"/myitems"} className="nav-login" ><i className="fa fa-bars"></i> My items</Link> 
     <Link to={"/account"} className="nav-login" > <i className="fa fa-address-book"></i> Account</Link>
-    <Link to={"/"} className="nav-login" onClick={props.logout}><i className="fa fa-user"></i> Logout</Link>
+    <Link to={"/"} className="nav-login" onClick={props.logout}><i className="fa fa-circle-o-notch"></i> Logout</Link>
 </div>
 </div>) : (
 <div className="nav-top">
@@ -28,10 +28,10 @@ export default function Navigation(props) {
     <Link to ="/" className="logo"> <img className = "img-logo" src = "./images/whodo_logo.png" alt=""/> </Link>
     <label>Welcome {props.email}</label>
   <Link to={"/topics"} className="nav-login" ><i className="fa fa-user"></i> Topics</Link> 
-    <Link to={"/items"} className="nav-login" > <i className="fa fa-address-book"></i> Items</Link>
-    <Link to={"/itemstoapprove"} className="nav-login" ><i className="fa fa-user"></i> Approve</Link>
+    <Link to={"/items"} className="nav-login" > <i className="fa fa-bars"></i> Items</Link>
+    <Link to={"/itemstoapprove"} className="nav-login" ><i className="fa fa-check-circle"></i> Approve</Link>
     <Link to={"/users"} className="nav-login" onClick={props.showUsers}><i className="fa fa-user"></i> Users</Link> 
-    <Link to={"/"} className="nav-login" onClick={props.logout}><i className="fa fa-user"></i> Logout</Link>
+    <Link to={"/"} className="nav-login" onClick={props.logout}><i className="fa fa-circle-o-notch"></i> Logout</Link>
 </div>
 </div>))
 }
