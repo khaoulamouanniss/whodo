@@ -1,7 +1,7 @@
 INSERT INTO users (name, last_name, birth_date, gender,  email, password, profile_pic, country, region, city, referrer, type, relationship, family)
 VALUES
 ('Saoussen', ' Slii', '1985-04-23', 'female','sawsan_sli3i@live.fr', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', null,'Canada', 'North America', 'Ottawa', 'a', 'normal',  'married', ' I have at least one sibling|I have children'),
-('Deepthy', ' Sharon', '1991-04-23', 'female','Deepthy_sharon@live.fr','$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', null,'Canada', 'NorthAmerica', 'Ottawa', 'a', 'normal', 'married', ' I have at least one sibling'),
+('Deepthy', ' Sharon', '1991-04-23', 'female','Deepthy_sharon@live.fr','$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', '../../profile_pic/deepthy.jpg','Canada', 'NorthAmerica', 'Ottawa', 'a', 'normal', 'married', ' I have at least one sibling'),
 ('Khaoula', ' Mouanniss', '1989-04-23', 'female', 'Khaoula_mouannis@live.fr', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', null, 'Canada', 'NorthAmerica', 'Ottawa', 'a', 'super', 'married', ' I have at least one sibling|I have children');
 INSERT INTO topics (topic)
 VALUES

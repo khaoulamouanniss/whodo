@@ -342,12 +342,12 @@ const [change,setChange]= useState("");
         <Route path="/" exact>
         <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem} topics={topics} />
        </Route>
-       {/* <Route path="/topics" exact>
+       <Route path="/topics" exact>
         <Topics />
-       </Route> */}
-       {/* <Route path="/answer">
-         <Answer item ={currentItem} getNbAnsByOption={getNbAnsByOption}/>
-       </Route> */}
+       </Route>
+       <Route path="/answer">
+         <Answer item ={currentItem} user={user} getNbAnsByOption={getNbAnsByOption}/>
+       </Route>
        <Route path="/submit">
          <Submit  submitItem ={submitItem}/>
        </Route>

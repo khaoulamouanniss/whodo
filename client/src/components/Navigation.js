@@ -5,6 +5,7 @@ export default function Navigation(props) {
   return !props.user.email ?(
   <div className="nav-top">
   <div className="nav-bar">
+    
     <Link to ="/"> <img className = "nav-logo" src = "./images/whodo_logo.png" alt=""/> </Link>
 ​
     <Link to={"/signup"} className="nav-signup" ><i class="fas fa-user-plus"></i>Sign-Up</Link> 
@@ -15,6 +16,7 @@ export default function Navigation(props) {
   ): (props.user.type === "normal" ? (
 <div className="nav-top">
   <div className="nav-bar nav-white nav-card">
+    <img src="./images/profile_pic/deepthy.jpg"></img>
     <Link to ="/" className="logo"> <img className = "img-logo" src = "./images/whodo_logo.png" alt=""/> </Link>
     <label>Welcome {props.email}</label>
   <Link to={"/submit"} className="nav-login" ><i className="fa fa-check-circle"></i> Submit</Link> 
