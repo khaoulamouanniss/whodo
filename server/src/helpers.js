@@ -7,6 +7,25 @@ const getUserByEmail = (email, db) => {
     WHERE email = $1;
   `, [email])
     .then(res => {
+      if(res) {
+        return res.rows[0];
+      }
+      return null;
+    })
+    .catch(e => {
+      return null;
+    });
+};
+const addUserLoginGF = (userData, db) => {
+  const {name, last_name, email, profile_pic} = userData;
+  console.log("data in addUserGF", userData)
+  return db.query(`
+  INSERT INTO users (name, last_name, email, profile_pic, type)
+    VALUES($1, $2, $3, $4, $5)
+    RETURNING *;
+    `, [name, last_name, email, profile_pic, "normal"])
+    .then(res => {
+     console.log("user added in function addUserGF",res.rows[0])
       return res.rows[0];
     })
     .catch(e => {
@@ -374,5 +393,6 @@ module.exports = {
   getNbAnswersForOptionByRelation,
   updateUser,
   addUserGF,
-  addItemAnswer
+  addItemAnswer,
+  addUserLoginGF
 };

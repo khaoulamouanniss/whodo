@@ -113,26 +113,22 @@ const [change,setChange]= useState("");
         }
       })
   };
+  const loginGF = details => {
+    axios.post('http://localhost:8001/logingf', {email:details.email,name:details.name,last_name:details.last_name,profile_pic:details.profile_pic})
+    .then(res =>
+      {
+        console.log('details in function login', details)
+        console.log('login res data', res.data)
+        setError(null);
+        setUser(res.data);
+        
+      })
+  };
   const logout = () => {
     console.log('Logout');
     setUser([]);
   };
-  const loginGF = details => {
-    //console.log("I am in loginGF")
-    //console.log("details", details)
-    axios.post('http://localhost:8001/logingf',{ email:details.email, name:details.name, last_name:details.last_name, profile_pic:details.profile_pic })
-    .then(res =>
-      {
-        //console.log('loginGF res data', res.data)
-        setError(null);
-        setUser(res.data);
-        //console.log('Logged in' ,user);
-        return res.data
-      })
-  };
-
-
-  const signup = details => {
+    const signup = details => {
    return axios.post('http://localhost:8001/signup',{ 
       name: details.name, 
       last_name: details.last_name, 
@@ -334,7 +330,7 @@ const [change,setChange]= useState("");
       
       <Switch>
         <Route path="/login">
-          {!user.email && <Login login={login}  error={error}/> }
+          {!user.email && <Login login={login} loginGF={loginGF}  error={error}/> }
           
         </Route>
         <Route path="/signup">

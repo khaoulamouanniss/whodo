@@ -78,31 +78,10 @@
     const {user,details,setDetails, onNext, error,loginGF,onGF, setGf} = props;
     const responseGoogle = (response) => {
     console.log(response)
-      // const email= 
-      // const name = 
-      // const last_name = 
-      // const profile_pic = 
-    // console.log("in response" ,email,name,last_name,profile_pic);
-    
-      //loginGF({email, name, last_name, profile_pic})
-      //.then((u) => {
-        //   if(u.country) {
-        //     console.log("u in liginGF", u)
-        //   history.push("/")
-        // } else {
-          
-            setDetails({...details, email:response.profileObj.email, name:response.profileObj.givenName,last_name:response.profileObj.familyName,profile_pic:response.profileObj.imageUrl})
-          
-            setGf(true);
-            onGF();
-          
-        
-          //history.push("/signup3")
-          
-      // }
-    //})
-      
-      
+    setDetails({...details, email:response.profileObj.email, name:response.profileObj.givenName,last_name:response.profileObj.familyName,profile_pic:response.profileObj.imageUrl})
+    setGf(true);
+    onGF();
+  
   }
   const responseFacebook = (response) => {
     console.log("facebook response",response);

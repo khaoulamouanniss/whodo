@@ -22,7 +22,7 @@ export default function Update(props) {
       </div>
       <div style={{ marginTop: 10 }}>
         <label className = "updateInput2"> Date of birth</label>
-        <input  type="date" value={details.birth_date.includes('T') ? details.birth_date.slice(0, details.birth_date.indexOf('T')) : details.birth_date} onChange={event => setDetails({...details, birth_date:event.target.value})}/>
+        <input  type="date" value={details.birth_date} onChange={event => setDetails({...details, birth_date:event.target.value})}/>
       </div>
       <div style={{ marginTop: 10 }}>
         <label className = "updateInput3">Gender</label>

@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require('bcrypt');
-const {getUserByEmail} = require ("../helpers");
+const {getUserByEmail, addUserLoginGF} = require ("../helpers");
 
 module.exports = db => {
  
@@ -29,14 +29,28 @@ module.exports = db => {
   })
     
   router.post('/logingf', (req, res) => {
-    console.log("email and password in the router logingf", req.body.email)
-    getUserByEmail(req.body.email, db)
+    console.log("details in the router logingf", req.body)    
+    const { email, name, last_name, profile_pic} = req.body;
+
+    getUserByEmail(email, db)
       .then(user => {
         console.log("user in router logingf",user)
         if (!user) {
-          res.send(req.body)
-        }         
+          const userData = {
+          name: name,
+          last_name:last_name,     
+          email: email,
+          profile_pic : profile_pic
+           };
+          addUserLoginGF(userData, db).then(newUser => {
+          console.log("newUser in res of function addUserLoginGf in router signupgf",newUser);
+          res.send(newUser);
+          //return newUser;
+        })
+        } else {
           res.send(user);
+        }        
+          
       })
       .catch(e => {
         if (e) {

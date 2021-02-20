@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Redirect} from 'react-router-dom';
- 
+import GoogleLogin from "react-google-login";
+import FacebookLogin from 'react-facebook-login';
+
 
 const loginForm = {
   marginTop: "150px",
@@ -61,18 +63,39 @@ const inputPassword = {
 }
 
 export default function Login(props) {
-  const{login, error} = props;
+  const{login,loginGF, error} = props;
 
   const[loggedIn,setLoggetIn] = useState(false)
-  const [details, setDetails] = useState({email:"", password:""})
+  const [details, setDetails] = useState({})
 
   const submitHandler = event => {
     event.preventDefault();
-    login(details);
+    login(details)   
     setLoggetIn(true);
-
   };
 
+  const responseGoogle = (response) => {
+    console.log(response)
+    //setDetails({...details, email:response.profileObj.email, name:response.profileObj.givenName,last_name:response.profileObj.familyName,profile_pic:response.profileObj.imageUrl})
+    loginGF({email:response.profileObj.email, name:response.profileObj.givenName,last_name:response.profileObj.familyName,profile_pic:response.profileObj.imageUrl}) 
+    setLoggetIn(true); 
+  }
+  const responseFacebook = (response) => {
+    console.log("facebook response",response);
+    let name = response.name.split(" ");
+    let lastName ="";
+    for(let i = 1; i < name.length; i++) {
+      lastName += name[i];
+    }
+    loginGF({email:response.email, name:name[0],last_name:lastName,profile_pic:response.picture}) 
+    setLoggetIn(true); 
+  }
+    const componentClicked = (data) => {
+      //loginF();
+    }
+    const failureCnx = (error) => {
+      console.log(error)
+    }
   return !loggedIn ? (
     <div>
     <form style = {loginForm} onSubmit={submitHandler}>
@@ -95,7 +118,28 @@ export default function Login(props) {
      
       </div>
     </form>
-    
+    <div>
+    <GoogleLogin
+          clientId="1072369902227-qfuup9fprmc2qusd4jemg4o7fcc6iljv.apps.googleusercontent.com"
+          buttonText="Login"
+          onSuccess={responseGoogle}
+          onFailure={failureCnx}
+          cookiePolicy={'single_host_origin'}
+          //isSignedIn={true}
+        />
+        
+        <FacebookLogin
+          appId="179472363976068"
+          autoLoad={false}
+          fields="name,email,picture"
+          onClick={componentClicked}
+          onFailure={failureCnx}
+          callback={responseFacebook}
+          textButton="Login"
+          size="small"
+          icon="fa-facebook"
+          />
+          </div>
     
     </div>
     ) :<Redirect to='/'></Redirect>;
