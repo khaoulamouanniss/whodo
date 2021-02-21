@@ -330,7 +330,7 @@ const [change,setChange]= useState("");
       
       <Switch>
         <Route path="/login">
-          {!user.email && <Login login={login} loginGF={loginGF}  error={error}/> }
+          {!user.email && <Login login={login} loginGF={loginGF}  user={user} error={error}/> }
           
         </Route>
         <Route path="/signup">
@@ -342,12 +342,12 @@ const [change,setChange]= useState("");
         <Route path="/" exact>
         <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem} topics={topics} />
        </Route>
-       <Route path="/topics" exact>
+       {/* <Route path="/topics" exact>
         <Topics />
-       </Route>
-       <Route path="/answer">
-         <Answer item ={currentItem} user={user} getNbAnsByOption={getNbAnsByOption}/>
-       </Route>
+       </Route> */}
+       {/* <Route path="/answer">
+         <Answer item ={currentItem} getNbAnsByOption={getNbAnsByOption}/>
+       </Route> */}
        <Route path="/submit">
          <Submit  submitItem ={submitItem}/>
        </Route>
@@ -380,7 +380,6 @@ const [change,setChange]= useState("");
     </Router>
 
  {/*
-
        <Navigation />   
       
   
@@ -398,5 +397,3 @@ const [change,setChange]= useState("");
     </div>
   );
 }
-
-

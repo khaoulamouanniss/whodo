@@ -1,39 +1,101 @@
-import React from "react";
+//first install npm i react-icons
+
+import React,{useState} from "react";
 import {Link} from "react-router-dom";
+import * as FaIcons from "react-icons/fa";
+//import {IconContext} from "react-icons"
+import {ProfileMenu} from "./ProfileMenu";
+import {AdminMenu} from "./AdminMenu";
 import "./Navigation.css";
+//import { FaIcons } from "react-icons/fa";
 export default function Navigation(props) {
+  const[sideBar,setSideBar] = useState(false);
+
+  const click = (element) => {
+    if (element.title === "Logout") {
+      return props.logout;
+    } else if (element.title === "Users") {
+      return props.showUsers;
+    }
+    else return ""
+  }
+  const showSideBar = () => setSideBar(!sideBar);
   return !props.user.email ?(
-  <div className="nav-top">
-  <div className="nav-bar">
-    
-    <Link to ="/"> <img className = "nav-logo" src = "./images/whodo_logo.png" alt=""/> </Link>
-​
-    <Link to={"/signup"} className="nav-signup" ><i class="fas fa-user-plus"></i>Sign-Up</Link> 
-    <Link to={"/login"} className="nav-login" ><i className="fa fa-user"></i>Login</Link>
-    
-</div>
-</div>
+    <div className="nav-bar">
+      <div className = "nav-logo">
+        <Link to ="/"> <img  src = "./images/whodo_logo.png" alt=""/> </Link>
+      </div>
+      <div className="nav-buttons">
+        <div className="nav-button">
+          <Link to={"/login"}  ><i className="fa fa-user"></i>Login</Link>
+        </div>
+        <div class="vl"></div>
+        <div className="nav-button">
+          <Link to={"/signup"}  ><i className="fas fa-user-plus"></i>Sign-Up</Link> 
+        </div>
+      </div>
+    </div>
   ): (props.user.type === "normal" ? (
-<div className="nav-top">
-  <div className="nav-bar nav-white nav-card">
-    <img src="./images/profile_pic/deepthy.jpg"></img>
-    <Link to ="/" className="logo"> <img className = "img-logo" src = "./images/whodo_logo.png" alt=""/> </Link>
-    <label>Welcome {props.email}</label>
-  <Link to={"/submit"} className="nav-login" ><i className="fa fa-check-circle"></i> Submit</Link> 
-  <Link to={"/myitems"} className="nav-login" ><i className="fa fa-bars"></i> My items</Link> 
-    <Link to={"/account"} className="nav-login" > <i className="fa fa-address-book"></i> Account</Link>
-    <Link to={"/"} className="nav-login" onClick={props.logout}><i className="fa fa-circle-o-notch"></i> Logout</Link>
-</div>
-</div>) : (
-<div className="nav-top">
-  <div className="nav-bar nav-white nav-card">
-    <Link to ="/" className="logo"> <img className = "img-logo" src = "./images/whodo_logo.png" alt=""/> </Link>
-    <label>Welcome {props.email}</label>
-  <Link to={"/topics"} className="nav-login" ><i className="fa fa-user"></i> Topics</Link> 
-    <Link to={"/items"} className="nav-login" > <i className="fa fa-bars"></i> Items</Link>
-    <Link to={"/itemstoapprove"} className="nav-login" ><i className="fa fa-check-circle"></i> Approve</Link>
-    <Link to={"/users"} className="nav-login" onClick={props.showUsers}><i className="fa fa-user"></i> Users</Link> 
-    <Link to={"/"} className="nav-login" onClick={props.logout}><i className="fa fa-circle-o-notch"></i> Logout</Link>
-</div>
-</div>))
+    <div className="nav-bar">
+      {/* <div className="nav-bar nav-white nav-card"> */}
+      <div className="nav-user">
+        <Link to="#" onClick={showSideBar}><img src="./images/profile_pic/deepthy.jpg"></img></Link>
+      </div>
+      {/* <IconContext.Provider> */}
+      <nav className={sideBar? "nav-profile active" : "nav-profile"}>
+        <ul className="nav-profile-items">
+          <i style={{color:"black",fontSize:60,marginLeft:40}}class="fas fa-id-card"></i>
+          <li className="nav-info"><label style={{marginRight: 65}} >Name</label> {props.user.name}</li>
+          <li className="nav-info"><label style={{marginRight: 35}} >Last name </label>{props.user.last_name}</li>
+          <li className="nav-info"><label style={{marginRight: 15}} >Date of birth </label>{props.user.birth_date}</li>
+          <li className="nav-email">{props.user.email}</li>
+          
+          {ProfileMenu.map((element,i) => {
+            return (
+              <li key={i} className={element.cName}>
+                <Link to={element.path} onClick={element.title === 'Logout' ? props.logout : ""}>
+                  {element.icon}
+                  <span className="nav-menu">{element.title}</span>
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
+      {/* </IconContext.Provider> */}
+      <div className = "nav-logo">
+        <Link to ="/" > <img src = "./images/whodo_logo.png" alt=""/> </Link>
+      </div>
+    </div>) :
+    (
+    <div className="nav-bar">
+      <div className="nav-side-bar">
+        <Link to="#" onClick={showSideBar}>
+          <FaIcons.FaBars />
+        </Link>
+      </div>
+      
+      <nav className={sideBar? "nav-profile active" : "nav-profile"}>
+        <ul className="nav-profile-items">
+        <li className="nav-info">Connected as</li>
+        <li classeName="nav-info">{props.user.email}</li>
+         {AdminMenu.map((element,i) => {
+            return (
+              <li key={i} className={element.cName}>
+                <Link to={element.path} onClick={click(element)}>
+                  {element.icon}
+                  <span className="nav-menu">{element.title}</span>
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
+      <div className = "nav-logo">
+        <Link to ="/" > <img className = "img-logo" src = "./images/whodo_logo.png" alt=""/> </Link>
+      </div>
+      
+    </div>
+    
+  ))
 }

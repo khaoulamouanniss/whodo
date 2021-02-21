@@ -46,14 +46,18 @@ export default function Item(props) {
   
   
   return (
+    <div>
+  <Link  to="/answer" style={itemButton} onClick={() => props.setCurrentItem({id:props.id, item:props.item})}>
     <div style={itemCard}> 
 ​
     <div>{props.item}</div>
     <div style={itemTopic}>{topics}</div>
     <div style={itemAnswer}>{answers}</div><br />
-    <Link  to="/answer" style={itemButton} onClick={() => props.setCurrentItem({id:props.id, item:props.item})}>Answer</Link>
+   
     
    
+    </div>
+    </Link>
     </div>
   )
 }

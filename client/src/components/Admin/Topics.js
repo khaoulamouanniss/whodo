@@ -1,6 +1,6 @@
   import React from "react";
   import Topic from "./Topic";
-  import "./Topics.css"
+  import "./Topics.css" 
 
   export default function Topics(props) {
 

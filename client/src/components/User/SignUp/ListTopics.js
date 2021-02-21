@@ -1,5 +1,7 @@
 import React from "react";
 import Topic from "./Topic";
+import ReactWordcloud from 'react-wordcloud';
+
 
 const topicsBody = {
   border: "rgb(247,137,37)",
@@ -25,6 +27,7 @@ const signupLabel = {
 
 
 export default function ListTopics(props) {
+  
   const topicData = props.topics.map(t => <Topic topicID={t.id} topic={t.topic} userId={props.userId} addFavTopic={props.addFavTopic}/>)
   console.log("userId",props.userId)
   return (

@@ -1,0 +1,177 @@
+/* const signupForm3 = {
+  marginTop: "150px",
+  marginLeft:"400px"
+ }
+
+const signupButton = {
+  backgroundColor:"black",
+  color: "white",
+  padding: "10px 9px",
+  cursor: "pointer",
+  width: "20%",
+  height: "50px",
+  marginLeft:"60px",
+  borderRadius: "18px",
+  outline:"none",
+  fontWeight: "bold",
+  fontSize:"20px"
+}
+
+   const signupLabel9 = {
+  fontWeight: "bold",
+  fontSize: "25px",
+  marginRight:"30px"
+  }
+  const signuplabel10 = {
+    fontWeight: "bold",
+  fontSize: "25px",
+  marginRight:"45px"
+  }
+  const signuplabel11 = {
+    fontWeight: "bold",
+  fontSize: "25px",
+  marginRight:"80px"
+  }
+
+  const inputEmail7 = {
+    borderColor: "rgb(247,137,37)", 
+    outline: "none", 
+    padding:"13px",
+    borderRadius: "25px",
+    width: "50%", 
+    borderWidth: "3px", 
+    fontSize:"20px",
+    marginLeft:"5px"
+}
+
+const inputEmail8 = {
+  borderColor: "rgb(247,137,37)", 
+  outline: "none", 
+  padding:"13px",
+  borderRadius: "25px",
+  width: "50%", 
+  borderWidth: "3px", 
+  fontSize:"20px",
+  marginLeft:"5px"
+}
+const inputEmail9 = {
+  borderColor: "rgb(247,137,37)", 
+  outline: "none", 
+  padding:"13px",
+  borderRadius: "25px",
+  width: "50%", 
+  borderWidth: "3px",  
+  fontSize:"20px",
+  marginLeft:"5px"
+}
+const signuplabel6 = {
+  fontWeight: "bold",
+  fontSize: "25px",
+  marginRight:"0px"
+}
+const signupLabel7 = {
+  fontWeight: "bold",
+  fontSize: "25px",
+  marginRight:"65px"
+}
+const inputEmail5= {
+  borderColor: "rgb(247,137,37)", 
+    outline: "none", 
+    padding:"13px",
+    borderRadius: "25px",
+    width: "50%", 
+    borderWidth: "3px",
+  fontSize:"20px",
+  marginLeft:"5px"
+}
+
+const inputEmail6= {
+  borderColor: "rgb(247,137,37)", 
+  outline: "none", 
+  padding:"13px",
+  borderRadius: "25px",
+  width: "50%", 
+  borderWidth: "3px",
+  fontSize:"20px",
+  marginLeft:"5px"
+} */
+
+.form3 {
+  margin-top: 5%;
+  margin-left:18%;
+  width:50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.form3-form {
+  display:flex;
+  flex-direction: column;
+  justify-content:space-around;
+  width: 100%;
+}
+.form3-welcome{
+  display:flex;
+  justify-content: center;
+  font-size: 30px;
+  margin-bottom: 5%;
+  color: rgb(247,137,37);
+}
+
+.form3-data {
+  display: flex;
+  flex-direction: row;
+  margin:4%;
+  justify-content: space-between;
+  width:100%
+
+}
+.form3-buttons {
+  display: flex;
+  flex-direction: row;
+  /* margin:1%; */
+  justify-content: center;
+  align-items: center;
+  width:100%;
+  margin-left: 3%;
+  
+}
+.form3-label {
+  display: flex;
+  font-weight: bold;
+  font-size: 25px;
+  /* margin-right:1%; */
+  align-self: flex-start;
+}
+.form3-input {
+  display: flex;
+  align-self: flex-end;
+  /* flex-grow: 1; */
+  border-color: rgb(247,137,37); 
+  outline: none; 
+  /* margin:5%; */
+  padding:1%;
+  border-radius: 15px;
+  height:100%;
+  width: 65%; 
+  border-width: 3px; 
+  font-size:20px;
+}
+.form3-button {
+  display: flex;
+  background-color:black;
+  color: white;
+  padding: 1%;
+  margin: 5%;
+  cursor: pointer;
+  width: 80%;
+  height: 45%;
+  /* margin-left:40px; */
+  border-radius: 18px;
+  outline:none;
+  font-weight: bold;
+  font-size:20px;
+  align-items: center;
+  justify-content: center;
+}

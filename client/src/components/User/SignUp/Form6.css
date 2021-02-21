@@ -62,23 +62,24 @@
   font-weight: bold;
 
 } */
-.form4 {
+
+
+.form6 {
   margin-top: 5%;
-  margin-left:25%;
+  margin-left:22%;
   width:50%;
   display: flex;
   justify-content: center;
   align-items: center;
 
 }
-.form4-form {
+.form6-form {
   display:flex;
   flex-direction: column;
   justify-content:space-around;
   width: 100%;
-  
 }
-.form4-welcome{
+.form6-welcome{
   display:flex;
   justify-content: center;
   font-size: 30px;
@@ -86,16 +87,16 @@
   color: rgb(247,137,37);
 }
 
-.form4-data {
+.form6-data {
   display: flex;
-  flex-direction: row;
-  margin-bottom:5%;
+  flex-direction: column;
+  margin:4%;
   justify-content: space-between;
   align-items: center;
-  width:90%;
+  width:100%
 
 }
-.form4-buttons {
+.form6-buttons {
   display: flex;
   flex-direction: row;
   /* margin:1%; */
@@ -105,14 +106,14 @@
   margin-left: 3%;
   
 }
-.form4-label {
+.form6-label {
   display: flex;
   font-weight: bold;
   font-size: 25px;
   /* margin-right:1%; */
-  align-self: flex-start;
+  /* align-self:center; */
 }
-.form4-input {
+.form6-input {
   display: flex;
   align-self: flex-end;
   /* flex-grow: 1; */
@@ -126,7 +127,31 @@
   border-width: 3px; 
   font-size:20px;
 }
-.form4-button {
+.relation-buttons1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.relationshipBtn {
+  padding: 1%;
+  width: 320px;
+  border-radius: 35px;
+  border-color: rgb(247, 137, 37);
+  display: inline;
+  outline: none;
+  /* margin-left: 100px; */
+  /* margin-right: -20px; */
+  margin:3%;
+  font-weight: bold;
+  font-size: 20px;
+  border: solid rgb(247, 137, 37);
+
+}
+.relationshipBtn:hover{
+  background-color:  rgb(247, 137, 37);
+}
+.form6-button {
   display: flex;
   background-color:black;
   color: white;
@@ -142,80 +167,4 @@
   font-size:20px;
   align-items: center;
   justify-content: center;
-}
-
-
- /* radio button */
- /* The container */
- .container {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  position: relative;
-  padding-left: 10%;
-  margin-left:10%;
-  cursor: pointer;
-  font-size: 21px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Hide the browser's default radio button */
-.container input {
-  display: flex;
-  margin-left:10%;
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  /* font-size:5px; */
-}
-
-/* Create a custom radio button */
-.checkmark {
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: transparent;
-  border:3px solid rgb(247,137,37);
-  border-radius: 50%;
-}
-
-/* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-  background-color: rgba(180, 177, 177, 0.16);
-  
-}
-
-/* When the radio button is checked, add a blue background */
-.container input:checked ~ .checkmark {
-  background-color: transparent;
-  border:5px solid rgb(247,137,37);
-  
-}
-
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-/* Show the indicator (dot/circle) when checked */
-.container input:checked ~ .checkmark:after {
-  display: block;
-}
-
-/* Style the indicator (dot/circle) */
-.container .checkmark:after {
- 	top: 3px;
-	left: 3px;
-	width: 10px;
-	height: 10px;
-	border-radius: 60%;
-	background: black;
 }

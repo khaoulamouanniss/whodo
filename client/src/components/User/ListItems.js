@@ -37,12 +37,13 @@ import ReactWordcloud from 'react-wordcloud';
   return (
     <div>
     <div style={{ marginTop: "5px", marginLeft:"200px"}}>
-     <ReactWordcloud
+     {/* <ReactWordcloud
       callbacks={callbacks}
       options={options}
       size={size}
       words={topics}
-    /></div>
+    /> */}
+    </div>
     <ul>
       {itemData}
     </ul>

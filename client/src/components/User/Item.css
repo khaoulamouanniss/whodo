@@ -1,4 +1,4 @@
-.item-card{
+  .item-card{
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
   border-radius: 40px;
   display: block;
@@ -32,7 +32,7 @@ font-weight: bold;
 /* div {
   display: block;
 } */
-/* .grid-container {
+.grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
  
@@ -45,4 +45,4 @@ font-weight: bold;
   padding: 10px;
   font-size: 20px;
   
-} */
+} 
