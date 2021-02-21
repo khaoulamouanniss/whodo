@@ -1,15 +1,52 @@
-/* .topicButton = {
-  backgroundColor:"transparent",
-  border: "solid rgb(247,137,37)",
-  color:  "black",
-  textAlign: "center",
-  margin: "4px 2px",
-  height:"50px",
-  outline:"none",
-  float:"left",
-  margin:"20px",
-  width:"250px",
-  borderRadius:"35px",
-  fontWeight:"bold",
-  fontSize:"25px",
+/* .topics-container {
+  border: rgb(247,137,37);
+  width:60%;
+  border-radius: 30px;
+  margin-top: 50px;
+  margin-left:280px;
+  height:400px;
+  padding: auto;
+  height: 900px;
+  font-size:30px;
+  color:black;
 } */
+.topics-container {
+  margin-top: 3%;
+  margin-left:25%;
+  width:40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.topics-label {
+  display: flex;
+  font-weight: bold;
+  font-size: 25px;
+}
+.topics-buttons {
+  display:flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 5%;
+}
+.topic-button {
+  padding: 1%;
+  width: 200px;
+  border-radius: 35px;
+  border-color: rgb(247, 137, 37);
+  display: inline;
+  outline: none;
+  /* margin-left: 100px; */
+  /* margin-right: -20px; */
+  margin:8%;
+  font-weight: bold;
+  font-size: 20px;
+  border: solid rgb(247, 137, 37);
+}
+.topic-button:hover{
+  background-color:  rgb(247, 137, 37);
+}

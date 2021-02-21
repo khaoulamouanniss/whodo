@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect,useHistory} from 'react-router-dom';
 import GoogleLogin from "react-google-login";
 import FacebookLogin from 'react-facebook-login';
 import "./Login.css";
 
 
 export default function Login(props) {
+
+  let history=useHistory();
   const{login,loginGF, error,user} = props;
 
   const[loggedIn,setLoggetIn] = useState(false)
@@ -13,15 +15,16 @@ export default function Login(props) {
 
   const submitHandler = event => {
     event.preventDefault();
-    login(details)   
-    //setLoggetIn(true);
+    login(details); 
+    history.push("/");
   };
 
   const responseGoogle = (response) => {
     console.log(response)
     //setDetails({...details, email:response.profileObj.email, name:response.profileObj.givenName,last_name:response.profileObj.familyName,profile_pic:response.profileObj.imageUrl})
     loginGF({email:response.profileObj.email, name:response.profileObj.givenName,last_name:response.profileObj.familyName,profile_pic:response.profileObj.imageUrl}) 
-    setLoggetIn(true); 
+    history.push("/");
+   // setLoggetIn(true); 
   }
   const responseFacebook = (response) => {
     console.log("facebook response",response);
@@ -31,7 +34,8 @@ export default function Login(props) {
       lastName += name[i];
     }
     loginGF({email:response.email, name:name[0],last_name:lastName,profile_pic:response.picture}) 
-    setLoggetIn(true); 
+    //setLoggetIn(true); 
+    history.push("/");
   }
     const componentClicked = (data) => {
       //loginF();
@@ -39,7 +43,7 @@ export default function Login(props) {
     const failureCnx = (error) => {
       console.log(error)
     }
-  return !user.email ? (
+  return (
     <div className="login">
       <form className="login-form" onSubmit={submitHandler}>
         <div className="login-welcome">
@@ -85,5 +89,5 @@ export default function Login(props) {
           </div>
       </div>
     </div>
-    ) :<Redirect to='/'></Redirect>;
+    ) 
 }

@@ -7,6 +7,7 @@ import * as FaIcons from "react-icons/fa";
 import {ProfileMenu} from "./ProfileMenu";
 import {AdminMenu} from "./AdminMenu";
 import "./Navigation.css";
+// import { user } from "../../../server/src/db";
 //import { FaIcons } from "react-icons/fa";
 export default function Navigation(props) {
   const[sideBar,setSideBar] = useState(false);
@@ -39,7 +40,7 @@ export default function Navigation(props) {
     <div className="nav-bar">
       {/* <div className="nav-bar nav-white nav-card"> */}
       <div className="nav-user">
-        <Link to="#" onClick={showSideBar}><img src="./images/profile_pic/deepthy.jpg"></img></Link>
+        <Link to="#" onClick={showSideBar}><img src={props.user.profile_pic}></img></Link>
       </div>
       {/* <IconContext.Provider> */}
       <nav className={sideBar? "nav-profile active" : "nav-profile"}>

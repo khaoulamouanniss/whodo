@@ -5,7 +5,6 @@ import Navigation from './components/Navigation';
 import Login from './components/User/Login';
 import SignUp from './components/User/SignUp';
 import Form3 from './components/User/SignUp/Form3';
-import Answer from './components/User/Answer';
 import Submit from './components/User/Submit';
 import Account from './components/User/Account';
 import ListItems from './components/User/ListItems';
@@ -140,7 +139,6 @@ const [change,setChange]= useState("");
       country: details.country, 
       region: details.region, 
       city: details.city, 
-      referrer: "", 
       type: "normal", 
       relationship: details.relationship, 
       family: details.family
@@ -172,10 +170,8 @@ const [change,setChange]= useState("");
        country: details.country, 
        region: details.region, 
        city: details.city, 
-       referrer: details.referrer, 
-       type: details.type, 
-       relationship: details.relationship, 
-       family: details.family
+       referrer: details.referrer,
+       relationship: details.relationship 
      })
      .then(res =>
        {
@@ -214,7 +210,6 @@ const [change,setChange]= useState("");
  }
 
  const addFavTopic = (user_id,topic_id) => {
-  
   axios.post("http://localhost:8001/favtopics",{user_id:user_id, topic_id:topic_id})
   .then(res => {
     console.log("Favtopic added",res.data);

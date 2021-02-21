@@ -53,10 +53,7 @@ module.exports = db => {
   router.post('/update', (req,res) => {
     const { name, last_name, birth_date, gender, profile_pic, country, region, city, relationship, family, email} = req.body;
    // console.log("Hello")
-    if (!name || !last_name || !birth_date || !gender|| !country || !region || !city || !relationship || !family) {
-      res.status(500).send("You are missing a field");
-      return;
-    }
+    
     const userData = {
       name: name,
       last_name:last_name,     
@@ -79,13 +76,9 @@ module.exports = db => {
   });
 
   router.post('/signupgf', (req, res) => {
-    const { name, last_name, birth_date, gender, email, profile_pic, country, region, city, type, relationship, family} = req.body;
+    const { name, last_name, birth_date, gender, email, profile_pic, country, region, city, relationship} = req.body;
       
-    if (!name || !last_name || !birth_date || !gender|| !email || !country || !region || !city || !relationship || !family) {
-      res.send("You are missing a field");
-      return;
-    }
-    const userData = {
+     const userData = {
       name: name,
       last_name:last_name,     
       birth_date:birth_date,
@@ -96,8 +89,7 @@ module.exports = db => {
       region: region,
       city: city,
       type: "normal",
-      relationship: relationship,
-      family: family 
+      relationship: relationship 
     };
      addUserGF(userData, db).then(newUser => {
       console.log("newUser in res of function addUserGf in router signupgf",newUser);

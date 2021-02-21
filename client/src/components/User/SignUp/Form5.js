@@ -108,7 +108,7 @@ const colourStyles = {
                 onChange={handleChangeCi}
                 options={optionsCity}
                 placeholder="Select a city"
-                styles={styles}
+                styles={colourStyles}
                 />
           </div>
         </div>

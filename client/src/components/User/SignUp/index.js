@@ -25,7 +25,19 @@ const { mode, transition, back } = useVisualMode(FORM1);
   const{signup, addFavTopic, loginGF, user, signupGF} = props;
 
   const [gf, setGf] = useState(false);
-  const [details, setDetails] = useState({});
+  const [details, setDetails] = useState({
+    name: "", 
+    last_name: "", 
+    birth_date: "", 
+    gender:"", 
+    email: "", 
+    profile_pic: "", 
+    country: "", 
+    region: "", 
+    city: "", 
+    referrer: "",
+    relationship: "" 
+  });
 
   const submitHandler = event => {
     if(gf) {

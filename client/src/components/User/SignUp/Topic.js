@@ -1,6 +1,6 @@
 
 import React from "react";
-// import "./Tpoic.css"
+import "./Topic.css"
 
 
 export default function Topic(props) {
@@ -9,9 +9,7 @@ export default function Topic(props) {
 //style = {topicButton}
   return (
     <div>
-      <div >
-        <button  className= "topicButton" onClick={() => addFavTopic(userId,topicID)}>{topic}</button>
-     </div>
+      <button  className= "topic-button" onClick={() => addFavTopic(userId,topicID)}>{topic}</button>
     </div>
   )
 }

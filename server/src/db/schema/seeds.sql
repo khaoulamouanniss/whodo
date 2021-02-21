@@ -1,8 +1,8 @@
 INSERT INTO users (name, last_name, birth_date, gender,  email, password, profile_pic, country, region, city, referrer, type, relationship, family)
 VALUES
-('Saoussen', ' Slii', '1985-04-23', 'female','sawsan_sli3i@live.fr', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', "",'Canada', 'North America', 'Ottawa', 'a', 'normal',  'married', ' I have at least one sibling|I have children'),
-('Deepthy', ' Sharon', '1991-04-23', 'female','Deepthy_sharon@live.fr','$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', 'whodo/client/public/images/profile_pic/deepthy.jpg','Canada', 'NorthAmerica', 'Ottawa', 'a', 'normal', 'married', ' I have at least one sibling'),
-('Khaoula', ' Mouanniss', '1989-04-23', 'female', 'Khaoula_mouannis@live.fr', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', "", 'Canada', 'NorthAmerica', 'Ottawa', 'a', 'super', 'married', ' I have at least one sibling|I have children');
+('Saoussen', ' Slii', '1985-04-23', 'female','sawsan_sli3i@live.fr', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', 'https://avatars.githubusercontent.com/u/38138018?s=400&u=6053abab35bca9174bbc6b545987513dee321cdf&v=4','Canada', 'North America', 'Ottawa', 'a', 'normal',  'married', ' I have at least one sibling|I have children'),
+('Deepthy', ' Sharon', '1991-04-23', 'female','Deepthy_sharon@live.fr','$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', 'https://avatars.githubusercontent.com/u/67440072?s=400&u=44de8f15d1d2b0718d60426a603508cc829aedc6&v=4','Canada', 'NorthAmerica', 'Ottawa', 'a', 'normal', 'married', ' I have at least one sibling'),
+('Khaoula', ' Mouanniss', '1989-04-23', 'female', 'Khaoula_mouannis@live.fr', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', 'https://avatars.githubusercontent.com/u/71297492?s=400&u=19580f47790205d7ab04bae3188b7696536df4de&v=4', 'Canada', 'NorthAmerica', 'Ottawa', 'a', 'super', 'married', ' I have at least one sibling|I have children');
 INSERT INTO topics (topic)
 VALUES
 ('Public/strangers'),
