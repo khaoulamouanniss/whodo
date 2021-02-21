@@ -2,6 +2,7 @@
 
 import React from "react";
 import Item from "./Item";
+import "./Item.css"
 import ReactWordcloud from 'react-wordcloud';
 //import wordcloud2 from 'wordcloud2';
 
@@ -36,17 +37,20 @@ import ReactWordcloud from 'react-wordcloud';
   const itemData = props.items.map(i => <Item id ={i.id} item={i.item} topics={i.topic} answers ={i.answers} setCurrentItem={props.setCurrentItem}/>)
   return (
     <div>
-    <div style={{ marginTop: "5px", marginLeft:"200px"}}>
-     {/* <ReactWordcloud
+    {/* <div style={{ marginTop: "5px", marginLeft:"200px"}}>
+     <ReactWordcloud
       callbacks={callbacks}
       options={options}
       size={size}
       words={topics}
-    /> */}
-    </div>
-    <ul>
+    />
+    </div> */}
+    <div className="item-container">
       {itemData}
-    </ul>
+    </div>
+    
+      
+    
     </div>
   );
 
