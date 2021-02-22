@@ -23,7 +23,7 @@ import "./App.css"
 
 export default function App() {
 
-  let history=useHistory();
+  
   /*const adminUser = {
     email : 'test@test.com',
     password : 'test'
@@ -97,24 +97,8 @@ const [change,setChange]= useState(true);
   const [error, setError] = useState(null);
   //const [loading, setLoading] = useState(false);
   
-
-  const login = details => {
-    axios.post('http://localhost:8001/login',{ email:details.email, password:details.password })
-    .then(res =>
-      {
-       if(res.data === 'Email does not exist' || res.data === 'Password is incorrect') {
-            setError ('Informations do not match!');
-        } else {
-          console.log('details in function login', details)
-          console.log('login res data', res.data)
-          setError(null);
-          setUser(res.data);
-          console.log('Logged in' ,user);
-          
-         
-        }
-      })
-  };
+let history = useHistory();
+ 
   const loginGF = details => {
     axios.post('http://localhost:8001/logingf', {email:details.email,name:details.name,last_name:details.last_name,profile_pic:details.profile_pic})
     .then(res =>
@@ -189,28 +173,7 @@ const [change,setChange]= useState(true);
    };
  
 
-  const submitItem  = (submittedItem,approved) => {
-    const re = /#([a-zA-Z0-9])+/gm
-    let submittedTopics = [];
-    let matches =[];
-    let topic = "";
-    let item = submittedItem;
-    while (matches = re.exec(submittedItem)) {
-      
-      topic=matches[0].replace('#','');
-      submittedTopics.push(topic);  
-      console.log("topic",topic);
-      item = item.replace(matches[0],'').trimEnd();  
-      console.log("item",item)
-    }
-    let time = new Date();
-  axios.post("http://localhost:8001/items",{creator:user.id, item:item, time:time, approved:approved, topics:submittedTopics})
-  .then(res => {
-    console.log("submittedItem",res.data); 
-    setChange(!change)
-  })
- 
- }
+
 
  const addFavTopic = (user_id,topic_id) => {
   axios.post("http://localhost:8001/favtopics",{user_id:user_id, topic_id:topic_id})
@@ -303,6 +266,30 @@ const [change,setChange]= useState(true);
     })
   }
 
+  const submitItem  = (submittedItem,approved) => {
+    const re = /#([a-zA-Z0-9])+/gm
+    let submittedTopics = [];
+    let matches =[];
+    let topic = "";
+    let item = submittedItem;
+    while (matches = re.exec(submittedItem)) {
+      
+      topic=matches[0].replace('#','');
+      submittedTopics.push(topic);  
+      console.log("topic",topic);
+      item = item.replace(matches[0],'').trimEnd();  
+      console.log("item",item)
+    }
+    let time = new Date();
+  axios.post("http://localhost:8001/items",{creator:user.id, item:item, time:time, approved:approved, topics:submittedTopics})
+  .then(res => {
+    console.log("submittedItem",res.data); 
+    setChange(!change)
+    
+  })
+  history.push("/myitems")
+ 
+ }
   const approveItem = (id) => {
     axios.get(`http://localhost:8001/approveitem/${id}`)
     .then(res => {
@@ -332,7 +319,7 @@ const [change,setChange]= useState(true);
         
         
         <Route path="/login">
-          {!user.email && <Login login={login} loginGF={loginGF}  user={user} error={error}/> }
+          {!user.email && <Login  change={change} setChange={setChange} setUser={setUser} setError={setError} loginGF={loginGF}  user={user} error={error}/> }
           
         </Route>
         <Route path="/signup">
@@ -351,7 +338,7 @@ const [change,setChange]= useState(true);
          <Answer item ={currentItem} setCurrentItem={setCurrentItem} getNbAnsByOption={getNbAnsByOption} topics={topics} user={user}/>
        </Route>
        <Route path="/submit">
-         <Submit  submitItem ={submitItem}/>
+         <Submit  change={change} setChange={setChange} user={user}/>
        </Route>
        <Route path="/account">
          <Account update={update} error={error} user={user} />

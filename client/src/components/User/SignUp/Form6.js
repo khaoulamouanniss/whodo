@@ -87,7 +87,7 @@ const colourStyles = {
       </div>
       <div className="form6-buttons">
         <button className="form6-button" onClick={onBack}><i class="fas fa-angle-double-left"></i>&nbsp;&nbsp;Back</button>
-        <button className="form6-button" onClick={submitHandler}> Register&nbsp;&nbsp;<i class="fas fa-angle-double-right"></i></button>
+        <button className="form6-button" onClick={submitHandler}> Register&nbsp;&nbsp;<i class="fas fa-check-circle"></i></button>
         </div>
     </div>      
   </div>

@@ -1,22 +1,26 @@
 .updateContainer {
-  margin-top: 100px;
-  margin-left:35%;
+  /* margin-top: 100px; */
+  margin-left:28%;
+  padding:50px;
 }
 
 .updateLabel{
   font-weight: bold;
   font-size: 25px;
-  margin-right: 40px;
+  margin-right: 50px;
+  margin-top:10%;
   
 }
 .updateInput{
   font-weight: bold;
   font-size: 25px;
+  
  }
 
 .updateInput1{
   font-weight: bold;
   font-size: 25px;
+  
  }
  .updateInput2{
   font-weight: bold;
@@ -47,11 +51,12 @@
  .updateBtn {
   background-color: black;
   color: white;
-  padding: 10px 14px;
+  /* padding: 10px; */
+  padding-bottom: 20px;
   cursor: pointer;
   width: 20%;
   height: 50px;
-  margin-left: 100px;
+  margin-left: 345px;
   border-radius: 18px;
   outline: none;
   font-weight: bold;
@@ -62,6 +67,7 @@
    border-radius: 15px;
    height:40px;
    width:150%;
-   border:1px solid black;
-   outline:none
+   border:2px solid rgb(247,137,37);
+   outline:none;
+   margin-left:30px;
  }

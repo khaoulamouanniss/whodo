@@ -79,6 +79,8 @@
   color: rgb(247,137,37);
 }
 .login-error{
+  display: flex;
+  justify-content: center;
   color :red;
   margin-top: 15px;
 }
@@ -92,18 +94,18 @@
 }
 .login-buttons {
   display: flex;
-  flex-direction: row;
-  margin:2%;
-  justify-content: center;
-  align-items: center;
-  width:100%
-
+    flex-direction: row;
+    /* margin:1%; */
+    justify-content: space-between;
+    /* align-items: center; */
+    width:100%;
+    margin-left: 10%;
 }
 .login-GF-buttons {
   display: flex;
   flex-direction: column;
   margin:2%;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width:100%
 
@@ -136,10 +138,10 @@
   padding: 1%;
   margin: 5%;
   cursor: pointer;
-  width: 80%;
+  width: 35%;
   height: 45%;
   /* margin-left:40px; */
-  border-radius: 18px;
+  border-radius: 25px;
   outline:none;
   font-weight: bold;
   font-size:20px;

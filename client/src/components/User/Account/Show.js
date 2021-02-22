@@ -4,28 +4,28 @@ export default function Show(props) {
   const {user,onUpdate} =props
   return (
     <div className ="showContainer"> 
+      <div className="show-img">
+      <img src={user.profile_pic}></img>
+      </div>
       <table  className="showtable">
-        <tr>
-          <img src={user.profile_pic}></img>
-        </tr>
       <tr>
-        <td className = "showtd">  Name:</td>
+        <td className = "showtd">  Name</td>
         <td className = "showtd">{user.name}</td>
       </tr>
       <tr>
-        <td className = "showtd">Last Name:</td>
+        <td className = "showtd">Last Name</td>
         <td className = "showtd">{user.last_name}</td>
       </tr>
       <tr>
-        <td className = "showtd"> BirthDate:</td>
+        <td className = "showtd"> BirthDate</td>
         <td className = "showtd">{user.birth_date}</td>
       </tr>
       <tr>
-        <td className = "showtd">Gender:</td>
+        <td className = "showtd">Gender</td>
         <td className = "showtd">{user.gender}</td>
       </tr>
       <tr>
-        <td className = "showtd">Email:</td>
+        <td className = "showtd">Email</td>
         <td className = "showtd">{user.email}</td>
       </tr>
       {/* <tr>
@@ -33,15 +33,15 @@ export default function Show(props) {
         <td className = "showtd" >{user.profile_pic}</td>
       </tr> */}
     <tr>
-        <td className = "showtd">Country:</td>
+        <td className = "showtd">Country</td>
         <td className = "showtd">{user.country}</td>
       </tr>
       <tr>
-        <td className = "showtd">Region:</td>
+        <td className = "showtd">Region</td>
         <td className = "showtd">{user.region}</td>
       </tr>
       <tr>
-        <td className = "showtd">City:</td>
+        <td className = "showtd">City</td>
         <td className = "showtd">{user.city}</td>
       </tr>
       {/* <tr>
@@ -49,15 +49,12 @@ export default function Show(props) {
         <td className = "showtd"> {user.referrer}</td>
       </tr> */}
       <tr>
-        <td className = "showtd">Relationship:</td>
+        <td className = "showtd">Relationship</td>
         <td className = "showtd">{user.relationship}</td>
       </tr>
-      <tr>
-        <td className = "showtd">Family:</td>
-        <td className = "showtd">{user.family} </td>
-      </tr>
     </table>
-    <button className="showUpdateBtn" onClick={onUpdate}>Update</button>
+    <div className="show-edit"><i onClick={onUpdate} class="fas fa-edit"></i></div>
+    
     </div>
     
   //   <div className ="showContainer">

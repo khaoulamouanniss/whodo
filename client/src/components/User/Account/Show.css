@@ -1,9 +1,22 @@
 .showContainer{
-  margin-top:60px;
+  /* margin-top:60px; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   margin-left: 30%;
+  margin-right:30%;
   font-weight: bold;
   font-size: 20px;
   
+}
+.show-img{
+  display: flex;
+  /* margin-right:10% */
+}
+.show-img img{
+  height:180px;
+  border-radius: 10px;
+  border:3px solid rgb(247,137,37)
 }
 .showUpdateBtn{
   background-color: black;
@@ -20,17 +33,26 @@
 }
 
 .showtable {
-  border-collapse: collapse;
+  align-self: center;
+  border:none;
   width: 80%;
+  margin-top: 15%;
+  margin-left:5%;
 }
 
-.showtd, .showth {
+.showtd {
  
-  border: 1px solid #dddddd;
+  margin-top: 1%;
+  border: none;
   text-align: left;
   padding: 8px;
+
 }
 
 .showtr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: transparent;
+}
+.show-edit {
+  display: flex;
+  
 }
