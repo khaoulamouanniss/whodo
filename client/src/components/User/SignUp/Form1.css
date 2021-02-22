@@ -156,7 +156,7 @@ const inputEmail3 = {
     width: 28%;
     height: 45%;
     /* margin-left:40px; */
-    border-radius: 18px;
+    border-radius: 25px;
     outline:none;
     font-weight: bold;
     font-size:20px;

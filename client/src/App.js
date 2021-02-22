@@ -290,7 +290,7 @@ const [change,setChange]= useState(true);
     axios.delete(`http://localhost:8001/deletetopic/${id}`)
     .then(()=> {
       console.log("topic deleted")
-      setChange("delete topic")
+      setChange(!change)
       
     })
   }

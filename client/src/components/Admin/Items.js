@@ -83,21 +83,25 @@
         <button style={{fontSize:"25px",width:"95px", borderRadius:"40%", ouline:"none"}} onClick={() => props.submitItem(newItem,true)}>Add</button>
 
     </div>
-        
-      <tbody>
-        <div className = "itemstableFilter"></div>
-    <table className = "itemsTable">
-          {/* <tr>
-            <th className = "itemsth" >Item</th>
-            <th className = "itemsth">Number of items</th>
-            <th className = "itemsth" >Delete</th>  
-          </tr> */}
-          <tr> 
-            <td className="itemstd"> {itemData}</td>
-          
-          </tr>
-    </table>
-      </tbody>
+    <div className = "itemstable">
+         {/* <div className = "itemsth">
+           <div className = "itemstd" style ={{flexGrow:"2", flexFlow:"2"}}>
+             Item
+           </div>
+           <div className="itemstd" style ={{flexGrow:"5", flexFlow:"5"}}>
+             Topic
+            </div>
+            <div className="itemstd" style ={{flexGrow:"1", flexFlow:"0"}}>
+           No. of item
+            </div>
+            <div className="itemstd"  style ={{flexGrow:"1", flexFlow:"1"}}>
+          Delete
+            </div>
+         </div> */}
+         <div  className="itemstd-container">
+         {itemData}
+         </div>
+         </div>
     </>
     )
   }

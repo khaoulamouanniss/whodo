@@ -1,3 +1,6 @@
+.topics-container{
+  display: flex;
+}
 .topicstable {
   display: flex;
   flex-flow: column nowrap;
@@ -6,7 +9,7 @@
   margin-left:30%;
   margin-right:10%;
   line-height:0.0;
-  width: 50%;
+  width: 40%;
   justify-content: center;
 
 }
@@ -14,7 +17,7 @@
 .topicsth {
   display: flex;
   justify-content: space-between;
-  margin:2%;
+  /* margin:2%; */
   font-weight: 700;
   background-color:orange;
   width:95%;
@@ -46,8 +49,12 @@
   flex-grow:1;
   flex-basis: 0;
   padding: 0.5em;
-  /* word-break: break-word; */
   overflow: hidden;
-  /* text-overflow: ellipsis; */
-  
+}
+
+.fas {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 25px;
+  color:black;
 }

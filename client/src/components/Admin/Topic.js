@@ -14,10 +14,10 @@ export default function Topic(props) {
         <span><Link to="/topicShow" onClick={() => {  setCurrentTopic({topic_id:topicID,topic:topic});showItemsByTopic(topicID)} }>{topic}</Link></span>
       </div>
       <div className="topicstd">
-        <span>{NbItems}</span>
+        <span>{NbItems} items</span>
       </div>
       <div className="topicstd">
-        <span> <button className="topicstd" onClick={() => deleteTopic(topicID)}>Delete</button></span>
+        <span><i onClick={() => deleteTopic(topicID)} className="fas fa-trash"></i></span>
       </div>
     </div>
 
