@@ -36,8 +36,8 @@ export default function Form4(props) {
         {/* <input className="form4-input" type="text" value={details.gender} onChange={event => setDetails({...details, gender:event.target.value})}/>   */}
         </div>
         <div className="form4-buttons">
-          <button className="form4-button" onClick={onNext}>Next</button>
-          <button className="form4-button" onClick={onBack} >Back</button>
+        <button className="form4-button" onClick={onBack}><i class="fas fa-angle-double-left"></i>&nbsp;&nbsp;Back</button>
+        <button className="form4-button" onClick={onNext}>Next&nbsp;&nbsp;<i class="fas fa-angle-double-right"></i></button>
         </div>
       </div>      
     </div>

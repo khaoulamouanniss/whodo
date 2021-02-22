@@ -11,9 +11,9 @@
   color:black;
 } */
 .topics-container {
-  margin-top: 3%;
-  margin-left:25%;
-  width:40%;
+  /* margin-top: 3%; */
+  margin-left:15%;
+  width:70%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,13 +35,15 @@
 }
 .topic-button {
   padding: 1%;
-  width: 200px;
-  border-radius: 35px;
+  width: 190px;
+  border-radius: 15px;
   border-color: rgb(247, 137, 37);
   display: inline;
   outline: none;
+  height: 50px;
   /* margin-left: 100px; */
   /* margin-right: -20px; */
+  background-color: transparent;
   margin:8%;
   font-weight: bold;
   font-size: 20px;
@@ -49,4 +51,21 @@
 }
 .topic-button:hover{
   background-color:  rgb(247, 137, 37);
+}
+.form7-button {
+  display: flex;
+  background-color:black;
+  color: white;
+  padding: 1%;
+  margin: 5%;
+  cursor: pointer;
+  width: 28%;
+  height: 45%;
+  /* margin-left:40px; */
+  border-radius: 18px;
+  outline:none;
+  font-weight: bold;
+  font-size:20px;
+  align-items: center;
+  justify-content: center;
 }

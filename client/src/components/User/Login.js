@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Redirect,useHistory} from 'react-router-dom';
 import GoogleLogin from "react-google-login";
 import FacebookLogin from 'react-facebook-login';
+import * as AiIcons from "react-icons/ai";
 import "./Login.css";
 
 
@@ -52,13 +53,14 @@ export default function Login(props) {
         {(error !== "") ? (<div className="login-error">{error}</div>) : "" }
         <div className="login-data">
           <label className="login-label" for = "email">Email</label><br />
-          <input className="login-input" type="email" placeholder= "Enter email" value={details.email} onChange={event => setDetails({...details, email:event.target.value})}/>  
+          <input className="login-input" type="email" placeholder= "" value={details.email} onChange={event => setDetails({...details, email:event.target.value})}/>  
         </div>
         <div className="login-data">
           <label className="login-label" for = "password">Password</label>
-          <input className="login-input" type="password" placeholder = "Enter password" value={details.password} onChange={event => setDetails({...details, password:event.target.value})}/>
+          <input className="login-input" type="password" placeholder = "" value={details.password} onChange={event => setDetails({...details, password:event.target.value})}/>
         </div>
         <div className="login-buttons">
+        
           <button className="login-button" type="submit" value ="Login">Login</button>
           <button className="login-button" value ="Cancel">Cancel</button>
         </div>

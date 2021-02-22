@@ -1,0 +1,11 @@
+.footer-body {
+  font-family: Verdana,sans-serif;
+  font-size: 15px;
+  background-color:black;
+  /* margin-top: 1170px; */
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+  height:100px;
+  width:100vw;
+}
+
+

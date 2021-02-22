@@ -46,19 +46,20 @@
         {(error !== "") ? (<div className="form1-error">{error}</div>) : "" }
         <div className="form1-data">
           <label className="form1-label" for = "email">Email</label><br />
-          <input className="form1-input" type="email" placeholder= "Enter email" value={details.email} onChange={event => setDetails({...details, email:event.target.value})}/>  
+          <input className="form1-input" type="email" placeholder= "" value={details.email} onChange={event => setDetails({...details, email:event.target.value})}/>  
         </div>
         <div className="form1-data">
           <label className="form1-label" for = "password">Password</label>
-          <input className="form1-input" type="password" placeholder = "Enter password" value={details.password} onChange={event => setDetails({...details, password:event.target.value})}/>
+          <input className="form1-input" type="password" placeholder = "" value={details.password} onChange={event => setDetails({...details, password:event.target.value})}/>
         </div>
         <div className="form1-data">
           <label className="form1-label" for = "password">Confirm password</label>
-          <input className="form1-input" type="password" placeholder = "Enter password"/>
+          <input className="form1-input" type="password" placeholder = ""/>
         </div>
         <div className="form1-buttons">
-          <button className="form1-button" onClick={onNext}>Next</button>
-          <button className="form1-button" onClick={onCancel}>Cancel</button>
+          <button className="form1-button" onClick={onCancel}><i class="fas fa-angle-double-left"></i>&nbsp;&nbsp;Cancel</button>
+          <button className="form1-button" onClick={onNext}>Next&nbsp;&nbsp;<i class="fas fa-angle-double-right"></i></button>
+          
         </div>
       </div>
       <div className="form1-GF-buttons">

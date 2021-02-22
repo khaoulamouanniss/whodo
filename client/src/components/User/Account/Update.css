@@ -1,49 +1,40 @@
 .updateContainer {
-  margin-top: 20px;
-  margin-left:30%;
+  margin-top: 100px;
+  margin-left:35%;
 }
 
 .updateLabel{
   font-weight: bold;
   font-size: 25px;
   margin-right: 40px;
-
-
+  
 }
-
 .updateInput{
   font-weight: bold;
   font-size: 25px;
-  margin-right: 0px;
-  margin-left:20px;
  }
 
 .updateInput1{
   font-weight: bold;
   font-size: 25px;
-  /* margin-right: -55px; */
  }
  .updateInput2{
   font-weight: bold;
   font-size: 25px;
-  /* margin-right: -75px; */
  }
 
  .updateInput3{
   font-weight: bold;
   font-size: 25px;
-  /* margin-right: -15px; */
  }
  .updateInput4{
   font-weight: bold;
   font-size: 25px;
-  /* margin-right: -20px; */
  }
 
  .updateInput5{
   font-weight: bold;
   font-size: 25px;
-  /* margin-right: 20px; */
  }
 
  input [type= text]{
@@ -66,4 +57,11 @@
   font-weight: bold;
   font-size: 20px;
 
+ }
+ .updateInputLabel{
+   border-radius: 15px;
+   height:40px;
+   width:150%;
+   border:1px solid black;
+   outline:none
  }

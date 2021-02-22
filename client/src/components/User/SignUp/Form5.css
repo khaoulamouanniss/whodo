@@ -1,6 +1,6 @@
 
 .form5 {
-  margin-top: 3%;
+  /* margin-top: 3%; */
   margin-left:25%;
   width:40%;
   display: flex;
@@ -36,10 +36,10 @@
   flex-direction: row;
   margin:5%; 
   /* margin-left:5%; */
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width:100%;
-  margin-left: 3%;
+  margin-left: 16%;
   
 }
 .form5-label {
@@ -70,7 +70,7 @@
   padding: 1%;
   margin: 1%;
   cursor: pointer;
-  width: 80%;
+  width: 32%;
   height: 25%;
   /* margin-left:40px; */
   border-radius: 18px;

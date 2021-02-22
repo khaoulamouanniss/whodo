@@ -1,0 +1,112 @@
+.ans-btn {
+  height:100px;
+  max-height: 400px;
+  width:100px;
+  bottom:0;
+  text-align: left;
+  padding:20px;
+  background-color: black;
+  margin-top:100%;
+}
+div.hidden { display:none; position:fixed}
+
+.trigger:hover + div.hidden {
+  display:block;
+  
+ }
+
+.div-container {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  flex-basis: 100%;
+
+  border: 2px groove gray;
+  padding: 10px;
+  margin: 5px;
+font-size: 10px;
+width: 100%;
+
+}
+.div-container .itemTitle{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-basis: 10%;  
+  border-bottom: 1px solid darkblue;
+}
+.div-container .itemTitle .changeYourTopic {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+ align-content: flex-end;
+ 
+}
+.itemTitle h2 {
+  color: #7c795d; font-family: 'Trocchi', serif; 
+  font-size: 35px; font-weight: normal; line-height: 48px; margin: 0; 
+}
+.itemTitle h6 {
+  color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 15px; 
+  font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: left;
+}
+.div-container .voteButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-basis: 30%;
+  padding: 5px;
+  margin: 5px;
+}
+.div-container .buttonsForCharts {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 10%;
+ justify-content: space-around;
+}
+
+
+button .filter {
+  position: relative;
+margin-bottom: initial;  }
+button:hover{
+  background-color:#ffa600d7
+}
+
+
+.div-container .charts {
+display: flex;
+flex-direction: row;
+flex-basis: 40%;
+height: 100%;
+justify-content: space-evenly;
+align-items: center;
+width: 100%;
+
+}
+.div-container .charts .chartsByGender {
+
+
+flex-basis: 50%;
+
+margin: 0;
+border: 1px solid orange;
+
+}
+.div-container .charts .chartsByRelation {
+
+
+flex-basis: 50%;
+
+margin: 0;
+border: 1px solid orange;
+
+
+}
+.div-container .socialMedia {
+display: flex; 
+flex-direction: row;
+justify-content: space-evenly;
+flex-basis: 10%;
+justify-content: space-around;
+ }

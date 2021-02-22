@@ -1,6 +1,5 @@
 import React from "react";
 import "./Show.css";
-
 export default function Show(props) {
   const {user,onUpdate} =props
   return (

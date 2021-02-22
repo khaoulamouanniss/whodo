@@ -1,7 +1,6 @@
 //first install npm i react-select
 
 import React, { useState } from "react";
-import axios from "axios";
 import Select from 'react-select';
 import {CountriesCities} from "./CountriesCities"
 //import csc from 'country-state-city';
@@ -23,6 +22,7 @@ export default function Form5(props) {
     let optionsC = cities.map(e => {return { value: e, label: e }})
     setOptionsCity(optionsC)
     setDetails({...details, country:selectedOption.value})
+    setOptionCity("")
   };
 
   // const handleChangeS = (selectedOption) => {
@@ -63,7 +63,7 @@ const colourStyles = {
     return {
       ...styles,
       backgroundColor: isFocused ? "rgba(180, 177, 177, 0.16)" : null,
-      backgroundColor: isSelected ? "rgb(241, 184, 130)" : null,
+      // backgroundColor: isSelected ? "rgb(241, 184, 130)" : null,
       color: "#333333"
     };
   }
@@ -113,8 +113,8 @@ const colourStyles = {
           </div>
         </div>
         <div className="form5-buttons">
-          <button className="form5-button" onClick={onNext}>Next</button>
-          <button className="form5-button" onClick={onBack} >Back</button>
+        <button className="form5-button" onClick={onBack}><i class="fas fa-angle-double-left"></i>&nbsp;&nbsp;Back</button>
+        <button className="form5-button" onClick={onNext}>Next&nbsp;&nbsp;<i class="fas fa-angle-double-right"></i></button>
         </div>
       </div>      
     </div>

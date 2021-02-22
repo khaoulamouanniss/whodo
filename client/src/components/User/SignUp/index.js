@@ -57,7 +57,7 @@ const { mode, transition, back } = useVisualMode(FORM1);
       {mode === FORM3 && <Form3 details={details} setDetails={setDetails} onNext={() => transition(FORM4)} onBack={() => back()} error={props.error}/>}
       {mode === FORM4 && <Form4 details={details} setDetails={setDetails} onNext={() => transition(FORM5)} onBack={() => back()} error={props.error} />}        
       {mode === FORM5 && <Form5 details={details} setDetails={setDetails} onNext={() => transition(FORM6)} onBack={() => back()} error={props.error} />}        
-      {mode === FORM6 && <Form6 details={details} setDetails={setDetails} onNext={() => transition(TOPICS)} error={props.error} submitHandler={submitHandler} />}        
+      {mode === FORM6 && <Form6 details={details} setDetails={setDetails} onNext={() => transition(TOPICS)} onBack={() => back()} error={props.error} submitHandler={submitHandler} />}        
       {mode === TOPICS && <ListTopics addFavTopic={addFavTopic} topics={props.topics} userId={props.userId}/> }
     
     </div>

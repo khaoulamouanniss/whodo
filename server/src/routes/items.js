@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, getItemsByTopicId,deleteItem,getNbAnswersForOption,getNbAnswersForOptionByGender,getNbAnswersForOptionByRelation, addItemAnswer} = require ("../helpers");
+const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, getItemsByTopicId,deleteItem,getNbAnswersForOption,getNbAnswersForOptionByGender,getNbAnswersForOptionByRelation, addItemAnswer, getRandomItemForTopic} = require ("../helpers");
 
 module.exports = db => {
   router.get("/items", (request, response) => {
@@ -200,7 +200,16 @@ router.post('/answer/add',  async (req, res) => {
     ).then(data => {
       res.send(data);
     })
-      ;
+  });
+
+  router.post('/answer/random', (req, res)=> {
+    let {topic} = req.body;
+    console.log('the body I need now', req.body)
+    getRandomItemForTopic(topic,  db)
+    .then((item)=> {
+      console.log('random item return for now', item)
+      res.send(item);}
+      )
   })
   return router;
 };

@@ -21,8 +21,8 @@ export default function Form2(props) {
           <input className="form2-input" type="text" value={details.last_name} onChange={event => setDetails({...details, last_name:event.target.value})}/>  
         </div>
         <div className="form2-buttons">
-          <button className="form2-button" onClick={onNext}>Next</button>
-          <button className="form2-button" onClick={onBack} >Back</button>
+        <button className="form2-button" onClick={onBack}><i class="fas fa-angle-double-left"></i>&nbsp;&nbsp;Back</button>
+        <button className="form2-button" onClick={onNext}>Next&nbsp;&nbsp;<i class="fas fa-angle-double-right"></i></button>
         </div>
       </div>
     </div>

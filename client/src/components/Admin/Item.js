@@ -12,7 +12,7 @@ export default function Item(props) {
   return (
     <div>
       <tr>
-      <td className = "itemstd"><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item} {topics}{answers}</Link></td>
+      <td className = "itemstd"><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item,topic:props.topics})}>{item} {topics}{answers}</Link></td>
       <td className= "itemstd"><button onClick={() => deleteItem(id)}>Delete</button></td>
       </tr>
    

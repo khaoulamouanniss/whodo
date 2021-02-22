@@ -10,20 +10,27 @@ export default function SubmittedItem(props) {
   let answers = props.answers? ' ' + props.answers + ' answers' : "";
 
   return (approved ? (
-    <div>
-      <th scope="col"> <Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item}{topics}</Link></th>
-      <th scope="col">{answers}</th>
-    <th scope="col"> Approved</th>
-      <th scope="col"><button onClick={() => deleteItem(id)}>Delete</button></th>
+    <div className="item-cont">
+      <div className="item"> 
+      <i class="fas fa-check"></i>&nbsp;&nbsp;
+      <Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item}{topics}</Link>
+      </div>
+      <div className="item-info">
+        <div className="item-info-id">Approved</div>
+        <div className="item-info-id">&nbsp;&nbsp;<i onClick={() => deleteItem(id)} className="fas fa-minus-circle"></i></div>
+      </div> 
     </div>
-  ) : (<div>
-     <div className = "submittedItemsContainer">
-     <th className = "th-Items"scope="col">{item}{topics}</th>
-    <th className = "th-Items" scope="col">{answers}</th>
-    <th className = "th-Items"scope="col"> Waiting...</th>
-    <th scope="col"><button className= "deleteBtn"onClick={() => deleteItem(id)}>Delete</button></th>
-     </div>
-    
-  </div>)
+  ) : (
+    <div className="item-cont">
+      <div className="item"> 
+      <i class="fas fa-spinner"></i>&nbsp;&nbsp;
+      {item}{topics}
+      </div>
+      <div className="item-info">
+        <div className="item-info-id">Waiting...</div>
+        <div className="item-info-id">&nbsp;&nbsp;<i onClick={() => deleteItem(id)} className="fas fa-minus-circle"></i></div>
+      </div> 
+    </div>
+    )
   )
 }

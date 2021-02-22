@@ -375,6 +375,25 @@ const deleteItem = (id,db) => {
       return null;
     })
     };
+
+    //randomly return an item for a specific topic
+const getRandomItemForTopic = (topic, db) => {
+    return db.query(`
+    SELECT A.id, A.item, C.topic
+    FROM items A
+    JOIN item_topics B ON A.id = B.item_id
+    JOIN topics C ON  B.topic_id = C.id
+    WHERE C.topic = $1
+    ORDER BY random ()
+    LIMIT 1;`, [topic])
+      .then(res => {     
+        return res.rows[0];
+      })
+      .catch(e => {
+        return null;
+      });
+  };
+  
 module.exports = {
   getUserByEmail,
   addUser,
@@ -394,5 +413,6 @@ module.exports = {
   updateUser,
   addUserGF,
   addItemAnswer,
-  addUserLoginGF
+  addUserLoginGF,
+  getRandomItemForTopic
 };

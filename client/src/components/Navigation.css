@@ -71,8 +71,9 @@ body {
   justify-content: space-between;
 }
 .nav-logo{
+  align-self: center;
   display: flex;
-  width:30%;
+  /* width:30%; */
   height: 100%;
 }
 .nav-logo img{

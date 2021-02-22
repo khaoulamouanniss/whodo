@@ -18,7 +18,7 @@ export default function Navigation(props) {
     } else if (element.title === "Users") {
       return props.showUsers;
     }
-    else return ""
+    else return showSideBar;
   }
   const showSideBar = () => setSideBar(!sideBar);
   return !props.user.email ?(
@@ -54,7 +54,7 @@ export default function Navigation(props) {
           {ProfileMenu.map((element,i) => {
             return (
               <li key={i} className={element.cName}>
-                <Link to={element.path} onClick={element.title === 'Logout' ? props.logout : ""}>
+                <Link to={element.path} onClick={element.title === 'Logout' ? props.logout : showSideBar}>
                   {element.icon}
                   <span className="nav-menu">{element.title}</span>
                 </Link>

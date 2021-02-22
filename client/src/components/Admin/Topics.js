@@ -1,6 +1,6 @@
   import React from "react";
   import Topic from "./Topic";
-  import "./Topics.css" 
+  import "./Topics.css"
 
   export default function Topics(props) {
 
@@ -12,23 +12,39 @@
       <button style={{fontSize:"25px"}}>+</button>
       <input style={{fontSize:"25px", borderRadius:"35px", outline:"none"}} onChange={e => newTopic=e.target.value}></input>
       <button style={{fontSize:"25px",width:"95px", borderRadius:"40%", ouline:"none"}} onClick={() => props.addTopic(newTopic)}>Add</button>
-
       </div>
+       <div className = "topicstable">
+         <div className = "topicsth">
+           <div className = "topicstd" style ={{flexGrow:"1", flexFlow:"1"}}>
+             Topic
+           </div>
+           <div className="topicstd">
+             No. of items
+            </div>
+            <div className="topicstd">
+            Delete
+            </div>
+         </div>
+         <div  className="topicstd-container">
+         {topicData}
+         </div>
+         </div>
+      
     
-      <tbody>
+      {/* <tbody>
         <div className="topicFilter"></div>
-      <table className = "topicsTable">
+      <table className = "topicstable">
           <thead>
-            {/* <tr>
+            <tr className ="topicstr">
               <th className = "topicsth">Topic</th>
               <th className = "topicsth">Number of items</th>
               <th className = "topicsth">Delete</th>
-            </tr> */}
+            </tr>
             <tr>
               <td> {topicData}</td></tr>
           </thead>
         </table>
-        </tbody>
+        </tbody> */}
       </>
     )
   }

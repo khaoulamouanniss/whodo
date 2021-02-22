@@ -56,9 +56,10 @@
   fontSize:20px
 } */
 .login {
-  margin-top: 5%;
+  /* margin-top: 5%; */
   margin-left:420px;
   width:80%;
+  height:100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -155,3 +156,15 @@
   outline:none;
 }
 
+
+.login-input::-webkit-input-placeholder { 
+  font-family: FontAwesome;
+  font-weight: normal;
+  overflow: visible;
+  vertical-align: top;
+  display: inline-block !important;
+  padding-right: 10px;
+  text-align:right;
+  padding-top: 2px;
+  color: rgb(245, 184, 126);
+  }

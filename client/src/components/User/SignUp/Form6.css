@@ -65,7 +65,7 @@
 
 
 .form6 {
-  margin-top: 5%;
+  /* margin-top: 5%; */
   margin-left:22%;
   width:50%;
   display: flex;
@@ -100,7 +100,7 @@
   display: flex;
   flex-direction: row;
   /* margin:1%; */
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width:100%;
   margin-left: 3%;
@@ -115,7 +115,7 @@
 }
 .form6-input {
   display: flex;
-  align-self: flex-end;
+  align-self: center;
   /* flex-grow: 1; */
   border-color: rgb(247,137,37); 
   outline: none; 
@@ -158,7 +158,7 @@
   padding: 1%;
   margin: 5%;
   cursor: pointer;
-  width: 80%;
+  width: 26%;
   height: 45%;
   /* margin-left:40px; */
   border-radius: 18px;

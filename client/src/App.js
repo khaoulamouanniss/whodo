@@ -2,10 +2,12 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router-dom";
 import Navigation from './components/Navigation';
+import Footer from './components/Footer';
 import Login from './components/User/Login';
 import SignUp from './components/User/SignUp';
 import Form3 from './components/User/SignUp/Form3';
 import Submit from './components/User/Submit';
+import Answer from './components/User/Answer';
 import Account from './components/User/Account';
 import ListItems from './components/User/ListItems';
 import Topics from './components/Admin/Topics';
@@ -15,6 +17,7 @@ import Items from './components/Admin/Items';
 import Users from './components/Admin/Users';
 import ItemsApprove from './components/Admin/ItemsApprove';
 import SubmittedItems from './components/User/SubmittedItems';
+import "./App.css"
 //import users from '../../server/src/routes/users';
 //import Account from './components/Account';
 
@@ -28,7 +31,7 @@ export default function App() {
 */
 const [users,setUsers] = useState([]);
 const [user, setUser] = useState({id:1})
-const [change,setChange]= useState("");
+const [change,setChange]= useState(true);
 
 //const userInStorage = useState(localStorage.getItem("user"));
 //const [user, setUser] = useState(userInStorage ? userInStorage : null);
@@ -204,7 +207,7 @@ const [change,setChange]= useState("");
   axios.post("http://localhost:8001/items",{creator:user.id, item:item, time:time, approved:approved, topics:submittedTopics})
   .then(res => {
     console.log("submittedItem",res.data); 
-    setChange("submit item")
+    setChange(!change)
   })
  
  }
@@ -259,7 +262,7 @@ const [change,setChange]= useState("");
     .then((res)=> {
       //console.log("items",res.data)
       setItemsOfTopic(res.data);
-      setChange("Show items ot topic")
+      setChange(!change)
       return res.data;
     })
   }
@@ -279,7 +282,7 @@ const [change,setChange]= useState("");
     .then((res)=> {
       console.log("item added",res.data)
       items.push(res.data);
-      setChange("add item")
+      setChange(!change)
       return res.data;
     })
   }
@@ -296,14 +299,14 @@ const [change,setChange]= useState("");
     axios.delete(`http://localhost:8001/deleteitem/${id}`)
     .then(()=> {
       console.log("item deleted");
-      setChange("delete item")
+      setChange(!change)
     })
   }
 
   const approveItem = (id) => {
     axios.get(`http://localhost:8001/approveitem/${id}`)
     .then(res => {
-      setChange("item approved")
+      setChange(!change)
       console.log("item approved",res.data);
       return res.data;
     })
@@ -321,9 +324,13 @@ const [change,setChange]= useState("");
   <div >  
 
     <Router>
-      <Navigation user={user} logout={logout} showUsers={showUsers}/>
-      
+      <header>
+   <Navigation user={user} logout={logout} showUsers={showUsers}/>
+   </header>
+   <div className="cnt">
       <Switch>
+        
+        
         <Route path="/login">
           {!user.email && <Login login={login} loginGF={loginGF}  user={user} error={error}/> }
           
@@ -340,9 +347,9 @@ const [change,setChange]= useState("");
        {/* <Route path="/topics" exact>
         <Topics />
        </Route> */}
-       {/* <Route path="/answer">
-         <Answer item ={currentItem} getNbAnsByOption={getNbAnsByOption}/>
-       </Route> */}
+       <Route path="/answer">
+         <Answer item ={currentItem} setCurrentItem={setCurrentItem} getNbAnsByOption={getNbAnsByOption} topics={topics} user={user}/>
+       </Route>
        <Route path="/submit">
          <Submit  submitItem ={submitItem}/>
        </Route>
@@ -370,10 +377,16 @@ const [change,setChange]= useState("");
        <Route path="/users">
          <Users users={users}/>
        </Route>
-      </Switch>
       
+       
+     
+      </Switch>
+      </div>
+       
     </Router>
-
+    <footer>
+    <Footer />
+    </footer>
  {/*
        <Navigation />   
       

@@ -1,18 +1,23 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import "./Submit.css";
 
 
 export default function Submit(props) {
 
+  let history = useHistory();
+  const handleChange = () => {
+    props.submitItem(document.getElementById("item").value, false);
+    history.push("/myitems");
+  }
  /* let item="";
   onChange={(event) => item=event.target.value}*/
   return (
     <div className= "textareaContainer">
-      
-    <textarea className = "textArea" id="item" type ="text" rows="5" cols="50"></textarea>
+    <div className="submit-message">Some text to put here</div>
+    <textarea className = "textArea" id="item" maxlength='80' type ="text" rows="5" cols="50"></textarea>
     <div>
-    <Link className= "textBtn" to ="/submit" onClick={() => props.submitItem(document.getElementById("item").value, false)}>Submit</Link>
+    <Link className= "text-button" to ="/submit" onClick={() => handleChange()}><i style={{fontSize:20}} class="fas fa-hashtag"></i>&nbsp;&nbsp;Submit</Link>
     </div></div>
   )
 }
