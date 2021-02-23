@@ -41,7 +41,7 @@ export default function Update(props) {
           </tr><br />
           <tr>
             <td><label className = "updateInput2" >Relationship</label></td>
-            <td><input className="updateInputLabel" type="text" value={details.family} onChange={event => setDetails({...details, family:event.target.value})}/></td>
+            <td><input className="updateInputLabel" type="text" value={details.relationship} onChange={event => setDetails({...details, relationship:event.target.value})}/></td>
           </tr><br />
         </table>
       <div style={{ marginTop: 10 }}>

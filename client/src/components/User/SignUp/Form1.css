@@ -184,3 +184,11 @@ const inputEmail3 = {
     color: rgb(245, 184, 126);
     }
   
+    .div-v2{
+      border-left: 6px solid black;
+      height: 320px;
+      position: absolute;
+      left: 50%;
+      margin-left:22%;
+      top: 28%;
+    }

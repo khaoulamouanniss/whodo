@@ -8,19 +8,11 @@ export default function ItemsApprove(props) {
   const itemData = props.items.map(i => <ItemApprove id ={i.id} item={i.item} approved={i.approved} setCurrentItem={props.setCurrentItem} approveItem={props.approveItem} deleteItem={props.deleteItem} topics={i.topic} answers ={i.answers}/>)
   return(
     <>
-    <tbody>
-      <div className="itemsapproveFilter"></div>
-   <table className="itemsapproveTable">
-      <thead>
-        {/* <tr>
-          <th scope="col">Item</th>
-          <th scope="col">Number of answers</th>
-          <th scope="col">Approve</th>
-        </tr> */}
-        <tr>{itemData}</tr>
-      </thead>
-    </table>
-    </tbody>
+    <div className ="itemsapprovetable ">
+      <div className = "itemsapprovetd-container" style={{marginTop:"20%"}}>
+      {itemData}
+      </div>
+    </div>
   </>
   )
 }

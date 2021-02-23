@@ -13,7 +13,7 @@ export default function SubmittedItem(props) {
     <div className="item-cont">
       <div className="item"> 
       <i class="fas fa-check"></i>&nbsp;&nbsp;
-      <Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item}{topics}</Link>
+      <Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item,topic:topics})}>{item}{topics}</Link>
       </div>
       <div className="item-info">
         <div className="item-info-id">Approved</div>

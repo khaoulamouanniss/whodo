@@ -307,34 +307,33 @@ const deleteItem = (id,db) => {
   //getting the number of answer for a specific question according to gender 
   const getNbAnswersForOptionByRelation = (question,option, relation,  db) => {
     let sql;
-    if (relation ='single') {
+    if (relation ==='single') {
       sql  = `
       SELECT count(A.id) as nbAnswers
       FROM answer_items A
       Join items B on B.id = A.item_id
       Join users C on C.id =A.user_id
       WHERE B.id = $1 AND A.answer = $2 AND (C.relationship = 'single' OR C.relationship = 'divorced' OR C.relationship = 'widowed')
-      GROUP BY (B.id);   
+      GROUP BY (B.id);
       `
     }
-    else if (relation ='engaged') {
+    else if (relation ==='engaged') {
       sql  = `
       SELECT count(A.id) as nbAnswers
       FROM answer_items A
       Join items B on B.id = A.item_id
       Join users C on C.id =A.user_id
       WHERE B.id = $1 AND A.answer = $2 AND (C.relationship = 'married' OR C.relationship = 'living with a partner')
-      GROUP BY (B.id);   
-      ` 
+      GROUP BY (B.id);
+      `
     }
     return db.query(sql, [question, option])
       .then(res => {
-        //console.log('by relation', res.rows[0])
-       if (res.rows[0]) { 
-        // console.log('I am inside the if')
+       /* console.log('by relation', res.rows[0])*/
+       if (res.rows[0]) {
         return res.rows[0];
       }
-        return { nbanswers: '0'} 
+        return { nbanswers: '0'}
       })
       .catch(e => {
         return null;
@@ -364,7 +363,6 @@ const deleteItem = (id,db) => {
       return null;
     });
   };
-
   const updateUser = (userdata, db) => {
     const {name, last_name, birth_date, gender, country, city,  relationship, email} = userdata;
     return db.query(`Update users SET name = $1, last_name = $2, birth_date = $3,gender = $4, country = $5, city = $6, relationship = $7  WHERE email = $8 returning *;`, [name, last_name, birth_date, gender, country, city, relationship, email])

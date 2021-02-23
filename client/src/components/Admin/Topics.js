@@ -9,22 +9,11 @@
     return(
       <>
       <div className="topics-container">
-      <button style={{fontSize:"25px"}}>+</button>
-      <input style={{fontSize:"25px", borderRadius:"35px", outline:"none"}} onChange={e => newTopic=e.target.value}></input>
-      <button style={{fontSize:"25px",width:"95px", borderRadius:"40%", ouline:"none"}} onClick={() => props.addTopic(newTopic)}>Add</button>
+      <input className="topicsinput" placeholder="Type a topic" onChange={e => newTopic=e.target.value}></input>
+      <i onClick={() => props.addTopic(newTopic)} style={{marginLeft:"50%", marginTop:"-5%", padding:"2px"}} class="topicsfas1 fa-plus-square"></i>
+    
       </div>
        <div className = "topicstable">
-         {/* <div className = "topicsth">
-           <div className = "topicstd" style ={{flexGrow:"1", flexFlow:"1"}}>
-             Topic
-           </div>
-           <div className="topicstd">
-             No. of items
-            </div>
-            <div className="topicstd">
-            Delete
-            </div>
-         </div> */}
          <div  className="topicstd-container">
          {topicData}
          </div>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import ChartByGender from './ChartByGender'
-import ChartByRelation from './chartByRelation'
+import ChartByRelation from './ChartByRelation'
+import ChartByEducation from './ChartByEducation'
 import { FacebookShareButton, WhatsappShareButton, LinkedinShareButton, TwitterShareButton } from "react-share"
 import { FacebookIcon, WhatsappIcon, LinkedinIcon, TwitterIcon } from "react-share"
 import "./Answer.css"
@@ -22,13 +23,14 @@ export default function Answer(props) {
   console.log(shareUrl)
   const [nextItem, setNextItem] = useState({})
   const [showFilter, setShowFilter] = useState(false)
-  const [showChart, setShowChart] = useState(false);
+  const [showChartGender, setShowChartGender] = useState(false);
   const [showChartRelation, setShowChartRelation] = useState(false);
+  const [showChartEducation, setShowChartEducation] = useState(false);
  const [enableButtons, setEnableButtons] = useState(true);
   //it is the array that contains the item answers by relation : single or engaged
   const [dataArrayRelation, setDataArrayRelation] = useState({})
   //it is the array that contains the item answers by gender : male or female
-  const [dataArray, setDataArray] = useState({})
+  const [dataArrayGender, setDataArrayGender] = useState({})
   //it changes whenever an item is answered
   const [voteOption, setVoteOption] = useState(0)
   //a state for the topic to be changed every time the user select a new topic
@@ -39,6 +41,8 @@ export default function Answer(props) {
   const [sometimesOption, setSometimesOption] = useState(0);
   const [usuallyOption, setUsuallyOption] = useState(0);
   const [alwaysOption, setAlwaysOption] = useState(0);
+  //a state for the filter set by default to gender
+  const [filter, setFilter]= useState('gender');
 
   //the total number of answers for the current item
 let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alwaysOption;
@@ -64,7 +68,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
       setUsuallyOption(Number(data[3].nbanswers));
       setAlwaysOption(Number(data[4].nbanswers));
       backToNormalButtonHeights();
-
+      disableFilter()
      
     })
   }, [])
@@ -81,23 +85,32 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
      
       enableAllButtons();
       backToNormalButtonHeights();
+      setShowChartEducation(false);
+      setShowChartGender(false);
+      setShowChartRelation(false);
+      disableFilter();
     })
   }, [props.item.item])
 
   useEffect(() => {
    
     changeheight();
-
+    enableFilter();
   }, [voteOption])
   
   function backToNormalButtonHeights() {
-    document.getElementById('id1').style.height = '10px'
-    document.getElementById('id2').style.height = '10px'
-    document.getElementById('id3').style.height = '10px'
-    document.getElementById('id4').style.height = '10px'
-    document.getElementById('id5').style.height = '10px'
+    document.getElementById('id1').style.height = '20px'
+    document.getElementById('id2').style.height = '20px'
+    document.getElementById('id3').style.height = '20px'
+    document.getElementById('id4').style.height = '20px'
+    document.getElementById('id5').style.height = '20px'
   }
-
+  function disableFilter() {
+    document.getElementById('filter').disabled = true;
+  }
+  function enableFilter() {
+    document.getElementById('filter').disabled = false;
+  }
   //disabling all buttons after the user clicks on any option
   function disableAllButtons() {
     document.getElementById('id1').disabled = true
@@ -118,25 +131,54 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
     setEnableButtons(true)
   }
   const randomItem = (nextTopic) => {
-    console.log('I am inside randomItem function')
+   
     axios.post('http://localhost:8001/answer/random', { topic: nextTopic })
       .then(res => {
-        console.log('I need to see the topic', topic)
-        console.log('random item is', res.data)
         props.setCurrentItem(res.data)
         return res.data;
       })
   }
   function changeheight() {
 
-    document.getElementById('id1').style.height = percentageNever.toString() + '%'
-    document.getElementById('id2').style.height = percentageRarely.toString() + '%'
-    document.getElementById('id3').style.height = percentageSometimes.toString() + '%'
-    document.getElementById('id4').style.height = percentageUsually.toString() + '%'
-    document.getElementById('id5').style.height = percentageAlways.toString() + '%'
+    document.getElementById('id1').style.height = (percentageNever*4+20).toString() + 'px'
+    document.getElementById('id2').style.height = (percentageRarely*4+20).toString() + 'px'
+    document.getElementById('id3').style.height = (percentageSometimes*4+20).toString() + 'px'
+    document.getElementById('id4').style.height = (percentageUsually*4+20).toString() + 'px'
+    document.getElementById('id5').style.height = (percentageAlways*4+20).toString() + 'px'
 
 
   }
+  //return the results according to the filter selected by the user
+  function filterAnswers(id, filter) {
+    if (filter ==='gender') {
+     axios.get(`http://localhost:8001/answer/${id}/filter/gender`)
+       .then(res => {
+         setDataArrayGender(res.data);
+         setShowChartRelation(false);
+         setShowChartEducation(false);
+         setShowChartGender(true);
+   
+       })
+       .catch((err) => console.log(err))
+     }
+     else if (filter === 'relation') {
+       axios.get(`http://localhost:8001/answer/${id}/filter/relation`)
+       .then(res => {
+         setDataArrayRelation(res.data);
+         setShowChartGender(false);
+         setShowChartEducation(false);
+         setShowChartRelation(true);
+         
+       })
+       .catch((err) => console.log(err))
+     } else  {
+     
+         setShowChartRelation(false);
+         setShowChartGender(false);
+         setShowChartEducation(true);
+       }  
+   
+   }
   //function responsible of adding a new response to answer_items table
   const addAnswer = (voteOption, id) => {
     axios.post('http://localhost:8001/answer/add', {
@@ -152,28 +194,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
   }
 
   //filters the result by gender returning an object of arrays
-  function filterByGender(id) {
-
-    axios.get(`http://localhost:8001/answer/${id}/filter/gender`)
-      .then(res => {
-        setDataArray(res.data)
-        setShowChart(true);
-
-      })
-      .catch((err) => console.log(err))
-
-  }
-  //filters the answers by relation status returning an object of arrays
-  function filterByRelationStatus(id) {
-
-    axios.get(`http://localhost:8001/answer/${id}/filter/relation`)
-      .then(res => {
-        setDataArrayRelation(res.data)
-        setShowChartRelation(true);
-      })
-      .catch((err) => console.log(err))
-
-  }
+  
 
   function updateAfterNever() {
     disableAllButtons()
@@ -303,31 +324,38 @@ disableAllButtons()
       <br />
       <br />
       {/*third component of our flex*/}
-      <div className='buttonsForCharts'>
-        <div className='filterSubComponent1'>
-          {showFilter && <button className='filter' onClick={() => filterByGender(id)}>
-            filter by gender </button>}
-        </div>
-        <div className='filterSubComponent2'>
-          {showFilter && <button className='filter' onClick={() => filterByRelationStatus(id)}>
-            filter by relation </button>
-          }
-        </div>
+      <div className='filterResults'>
+       <div>
+       <h6>filter results by:</h6>
+       </div>
+       <div>
+       <select name="filter" id="filter" value={filter} onChange={event => {
+          setFilter(event.target.value); 
+             filterAnswers(props.item.id, event.target.value);
+           }
+          }>
+            <option value='gender'> gender</option>
+            <option value='relation'> relation</option>
+            <option value='education'> education</option> 
+          </select>
+          </div>
       </div>
       {/*fourth component of our flex*/}
       <div className='charts'>
         {/*first subcomponent of chart flex */}
         <div className='chartsByGender'>
-          {showChart && <ChartByGender data={dataArray} />}
+          {showChartGender && <ChartByGender data={dataArrayGender} />}
         </div>
         {/*second subcomponent of chart flex */}
         <div className='chartsByRelation'>
           {showChartRelation && <ChartByRelation data={dataArrayRelation} />}
         </div>
         <br />
+        <div className='chartsByEducation'>
+          {showChartEducation && <ChartByEducation />}
+        </div>
         <br />
       </div>
-      {/* fifth component of our flex */}
       <div className='socialMedia'>
         <div className='whatsapp'>
           <WhatsappShareButton url={shareUrl}>

@@ -3,11 +3,11 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-left: 30%;
+  margin-left: 25%;
   margin-right:30%;
   font-weight: bold;
   font-size: 20px;
-  
+  width:50%
 }
 .show-img{
   display: flex;
@@ -15,8 +15,9 @@
 }
 .show-img img{
   height:180px;
-  border-radius: 10px;
-  border:3px solid rgb(247,137,37)
+  border-radius: 100px;
+  border:5px solid rgb(247,137,37);
+  margin-top: 20%;
 }
 .showUpdateBtn{
   background-color: black;
@@ -37,7 +38,8 @@
   border:none;
   width: 80%;
   margin-top: 15%;
-  margin-left:5%;
+  
+
 }
 
 .showtd {
@@ -54,5 +56,14 @@
 }
 .show-edit {
   display: flex;
-  
+  margin-right: 5%;
+  margin-top: 10%;
 }
+hr{
+  height:3px;
+  width:250%;
+  background-color: rgb(247,137,37);
+  margin-bottom:0%;
+}
+
+

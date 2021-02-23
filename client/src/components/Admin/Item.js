@@ -11,18 +11,22 @@ export default function Item(props) {
 
   return (
     <div className="itemstr">
-    <div className = "itemstd"  style ={{flexGrow:"29", flexFlow:"17"}}>
+      <div className = "itemscontainer">
+      <div className = "itemstd"  style ={{flexGrow:"55"}}>
       <span><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item} </Link></span>
     </div>
-    <div className="itemstd" style ={{flexGrow:"7", flexFlow:"6"}}>
-      <span><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{topics}</Link></span>
+    <div className="itemstd" style ={{flexGrow:"14"}}>
+      <span>{topics}</span>
     </div>
-    <div className="itemstd" style ={{flexGrow:"5", flexFlow:"3"}}>
-      <span> <Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{answers}</Link></span>
+    <div className="itemstd" style ={{flexGrow:"10"}}>
+      <span> {answers}</span>
     </div>
-    <div className="itemstd" style ={{flexGrow:"5", flexFlow:"3"}}>
-      <span><i onClick={() => deleteItem(id)}className="fas fa-trash"></i></span>
+    <div className="itemstd" style ={{flexGrow:"1", marginTop:"-1%"}}>
+      <span><i onClick={() => deleteItem(id)}className="itemsfas1 fa-trash"></i></span>
     </div>
+
+      </div>
+   
   </div>
 
 

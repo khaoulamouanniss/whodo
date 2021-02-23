@@ -1,6 +1,5 @@
 
 import React from "react";
-import {Link} from "react-router-dom";
 import "./ItemsApprove.css"
 
 export default function ItemApprove(props) {
@@ -10,14 +9,29 @@ export default function ItemApprove(props) {
   let answers = props.answers? ' ' + props.answers + ' answers' : "";
 
   return (
-    <div>
-      <tr>
-      <td className= "itemsapprovetd"><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item}{topics}{answers}</Link></td>
-      <td className= "itemsapprovetd"><button onClick={() => approveItem(id)}>Approve</button></td>
-      <td className= "itemsapprovetd"><button onClick={() => deleteItem(id)}>Delete</button></td>
-
-      </tr>
-   
-    </div>
+    <div className="itemsapprovetr">
+    <div className ="itemsapprovecontainer">
+  <div className = "itemsapprovetd"  style ={{flexGrow:"7"}}>
+    <span>{item}</span>
+  </div>
+  <div className="itemsapprovetd" style ={{flexGrow:"5"}}>
+    <span>{topics}</span>
+  </div>
+  <div className="itemsapprovetd" style ={{flexGrow:"5"}}>
+    <span>{answers}</span>
+  </div>
+  <div className="itemsapprovefas-div">
+  <div className="itemsapprovetd">
+    <span><i style={{marginLeft:"-10%"}} className="itemsapprovefas1 fa-check-circle" onClick={() => approveItem(id)}></i></span>
+    <span><i style={{marginLeft:"40%"}} className ="itemsapprovefas1 fa-times-circle" onClick={() => deleteItem(id)}></i></span>
+  </div>
+  </div>
+</div>
+</div>
+    // <div>
+    //   <div className= "itemsapprovetd">{item}{topics}{answers}</div>
+    //   <i className="fas fa-check-circle" onClick={() => approveItem(id)}>Approve</i>
+    //   <i className ="fas fa-times-circle" onClick={() => deleteItem(id)}>Delete</i>
+    // </div>
   )
 }

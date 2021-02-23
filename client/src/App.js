@@ -12,7 +12,7 @@ import Account from './components/User/Account';
 import ListItems from './components/User/ListItems';
 import Topics from './components/Admin/Topics';
 import TopicShow from './components/Admin/TopicShow';
-import ItemShow from './components/Admin/ItemShow';
+import ItemShow from './components/User/ItemShow';
 import Items from './components/Admin/Items';
 import Users from './components/Admin/Users';
 import ItemsApprove from './components/Admin/ItemsApprove';
@@ -128,7 +128,6 @@ let history = useHistory();
           console.log("newUser",newUser.user)
           setUser(newUser.user);
           setChange(!change);
-        
       })
   };
   const logout = () => {
@@ -305,7 +304,10 @@ let history = useHistory();
     setChange(!change)
     
   })
-  history.push("/myitems")
+  if(user.type === "normal") {
+    history.push("/myitems")
+  }
+  
  
  }
   const approveItem = (id) => {
