@@ -20,7 +20,10 @@
   justify-content: center;
   font-size: 30px;
   margin-bottom: 5%;
-  color: rgb(247,137,37);
+  color:black;
+  margin-top: 20%;
+  margin-left:10%;
+
 }
 
 .form5-data {
@@ -28,7 +31,8 @@
   flex-direction: row;
   margin:3%;
   justify-content: space-between;
-  width:100%
+  width:100%;
+  margin-left: 20%;
 
 }
 .form5-buttons {

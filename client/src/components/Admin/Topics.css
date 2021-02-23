@@ -1,11 +1,19 @@
-.topics-container{
+.topicscontainer{
   display: flex;
+  justify-content: space-evenly;
+  border:3px solid black;
+  border-spacing: 35%;
+  width:90%;
+  /* border-radius: 40px; */
+  padding:10px;
+  margin:10px;
+  height:60px;
 }
 .topicstable {
   display: flex;
   flex-flow: column nowrap;
   font-size: 1.5rem;
-  margin-top:5%;
+  margin-top:3%;
   margin-left:30%;
   margin-right:10%;
   line-height:0.0;
@@ -51,10 +59,28 @@
   padding: 0.5em;
   overflow: hidden;
 }
-
-.fas {
-  display: inline-block;
+.topicsfas-div{
+  display:flex;
+  margin-top:-2%;
+}
+.topicsfas2 {
   font: normal normal normal 14px/1 FontAwesome;
-  font-size: 25px;
   color:black;
+  font-size: 26px;
+}
+.topicsfas1 {
+  display: flex;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 48px;
+  color:black;
+ 
+}
+.topicsinput {
+  margin-top: 30px;
+  padding:10px;
+  border-radius:20px;
+  width:30%;
+  outline:none;
+  border:3px solid black;
+  margin-left: -120px;
 }

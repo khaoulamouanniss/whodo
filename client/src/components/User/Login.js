@@ -60,12 +60,13 @@ export default function Login(props) {
           <input className="login-input" type="password" placeholder = "" value={details.password} onChange={event => setDetails({...details, password:event.target.value})}/>
         </div>
         <div className="login-buttons">
-        
           <button className="login-button" type="submit" value ="Login">Login</button>
           <button className="login-button" value ="Cancel">Cancel</button>
         </div>
       </form>
+      <div className="div-vl"></div>
       <div className="login-GF-buttons">
+        <h1 style={{marginRight:"55%"}}>OR</h1>
         <div className="login-GF">
           <GoogleLogin
             clientId="1072369902227-qfuup9fprmc2qusd4jemg4o7fcc6iljv.apps.googleusercontent.com"

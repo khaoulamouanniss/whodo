@@ -115,8 +115,10 @@ const inputEmail6= {
   display:flex;
   justify-content: center;
   font-size: 30px;
-  margin-bottom: 5%;
-  color: rgb(247,137,37);
+  margin-bottom:5%;
+  color:black;
+  margin-top: 20%;
+  margin-left: 20%;
 }
 
 .form3-data {
@@ -155,8 +157,9 @@ const inputEmail6= {
   border-radius: 15px;
   height:100%;
   width: 65%; 
-  border-width: 3px; 
+  border-width: 1px; 
   font-size:20px;
+  margin-left: 20%;
 }
 .form3-button {
   display: flex;

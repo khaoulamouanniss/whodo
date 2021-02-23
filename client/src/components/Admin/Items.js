@@ -71,33 +71,19 @@
     const itemData = props.items.map(i => <Item id ={i.id} item={i.item} approved={i.approved} setCurrentItem={props.setCurrentItem} deleteItem={props.deleteItem} topics={i.topic} answers ={i.answers}/>)
     return(
       <>
-  <h3 style ={{textAlign:"center", marginTop:"20px"}}>Read CSV file in React - <a href="https://www.cluemediator.com" target="_blank" rel="noopener noreferrer">Clue Mediator</a></h3><br />
-    <div style={{marginLeft:"30%"}}>
-          <input style={{fontSize:"25px", borderRadius:"35px", outline:"none"}} 
+  
+    <div style={{marginLeft:"30%",fontWeight:"bold", fontSize:"18px"}}>
+          <input style ={{fontSize:"25px", color:"black"}} className ="fas fa-upload"
           type="file"
           accept=".csv,.xlsx,.xls"
           onChange={handleFileUpload}
           />
-        <button style={{fontSize:"25px"}} >+</button>
-        <input style={{fontSize:"25px", borderRadius:"35px", outline:"none"}} onChange={e => newItem=e.target.value}></input>
-        <button style={{fontSize:"25px",width:"95px", borderRadius:"40%", ouline:"none"}} onClick={() => props.submitItem(newItem,true)}>Add</button>
+       
+        <input className="itemsinput" onChange={e => newItem=e.target.value}></input>
+        <i onClick={() => props.submitItem(newItem,true)} style={{marginLeft:"68%", marginTop:"-45px"}} class="itemsfas2 fa-plus-square"></i>
 
     </div>
     <div className = "itemstable">
-         {/* <div className = "itemsth">
-           <div className = "itemstd" style ={{flexGrow:"2", flexFlow:"2"}}>
-             Item
-           </div>
-           <div className="itemstd" style ={{flexGrow:"5", flexFlow:"5"}}>
-             Topic
-            </div>
-            <div className="itemstd" style ={{flexGrow:"1", flexFlow:"0"}}>
-           No. of item
-            </div>
-            <div className="itemstd"  style ={{flexGrow:"1", flexFlow:"1"}}>
-          Delete
-            </div>
-         </div> */}
          <div  className="itemstd-container">
          {itemData}
          </div>

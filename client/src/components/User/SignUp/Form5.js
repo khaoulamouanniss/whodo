@@ -74,10 +74,10 @@ const colourStyles = {
     <div className="form5">
       <div className="form5-form">   
         <div className="form5-welcome">
-          Welcome message by kevin
+         Where do you live?
         </div>     
         <div className="form5-data">
-          <label className="form5-label" >Country</label>
+          {/* <label className="form5-label" >Country</label> */}
           <div className="form5-input">
             <Select 
             value={optionCountry}
@@ -101,7 +101,7 @@ const colourStyles = {
           </div>
         </div> */}
         <div className="form5-data">
-          <label className="form5-label" >City</label>
+          {/* <label className="form5-label" >City</label> */}
           <div className="form5-input">
             <Select 
                 value={optionCity}

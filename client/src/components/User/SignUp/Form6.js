@@ -60,16 +60,16 @@ const colourStyles = {
     <div className="form6">
     <div className="form6-form">   
       <div className="form6-welcome">
-        Welcome message by kevin
+        What is your relationship status?
       </div>     
       <div className="form6-data">
-        <label className="form6-label" >Relationship</label><br />
+        {/* <label className="form6-label" >Relationship</label><br /> */}
         <div className="form6-input">
             <Select 
             value={selected}
             onChange={handleChange}
             options={options}
-            placeholder={"How do define your relationship?"}
+            // placeholder={"How do define your relationship?"}
             styles={colourStyles}
             />
           </div>

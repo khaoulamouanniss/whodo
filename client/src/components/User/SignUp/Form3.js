@@ -9,10 +9,10 @@ export default function Form3(props) {
     <div className="form3">
       <div className="form3-form">   
         <div className="form3-welcome">
-          Welcome message by kevin
+         You must be 18+ to use Whodo. Please enter your birthdate
         </div>     
         <div className="form3-data">
-          <label className="form3-label" >Date of birth</label><br />
+          {/* <label className="form3-label" >Date of birth</label><br /> */}
           <input className="form3-input" type="date" value={details.birth_date} onChange={event => setDetails({...details, birth_date:event.target.value})}/>  
         </div>
         <div className="form3-buttons">

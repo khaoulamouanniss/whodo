@@ -23,6 +23,7 @@
   display: flex;
   font-weight: bold;
   font-size: 25px;
+  margin-top:10%;
 }
 .topics-buttons {
   display:flex;

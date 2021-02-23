@@ -13,10 +13,10 @@ export default function Form4(props) {
     <div className="form4">
       <div className="form4-form">   
         <div className="form4-welcome">
-          Welcome message by kevin
+          Which gender do you identify with?
         </div>     
         <div className="form4-data">
-        <label className="form4-label" >Gender</label>
+        {/* <label className="form4-label" >Gender</label> */}
         <IconContext.Provider value ={{ size:30}}>
         <div className="form4-input" onChange={event => setDetails({...details, gender:event.target.value})}>
           <label class="container"><IoIcons.IoMdMale></IoIcons.IoMdMale>

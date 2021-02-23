@@ -105,7 +105,8 @@
   margin:2%;
   justify-content: center;
   align-items: center;
-  width:100%
+  width:100%;
+  
 
 }
 .login-label {
@@ -154,6 +155,7 @@
   /* margin-left:40px; */
   border-radius: 18px;
   outline:none;
+  margin-right:55%;
 }
 
 
@@ -167,4 +169,13 @@
   text-align:right;
   padding-top: 2px;
   color: rgb(245, 184, 126);
+  }
+
+  .div-vl{
+    border-left: 6px solid black;
+    height: 250px;
+    position: absolute;
+    left: 50%;
+    margin-left:20%;
+    top: 25%;
   }

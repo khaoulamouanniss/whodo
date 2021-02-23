@@ -14,7 +14,7 @@ export default function ListTopics(props) {
   console.log("userId",props.userId)
   return (
     <div className="topics-container">
-      <label className="topics-label"> Choose your favourite topics</label>
+      <label className="topics-label"> Select your favourite topics:</label>
       <div className ="topics-buttons">
         {topicData}
       </div>
