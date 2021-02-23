@@ -52,7 +52,7 @@ const colourStyles = {
  
   const handleChange = (selectedOption) => {
     setSelected(selectedOption)
-    setDetails({...details, relationship:selectedOption})
+    setDetails({...details, relationship:selectedOption.value})
   }
   
   return ( 

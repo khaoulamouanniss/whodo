@@ -1,11 +1,68 @@
-import React from "react";
+import React,{useState, useRef} from "react";
+//import axios from "axios"
+import pic from "./default-profile-pic.png"
+import { BsUpload } from "react-icons/bs";
 import "./Show.css";
 export default function Show(props) {
-  const {user,onUpdate} =props
+  const {user,onUpdate} =props;
+  // const [previewImage,setPreviewImage] = useState("")
+  // const wrapperRef = useRef(null);
+  // const validateUpload = e => {
+  //   return (
+  //   e.target.files[0].type ==="image/png" ||
+  //   e.target.files[0].type ==="image/jpg"||
+  //   e.target.files[0].type ==="image/jpeg");
+  // }
+  // const upload = e => {
+  //   if (e.target.files[0].size <= 2000000) {
+  //     let file = e.target.files[0];
+  //     let reader = new FileReader();
+  //     reader.onload = function(e) {
+  //       setPreviewImage(e.target.result);
+  //       uploadAsync(file);
+  //     }
+  //     reader.readAsDataURL(file);
+  //   } else {
+  //     e.target.value = "";
+  //     alert("Please upload less than 2MB")
+  //   }
+  // }
+  // const uploadAsync = async profile_file => {
+  //   try{
+  //     let formData = new FormData();
+  //     formData.append("profile_pic",profile_file);
+  //     console.log(formData);
+  //     console.log("profile_file",profile_file)
+  //     let res = await axios.post("http://localhost:8001/uploadpic", {formData,email:user.email});
+  //     alert(res)
+  //   }
+  //   catch(e) {alert(e)}
+  // }
+
+
+  let profile_pic = user.profile_pic !== "" || user.profile_pic !== null ? user.profile_pic : pic;
   return (
     <div className ="showContainer"> 
+
+      {/* <div onClick={() => {wrapperRef.current.click()}}>
+        <img src={user.profile_pic || ""}></img>
+      
+      <input 
+      type="file"
+      id="profile_pic"
+      onChange={e => {
+        let files = e.target.files;
+        if (files.length === 1 && validateUpload(e)) {
+          upload(e);
+        } else {
+          e.target.value = "";
+          alert("please add image only");
+        }
+      }}
+      ref={wrapperRef}
+      accpet="image/gif, image/jpeg, image/jpg, image/png"></input></div> */}
       <div className="show-img">
-      <img src={user.profile_pic}></img>
+      <img src={profile_pic}></img>
       </div>
       <table  className="showtable">
       <tr>

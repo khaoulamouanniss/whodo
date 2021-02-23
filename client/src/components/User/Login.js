@@ -4,10 +4,13 @@ import {Redirect,useHistory} from 'react-router-dom';
 import GoogleLogin from "react-google-login";
 import FacebookLogin from 'react-facebook-login';
 import * as AiIcons from "react-icons/ai";
+import {decoder} from "../../decode";
 import "./Login.css";
 
 
 export default function Login(props) {
+
+ 
 
   let history=useHistory();
   const{change,setChange,setUser,setError,loginGF, error,user} = props;
@@ -20,15 +23,18 @@ export default function Login(props) {
     axios.post('http://localhost:8001/login',{ email:details.email, password:details.password })
     .then(res =>
       {
-       if(res.data === 'Email does not exist' || res.data === 'Password is incorrect') {
-            setError ('Informations do not match!');
+        console.log("response in login function", res)
+       if(!res.data.auth) {
+            setError (res.data.message);
         } else {
-          console.log('details in function login', details)
-          console.log('login res data', res.data)
+          
+          localStorage.setItem("token",res.data.token)
+          const newUser = decoder();
           setError(null);
-          setUser(res.data);
+          console.log("newUser",newUser.user)
+          setUser(newUser.user);
           setChange(!change);
-          console.log('Logged in' ,user);
+          // console.log('Logged in' ,user);
           history.push("/")
          
         }

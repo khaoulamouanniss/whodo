@@ -5,7 +5,7 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const helmet = require("helmet");
 const cors = require("cors");
-
+// const bcrypt = require("bcrypt")
 const app = express();
 
 const db = require("./db");
@@ -37,6 +37,7 @@ module.exports = function application(
   app.use(cors());
   app.use(helmet());
   app.use(bodyparser.json());
+  //app.use(bcrypt())
 
   app.use("", users(db));
   app.use("", topics(db));

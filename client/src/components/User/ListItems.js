@@ -3,34 +3,37 @@
 import React from "react";
 import Item from "./Item";
 import "./Item.css"
-import ReactWordcloud from 'react-wordcloud';
+// import ReactWordcloud from 'react-wordcloud';
 //import wordcloud2 from 'wordcloud2';
 
  export default function ListItems(props) {
  // wordcloud2(demoFreq, figPath = "twitter.jpg";
  
 
-  const topics = props.topics.map(t =>{
-    return {text:t.topic,value:parseInt(t.items)}
-  })
+  // const topics = props.topics.map(t =>{
+  //   return {text:t.topic,value:parseInt(t.items)}
+  // })
 
-  const callbacks = {
-    getWordColor: word => {
-      if (word.value < 5) {
-        return "black";
-      } else if (word.value === 5 ) {
-        return "grey";
-      } else {return "orange";}
-    },
-    onWordClick: console.log,
-    onWordMouseOver: console.log,
-    getWordTooltip: word => `${word.text} (${word.value}) [${word.value > 5 ? "good" : "bad"}]`,
-  }
-  const options = {
-    rotations: 2,
-    rotationAngles: [-90, 0],
-  };
-  const size = [600, 400];
+  // const clickTopic =(word) => {
+  //   console.log(word)
+  // }
+  // const callbacks = {
+  //   getWordColor: word => {
+  //     if (word.value < 5) {
+  //       return "black";
+  //     } else if (word.value === 5 ) {
+  //       return "grey";
+  //     } else {return "orange";}
+  //   },
+  //   onWordClick: clickTopic,
+  //   onWordMouseOver: console.log,
+  //   getWordTooltip: word => `${word.text} (${word.value}) [${word.value > 5 ? "good" : "bad"}]`,
+  // }
+  // const options = {
+  //   rotations: 2,
+  //   rotationAngles: [-90, 0],
+  // };
+  // const size = [600, 400];
   
   
 

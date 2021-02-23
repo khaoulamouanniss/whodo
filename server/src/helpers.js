@@ -1,4 +1,5 @@
 const { request } = require("express");
+const jwt = require('jsonwebtoken');
 
 const getUserByEmail = (email, db) => {
   return db.query(`
@@ -8,6 +9,7 @@ const getUserByEmail = (email, db) => {
   `, [email])
     .then(res => {
       if(res) {
+        console.log("get user", res.rows[0])
         return res.rows[0];
       }
       return null;
@@ -33,13 +35,13 @@ const addUserLoginGF = (userData, db) => {
     });
 };
 const addUserGF = (userData, db) => {
-  const {name, last_name, birth_date, gender, email, profile_pic, country, region, city, type, relationship, family} = userData;
+  const {name, last_name, birth_date, gender, email, profile_pic, country, city, type, relationship} = userData;
   console.log("data in addUserGF", userData)
   return db.query(`
-  INSERT INTO users (name, last_name, birth_date, gender,  email, profile_pic, country, region, city, type, relationship, family)
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+  INSERT INTO users (name, last_name, birth_date, gender,  email, profile_pic, country, city, type, relationship)
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     RETURNING *;
-    `, [name, last_name, birth_date, gender, email, profile_pic, country, region, city, type, relationship, family])
+    `, [name, last_name, birth_date, gender, email, profile_pic, country, city, type, relationship])
     .then(res => {
      console.log("user added in function addUserGF",res.rows[0])
       return res.rows[0];
@@ -51,18 +53,18 @@ const addUserGF = (userData, db) => {
 
 const addUser = (userData, db) => {
   console.log("data in addUser", userData)
-  const {name, last_name, birth_date, gender, email, password, profile_pic, country, region, city, referrer, type, relationship, family} = userData;
+  const {name, last_name, birth_date, gender, email, password, profile_pic, country, city, type, relationship} = userData;
   return db.query(`
-  INSERT INTO users (name, last_name, birth_date, gender,  email, password, profile_pic, country, region, city, referrer, type, relationship, family)
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+  INSERT INTO users (name, last_name, birth_date, gender, email, password, profile_pic, country, city, type, relationship)
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
     RETURNING *;
-    `, [name, last_name, birth_date, gender, email, password, profile_pic, country, region, city, referrer, type, relationship, family])
+    `, [name, last_name, birth_date, gender, email, password, profile_pic, country, city, type, relationship])
     .then(res => {
-     //console.log(res.rows[0])
+     console.log("user in addUser after req",res.rows[0])
       return res.rows[0];
     })
     .catch(e => {
-      return null;
+      console.log("error in router signup");
     });
 };
 
@@ -364,8 +366,8 @@ const deleteItem = (id,db) => {
   };
 
   const updateUser = (userdata, db) => {
-    const {name, last_name, birth_date, gender, profile_pic, country, region, city,  relationship, family, email} = userdata;
-    return db.query(`Update users SET name = $1, last_name = $2, birth_date = $3,gender = $4,  profile_pic = $5, country = $6, region = $7, city = $8, relationship = $9, family = $10 WHERE email = $11 returning *;`, [name, last_name, birth_date, gender, profile_pic, country, region, city, relationship, family, email])
+    const {name, last_name, birth_date, gender, country, city,  relationship, email} = userdata;
+    return db.query(`Update users SET name = $1, last_name = $2, birth_date = $3,gender = $4, country = $5, city = $6, relationship = $7  WHERE email = $8 returning *;`, [name, last_name, birth_date, gender, country, city, relationship, email])
     .then(res => {
       //console.log(res)
       return res.rows[0]
@@ -375,6 +377,18 @@ const deleteItem = (id,db) => {
       return null;
     })
     };
+
+    const updateUserPic = (profile_pic,email, db) => {
+      return db.query(`Update users SET profile_pic = $1 where email = $2 returning *;`, [profile_pic,email])
+      .then(res => {
+        //console.log(res)
+        return res.rows[0]
+      })
+      .catch(e => {
+        //console.log(e)
+        return null;
+      })
+      };
 
     //randomly return an item for a specific topic
 const getRandomItemForTopic = (topic, db) => {
@@ -393,6 +407,23 @@ const getRandomItemForTopic = (topic, db) => {
         return null;
       });
   };
+
+  const verifyJWT =(req, res, next) => {
+    console.log("token in verifyJWT",req.headers)
+    const token = req.headers("x-access-token");
+    if(!token) {
+      res.send("You're not autorised")
+    } else {
+      jwt.verify(token,"jwtSecret", (err,decoded) => {
+        if (err) {
+          res.json({auth:false, message:"You failed to authenticate"})
+        } else {
+          res.userId=decoded.id;
+          next();
+        }
+      })
+    }
+  }
   
 module.exports = {
   getUserByEmail,
@@ -414,5 +445,6 @@ module.exports = {
   addUserGF,
   addItemAnswer,
   addUserLoginGF,
-  getRandomItemForTopic
+  getRandomItemForTopic,
+  updateUserPic
 };

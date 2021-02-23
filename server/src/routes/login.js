@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require('bcrypt');
 const {getUserByEmail, addUserLoginGF} = require ("../helpers");
+const jwt = require('jsonwebtoken');
 
 module.exports = db => {
  
@@ -12,14 +13,16 @@ module.exports = db => {
       .then(user => {
         //console.log("user in router login",user)
         if (!user) {
-          res.send("Email does not exist");
-        } else if /*(password !== user['password']) {*/(!bcrypt.compare(password, user['password'])) {
-          res.send("Password is incorrect");
-          
-          return;
+          res.send({auth:false,message:"User doesn't exist"})
+        } else if (!bcrypt.compare(password, user.password)) {
+          res.send({auth:false,message:"Password is incorrect"})
+        } else {
+          const token = jwt.sign({user},"jwtSecret", {
+          expiresIn : 360
+          })
+          res.json({auth:true, token:token, user:user})
         }
         
-        res.send(user);
       })
       .catch(e => {
         if (e) {
@@ -44,11 +47,17 @@ module.exports = db => {
            };
           addUserLoginGF(userData, db).then(newUser => {
           console.log("newUser in res of function addUserLoginGf in router signupgf",newUser);
-          res.send(newUser);
+          const token = jwt.sign({user:newUser},"jwtSecret", {
+            expiresIn : 360
+            })
+            res.json({auth:true, token:token, user:newUser})
           //return newUser;
         })
         } else {
-          res.send(user);
+          const token = jwt.sign({user},"jwtSecret", {
+            expiresIn : 360
+            })
+            res.json({auth:true, token:token, user:user})
         }        
           
       })

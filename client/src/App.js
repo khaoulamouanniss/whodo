@@ -18,11 +18,13 @@ import Users from './components/Admin/Users';
 import ItemsApprove from './components/Admin/ItemsApprove';
 import SubmittedItems from './components/User/SubmittedItems';
 import "./App.css"
+import {decoder} from "./decode"
 //import users from '../../server/src/routes/users';
 //import Account from './components/Account';
 
 export default function App() {
 
+  const userLocalStorage = decoder() || {};
   
   /*const adminUser = {
     email : 'test@test.com',
@@ -30,8 +32,15 @@ export default function App() {
   }
 */
 const [users,setUsers] = useState([]);
-const [user, setUser] = useState({id:1})
+const [user, setUser] = useState(userLocalStorage.user || {id:1})
 const [change,setChange]= useState(true);
+
+
+// localStorage.setItem("token",res.data.token)
+
+// useEffect(() => {
+//   localStorage.setItem("token",user)
+// },[user])
 
 //const userInStorage = useState(localStorage.getItem("user"));
 //const [user, setUser] = useState(userInStorage ? userInStorage : null);
@@ -88,11 +97,19 @@ const [change,setChange]= useState(true);
         setItemsToApprove(all[2].data);
         setItemsOfTopic(all[3].data);
         setSubmittedItems(all[4].data);
+        
       })
   
     }, [user,change]);
   
-      
+//   useEffect(() => {
+//   const newUser = decoder();
+//   if(newUser){
+//     setUser(newUser.user);
+//   }
+//   setChange(!change);
+  
+// },[])
   
   const [error, setError] = useState(null);
   //const [loading, setLoading] = useState(false);
@@ -105,13 +122,18 @@ let history = useHistory();
       {
         console.log('details in function login', details)
         console.log('login res data', res.data)
-        setError(null);
-        setUser(res.data);
+        localStorage.setItem("token",res.data.token)
+          const newUser = decoder();
+          setError(null);
+          console.log("newUser",newUser.user)
+          setUser(newUser.user);
+          setChange(!change);
         
       })
   };
   const logout = () => {
     console.log('Logout');
+   localStorage.setItem("token", "")
     setUser([]);
   };
     const signup = details => {
@@ -126,23 +148,22 @@ let history = useHistory();
       country: details.country, 
       region: details.region, 
       city: details.city, 
-      type: "normal", 
-      relationship: details.relationship, 
-      family: details.family
+      relationship: details.relationship
     })
     .then(res =>
       {
-        console.log(res.data)
-        if(res.data === 'An account with this email exist') {
-            setError ('An account with this email exist');
+        console.log("result in signup function",res.data)
+        if(!res.data.auth) {
+            setError (res.data.message);
         } else {
-          console.log("user",res.data);
+          localStorage.setItem("token",res.data.token)
+          const newUser = decoder();
           setError(null);
-          setUser(res.data);
-          console.log('Signed up');
-          console.log(user.email);
+          console.log("newUser",newUser.user)
+          setUser(newUser.user);
+          setChange(!change);
         }
-        return res.data;
+        //return res.data;
       })
   };
 
@@ -155,20 +176,17 @@ let history = useHistory();
        email: details.email, 
        profile_pic: details.profile_pic, 
        country: details.country, 
-       region: details.region, 
-       city: details.city, 
-       referrer: details.referrer,
+       city: details.city,
        relationship: details.relationship 
      })
      .then(res =>
        {
-           console.log("user",res.data);
-           setError(null);
-           setUser(res.data);
-           console.log('Signed up');
-           console.log(user.email);
-        
-         return res.data;
+          localStorage.setItem("token",res.data.token)
+          const newUser = decoder();
+          setError(null);
+          console.log("newUser",newUser.user)
+          setUser(newUser.user);
+          setChange(!change);
        })
    };
  
@@ -176,12 +194,12 @@ let history = useHistory();
 
 
  const addFavTopic = (user_id,topic_id) => {
+   console.log("user and topic".user_id,topic_id)
   axios.post("http://localhost:8001/favtopics",{user_id:user_id, topic_id:topic_id})
   .then(res => {
     console.log("Favtopic added",res.data);
-    
   })
-  setChange("Fav topic added")
+  setChange(!change)
  }
   const update = (userDeatails, email) => {
     axios.post('http://localhost:8001/update',{
@@ -272,7 +290,7 @@ let history = useHistory();
     let matches =[];
     let topic = "";
     let item = submittedItem;
-    while (matches = re.exec(submittedItem)) {
+    while (matches === re.exec(submittedItem)) {
       
       topic=matches[0].replace('#','');
       submittedTopics.push(topic);  
