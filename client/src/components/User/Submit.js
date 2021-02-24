@@ -28,7 +28,7 @@ const {change, setChange, user} = props
   .then(res => {
     console.log("submittedItem",res.data); 
     setChange(!change)
-    history.push("/myitems");
+     history.push("/myitems");
   })
   
  
@@ -36,7 +36,7 @@ const {change, setChange, user} = props
   const handleChange = () => {
     submitItem(document.getElementById("item").value, false);
     console.log('history',history)
-    history.push("/myitems");
+   
   }
  /* let item="";
   onChange={(event) => item=event.target.value}*/

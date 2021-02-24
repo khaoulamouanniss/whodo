@@ -9,7 +9,7 @@
     const wrapperRef = useRef(null);
 
       // process CSV data
-
+    let newItem="";
     const processData = dataString => {
       const dataStringLines = dataString.split(/\r\n|\n/);
       const headers = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
@@ -46,11 +46,11 @@
       }));
   
       for (let l of list) {
-        console.log("item",l)
+        console.log("item",l.item)
         props.submitItem(l.item,true);
       }
-      console.log("list",list)
-      console.log("coloumns",columns)
+      // console.log("list",list)
+      // console.log("coloumns",columns)
     
     }
   
@@ -71,15 +71,15 @@
       };
       reader.readAsBinaryString(file);
     }
-    let newItem="";
+    
     const itemData = props.items.map(i => <Item id ={i.id} item={i.item} approved={i.approved} setCurrentItem={props.setCurrentItem} deleteItem={props.deleteItem} topics={i.topic} answers ={i.answers}/>)
     return(
       <>
   
-    <div style={{marginLeft:"30%",fontWeight:"bold", fontSize:"18px"}}> 
+    <div style={{marginLeft:"38%",fontWeight:"bold", fontSize:"18px"}}> 
     {/* <div style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>      */}
         <input className="itemsinput" onChange={e => newItem=e.target.value}></input>
-        <div style={{marginLeft:"35%", marginTop:"-5%"}} onClick={() => {wrapperRef.current.click()}}>
+        <div style={{marginLeft:"-6%", marginTop:"-5%"}} onClick={() => {wrapperRef.current.click()}}>
         <i style ={{fontSize:"40px", color:"black"}} className ="fas fa-upload"></i>
           <input style={{display:"none"}}
           type="file"
@@ -88,8 +88,9 @@
           ref={wrapperRef}
           />
           {/* </div> */}
-        <i onClick={() => props.submitItem(newItem,true)} style={{marginLeft:"10%", marginTop:"-45px"}} class="itemsfas2 fa-plus-square"></i>
     </div> 
+            <i onClick={() => props.submitItem(newItem,true)} style={{marginLeft:"32%", marginTop:"-45px"}} class="itemsfas2 fa-plus-square"></i>
+
     </div>
     <div className = "itemstable">
          <div  className="itemstd-container">

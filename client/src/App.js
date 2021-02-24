@@ -290,8 +290,8 @@ let history = useHistory();
     let matches =[];
     let topic = "";
     let item = submittedItem;
-    while (matches === re.exec(submittedItem)) {
-      
+    while (matches = re.exec(submittedItem)) {
+      console.log(matches)
       topic=matches[0].replace('#','');
       submittedTopics.push(topic);  
       console.log("topic",topic);
@@ -302,8 +302,11 @@ let history = useHistory();
   axios.post("http://localhost:8001/items",{creator:user.id, item:item, time:time, approved:approved, topics:submittedTopics})
   .then(res => {
     console.log("submittedItem",res.data); 
-  }) 
- setChange(!change)
+    setChange(!change)
+    
+  })
+  
+ 
  }
   const approveItem = (id) => {
     axios.get(`http://localhost:8001/approveitem/${id}`)

@@ -11,7 +11,7 @@ import {useHistory} from"react-router-dom"
 export default function ListTopics(props) {
 
   const topics = props.topics.map(t =>{
-    return {text:t.topic,id:t.id,value:parseInt(t.items)}
+    return {text:t.topic,id:t.id,value:(parseInt(t.items))}
   })
 
   const clickTopic =(word) => {
@@ -23,7 +23,7 @@ export default function ListTopics(props) {
   }
   const callbacks = {
     getWordColor: word => {
-      if (word.value < 1) {
+      if (word.value === 1) {
         return "grey";
       }else if (word.value >=1 && word.value < 3 ) {
         return "rgb(247, 151, 62)";
@@ -35,13 +35,13 @@ export default function ListTopics(props) {
     },
     onWordClick: clickTopic,
    // onWordMouseOver: hoverTopic,
-    getWordTooltip: word => `${word.text} ${word.value} items`,
+    getWordTooltip: word => `${word.text}`,
   }
   const options = {
-    rotations: 2,
-    rotationAngles: [15,-10,10,-30,20,-20],
+    rotations: 5,
+    rotationAngles: [15,-10,10,-15],
   };
-  const size = [600, 400];
+  const size = [600,500, 400];
   
   
   let history=useHistory();
@@ -53,7 +53,7 @@ export default function ListTopics(props) {
          Please choose your favourite topics.    
       </div>
 
-    <div style={{ marginTop: "5px", marginLeft:"200px"}}>
+    <div style={{ marginTop: "1px", marginLeft:"200px"}}>
      <ReactWordcloud
       callbacks={callbacks}
       options={options}
