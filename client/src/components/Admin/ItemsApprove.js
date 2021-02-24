@@ -9,7 +9,7 @@ export default function ItemsApprove(props) {
   return(
     <>
     <div className ="itemsapprovetable ">
-      <div className = "itemsapprovetd-container" style={{marginTop:"20%"}}>
+      <div className = "itemsapprovetd-container" style={{marginTop:"5%"}}>
       {itemData}
       </div>
     </div>

@@ -17,9 +17,6 @@ export default function ItemApprove(props) {
   <div className="itemsapprovetd" style ={{flexGrow:"5"}}>
     <span>{topics}</span>
   </div>
-  <div className="itemsapprovetd" style ={{flexGrow:"5"}}>
-    <span>{answers}</span>
-  </div>
   <div className="itemsapprovefas-div">
   <div className="itemsapprovetd">
     <span><i style={{marginLeft:"-10%"}} className="itemsapprovefas1 fa-check-circle" onClick={() => approveItem(id)}></i></span>

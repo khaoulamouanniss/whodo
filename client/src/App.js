@@ -133,7 +133,8 @@ let history = useHistory();
   const logout = () => {
     console.log('Logout');
    localStorage.setItem("token", "")
-    setUser([]);
+    setUser({id:1});
+    
   };
     const signup = details => {
    return axios.post('http://localhost:8001/signup',{ 

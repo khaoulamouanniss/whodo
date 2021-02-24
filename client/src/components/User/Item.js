@@ -2,14 +2,18 @@
 import React from "react";
 import "./Item.css";
 import { Link } from "react-router-dom";
+import User from "../Admin/User";
 //import AnswerItem from "./AnswerItem"
 //import useVisualMode from "../hooks/useVisualMode"
 
 
 export default function Item(props) {
 
-  let topics=' #'+ props.topics.replace('/',' #');
-  // let answers =' ' + props.answers + ' answers';
+  // if(props.user.type!== "super") {
+      let topics=' #'+ props.topics.replace('/',' #');
+    // let answers =' ' + props.answers + ' answers';
+  // }
+
   
   
   return (

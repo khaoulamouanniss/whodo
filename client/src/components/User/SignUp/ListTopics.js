@@ -23,11 +23,15 @@ export default function ListTopics(props) {
   }
   const callbacks = {
     getWordColor: word => {
-      if (word.value < 5) {
-        return "black";
-      } else if (word.value === 5 ) {
+      if (word.value < 1) {
         return "grey";
-      } else {return "orange";}
+      }else if (word.value >=1 && word.value < 3 ) {
+        return "rgb(247, 151, 62)";
+      }else if (word.value >= 3 && word.value < 5 ) {
+        return "rgb(247,137,37)";
+      } else if (word.value === 5 ) {
+        return "black";
+      } else {return "rgb(247,137,37)";}
     },
     onWordClick: clickTopic,
    // onWordMouseOver: hoverTopic,
@@ -35,7 +39,7 @@ export default function ListTopics(props) {
   }
   const options = {
     rotations: 2,
-    rotationAngles: [30,-10,10,-30,40,-40],
+    rotationAngles: [15,-10,10,-30,20,-20],
   };
   const size = [600, 400];
   

@@ -132,8 +132,8 @@ display: flex;
 flex-basis: 40%;
 justify-content: center;
 align-items: center;
-margin-left:60%;
-/* width:70%; */
+/* margin-left:60%; */
+width:70%;
 
 }
 .chartsBy {

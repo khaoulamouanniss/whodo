@@ -72,9 +72,13 @@ export default function Login(props) {
   return !loggedIn ?(
     <div className="login">
       <form className="login-form" onSubmit={submitHandler}>
-        <div className="login-welcome">
-          Welcome message by kevin
-        </div>
+      <div style={{marginTop:"5%"}} className="form1-welcome">
+          Welcome to Whodo
+          <div style={{color:"rgb(51, 50, 50)", fontSize:"18px", marginTop:"3%"}}>
+          Use your email and password to login or you can login using your google or facebook.
+          </div>  
+        </div>  
+         
         {(error !== "") ? (<div className="login-error">{error}</div>) : "" }
         <div className="login-data">
           <label className="login-label" for = "email">Email</label><br />

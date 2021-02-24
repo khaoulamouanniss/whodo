@@ -189,10 +189,10 @@ const inputEmail3 = {
     }
   
     .div-v2{
-      border-left: 4px solid black;
+      border-left: 4px solid rgb(177, 172, 172);
       height: 300px;
       position: absolute;
       left: 50%;
       margin-left:22%;
-      top: 44%;
+      top: 42%;
     }

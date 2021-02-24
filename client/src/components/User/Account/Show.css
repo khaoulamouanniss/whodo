@@ -58,11 +58,11 @@
 .show-edit {
   display: flex;
   margin-right: 8%;
-  margin-top: 13%;
+  margin-top: 12%;
 }
 .show-hr{
   height:3px;
-  width:280%;
+  width:220%;
   background-color: rgb(247,137,37);
   margin-bottom:30%;
 }
