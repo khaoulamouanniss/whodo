@@ -87,10 +87,14 @@ const inputEmail3 = {
   }
   .form1-welcome{
     display:flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    flex-direction: column;
     font-size: 30px;
+    margin-top:3%;
     margin-bottom: 5%;
+    margin-left:20%;
     color: rgb(247,137,37);
+    width: 80%;
   }
   .form1-error{
     color :red;
@@ -185,10 +189,10 @@ const inputEmail3 = {
     }
   
     .div-v2{
-      border-left: 6px solid black;
-      height: 320px;
+      border-left: 4px solid black;
+      height: 300px;
       position: absolute;
       left: 50%;
       margin-left:22%;
-      top: 28%;
+      top: 44%;
     }

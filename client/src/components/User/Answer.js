@@ -267,17 +267,18 @@ disableAllButtons()
           <div className='title'>
             <h2>{props.item.item}</h2>
           </div>
-          <Link to="/answer" onClick={() => randomItem(topic)} >
-            <h6>#{topic}</h6>
+          
+          <Link style={{textDecoration:"none"}} to="/answer" onClick={() => randomItem(topic)} >
+            <h5>#{topic}</h5>
           </Link>
         </div>
          {/*second part of our item title*/}
         <div class='changeYourTopic'>
-          <div>
-          <h6>Change Topic:</h6>
+          <div className="answer-label">
+          <h6>Change topic</h6>
           </div>
-          <div>
-          <select name="other-topics" id="otherTopics" value={topic} onChange={async event => {
+          <div  >
+          <select className="answer-select" name="other-topics" id="otherTopics" value={topic} onChange={async event => {
          await  setTopic(event.target.value); 
              randomItem(event.target.value);
              enableAllButtons();
@@ -291,9 +292,10 @@ disableAllButtons()
           </div>
         </div>
       </div>
-      <div className='fav'>
+      
+      {/* <div className='fav'>
         <i class="fal fa-heart-circle"></i>
-      </div>
+      </div> */}
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
@@ -324,38 +326,6 @@ disableAllButtons()
       <br />
       <br />
       {/*third component of our flex*/}
-      <div className='filterResults'>
-       <div>
-       <h6>filter results by:</h6>
-       </div>
-       <div>
-       <select name="filter" id="filter" value={filter} onChange={event => {
-          setFilter(event.target.value); 
-             filterAnswers(props.item.id, event.target.value);
-           }
-          }>
-            <option value='gender'> gender</option>
-            <option value='relation'> relation</option>
-            <option value='education'> education</option> 
-          </select>
-          </div>
-      </div>
-      {/*fourth component of our flex*/}
-      <div className='charts'>
-        {/*first subcomponent of chart flex */}
-        <div className='chartsByGender'>
-          {showChartGender && <ChartByGender data={dataArrayGender} />}
-        </div>
-        {/*second subcomponent of chart flex */}
-        <div className='chartsByRelation'>
-          {showChartRelation && <ChartByRelation data={dataArrayRelation} />}
-        </div>
-        <br />
-        <div className='chartsByEducation'>
-          {showChartEducation && <ChartByEducation />}
-        </div>
-        <br />
-      </div>
       <div className='socialMedia'>
         <div className='whatsapp'>
           <WhatsappShareButton url={shareUrl}>
@@ -378,6 +348,39 @@ disableAllButtons()
           <br />
         </div>
       </div>
+      <div className='filterResults'>
+       {/* <div>
+       <h6>filter results by:</h6>
+       </div> */}
+       <div>
+       <select className="answer-select" name="filter" id="filter" value={filter} onChange={event => {
+          setFilter(event.target.value); 
+             filterAnswers(props.item.id, event.target.value);
+           }
+          }>
+            <option value='gender'> Filter by gender</option>
+            <option value='relation'> Filter by relation</option>
+            <option value='education'> Filter by education</option> 
+          </select>
+          </div>
+      </div>
+      {/*fourth component of our flex*/}
+      <div className='charts'>
+        {/*first subcomponent of chart flex */}
+        <div className='chartsBy'>
+          {showChartGender && <ChartByGender data={dataArrayGender} />}
+        </div>
+        {/*second subcomponent of chart flex */}
+        <div className='chartsBy'>
+          {showChartRelation && <ChartByRelation data={dataArrayRelation} />}
+        </div>
+        <br />
+        <div className='chartsBy'>
+          {showChartEducation && <ChartByEducation />}
+        </div>
+        <br />
+      </div>
+      
     </div>
 
 

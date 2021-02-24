@@ -81,7 +81,7 @@
 .login-error{
   display: flex;
   justify-content: center;
-  color :red;
+  color :rgb(199, 5, 5);
   margin-top: 15px;
 }
 .login-data {
@@ -134,7 +134,7 @@
 .login-button {
   display: flex;
   background-color:black;
-  color: white;
+  color: rgb(221, 217, 213);
   padding: 1%;
   margin: 5%;
   cursor: pointer;

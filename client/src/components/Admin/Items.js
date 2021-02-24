@@ -1,11 +1,15 @@
   // npm install xlsx
-  import React from "react";
+  import React, {useRef} from "react";
   import Item from "./Item";
   import * as XLSX from 'xlsx';
   import "./Items.css";
 
   export default function Items(props) {
+
+    const wrapperRef = useRef(null);
+
       // process CSV data
+
     const processData = dataString => {
       const dataStringLines = dataString.split(/\r\n|\n/);
       const headers = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
@@ -45,8 +49,8 @@
         console.log("item",l)
         props.submitItem(l.item,true);
       }
-      console.log(list)
-      console.log(columns)
+      console.log("list",list)
+      console.log("coloumns",columns)
     
     }
   
@@ -72,16 +76,20 @@
     return(
       <>
   
-    <div style={{marginLeft:"30%",fontWeight:"bold", fontSize:"18px"}}>
-          <input style ={{fontSize:"25px", color:"black"}} className ="fas fa-upload"
+    <div style={{marginLeft:"30%",fontWeight:"bold", fontSize:"18px"}}> 
+    {/* <div style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>      */}
+        <input className="itemsinput" onChange={e => newItem=e.target.value}></input>
+        <div style={{marginLeft:"35%", marginTop:"-5%"}} onClick={() => {wrapperRef.current.click()}}>
+        <i style ={{fontSize:"40px", color:"black"}} className ="fas fa-upload"></i>
+          <input style={{display:"none"}}
           type="file"
           accept=".csv,.xlsx,.xls"
           onChange={handleFileUpload}
+          ref={wrapperRef}
           />
-       
-        <input className="itemsinput" onChange={e => newItem=e.target.value}></input>
-        <i onClick={() => props.submitItem(newItem,true)} style={{marginLeft:"72%", marginTop:"-45px"}} class="itemsfas2 fa-plus-square"></i>
-
+          {/* </div> */}
+        <i onClick={() => props.submitItem(newItem,true)} style={{marginLeft:"10%", marginTop:"-45px"}} class="itemsfas2 fa-plus-square"></i>
+    </div> 
     </div>
     <div className = "itemstable">
          <div  className="itemstd-container">

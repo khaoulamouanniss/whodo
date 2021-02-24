@@ -16,8 +16,8 @@ export default function Item(props) {
     <div>
       <Link  to="/answer" className="item-button" onClick={() => props.setCurrentItem({id:props.id, item:props.item, topic:props.topics})}>
         <div className="item-card"> 
-          <div className="item-item">{props.item}</div>
-          <div className="item-topic">{topics}</div>
+          <div style={{fontSize:"18px", fontFamily:"serif"}} className="item-item">{props.item}</div>
+          <div style={{color:"rgb(247,137,37)" , fonSize: "11px"}} className="item-topic">{topics}</div>
         </div>
       </Link>
     </div>

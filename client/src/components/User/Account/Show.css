@@ -15,8 +15,9 @@
 }
 .show-img img{
   height:180px;
+  width:180px;
   border-radius: 100px;
-  border:5px solid rgb(247,137,37);
+  border:7px solid black;
   margin-top: 20%;
 }
 .showUpdateBtn{
@@ -56,14 +57,19 @@
 }
 .show-edit {
   display: flex;
-  margin-right: 5%;
-  margin-top: 10%;
+  margin-right: 8%;
+  margin-top: 13%;
 }
-hr{
+.show-hr{
   height:3px;
-  width:250%;
+  width:280%;
   background-color: rgb(247,137,37);
-  margin-bottom:0%;
+  margin-bottom:30%;
+}
+
+.show-tr {
+
+  border-bottom: 5px solid black;
 }
 
 

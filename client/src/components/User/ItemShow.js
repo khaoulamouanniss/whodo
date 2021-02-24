@@ -60,7 +60,7 @@ export default function ItemShow(props) {
  
   return (
     
-    <div className='container'>
+    <div className='itemshow-container'>
     <div className='flexBig'>
       <div className='flexItem'>
         <div>
@@ -72,15 +72,14 @@ export default function ItemShow(props) {
       </div>
       {/*here finished the flexItem*/}
       <div className='flexList'>
-        <h6>filter by:</h6>
-      <select name="filter" id="filter" value={filter} onChange={event => {
+      <select className="item-show-select" name="filter" id="filter" value={filter} onChange={event => {
           setFilter(event.target.value); 
              filterAnswers(currentItem.id, event.target.value);
            }
           }>
-            <option value='gender'> gender</option>
-            <option value='relation'> relation</option>
-            <option value='education'> education</option> 
+            <option value='gender'> Filter by gender</option>
+            <option value='relation'> Filter by relation</option>
+            <option value='education'> Filter by education</option> 
           </select>
           </div>
             {/*here finished the flexList*/}

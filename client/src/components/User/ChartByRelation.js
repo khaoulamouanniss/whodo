@@ -12,28 +12,18 @@ export default function ChartByRelation(props) {
       {
         label: 'single',
         data: arrSingle,
-        backgroundColor: 'red',
+        backgroundColor: 'rgb(126, 238, 219)',
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
+          'rgb(180, 177, 174)'
         ],
         borderWidth: 1,
       },
       {
         label: 'engaged',
         data: arrEngaged,
-        backgroundColor: 'blue',
+        backgroundColor: 'rgb(157, 108, 190)',
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
+          'rgb(180, 177, 174)'
         ],
         borderWidth: 1,
       },

@@ -9,6 +9,9 @@ export default function SubmittedItems(props) {
     <div className = "items-container">
       <div className="item-message"> Here you can find your submitted messages and check if they are approved</div>
        {itemData}
+       <div style={{color:"rgb(51, 50, 50)", width:"70%", fontSize:"18px", marginTop:"3%", marginLeft:"20%"}}>
+          After getting an item approved, you can access your items and filter the results of answers.
+          </div> 
     </div>
   )
 }

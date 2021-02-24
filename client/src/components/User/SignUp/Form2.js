@@ -10,7 +10,10 @@ export default function Form2(props) {
     <div className="form2">
       <div className="form2-form">   
         <div className="form2-welcome">
-          Welcome message by kevin
+        
+          <div style={{color:"rgb(51, 50, 50)", fontSize:"18px", marginTop:"3%"}}>
+          Thank you for choosing whodo, please complete your registration so you can use all the functionalities of whodo.
+          </div>  
         </div>     
         <div className="form2-data">
           <label className="form2-label" >Name</label><br />

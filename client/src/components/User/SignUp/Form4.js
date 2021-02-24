@@ -13,10 +13,12 @@ export default function Form4(props) {
     <div className="form4">
       <div className="form4-form">   
         <div className="form4-welcome">
-        Which gender do you identify with?
+       
+          <div style={{color:"rgb(51, 50, 50)", fontSize:"20px", marginTop:"10%"}}>
+          Which gender do you identify with?
+          </div>  
         </div>     
         <div className="form4-data">
-        <label className="form4-label" >Gender</label>
         <IconContext.Provider value ={{ size:30}}>
         <div className="form4-input" onChange={event => setDetails({...details, gender:event.target.value})}>
           <label class="container"><IoIcons.IoMdMale></IoIcons.IoMdMale>
@@ -39,6 +41,11 @@ export default function Form4(props) {
         <button className="form4-button" onClick={onBack}><i class="fas fa-angle-double-left"></i>&nbsp;&nbsp;Back</button>
         <button className="form4-button" onClick={onNext}>Next&nbsp;&nbsp;<i class="fas fa-angle-double-right"></i></button>
         </div>
+        <div className="form4-welcome">
+          <div style={{color:"rgb(51, 50, 50)", width:"60%", fontSize:"18px", marginTop:"3%"}}>
+          Submitting your informations will allow you to filter results on Whodo by gender.
+          </div>  
+        </div>  
       </div>      
     </div>
  

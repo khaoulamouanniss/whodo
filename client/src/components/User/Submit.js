@@ -41,11 +41,23 @@ const {change, setChange, user} = props
  /* let item="";
   onChange={(event) => item=event.target.value}*/
   return (
-    <div className= "textareaContainer">
-    <div className="submit-message">Some text to put here</div>
-    <textarea className = "textArea" id="item" maxlength='80' type ="text" rows="5" cols="50"></textarea>
-    <div>
-    <Link className= "text-button" to ="/submit" onClick={handleChange}><i style={{fontSize:20}} class="fas fa-hashtag"></i>&nbsp;&nbsp;Submit</Link>
-    </div></div>
+    <div className="submit-container">
+      <div className="submit-img">
+        <img src="./submit-item.png"></img>
+      </div>
+      <div className= "textareaContainer">
+        <div className="submit-message">Submit your own behavior and see 
+        who does what.
+        <div style={{color:"rgb(51, 50, 50)", fontSize:"18px", marginBottom:"3%"}}>Make sure it starts with a verb ending in -ing describes a behavior familiar to most people and is 80 characters or less.</div>
+        <div style={{color:"rgb(51, 50, 50)", fontSize:"18px", marginBottom:"3%"}}>Add some keywords to help people find your submission starting with # (it might be something like work, love, money, restaurants...).</div>
+
+        </div>
+        <textarea className = "textArea" id="item" maxlength='80' type ="text" rows="5" cols="20"></textarea>
+        <span className="submit-icon"><i style={{color:"black"}} class="fas fa-question"></i>80</span>
+        <div>
+        <Link className= "text-button" to ="/submit" onClick={handleChange}><i style={{fontSize:20}} class="fas fa-hashtag"></i>&nbsp;&nbsp;Submit</Link>
+        </div>
+      </div>
+    </div>
   )
 }

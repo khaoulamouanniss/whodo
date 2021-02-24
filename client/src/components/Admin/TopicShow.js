@@ -12,11 +12,11 @@ export default function TopicShow(props) {
       {/* <h1>{topic_id}{topic}</h1> */}
       <div className="topics-container">
       <input className="topicsinput" onChange={e => newItem=e.target.value} style={{marginTop:"4%"}}></input>
-      <i onClick={() => props.addItem(newItem,[topic],true)}  style={{marginLeft:"25%", marginTop:"-4%"}} class="topicsfas1 fa-plus-square"></i>
+      <i onClick={() => props.addItem(newItem,[topic],true)}  style={{marginLeft:"55%", marginTop:"-5%"}} class="topicsfas1 fa-plus-square"></i>
       </div>
       
      <div className="topicstable">
-      <div className ="topicstd-container" style={{width:"160%",marginLeft:"-20%"}}>
+      <div className ="topicstd-container" style={{width:"160%",marginLeft:"-40%"}}>
       {itemData}
       </div>
          

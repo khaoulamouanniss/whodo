@@ -74,7 +74,9 @@ const colourStyles = {
     <div className="form5">
       <div className="form5-form">   
         <div className="form5-welcome">
-        Where do you live?
+        <div style={{color:"rgb(51, 50, 50)", fontSize:"22px", marginTop:"10%"}}>
+          Where do you live?
+          </div> 
                 </div>     
         <div className="form5-data">
           <label className="form5-label" >Country</label>
@@ -116,6 +118,9 @@ const colourStyles = {
         <button className="form5-button" onClick={onBack}><i class="fas fa-angle-double-left"></i>&nbsp;&nbsp;Back</button>
         <button className="form5-button" onClick={onNext}>Next&nbsp;&nbsp;<i class="fas fa-angle-double-right"></i></button>
         </div>
+        <div style={{color:"rgb(51, 50, 50)", width:"70%", fontSize:"18px", marginTop:"3%", marginLeft:"20%"}}>
+          Submitting your informations will allow you to filter results on Whodo by location.
+          </div>
       </div>      
     </div>
   )

@@ -301,14 +301,8 @@ let history = useHistory();
   axios.post("http://localhost:8001/items",{creator:user.id, item:item, time:time, approved:approved, topics:submittedTopics})
   .then(res => {
     console.log("submittedItem",res.data); 
-    setChange(!change)
-    
-  })
-  if(user.type === "normal") {
-    history.push("/myitems")
-  }
-  
- 
+  }) 
+ setChange(!change)
  }
   const approveItem = (id) => {
     axios.get(`http://localhost:8001/approveitem/${id}`)
@@ -349,7 +343,7 @@ let history = useHistory();
          <Form3  user={user}/>
        </Route>
         <Route path="/" exact>
-        <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem} topics={topics} />
+        {user.type !== "super" && <ListItems email={user.email} items={items} setCurrentItem={setCurrentItem} topics={topics} />}
        </Route>
        {/* <Route path="/topics" exact>
         <Topics />
@@ -373,7 +367,7 @@ let history = useHistory();
           <ItemShow currentItem={currentItem} />
        </Route>
        <Route path="/items" >
-          <Items items={items} setCurrentItem={setCurrentItem}  submitItem ={submitItem} deleteItem={deleteItem}/>
+          <Items items={items} setCurrentItem={setCurrentItem} submitItem ={submitItem} deleteItem={deleteItem}/>
        </Route>
        <Route path="/itemstoapprove" >
           <ItemsApprove items={itemsToApprove} setCurrentItem={setCurrentItem} approveItem={approveItem} deleteItem={deleteItem}/>

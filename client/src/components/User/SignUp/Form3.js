@@ -9,7 +9,14 @@ export default function Form3(props) {
     <div className="form3">
       <div className="form3-form">   
         <div className="form3-welcome">
-        You must be 18+ to use Whodo. Please enter your birthdate
+        
+        Welcome to Whodo
+          <div style={{color:"rgb(51, 50, 50)", fontSize:"18px", marginTop:"3%"}}>
+          You must be 18+ to use Whodo.
+           </div>  
+           <div style={{color:"rgb(51, 50, 50)", fontSize:"18px", marginTop:"3%"}}>
+          Please enter your birthdate.
+           </div> 
         </div>     
         <div className="form3-data">
           {/* <label className="form3-label" >Date of birth</label><br /> */}

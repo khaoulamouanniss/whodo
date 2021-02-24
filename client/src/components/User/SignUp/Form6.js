@@ -60,7 +60,9 @@ const colourStyles = {
     <div className="form6">
     <div className="form6-form">   
       <div className="form6-welcome">
-        Welcome message by kevin
+      <div style={{color:"rgb(51, 50, 50)", fontSize:"20px", marginTop:"10%"}}>
+          Which gender do you identify with?
+          </div> 
       </div>     
       <div className="form6-data">
         <label className="form6-label" >Relationship</label><br />
@@ -89,6 +91,9 @@ const colourStyles = {
         <button className="form6-button" onClick={onBack}><i class="fas fa-angle-double-left"></i>&nbsp;&nbsp;Back</button>
         <button className="form6-button" onClick={submitHandler}> Register&nbsp;&nbsp;<i class="fas fa-check-circle"></i></button>
         </div>
+        <div style={{color:"rgb(51, 50, 50)", width:"70%", fontSize:"18px", marginTop:"3%", marginLeft:"20%"}}>
+          Submitting your informations will allow you to filter results on Whodo by relationship.
+          </div>  
     </div>      
   </div>
   )

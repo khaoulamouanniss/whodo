@@ -40,7 +40,7 @@ export default function Navigation(props) {
     <div className="nav-bar">
       {/* <div className="nav-bar nav-white nav-card"> */}
       <div className="nav-user">
-        <Link to="#" onClick={showSideBar}><img src={props.user.profile_pic}></img></Link>
+        <Link to="#" onClick={showSideBar}><img src={props.user.profile_pic || "./default-profile-pic.png"}></img></Link>
       </div>
       {/* <IconContext.Provider> */}
       <nav className={sideBar? "nav-profile active" : "nav-profile"}>

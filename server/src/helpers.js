@@ -97,13 +97,13 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
     })
    
   } else if (type === "super") {
-    //console.log("I am in super")
+    console.log("I am in super")
     sql = `
     SELECT A.id, item, D.topic AS topic, count(B.id) as answers
     FROM items A
     LEFT OUTER JOIN answer_items B ON A.id = B.item_id
-    JOIN item_topics C ON  A.id = C.item_id
-    JOIN topics D ON C.topic_id = D.id
+    LEFT OUTER JOIN item_topics C ON  A.id = C.item_id
+    LEFT OUTER JOIN topics D ON C.topic_id = D.id
     GROUP BY A.id, A.item, D.topic;`;
   } else {
    // console.log("I am in anonymous")

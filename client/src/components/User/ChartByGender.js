@@ -12,28 +12,18 @@ export default function ChartByGender(props) {
       {
         label: 'male',
         data: arrMale,
-        backgroundColor: 'blue',
+        backgroundColor: 'rgb(126, 165, 238)',
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
+          'rgb(180, 177, 174)'
         ],
         borderWidth: 1,
       },
       {
         label: 'female',
         data: arrFemale,
-        backgroundColor: 'pink',
+        backgroundColor: 'rgb(241, 187, 232)',
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
+          'rgb(180, 177, 174)'
         ],
         borderWidth: 1,
       },
@@ -53,7 +43,7 @@ export default function ChartByGender(props) {
   }
   return (
     <div className ='chartContainer'>
-    <Bar data={data} options={options} />
+    <Bar style={{size:"70%"}} data={data} options={options} />
     </div>
   )
 }

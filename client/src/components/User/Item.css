@@ -21,11 +21,12 @@
   font-weight: bold;
 }
 .item-card:hover {
-  background-image: linear-gradient(to top, rgba(214, 109, 49, 0.918), rgba(248, 246, 245, 0.856))!important;
+  /* background-image: linear-gradient(to top, rgba(214, 109, 49, 0.918), rgba(248, 246, 245, 0.856))!important; */
+  background-color: rgb(247, 187, 132);
 }
 ​.item-card.item-topic{
 font-size: 18px;
-color: orange;
+color: rgb(247,137,37);
 }
 .item-btn{
 margin-bottom:50px;

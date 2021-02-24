@@ -14,7 +14,7 @@
     
       </div>
        <div className = "topicstable">
-         <div  className="topicstd-container">
+         <div style={{marginLeft:"-15%"}} className="topicstd-container">
          {topicData}
          </div>
          </div>

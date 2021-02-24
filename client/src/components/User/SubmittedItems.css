@@ -14,8 +14,8 @@ border-collapse: collapse;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width:60%;
-  margin-left:16%;
+  width:80%;
+  /* margin-left:16%; */
   /* margin-top:20%; */
   
 }
@@ -26,6 +26,8 @@ border-collapse: collapse;
   font-size: 26px;
   margin-bottom: 3%;
   color: rgb(37, 24, 11);
+  width:60%;
+  margin-left:5%;
 }
 .item-cont {
   display: flex;

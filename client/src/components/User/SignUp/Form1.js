@@ -41,8 +41,12 @@
     <div className="form1">
       <div className="form1-form">   
         <div className="form1-welcome">
-          Welcome message by kevin
-        </div>     
+          Welcome to Whodo
+          <div style={{color:"rgb(51, 50, 50)", fontSize:"18px", marginTop:"3%"}}>
+          Thank you for choosing whodo, please complete your registration so you can use all the functionalities of whodo.
+          </div>  
+        </div>  
+         
         {(error !== "") ? (<div className="form1-error">{error}</div>) : "" }
         <div className="form1-data">
           <label className="form1-label" for = "email">Email</label><br />

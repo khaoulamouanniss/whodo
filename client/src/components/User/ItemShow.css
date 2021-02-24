@@ -1,7 +1,7 @@
-.container {
+.itemshow-container {
   display: flex;
   padding: 10px;
-  margin: 10px;
+  /* margin: 10px; */
   flex-basis: 100%;
   flex-direction: column;
   justify-content: center;
@@ -11,17 +11,22 @@
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-  background-color:  rgb(245, 175, 110);
+  margin-top:5%;  
+  width: 70%;
+  align-self: center;
 }
-.flexBig .flexItem {
+.flexItem {
   display: flex;
   flex-direction: column;
-  align-self: stretch;
-
+  flex-grow:1;
+  background-color:  rgb(245, 175, 110);
+  margin-right:5%;
+  border-radius: 15px;
+  padding:4%;
 }
 .flexBig .flexItem h1 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 30px;
+  font-size: 26px;
   font-weight: bold;
 }
 .flexBig  h6 {
@@ -42,7 +47,7 @@ outline: none;
 
 border-radius: 15px;
 }
-.container .charts {
+.charts {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,8 +55,20 @@ border-radius: 15px;
  padding: 10px;
  margin-top: 100px;
  margin-left: 200px;
- margin-right: 200px;
+ margin-right: 400px;
  margin-bottom: 200px;
+  
+  }
+
+  .item-show-select {
+    border-width: 3px; 
+    font-size:15px;
+    background-color: transparent;
+    border-color: rgb(247,137,37); 
+    outline: none; 
+    
+  /* margin:5%; */
+    border-radius: 15px;
   
   }
   

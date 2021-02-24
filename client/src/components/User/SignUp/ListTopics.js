@@ -45,6 +45,10 @@ export default function ListTopics(props) {
   // console.log("userId",props.userId)
   return (
     <div className="topics-container">
+      <div className="form7-welcome">
+         Please choose your favourite topics.    
+      </div>
+
     <div style={{ marginTop: "5px", marginLeft:"200px"}}>
      <ReactWordcloud
       callbacks={callbacks}

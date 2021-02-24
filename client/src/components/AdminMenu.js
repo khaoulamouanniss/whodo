@@ -20,19 +20,13 @@ export const AdminMenu = [
   {
     title: 'Items',
     path: '/items',
-    icon: <BsIcons.BsPencilSquare></BsIcons.BsPencilSquare>,
+    icon:<BsIcons.BsListTask></BsIcons.BsListTask>,
     cName:'nav-text'
   },
   {
     title: 'Approve items',
     path: '/itemstoapprove',
-    icon:<BsIcons.BsPersonLinesFill></BsIcons.BsPersonLinesFill>,
-    cName:'nav-text'
-  },
-  {
-    title: 'Users',
-    path: '/users',
-    icon:<BsIcons.BsPersonLinesFill></BsIcons.BsPersonLinesFill>,
+    icon:<BsIcons.BsPencilSquare></BsIcons.BsPencilSquare>,
     cName:'nav-text'
   },
   {
