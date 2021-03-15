@@ -12,6 +12,8 @@ import "./Answer.css"
 
 
 
+
+
 export default function Answer(props) {
   console.log('answer props', props)
   let id = props.item.id;
@@ -41,6 +43,7 @@ export default function Answer(props) {
   const [sometimesOption, setSometimesOption] = useState(0);
   const [usuallyOption, setUsuallyOption] = useState(0);
   const [alwaysOption, setAlwaysOption] = useState(0);
+  const [socialState, setSocialState] = useState(false);
   //a state for the filter set by default to gender
   const [filter, setFilter]= useState('gender');
 
@@ -68,7 +71,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
       setUsuallyOption(Number(data[3].nbanswers));
       setAlwaysOption(Number(data[4].nbanswers));
       backToNormalButtonHeights();
-      disableFilter()
+  
      
     })
   }, [])
@@ -88,16 +91,29 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
       setShowChartEducation(false);
       setShowChartGender(false);
       setShowChartRelation(false);
-      disableFilter();
+  
     })
   }, [props.item.item])
 
   useEffect(() => {
    
     changeheight();
-    enableFilter();
   }, [voteOption])
-  
+
+  //this function will be called everytime the user clicks on shar button 
+  function expandMenu(socialState) {
+    if (socialState === false) {
+      document.getElementById('icon-list').style.transform = 'scaleX(1)';
+    
+      setSocialState(true);
+  }
+  else {
+      document.getElementById('icon-list').style.transform = 'scaleX(0)';
+      
+      setSocialState(false);
+  }
+    
+  }
   function backToNormalButtonHeights() {
     document.getElementById('id1').style.height = '20px'
     document.getElementById('id2').style.height = '20px'
@@ -105,12 +121,8 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
     document.getElementById('id4').style.height = '20px'
     document.getElementById('id5').style.height = '20px'
   }
-  function disableFilter() {
-    document.getElementById('filter').disabled = true;
-  }
-  function enableFilter() {
-    document.getElementById('filter').disabled = false;
-  }
+
+  
   //disabling all buttons after the user clicks on any option
   function disableAllButtons() {
     document.getElementById('id1').disabled = true
@@ -210,7 +222,6 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
     setVoteOption(2)
     addAnswer(2, id)
     setShowValues(true)
-
     setShowFilter(true)
 
 
@@ -273,11 +284,39 @@ disableAllButtons()
           </Link>
         </div>
          {/*second part of our item title*/}
-        <div class='changeYourTopic'>
+         <div className='socialMedia'>
+
+<input type="checkbox" id="check"/>
+  <label for="check">
+      <div id="button"><i class="fas fa-share" onClick={()=> expandMenu(socialState)}></i></div>
+  </label>
+
+  <div id="icon-list">
+      <ul>
+          <li><WhatsappShareButton url={shareUrl}>
+  <WhatsappIcon round={true} />
+</WhatsappShareButton></li>
+          <li> <FacebookShareButton
+  url= {shareUrl}
+  quote= 'have a look at this video'
+  hashtag= '#whodo'>
+    <FacebookIcon logoFillColor="white" round={true} />
+  </FacebookShareButton></li>
+          <li><TwitterShareButton title={props.item.item}  url={shareUrl}>
+  <TwitterIcon logoFillColor="white" round={true} />
+  </TwitterShareButton></li>
+          
+      </ul>
+
+</div>
+
+</div>
+ {/*third part of our item title*/}
+        {/*<div class='changeYourTopic'>
           <div className="answer-label">
           <h6>Change topic</h6>
           </div>
-          <div  >
+          <div>
           <select className="answer-select" name="other-topics" id="otherTopics" value={topic} onChange={async event => {
          await  setTopic(event.target.value); 
              randomItem(event.target.value);
@@ -291,11 +330,9 @@ disableAllButtons()
           </select>
           </div>
         </div>
+        */}
       </div>
       
-      {/* <div className='fav'>
-        <i class="fal fa-heart-circle"></i>
-      </div> */}
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
@@ -323,37 +360,16 @@ disableAllButtons()
           <div className="hidden"><p> always</p></div>
         </div>
       </div>
-      <br />
-      <br />
+
       {/*third component of our flex*/}
-      <div className='socialMedia'>
-        <div className='whatsapp'>
-          <WhatsappShareButton url={shareUrl}>
-            <WhatsappIcon round={true} />
-          </WhatsappShareButton>
-        </div>
-        <div className='fb'>
-          <FacebookShareButton
-            url={shareUrl}
-            quote='have a look at this video'
-            hashtag='#whodo'>
-            <FacebookIcon logoFillColor="white" round={true} />
-          </FacebookShareButton>
-        </div>
-        <br />
-        <div className='twitter'>
-          <TwitterShareButton title={props.item.item} url={shareUrl}>
-            <TwitterIcon logoFillColor="white" round={true} />
-          </TwitterShareButton>
-          <br />
-        </div>
-      </div>
+     
       <div className='filterResults'>
+
        {/* <div>
        <h6>filter results by:</h6>
        </div> */}
        <div>
-       <select className="answer-select" name="filter" id="filter" value={filter} onChange={event => {
+     {showFilter &&  <select className="answer-select" name="filter" id="filter" value={filter} onChange={event => {
           setFilter(event.target.value); 
              filterAnswers(props.item.id, event.target.value);
            }
@@ -361,28 +377,27 @@ disableAllButtons()
             <option value='gender'> Filter by gender</option>
             <option value='relation'> Filter by relation</option>
             <option value='education'> Filter by education</option> 
-          </select>
+          </select>}
           </div>
       </div>
       {/*fourth component of our flex*/}
       <div className='charts'>
         {/*first subcomponent of chart flex */}
-        <div className='chartsBy'>
+        <div className='chartsByGender'>
           {showChartGender && <ChartByGender data={dataArrayGender} />}
         </div>
         {/*second subcomponent of chart flex */}
-        <div className='chartsBy'>
+        <div className='chartsByRelation'>
           {showChartRelation && <ChartByRelation data={dataArrayRelation} />}
         </div>
         <br />
-        <div className='chartsBy'>
+        <div className='chartsByEducation'>
           {showChartEducation && <ChartByEducation />}
         </div>
         <br />
       </div>
       
     </div>
-
 
   )
 }
