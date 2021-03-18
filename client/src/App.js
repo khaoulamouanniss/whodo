@@ -19,66 +19,24 @@ import ItemsApprove from './components/Admin/ItemsApprove';
 import SubmittedItems from './components/User/SubmittedItems';
 import "./App.css"
 import {decoder} from "./decode"
-//import users from '../../server/src/routes/users';
-//import Account from './components/Account';
+
 
 export default function App() {
 
-  const userLocalStorage = decoder() || {};
-  
-  /*const adminUser = {
-    email : 'test@test.com',
-    password : 'test'
-  }
-*/
+const userLocalStorage = decoder() || {};
 const [users,setUsers] = useState([]);
 const [user, setUser] = useState(userLocalStorage.user || {id:1})
 const [change,setChange]= useState(true);
 
 
-// localStorage.setItem("token",res.data.token)
-
-// useEffect(() => {
-//   localStorage.setItem("token",user)
-// },[user])
-
-//const userInStorage = useState(localStorage.getItem("user"));
-//const [user, setUser] = useState(userInStorage ? userInStorage : null);
-// useEffect(() => {
-//   const localUser = localStorage.getItem("user")
-//   console.log("LocalUser",localUser)
-//   setUser(localUser)
-// }, [])
-// useEffect(() => {
-//   localStorage.setItem("user", user)
-// }, [user])
-  const [topics,setTopics] = useState([]);
-/*
-  const chooseTopics = topics => {
-    axios.post("http://localhost:8001/topics",{ 
-        topic: topics.topic
-  })
-  .then( res =>
-    {
-        console.log(res.data);
-        setTopics([...topic]);
-    }
-    )
-  }
-  const generateRandomTopics = () => {
-    let arrayTopicIds =[];
-    for (const i = 0 ; i <4 ; i++) {
-        arrayTopicIds.push (Math.floor(Math.random() * 10));
-    }
-    return arrayTopicIds;
-}
-*/
+    const [topics,setTopics] = useState([]);
     const[currentItem,setCurrentItem] = useState({});
     const[itemsOfTopic,setItemsOfTopic] = useState([]);
     const[items, setItems] = useState([]);
     const [currentTopic,setCurrentTopic]= useState({topic_id:1});
     const [itemsToApprove,setItemsToApprove]= useState([])
     const [submittedItems,setSubmittedItems] = useState([]);
+
     useEffect(() => {
 
       Promise.all([
@@ -89,9 +47,6 @@ const [change,setChange]= useState(true);
           axios.get(`http://localhost:8001/submitteditems/${user.id}`),
         ]
       ).then(all => {
-        //console.log("topics",all[0].data)
-        //console.log("items",all[1].data)
-        //console.log("items to approve",all[2].data)
         setTopics(all[0].data);
         setItems(all[1].data);
         setItemsToApprove(all[2].data);
@@ -102,17 +57,9 @@ const [change,setChange]= useState(true);
   
     }, [user,change]);
   
-//   useEffect(() => {
-//   const newUser = decoder();
-//   if(newUser){
-//     setUser(newUser.user);
-//   }
-//   setChange(!change);
-  
-// },[])
   
   const [error, setError] = useState(null);
-  //const [loading, setLoading] = useState(false);
+
   
 let history = useHistory();
  

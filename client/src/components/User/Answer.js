@@ -197,6 +197,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
   
 
   function updateAfterNever() {
+    document.getElementById('id1').style.backgroundColor = "rgb(247,137,37)"
     disableAllButtons()
     setNeverOption(neverOption + 1)
     setVoteOption(1)
@@ -205,6 +206,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
     setShowFilter(true);
   }
   function updateAfterRarely() {
+    document.getElementById('id2').style.backgroundColor = "rgb(247,137,37)"
     disableAllButtons()
     setRarelyOption(rarelyOption + 1)
     setVoteOption(2)
@@ -217,6 +219,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
 
   }
   function updateAfterSometimes() {
+    document.getElementById('id3').style.backgroundColor = "rgb(247,137,37)"
     disableAllButtons()
     setSometimesOption(sometimesOption + 1)
     setVoteOption(3)
@@ -229,6 +232,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
 
   }
   function updateAfterUsually() {
+    document.getElementById('id4').style.backgroundColor = "rgb(247,137,37)"
     disableAllButtons()
     setUsuallyOption(usuallyOption + 1)
     setVoteOption(4)
@@ -243,6 +247,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
 
   }
   function updateAfterAlways() {
+    document.getElementById('id5').style.backgroundColor = "rgb(247,137,37)"
 disableAllButtons()
     setAlwaysOption(alwaysOption + 1)
     setVoteOption(5)
@@ -299,7 +304,7 @@ disableAllButtons()
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
-          <button name='never' id="id1" className="ans-btn trigger" onClick={() => { updateAfterNever(); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
+          <button name='never' id="id1" className="ans-btn trigger" onClick={() => {  updateAfterNever() }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
           <div className="hidden"><p> Never</p></div>
         </div>
 

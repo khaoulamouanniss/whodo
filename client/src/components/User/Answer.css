@@ -1,13 +1,14 @@
 .ans-btn {
   height:50px;
   max-height: 200px;
-  width:80px;
+  width:60px;
   display: block;
   text-align: left;
   background-color: black;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px ; 
   outline: none;
+
 }
 div.hidden { display:none; position:fixed}
 .trigger:hover + div.hidden {
@@ -22,9 +23,12 @@ div.hidden { display:none; position:fixed}
 .trigger {
   font-size:140%;
   color:black;
+  
   /* font-weight:bold; */
   text-align :center;
 }
+
+
  .graph1 {
   margin-right:0.2%;
  }
@@ -123,9 +127,11 @@ div.hidden { display:none; position:fixed}
   margin-top:-2%;
 }
 
-.ans-btn:hover{
-  background-color:rgb(247,137,37)
-}
+.ans-btn:hover,
+.ans-btn:focus{
+  background-color:rgb(247,137,37);
+  
+ }
 
 .charts {
 display: flex;
