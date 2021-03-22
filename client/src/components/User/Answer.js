@@ -62,16 +62,16 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
   percentageAlways = Math.round(percentageAlways)
 
   useEffect(() => {
-
+    expandMenu(socialState);
     props.getNbAnsByOption(props.item.item).then((data) => {
-
+      
       setNeverOption(Number(data[0].nbanswers));
       setRarelyOption(Number(data[1].nbanswers));
       setSometimesOption(Number(data[2].nbanswers));
       setUsuallyOption(Number(data[3].nbanswers));
       setAlwaysOption(Number(data[4].nbanswers));
       backToNormalButtonHeights();
-  
+      
      
     })
   }, [])
@@ -103,12 +103,12 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
   //this function will be called everytime the user clicks on shar button 
   function expandMenu(socialState) {
     if (socialState === false) {
-      document.getElementById('icon-list').style.transform = 'scaleX(1)';
+      document.getElementById('icon-list').style.transform = 'scaleX(0)';
     
       setSocialState(true);
   }
   else {
-      document.getElementById('icon-list').style.transform = 'scaleX(0)';
+      document.getElementById('icon-list').style.transform = 'scaleX(1)';
       
       setSocialState(false);
   }

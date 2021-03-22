@@ -172,3 +172,6 @@ justify-content: flex-end;
 
 
  }
+ #icon-list {
+   transform: scaleX(0);
+ }
