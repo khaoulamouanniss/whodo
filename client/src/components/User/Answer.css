@@ -1,7 +1,7 @@
 .ans-btn {
-  height:50px;
-  max-height: 200px;
-  width:80px;
+  height:80px;
+  max-height: 150px;
+  width:50px;
   display: block;
   text-align: left;
   background-color: black;
@@ -18,7 +18,16 @@ div.hidden { display:none; position:fixed}
   font-size:140%;
   /* margin-top:2%; */
  }
-
+.itemAndButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+height: 500px;
+max-height: 500px ;
+border-radius: 25px;
+  border: 2px solid #f16f05;
+  padding: 20px; 
+}
 .trigger {
   font-size:140%;
   color:black;
@@ -45,41 +54,48 @@ div.hidden { display:none; position:fixed}
 
 .filterResults {
   display: flex;
-  margin-left: 25%;
-  /* margin-top:-2%; */
+  flex-direction: column;
+  margin-left: 15%;
   margin-bottom:-5%;
+ 
 }
 
 .div-container {
   display: flex;
-  height: 100vh;
+  height: 100%;
   flex-direction: column;
-  justify-content: center;
   align-self: center;
-  flex-basis: 100%;
-  /* border: 2px groove gray; */
-  padding: 10px;
-  /* margin: 10px; */
-
+  align-items: center;
  font-size: 10px;
- width: 95%;
-
+ width: 100%;
 }
-.itemTitle{
+.shareAndFav {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  width: 20%;
+align-self: flex-end;}
+.fav-btn {
+display: flex;
+width: 50%;
 
-  width:90%;
 
-  align-self: center;
-  align-content: center;
-  margin-top: 10%;
-  margin-bottom: 5%;
-
-  
-  /* border-bottom: 1px solid rgb(173, 100, 16); */
 }
+.itemHashtagSocialShare {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 20%;
+  justify-content: space-between;
+}
+.itemHashtag{
+  display: flex;
+  flex-direction: column;
+}
+  /* border-bottom: 1px solid rgb(173, 100, 16); */
+  .socialMedia {
+  display: flex;
+  justify-self: self-end;
+  }
+
 .changeYourTopic {
   display: flex;
   flex-direction: row;
@@ -102,16 +118,16 @@ ul {
   margin-top:4%;
   
 }
-.itemTitle h2 {
+.itemContent {
   color: #5f5541; font-family: 'Trocchi', serif; 
   font-size: 35px; font-weight: normal; 
-  position: absolute;
+
  
 }
 #check {
   display: none;
 }
-.itemTitle h5 {
+.hashtag{
   color: rgb(247,137,37); 
   font-family: 'Helvetica Neue', sans-serif; 
   font-size: 15px; 
@@ -119,19 +135,14 @@ ul {
   letter-spacing: -1px;  
   text-align: left;
   text-decoration: none;
-  position: absolute;
-  
-
 
 }
 .voteButtons {
   display: flex;
-  justify-content: center;
+  justify-content:center;
   align-items: flex-end;
-  flex-basis: 30%;
-  /* padding: 5px; */
   bottom: 0;
-  margin-top:10%;
+  margin-bottom:0 fixed;
 }
 
 .ans-btn:hover{
@@ -140,17 +151,13 @@ ul {
 
 .charts {
 display: flex;
-flex-basis: 40%;
 justify-content: center;
 align-items: center;
 /* margin-left:60%; */
 width:70%;
 
 }
-.chartsBy {
-  display: flex;
-  size:100%;
-}
+
 
 .answer-select {
   border-width: 3px; 

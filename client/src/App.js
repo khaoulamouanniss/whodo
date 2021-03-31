@@ -334,8 +334,6 @@ let history = useHistory();
    </header>
    <div className="cnt">
       <Switch>
-        
-        
         <Route path="/login">
           {!user.email && <Login  change={change} setChange={setChange} setUser={setUser} setError={setError} loginGF={loginGF}  user={user} error={error}/> }
           

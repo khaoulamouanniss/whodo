@@ -14,6 +14,7 @@ import "./Answer.css"
 
 
 
+
 export default function Answer(props) {
   console.log('answer props', props)
   let id = props.item.id;
@@ -28,7 +29,7 @@ export default function Answer(props) {
   const [showChartGender, setShowChartGender] = useState(false);
   const [showChartRelation, setShowChartRelation] = useState(false);
   const [showChartEducation, setShowChartEducation] = useState(false);
- const [enableButtons, setEnableButtons] = useState(true);
+  const [enableButtons, setEnableButtons] = useState(true);
   //it is the array that contains the item answers by relation : single or engaged
   const [dataArrayRelation, setDataArrayRelation] = useState({})
   //it is the array that contains the item answers by gender : male or female
@@ -45,10 +46,10 @@ export default function Answer(props) {
   const [alwaysOption, setAlwaysOption] = useState(0);
   const [socialState, setSocialState] = useState(false);
   //a state for the filter set by default to gender
-  const [filter, setFilter]= useState('gender');
+  const [filter, setFilter] = useState('gender');
 
   //the total number of answers for the current item
-let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alwaysOption;
+  let total = neverOption + rarelyOption + sometimesOption + usuallyOption + alwaysOption;
   //rounded percentage for each option for the current item
   let percentageNever = neverOption / total * 100;
   percentageNever = Math.round(percentageNever)
@@ -64,15 +65,15 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
   useEffect(() => {
     expandMenu(socialState);
     props.getNbAnsByOption(props.item.item).then((data) => {
-      
+
       setNeverOption(Number(data[0].nbanswers));
       setRarelyOption(Number(data[1].nbanswers));
       setSometimesOption(Number(data[2].nbanswers));
       setUsuallyOption(Number(data[3].nbanswers));
       setAlwaysOption(Number(data[4].nbanswers));
       backToNormalButtonHeights();
-      
-     
+
+
     })
   }, [])
 
@@ -85,18 +86,18 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
       setSometimesOption(Number(data[2].nbanswers));
       setUsuallyOption(Number(data[3].nbanswers));
       setAlwaysOption(Number(data[4].nbanswers));
-     
+
       enableAllButtons();
       backToNormalButtonHeights();
       setShowChartEducation(false);
       setShowChartGender(false);
       setShowChartRelation(false);
-  
+
     })
   }, [props.item.item])
 
   useEffect(() => {
-   
+
     changeheight();
   }, [voteOption])
 
@@ -104,15 +105,15 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
   function expandMenu(socialState) {
     if (socialState === false) {
       document.getElementById('icon-list').style.transform = 'scaleX(0)';
-    
+
       setSocialState(true);
-  }
-  else {
+    }
+    else {
       document.getElementById('icon-list').style.transform = 'scaleX(1)';
-      
+
       setSocialState(false);
-  }
-    
+    }
+
   }
   function backToNormalButtonHeights() {
     document.getElementById('id1').style.height = '20px'
@@ -122,7 +123,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
     document.getElementById('id5').style.height = '20px'
   }
 
-  
+
   //disabling all buttons after the user clicks on any option
   function disableAllButtons() {
     document.getElementById('id1').disabled = true
@@ -143,7 +144,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
     setEnableButtons(true)
   }
   const randomItem = (nextTopic) => {
-   
+
     axios.post('http://localhost:8001/answer/random', { topic: nextTopic })
       .then(res => {
         props.setCurrentItem(res.data)
@@ -152,45 +153,45 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
   }
   function changeheight() {
 
-    document.getElementById('id1').style.height = (percentageNever*4+20).toString() + 'px'
-    document.getElementById('id2').style.height = (percentageRarely*4+20).toString() + 'px'
-    document.getElementById('id3').style.height = (percentageSometimes*4+20).toString() + 'px'
-    document.getElementById('id4').style.height = (percentageUsually*4+20).toString() + 'px'
-    document.getElementById('id5').style.height = (percentageAlways*4+20).toString() + 'px'
+    document.getElementById('id1').style.height = (percentageNever * 4 + 20).toString() + 'px'
+    document.getElementById('id2').style.height = (percentageRarely * 4 + 20).toString() + 'px'
+    document.getElementById('id3').style.height = (percentageSometimes * 4 + 20).toString() + 'px'
+    document.getElementById('id4').style.height = (percentageUsually * 4 + 20).toString() + 'px'
+    document.getElementById('id5').style.height = (percentageAlways * 4 + 20).toString() + 'px'
 
 
   }
   //return the results according to the filter selected by the user
   function filterAnswers(id, filter) {
-    if (filter ==='gender') {
-     axios.get(`http://localhost:8001/answer/${id}/filter/gender`)
-       .then(res => {
-         setDataArrayGender(res.data);
-         setShowChartRelation(false);
-         setShowChartEducation(false);
-         setShowChartGender(true);
-   
-       })
-       .catch((err) => console.log(err))
-     }
-     else if (filter === 'relation') {
-       axios.get(`http://localhost:8001/answer/${id}/filter/relation`)
-       .then(res => {
-         setDataArrayRelation(res.data);
-         setShowChartGender(false);
-         setShowChartEducation(false);
-         setShowChartRelation(true);
-         
-       })
-       .catch((err) => console.log(err))
-     } else  {
-     
-         setShowChartRelation(false);
-         setShowChartGender(false);
-         setShowChartEducation(true);
-       }  
-   
-   }
+    if (filter === 'gender') {
+      axios.get(`http://localhost:8001/answer/${id}/filter/gender`)
+        .then(res => {
+          setDataArrayGender(res.data);
+          setShowChartRelation(false);
+          setShowChartEducation(false);
+          setShowChartGender(true);
+
+        })
+        .catch((err) => console.log(err))
+    }
+    else if (filter === 'relation') {
+      axios.get(`http://localhost:8001/answer/${id}/filter/relation`)
+        .then(res => {
+          setDataArrayRelation(res.data);
+          setShowChartGender(false);
+          setShowChartEducation(false);
+          setShowChartRelation(true);
+
+        })
+        .catch((err) => console.log(err))
+    } else {
+
+      setShowChartRelation(false);
+      setShowChartGender(false);
+      setShowChartEducation(true);
+    }
+
+  }
   //function responsible of adding a new response to answer_items table
   const addAnswer = (voteOption, id) => {
     axios.post('http://localhost:8001/answer/add', {
@@ -206,7 +207,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
   }
 
   //filters the result by gender returning an object of arrays
-  
+
 
   function updateAfterNever() {
     disableAllButtons()
@@ -254,7 +255,7 @@ let  total = neverOption + rarelyOption + sometimesOption + usuallyOption+ alway
 
   }
   function updateAfterAlways() {
-disableAllButtons()
+    disableAllButtons()
     setAlwaysOption(alwaysOption + 1)
     setVoteOption(5)
     addAnswer(5, id)
@@ -272,47 +273,56 @@ disableAllButtons()
 
     <div className="div-container">
       {/*first component of our flexBox*/}
-      <div className='itemTitle'>
-        {/*first part of our item title*/}
-        <div className='partsAtMiddle'>
-          <div className='title'>
+      <div className="itemAndButtons">
+      <div className='itemHashtagSocialShare'>
+        <div className='itemHashtag'>
+          <div className='hashtag'>
+            <Link style={{ textDecoration: "none" }} to="/answer" onClick={() => randomItem(topic)} >
+              <h5>#{topic}</h5>
+            </Link>
+          </div>
+          <div className='itemContent'>
             <h2>{props.item.item}</h2>
           </div>
-          
-          <Link style={{textDecoration:"none"}} to="/answer" onClick={() => randomItem(topic)} >
-            <h5>#{topic}</h5>
-          </Link>
+
+        </div>  {/*end of the title without social share */}
+        {/*second part of our item title*/}
+        <div className='shareAndFav'>
+          <div id="button" className="fav-btn" style ={{fontSize: "0.5rem"}}>
+          <i className="fas fa-heart fa-3x"></i>
+           
+          </div>
+          <div className='socialMedia'>
+            <input type="checkbox" id="check" />
+            <label for="check">
+              <div id="button"><i className="fas fa-share" onClick={() => expandMenu(socialState)} style={{ height: "16px", width: "16px" }}></i></div>
+            </label>
+
+            <div id="icon-list">
+              <ul>
+                <li><WhatsappShareButton url={shareUrl}>
+                  <WhatsappIcon round={true} style={{ height: "32px", width: "32px" }} />
+                </WhatsappShareButton></li>
+                <li> <FacebookShareButton
+                  url={shareUrl}
+                  quote='have a look at this video'
+                  hashtag='#whodo'>
+                  <FacebookIcon logoFillColor="white" round={true} style={{ height: "32px", width: "32px" }} />
+                </FacebookShareButton></li>
+                <li><TwitterShareButton title={props.item.item} url={shareUrl}>
+                  <TwitterIcon logoFillColor="white" round={true} style={{ height: "32px", width: "32px" }} />
+                </TwitterShareButton></li>
+
+              </ul>
+
+            </div>
+
+          </div> {/*end of social share component */}
+
         </div>
-         {/*second part of our item title*/}
-         <div className='socialMedia'>
-
-<input type="checkbox" id="check"/>
-  <label for="check">
-      <div id="button"><i class="fas fa-share" onClick={()=> expandMenu(socialState)}></i></div>
-  </label>
-
-  <div id="icon-list">
-      <ul>
-          <li><WhatsappShareButton url={shareUrl}>
-  <WhatsappIcon round={true} />
-</WhatsappShareButton></li>
-          <li> <FacebookShareButton
-  url= {shareUrl}
-  quote= 'have a look at this video'
-  hashtag= '#whodo'>
-    <FacebookIcon logoFillColor="white" round={true} />
-  </FacebookShareButton></li>
-          <li><TwitterShareButton title={props.item.item}  url={shareUrl}>
-  <TwitterIcon logoFillColor="white" round={true} />
-  </TwitterShareButton></li>
-          
-      </ul>
-
-</div>
-
-</div>
- {/*third part of our item title*/}
-        {/*<div class='changeYourTopic'>
+      </div>
+      {/*third part of our item title*/}
+      {/*<div class='changeYourTopic'>
           <div className="answer-label">
           <h6>Change topic</h6>
           </div>
@@ -331,8 +341,8 @@ disableAllButtons()
           </div>
         </div>
         */}
-      </div>
-      
+
+
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
@@ -341,62 +351,62 @@ disableAllButtons()
         </div>
 
         <div className="graph2">
-          <button name='rarely' id="id2" className="ans-btn trigger" onClick={() => { updateAfterRarely();  }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
+          <button name='rarely' id="id2" className="ans-btn trigger" onClick={() => { updateAfterRarely(); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
           <div className="hidden"><p> Rarely</p></div>
         </div>
         <div className="graph3">
-          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={() => { updateAfterSometimes();  }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
+          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={() => { updateAfterSometimes(); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
           <div className="hidden"><p> Sometimes</p></div>
         </div>
 
         <div className="graph4">
-          <button name='usually' id="id4" className="ans-btn trigger" onClick={() => { updateAfterUsually();  }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
+          <button name='usually' id="id4" className="ans-btn trigger" onClick={() => { updateAfterUsually(); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
           <div className="hidden"><p> usually</p></div>
         </div>
 
 
         <div className="graph5">
-          <button name='always' id="id5" className="ans-btn trigger" onClick={()=>updateAfterAlways()}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
+          <button name='always' id="id5" className="ans-btn trigger" onClick={() => updateAfterAlways()}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
           <div className="hidden"><p> always</p></div>
         </div>
       </div>
-
+      </div>
       {/*third component of our flex*/}
-     
+
       <div className='filterResults'>
 
-       {/* <div>
-       <h6>filter results by:</h6>
-       </div> */}
-       <div>
-     {showFilter &&  <select className="answer-select" name="filter" id="filter" value={filter} onChange={event => {
-          setFilter(event.target.value); 
-             filterAnswers(props.item.id, event.target.value);
-           }
+        <div className='filterTitle'>
+          <h6>filter results by:</h6>
+        </div>
+        <div className='filterSelect'>
+          {showFilter && <select className="answer-select" name="filter" id="filter" value={filter} onChange={event => {
+            setFilter(event.target.value);
+            filterAnswers(props.item.id, event.target.value);
+          }
           }>
             <option value='gender'> Filter by gender</option>
             <option value='relation'> Filter by relation</option>
-            <option value='education'> Filter by education</option> 
+            <option value='education'> Filter by education</option>
           </select>}
+        </div>
+
+        {/*fourth component of our flex*/}
+        <div className='charts'>
+          {/*first subcomponent of chart flex */}
+          <div className='chartsByGender'>
+            {showChartGender && <ChartByGender data={dataArrayGender} />}
           </div>
+          {/*second subcomponent of chart flex */}
+          <div className='chartsByRelation'>
+            {showChartRelation && <ChartByRelation data={dataArrayRelation} />}
+          </div>
+          <br />
+          <div className='chartsByEducation'>
+            {showChartEducation && <ChartByEducation />}
+          </div>
+          <br />
+        </div>
       </div>
-      {/*fourth component of our flex*/}
-      <div className='charts'>
-        {/*first subcomponent of chart flex */}
-        <div className='chartsByGender'>
-          {showChartGender && <ChartByGender data={dataArrayGender} />}
-        </div>
-        {/*second subcomponent of chart flex */}
-        <div className='chartsByRelation'>
-          {showChartRelation && <ChartByRelation data={dataArrayRelation} />}
-        </div>
-        <br />
-        <div className='chartsByEducation'>
-          {showChartEducation && <ChartByEducation />}
-        </div>
-        <br />
-      </div>
-      
     </div>
 
   )
