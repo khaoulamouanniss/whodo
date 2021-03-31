@@ -10,11 +10,6 @@ import "./Answer.css"
 
 
 
-
-
-
-
-
 export default function Answer(props) {
   console.log('answer props', props)
   let id = props.item.id;
@@ -373,13 +368,13 @@ export default function Answer(props) {
       </div>
       {/*third component of our flex*/}
 
-      <div className='filterResults'>
+      {showFilter &&  <div className='filterResults'>
 
-        <div className='filterTitle'>
-          <h6>filter results by:</h6>
+     <div className='filterTitle'>
+       <h6>filter results by:</h6>
         </div>
         <div className='filterSelect'>
-          {showFilter && <select className="answer-select" name="filter" id="filter" value={filter} onChange={event => {
+           <select className="answer-select" name="filter" id="filter" value={filter} onChange={event => {
             setFilter(event.target.value);
             filterAnswers(props.item.id, event.target.value);
           }
@@ -387,7 +382,7 @@ export default function Answer(props) {
             <option value='gender'> Filter by gender</option>
             <option value='relation'> Filter by relation</option>
             <option value='education'> Filter by education</option>
-          </select>}
+          </select>
         </div>
 
         {/*fourth component of our flex*/}
@@ -406,7 +401,7 @@ export default function Answer(props) {
           </div>
           <br />
         </div>
-      </div>
+      </div>}
     </div>
 
   )
