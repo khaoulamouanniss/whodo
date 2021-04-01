@@ -57,14 +57,17 @@ border-radius: 25px;
 .filterResults {
   display: flex;
   flex-direction: column;
-  width: 50%;
- justify-content: center;
+
+align-self:center;
   margin-bottom:-5%;
   border-radius: 25px;
   border: 2px ;
   padding: 20px; 
  
 }
+.charts {
+height: 400px;
+width: 400px;}
 
 .div-container {
   display: flex;
@@ -73,7 +76,7 @@ border-radius: 25px;
   align-self: center;
   align-items: center;
  font-size: 10px;
- width: 100%;
+ width:100%;
 }
 .shareAndFav {
   display: flex;
@@ -144,15 +147,13 @@ ul {
 .ans-btn:hover{
   background-color:rgb(247,137,37)
 }
-
-.charts {
-display: flex;
-justify-content: center;
-align-items: center;
-flex-basis: 100%;
-width:70%;
-
+.filterTitle {
+  flex-basis: 10%;
 }
+.filterSelect {
+  flex-basis: 10%
+}
+
 
 
 .answer-select {

@@ -33,6 +33,21 @@ const {change, setChange, user} = props
   
  
  }
+ function handleSubmitTag(e) {
+  e.preventDefault();
+  let input = document.getElementById('hashtags');
+  let container = document.getElementById('tag-container');
+
+  if (e.which === 13 && input.value.length > 0) {
+    var text = document.createTextNode(input.value);
+    var p = document.createElement('p');
+    container.appendChild(p);
+    p.appendChild(text);
+    p.classList.add('tag');
+    input.value = '';
+
+  }
+};
   const handleChange = () => {
     submitItem(document.getElementById("item").value, false);
     console.log('history',history)
@@ -53,6 +68,9 @@ const {change, setChange, user} = props
 
         </div>
         <textarea className = "textArea" id="item" maxlength='80' type ="text" rows="5" cols="20"></textarea>
+        <div className="tag-container" id ="tag-container"></div>
+        <input type="text" id ="hashtags" placeholder="add a hashtag" onKeyUp={(e) => handleSubmitTag(e)}/>
+        
         <span className="submit-icon"><i style={{color:"black"}} class="fas fa-question"></i>80</span>
         <div>
         <Link className= "text-button" to ="/submit" onClick={handleChange}><i style={{fontSize:20}} class="fas fa-hashtag"></i>&nbsp;&nbsp;Submit</Link>
