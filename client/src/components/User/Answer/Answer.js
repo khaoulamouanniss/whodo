@@ -369,9 +369,7 @@ export default function Answer(props) {
           <div className="hidden"><p> always</p></div>
         </div>
       </div>
-      <div className="next" >
-      <p>Next</p><i class="fas fa-chevron-right" onClick={props.next}></i>
-      </div>
+     
       </div>
       {/*third component of our flex*/}
 

@@ -365,9 +365,7 @@ export default function AnswerGuess(props) {
           <div className="hidden"><p> always</p></div>
         </div>
       </div>
-      <div className="next">
-      <p>Next</p><i class="fas fa-chevron-right"></i>
-      </div>
+     
       </div>
       
     </div>
