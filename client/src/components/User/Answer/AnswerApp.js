@@ -8,7 +8,7 @@ import { IconButton, Icon } from "rsuite"
 const Navigation = (props) => {
   console.log({ props });
   return (
-     <div className="next" style={{position: 'absolute', left: '25%', top: '75%',
+     <div className="next" style={{position: 'absolute', left: '50%', top: '75%',
      transform: 'translate(-50%, -50%)'}} >
       <p>Next</p><i class="fas fa-chevron-right" onClick={props.next}></i>
       </div>
