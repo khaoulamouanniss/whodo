@@ -10,7 +10,7 @@ import {CountriesCities} from "./CountriesCities"
 import "./Form5.css";
 export default function Form5(props) {
   //[country,setCountry] = useState("")
-  const {details,setDetails, onNext, onBack, error} = props;console.log(details.gender);
+  const {details,setDetails, onNext, onBack, error} = props;
   const countries = Object.keys(CountriesCities);
   let optionsCountry = countries.map(e => {return { value: e, label: e }})
   const[optionsCity,setOptionsCity]=useState([]);

@@ -16,7 +16,6 @@
   
   }
   const responseFacebook = (response) => {
-    console.log("facebook response",response);
     let name = response.name.split(" ");
     let lastName ="";
     for(let i = 1; i < name.length; i++) {
@@ -68,7 +67,7 @@
       </div>
       <div className="div-v2"></div>
       <div className="form1-GF-buttons">
-      {/* <h1 style={{marginRight:"29%"}}>OR</h1> */}
+   
         <div className="form1-GF">
           <GoogleLogin
             clientId="1072369902227-qfuup9fprmc2qusd4jemg4o7fcc6iljv.apps.googleusercontent.com"

@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router-dom";
+import AnswerApp from './components/User/Answer/AnswerApp'
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Login from './components/User/Login';
 import SignUp from './components/User/SignUp';
 import Form3 from './components/User/SignUp/Form3';
 import Submit from './components/User/Submit';
-import Answer from './components/User/Answer';
+import Answer from './components/User/Answer/Answer';
 import Account from './components/User/Account';
 import ListItems from './components/User/ListItems';
 import Topics from './components/Admin/Topics';
@@ -351,7 +352,7 @@ let history = useHistory();
         <Topics />
        </Route> */}
        <Route path="/answer">
-         <Answer item ={currentItem} setCurrentItem={setCurrentItem} getNbAnsByOption={getNbAnsByOption} topics={topics} user={user}/>
+         <AnswerApp item ={currentItem} setCurrentItem={setCurrentItem} getNbAnsByOption={getNbAnsByOption} topics={topics} user={user}/>
        </Route>
        <Route path="/submit">
          <Submit  change={change} setChange={setChange} user={user}/>
