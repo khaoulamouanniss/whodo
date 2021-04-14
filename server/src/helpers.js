@@ -18,6 +18,26 @@ const getUserByEmail = (email, db) => {
       return null;
     });
 };
+
+const getGuessesForItem = (item) => {
+  return db.query(`
+  SELECT ARRAY (SELECT COUNT(guess) 
+  FROM guess_items
+  JOIN items ON items.id = guess_items.item_id
+  WHERE items.item = $1
+  GROUP BY guess);
+  `, [item])
+  .then( res => {
+    if (res) {
+      console.log("here are the guesses", res.rows);
+      return res.rows;
+    }  return null;
+  })
+  .catch(e => {
+    return null;
+  });
+
+} 
 const addUserLoginGF = (userData, db) => {
   const {name, last_name, email, profile_pic} = userData;
   console.log("data in addUserGF", userData)
