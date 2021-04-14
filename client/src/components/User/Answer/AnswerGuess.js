@@ -19,11 +19,18 @@ export default function AnswerGuess(props) {
   let shareUrl = "http://whodo.co";
   let [classNameButton, setClassNameButton] = useState('ans-btn trigger')
   console.log(shareUrl)
+  //a message that will be displayed to the user after guessing 
+  const [guessAnswer, setGuessAnswer] = useState("")
+  //contains five cells containing the count for the five answer options
+  const [arrayAnswers, setArrayAnswers] = useState([])
   const [nextItem, setNextItem] = useState({})
   const [showFilter, setShowFilter] = useState(false)
+  //boolean variables to allow the display of the charts
   const [showChartGender, setShowChartGender] = useState(false);
   const [showChartRelation, setShowChartRelation] = useState(false);
   const [showChartEducation, setShowChartEducation] = useState(false);
+
+
   const [enableButtons, setEnableButtons] = useState(true);
   //it is the array that contains the item answers by relation : single or engaged
   const [dataArrayRelation, setDataArrayRelation] = useState({})
@@ -105,11 +112,22 @@ export default function AnswerGuess(props) {
     }
     else {
       document.getElementById('icon-list').style.transform = 'scaleX(1)';
-
       setSocialState(false);
     }
 
   }
+
+  const answersForItem =(id) => {
+    axios.get(`http://localhost:8001/answer/${id}/guess`)
+    .then(res => {
+      setArrayAnswers(res.data)
+      console.log(res.data)
+
+    })
+    .catch((err) => console.log(err))
+  }
+  
+
   function backToNormalButtonHeights() {
     document.getElementById('id1').style.height = '20px'
     document.getElementById('id2').style.height = '20px'
@@ -145,6 +163,43 @@ export default function AnswerGuess(props) {
         props.setCurrentItem(res.data)
         return res.data;
       })
+  }
+  function updateAfterGuess(id) {
+    let sortedIndexes = [];
+    let copyArrayAnswers = [...arrayAnswers];
+     for (let i = 0; i < copyArrayAnswers.length; i++) {
+       let maxIndex = Array.IndexOf(Math.max(copyArrayAnswers))
+       sortedIndexes.push(copyArrayAnswers[maxIndex]);
+       copyArrayAnswers[maxIndex] = -1;
+     }
+     if (id === "id1" && sortedIndexes[0] === 0 || id === "id2" && sortedIndexes[0] === 1 
+     || id === "id3" && sortedIndexes[0] === 2 || id === "id4" && sortedIndexes[0] === 3
+     || id === "id5" && sortedIndexes[0] === 4) {
+        setGuessAnswer('Perfect Guess, 10 marks added')
+     }
+     if (id === "id1" && sortedIndexes[1] === 0 || id === "id2" && sortedIndexes[1] === 1 
+     || id === "id3" && sortedIndexes[1] === 2 || id === "id4" && sortedIndexes[1] === 3
+     || id === "id5" && sortedIndexes[1] === 4) {
+        setGuessAnswer('Almost there, 5 marks added')
+     }
+     if (id === "id1" && sortedIndexes[2] === 0 || id === "id2" && sortedIndexes[2] === 1 
+     || id === "id3" && sortedIndexes[2] === 2 || id === "id4" && sortedIndexes[2] === 3
+     || id === "id5" && sortedIndexes[2] === 4) {
+        setGuessAnswer('No marks added')
+     }
+     if (id === "id1" && sortedIndexes[3] === 0 || id === "id2" && sortedIndexes[3] === 1 
+     || id === "id3" && sortedIndexes[3] === 2 || id === "id4" && sortedIndexes[3] === 3
+     || id === "id5" && sortedIndexes[3] === 4) {
+        setGuessAnswer('Second Farest answer, 5 marks deducted')
+     }
+     if (id === "id1" && sortedIndexes[4] === 0 || id === "id2" && sortedIndexes[4] === 1 
+     || id === "id3" && sortedIndexes[4] === 2 || id === "id4" && sortedIndexes[4] === 3
+     || id === "id5" && sortedIndexes[4] === 4) {
+        setGuessAnswer('Farest answer, 10 marks deducted')
+     }
+
+
+
   }
   function changeheight() {
 
@@ -209,52 +264,33 @@ export default function AnswerGuess(props) {
 
         </div>
       </div>
-      {/*third part of our item title*/}
-      {/*<div class='changeYourTopic'>
-          <div className="answer-label">
-          <h6>Change topic</h6>
-          </div>
-          <div>
-          <select className="answer-select" name="other-topics" id="otherTopics" value={topic} onChange={async event => {
-         await  setTopic(event.target.value); 
-             randomItem(event.target.value);
-             enableAllButtons();
-           }
-          }>
-            {props.topics.map((c) => {
-              return (<option value={c.topic}> {c.topic}</option>)
-            })}
-          
-          </select>
-          </div>
-        </div>
-        */}
+ 
 
 
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
-          <button name='never' id="id1" className="ans-btn trigger" onClick={() => { updateAfterNever(); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
+          <button name='never' id="id1" className="ans-btn trigger" onClick={() => { updateAfterGuess(this.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
           <div className="hidden"><p> Never</p></div>
         </div>
 
         <div className="graph2">
-          <button name='rarely' id="id2" className="ans-btn trigger" onClick={() => { updateAfterRarely(); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
+          <button name='rarely' id="id2" className="ans-btn trigger" onClick={() => { updateAfterGuess(this.id); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
           <div className="hidden"><p> Rarely</p></div>
         </div>
         <div className="graph3">
-          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={() => { updateAfterSometimes(); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
+          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={() => { updateAfterGuess(this.id); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
           <div className="hidden"><p> Sometimes</p></div>
         </div>
 
         <div className="graph4">
-          <button name='usually' id="id4" className="ans-btn trigger" onClick={() => { updateAfterUsually(); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
+          <button name='usually' id="id4" className="ans-btn trigger" onClick={() => { updateAfterGuess(this.id); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
           <div className="hidden"><p> usually</p></div>
         </div>
 
 
         <div className="graph5">
-          <button name='always' id="id5" className="ans-btn trigger" onClick={() => updateAfterAlways()}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
+          <button name='always' id="id5" className="ans-btn trigger" onClick={() => updateAfterGuess(this.id)}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
           <div className="hidden"><p> always</p></div>
         </div>
       </div>

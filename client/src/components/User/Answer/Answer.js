@@ -22,8 +22,7 @@ export default function Answer(props) {
   console.log(shareUrl)
   const [nextItem, setNextItem] = useState({})
   const [showFilter, setShowFilter] = useState(false)
-  //contains five cells containing the count for the five answer options
-  const [arrayAnswers, setArrayAnswers] = useState([])
+  
   //boolean variables to allow the display of the charts
   const [showChartGender, setShowChartGender] = useState(false);
   const [showChartRelation, setShowChartRelation] = useState(false);
@@ -144,23 +143,7 @@ export default function Answer(props) {
     setEnableButtons(true)
   }
   //this function return what has people answered for a specific item
-  const answersForItem =(id) => {
-    axios.get(`http://localhost:8001/answer/${id}/guess`)
-    .then(res => {
-      setArrayAnswers(res.data)
-      console.log(res.data)
-
-    })
-    .catch((err) => console.log(err))
-  }
-  const randomItem = (nextTopic) => {
-
-    axios.post('http://localhost:8001/answer/random', { topic: nextTopic })
-      .then(res => {
-        props.setCurrentItem(res.data)
-        return res.data;
-      })
-  }
+  
   function changeheight() {
 
     document.getElementById('id1').style.height = (percentageNever * 4 + 20).toString() + 'px'
@@ -215,67 +198,37 @@ export default function Answer(props) {
       })
 
   }
-
-
-  function updateAfterNever() {
-    disableAllButtons()
-    setNeverOption(neverOption + 1)
+  function updateAfterClick(id) {
+    disableAllButtons();
+    setShowValues(true);
+    setShowFilter(true);
+    if (id === "id1") {
+      setNeverOption(neverOption + 1)
     setVoteOption(1)
     addAnswer(1, id)
-    setShowValues(true)
-    setShowFilter(true);
-  }
-  function updateAfterRarely() {
-    disableAllButtons()
-    setRarelyOption(rarelyOption + 1)
-    setVoteOption(2)
-    addAnswer(2, id)
-    setShowValues(true)
-    setShowFilter(true)
-
-
-
-  }
-  function updateAfterSometimes() {
-    disableAllButtons()
-    setSometimesOption(sometimesOption + 1)
-    setVoteOption(3)
-    addAnswer(3, id)
-    setShowValues(true)
-
-    setShowFilter(true)
-
-
-
-  }
-  function updateAfterUsually() {
-    disableAllButtons()
-    setUsuallyOption(usuallyOption + 1)
-    setVoteOption(4)
-    addAnswer(4, id)
-
-    setShowValues(true)
-
-    setShowFilter(true)
-
-
-
-
-  }
-  function updateAfterAlways() {
-    disableAllButtons()
-    setAlwaysOption(alwaysOption + 1)
-    setVoteOption(5)
-    addAnswer(5, id)
-
-    setShowValues(true)
-
-    setShowFilter(true)
-
-
-
-  }
-
+    }
+    if (id === "id2") {
+      setRarelyOption(rarelyOption + 1)
+      setVoteOption(2)
+      addAnswer(2, id)
+    }
+    if (id === "id3") {
+      setSometimesOption(sometimesOption + 1)
+      setVoteOption(3)
+      addAnswer(3, id)
+    }
+    if (id === "id4") {
+      setUsuallyOption(usuallyOption + 1)
+      setVoteOption(4)
+      addAnswer(4, id)
+    }
+    if (id === "id5") {
+      setAlwaysOption(alwaysOption + 1)
+      setVoteOption(5)
+      addAnswer(5, id)
+  
+    }
+  } 
 
   return (
 
@@ -285,7 +238,7 @@ export default function Answer(props) {
       <div className='itemHashtagSocialShare'>
         <div className='itemHashtag'>
           <div className='hashtag'>
-            <Link style={{ textDecoration: "none" }} to="/answer" onClick={() => randomItem(topic)} >
+            <Link style={{ textDecoration: "none" }} to="/answer" /*onClick={() => randomItem(topic)}*/ >
               <h5>#{topic}</h5>
             </Link>
           </div>
@@ -354,27 +307,27 @@ export default function Answer(props) {
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
-          <button name='never' id="id1" className="ans-btn trigger" onClick={() => { updateAfterNever(); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
+          <button name='never' id="id1" className="ans-btn trigger" onClick={() => { updateAfterClick(this.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
           <div className="hidden"><p> Never</p></div>
         </div>
 
         <div className="graph2">
-          <button name='rarely' id="id2" className="ans-btn trigger" onClick={() => { updateAfterRarely(); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
+          <button name='rarely' id="id2" className="ans-btn trigger" onClick={() => { updateAfterClick(this.id); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
           <div className="hidden"><p> Rarely</p></div>
         </div>
         <div className="graph3">
-          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={() => { updateAfterSometimes(); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
+          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={() => { updateAfterClick(this.id); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
           <div className="hidden"><p> Sometimes</p></div>
         </div>
 
         <div className="graph4">
-          <button name='usually' id="id4" className="ans-btn trigger" onClick={() => { updateAfterUsually(); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
+          <button name='usually' id="id4" className="ans-btn trigger" onClick={() => { updateAfterClick(this.id); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
           <div className="hidden"><p> usually</p></div>
         </div>
 
 
         <div className="graph5">
-          <button name='always' id="id5" className="ans-btn trigger" onClick={() => updateAfterAlways()}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
+          <button name='always' id="id5" className="ans-btn trigger" onClick={() => updateAfterClick(this.id)}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
           <div className="hidden"><p> always</p></div>
         </div>
       </div>
