@@ -22,9 +22,13 @@ export default function Answer(props) {
   console.log(shareUrl)
   const [nextItem, setNextItem] = useState({})
   const [showFilter, setShowFilter] = useState(false)
+  //contains five cells containing the count for the five answer options
+  const [arrayAnswers, setArrayAnswers] = useState([])
+  //boolean variables to allow the display of the charts
   const [showChartGender, setShowChartGender] = useState(false);
   const [showChartRelation, setShowChartRelation] = useState(false);
   const [showChartEducation, setShowChartEducation] = useState(false);
+  //buttons should be disabled after clicking on them
   const [enableButtons, setEnableButtons] = useState(true);
   //it is the array that contains the item answers by relation : single or engaged
   const [dataArrayRelation, setDataArrayRelation] = useState({})
@@ -139,6 +143,15 @@ export default function Answer(props) {
     document.getElementById('id5').disabled = false
     setEnableButtons(true)
   }
+  //this function return what has people answered for a specific item
+  const answersForItem =(id) => {
+    axios.get(`http://localhost:8001/answer/${id}/guess`)
+    .then(res => {
+      setArrayAnswers(res.data)
+
+    })
+    .catch((err) => console.log(err))
+  }
   const randomItem = (nextTopic) => {
 
     axios.post('http://localhost:8001/answer/random', { topic: nextTopic })
@@ -201,8 +214,6 @@ export default function Answer(props) {
       })
 
   }
-
-  //filters the result by gender returning an object of arrays
 
 
   function updateAfterNever() {

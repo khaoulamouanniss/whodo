@@ -18,14 +18,14 @@ const getUserByEmail = (email, db) => {
       return null;
     });
 };
-
-const getGuessesForItem = (item) => {
+//it will return an array containing five cells about the guesses for each of the five answer option
+const getAnswersForItem = (item) => {
   return db.query(`
-  SELECT ARRAY (SELECT COUNT(guess) 
-  FROM guess_items
-  JOIN items ON items.id = guess_items.item_id
+  SELECT ARRAY (SELECT COUNT(answer) 
+  FROM answer_items
+  JOIN items ON items.id = answer_items.item_id
   WHERE items.item = $1
-  GROUP BY guess);
+  GROUP BY answer);
   `, [item])
   .then( res => {
     if (res) {
@@ -464,5 +464,6 @@ module.exports = {
   addItemAnswer,
   addUserLoginGF,
   getRandomItemForTopic,
-  updateUserPic
+  updateUserPic, 
+  getAnswersForItem
 };

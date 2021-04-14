@@ -1,9 +1,10 @@
 const router = require("express").Router();
-const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, getItemsByTopicId,deleteItem,getNbAnswersForOption,getNbAnswersForOptionByGender,getNbAnswersForOptionByRelation, addItemAnswer, getRandomItemForTopic} = require ("../helpers");
+const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, 
+  getItemsByTopicId,deleteItem,getNbAnswersForOption,getNbAnswersForOptionByGender,
+  getNbAnswersForOptionByRelation, addItemAnswer, getRandomItemForTopic, getAnswersForItem} = require ("../helpers");
 
 module.exports = db => {
   router.get("/items", (request, response) => {
-    //console.log("db in items",db)
     db.query(
       `
       SELECT
@@ -16,7 +17,6 @@ module.exports = db => {
   });
   router.post('/', (req, res) => {
     const {email, type} = req.body;
-    //console.log("email and type in the router items", email, type)
     getItemsAndTopicsByUserType(email,type, db)
       .then(items => {
         res.send(items);
@@ -28,8 +28,6 @@ module.exports = db => {
       });
   }) 
   router.get('/items/:id', (req, res) => {
-   
-   // console.log("id of item in the router",  Number(req.params.id))
     db.query(`
       SELECT item 
         FROM items
@@ -46,17 +44,14 @@ module.exports = db => {
   })
   router.post('/items', async (req,res) => {
     const {creator, item, time, approved, topics} = req.body;
-   // console.log("I am in router")
+
     newItem = await addItem(creator, item, time, approved, db);
-   // console.log("addItem",newItem)
     let topic;
     for(let t of topics) {
       topic = await addTopic(t,db)
-          //console.log("addTopic",topic)
-         // if(newItem && topic) {
+
             addItemTopic(newItem.id,topic.id, db);
-         // }
-          //console.log("topic in route",topic);
+
         }
         res.send(newItem)
       });
