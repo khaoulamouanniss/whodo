@@ -148,6 +148,7 @@ export default function Answer(props) {
     axios.get(`http://localhost:8001/answer/${id}/guess`)
     .then(res => {
       setArrayAnswers(res.data)
+      console.log(res.data)
 
     })
     .catch((err) => console.log(err))

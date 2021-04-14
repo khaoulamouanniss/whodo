@@ -206,5 +206,16 @@ router.post('/answer/add',  async (req, res) => {
       res.send(item);}
       )
   })
+
+
+
+//returns an array of answers for each item
+router.get('/answer/:item_id/guess', (req, res)=> {
+  const item_id = req.params.item_id
+  const answers = [];
+answers = getAnswersForItem(item_id);
+      res.send(answers)
+})
+
   return router;
 };
