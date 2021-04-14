@@ -1,9 +1,25 @@
 const router = require("express").Router();
 const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, 
-  getItemsByTopicId,deleteItem,getNbAnswersForOption,getNbAnswersForOptionByGender,
-  getNbAnswersForOptionByRelation, addItemAnswer, getRandomItemForTopic, getAnswersForItem} = require ("../helpers");
+  deleteItem,getNbAnswersForOption,getNbAnswersForOptionByGender, getNbAnswersforOptionById,
+  getNbAnswersForOptionByRelation, addItemAnswer, getRandomItemForTopic} = require ("../helpers");
 
 module.exports = db => {
+  //returns an array of answers for each item
+router.get('/answer/:item_id/guess', async (req, res)=> {
+  const item_id = req.params.item_id;
+  let promises =[];
+  for (let i = 1; i < 6; i++) {
+    let p = await getNbAnswersforOptionById(item_id, i, db);
+    promises.push(p);
+  }
+
+if (promises) {
+  console.log(promises)
+res.send(promises)
+}else { 
+  console.log('something wrong with the guess route')}
+})
+//return all the items
   router.get("/items", (request, response) => {
     db.query(
       `
@@ -15,6 +31,7 @@ module.exports = db => {
       response.json(items);
     });
   });
+
   router.post('/', (req, res) => {
     const {email, type} = req.body;
     getItemsAndTopicsByUserType(email,type, db)
@@ -196,26 +213,21 @@ router.post('/answer/add',  async (req, res) => {
       res.send(data);
     })
   });
+  
 
   router.post('/answer/random', (req, res)=> {
     let {topic} = req.body;
-    console.log('the body I need now', req.body)
+
     getRandomItemForTopic(topic,  db)
     .then((item)=> {
-      console.log('random item return for now', item)
+
       res.send(item);}
       )
   })
 
 
 
-//returns an array of answers for each item
-router.get('/answer/:item_id/guess', (req, res)=> {
-  const item_id = req.params.item_id
-  const answers = [];
-answers = getAnswersForItem(item_id);
-      res.send(answers)
-})
+
 
   return router;
 };

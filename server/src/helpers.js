@@ -1,6 +1,27 @@
 const { request } = require("express");
 const jwt = require('jsonwebtoken');
 
+
+const getNbAnswersforOptionById = (question,option,  db) => {
+  let sql = `
+    SELECT count(A.id) as nbAnswers
+    FROM answer_items A
+    Join items B on B.id = A.item_id
+    WHERE B.id = $1 AND A.answer = $2
+    GROUP BY (B.id);   
+    ` ;
+  return db.query(sql, [question, option])
+    .then(res => {
+     if (res.rows[0]) {
+      return res.rows[0];
+    }
+      return {nbanswers: '0'}
+    })
+    .catch(e => {
+      return null;
+    });
+  };
+
 const getUserByEmail = (email, db) => {
   return db.query(`
     SELECT * 
@@ -19,19 +40,19 @@ const getUserByEmail = (email, db) => {
     });
 };
 //it will return an array containing five cells about the guesses for each of the five answer option
-const getAnswersForItem = (item) => {
+const getAnswersForItem = (id, db) => {
   return db.query(`
-  SELECT ARRAY (SELECT COUNT(answer) 
+  SELECT ARRAY (SELECT ALL COUNT(id) 
   FROM answer_items
-  JOIN items ON items.id = answer_items.item_id
-  WHERE items.item = $1
+  WHERE item_id = $1
   GROUP BY answer);
-  `, [item])
+  `, [id])
   .then( res => {
     if (res) {
       console.log("here are the guesses", res.rows);
       return res.rows;
-    }  return null;
+    }  
+    return null;
   })
   .catch(e => {
     return null;
@@ -324,6 +345,7 @@ const deleteItem = (id,db) => {
       return null;
     });
   };
+  
   //getting the number of answer for a specific question according to gender 
   const getNbAnswersForOptionByRelation = (question,option, relation,  db) => {
     let sql;
@@ -452,6 +474,7 @@ module.exports = {
   addItem,
   addTopic,
   addItemTopic,
+  getNbAnswersforOptionById,
   addUserTopic,
   getItemsByTopicId,
   deleteTopic,
@@ -466,4 +489,5 @@ module.exports = {
   getRandomItemForTopic,
   updateUserPic, 
   getAnswersForItem
+
 };

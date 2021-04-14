@@ -1,5 +1,6 @@
 import React from "react";
 import { Steps, Step } from "react-step-builder";
+import axios from 'axios'
 import Step1 from "./Answer";
 import Step2 from "./AnswerGuess";
 import { Button, Col, Row } from "antd";

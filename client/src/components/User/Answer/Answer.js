@@ -7,6 +7,7 @@ import ChartByEducation from '../ChartByEducation'
 import { FacebookShareButton, WhatsappShareButton, LinkedinShareButton, TwitterShareButton } from "react-share"
 import { FacebookIcon, WhatsappIcon, LinkedinIcon, TwitterIcon } from "react-share"
 import "./Answer.css"
+import AnswerGuess from "./AnswerGuess";
 
 
 
@@ -307,32 +308,33 @@ export default function Answer(props) {
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
-          <button name='never' id="id1" className="ans-btn trigger" onClick={() => { updateAfterClick(this.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
+          <button name='never' id="id1" className="ans-btn trigger" onClick={(e) => { updateAfterClick(e.target.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
           <div className="hidden"><p> Never</p></div>
         </div>
 
         <div className="graph2">
-          <button name='rarely' id="id2" className="ans-btn trigger" onClick={() => { updateAfterClick(this.id); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
+          <button name='rarely' id="id2" className="ans-btn trigger" onClick={(e) => { updateAfterClick(e.target.id);  }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
           <div className="hidden"><p> Rarely</p></div>
         </div>
         <div className="graph3">
-          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={() => { updateAfterClick(this.id); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
+          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={(e) => { updateAfterClick(e.target.id);  }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
           <div className="hidden"><p> Sometimes</p></div>
         </div>
 
         <div className="graph4">
-          <button name='usually' id="id4" className="ans-btn trigger" onClick={() => { updateAfterClick(this.id); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
+          <button name='usually' id="id4" className="ans-btn trigger" onClick={(e) => { updateAfterClick(e.target.id);  }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
           <div className="hidden"><p> usually</p></div>
         </div>
 
 
         <div className="graph5">
-          <button name='always' id="id5" className="ans-btn trigger" onClick={() => updateAfterClick(this.id)}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
+          <button name='always' id="id5" className="ans-btn trigger" onClick={(e) => { updateAfterClick(e.target.id); }}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
           <div className="hidden"><p> always</p></div>
         </div>
       </div>
      
       </div>
+    
       {/*third component of our flex*/}
 
      {/*  {showFilter &&  <div className='filterResults'>

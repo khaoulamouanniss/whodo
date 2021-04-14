@@ -18,7 +18,7 @@ export default function AnswerGuess(props) {
   // let shareUrl = window.location.href;
   let shareUrl = "http://whodo.co";
   let [classNameButton, setClassNameButton] = useState('ans-btn trigger')
-  console.log(shareUrl)
+ 
   //a message that will be displayed to the user after guessing 
   const [guessAnswer, setGuessAnswer] = useState("")
   //contains five cells containing the count for the five answer options
@@ -117,15 +117,7 @@ export default function AnswerGuess(props) {
 
   }
 
-  const answersForItem =(id) => {
-    axios.get(`http://localhost:8001/answer/${id}/guess`)
-    .then(res => {
-      setArrayAnswers(res.data)
-      console.log(res.data)
-
-    })
-    .catch((err) => console.log(err))
-  }
+  
   
 
   function backToNormalButtonHeights() {
@@ -164,32 +156,48 @@ export default function AnswerGuess(props) {
         return res.data;
       })
   }
-  function updateAfterGuess(id) {
+  //return answers for each item
+  const answersForItem =  () => {
+console.log(id)
+    axios.get(`http://localhost:8001/answer/${id}/guess`)
+     .then(res => {
+       console.log(res.data);
+       setArrayAnswers(res.data);
+       console.log(arrayAnswers)
+       return res.data
+     })
+     .catch((err) => console.log(err))
+   }
+  async function updateAfterGuess(e, id) {
+    e.preventDefault();
+const arrayA = await answersForItem();
+  console.log(arrayA)
     let sortedIndexes = [];
-    let copyArrayAnswers = [...arrayAnswers];
+    /*let copyArrayAnswers = [...answers];
+    console.log(copyArrayAnswers)
      for (let i = 0; i < copyArrayAnswers.length; i++) {
        let maxIndex = Array.IndexOf(Math.max(copyArrayAnswers))
        sortedIndexes.push(copyArrayAnswers[maxIndex]);
        copyArrayAnswers[maxIndex] = -1;
      }
-     if (id === "id1" && sortedIndexes[0] === 0 || id === "id2" && sortedIndexes[0] === 1 
-     || id === "id3" && sortedIndexes[0] === 2 || id === "id4" && sortedIndexes[0] === 3
-     || id === "id5" && sortedIndexes[0] === 4) {
+     if ((id === "id1" && sortedIndexes[0] === 0) || (id === "id2" && sortedIndexes[0] === 1) 
+     || (id === "id3" && sortedIndexes[0] === 2) || (id === "id4" && sortedIndexes[0] === 3)
+     || (id === "id5" && sortedIndexes[0] === 4)) {
         setGuessAnswer('Perfect Guess, 10 marks added')
      }
-     if (id === "id1" && sortedIndexes[1] === 0 || id === "id2" && sortedIndexes[1] === 1 
-     || id === "id3" && sortedIndexes[1] === 2 || id === "id4" && sortedIndexes[1] === 3
-     || id === "id5" && sortedIndexes[1] === 4) {
+     if ((id === "id1" && sortedIndexes[1] === 0) || (id === "id2" && sortedIndexes[1] === 1) 
+     || (id === "id3" && sortedIndexes[1] === 2) || (id === "id4" && sortedIndexes[1] === 3)
+     || (id === "id5" && sortedIndexes[1] === 4)) {
         setGuessAnswer('Almost there, 5 marks added')
      }
-     if (id === "id1" && sortedIndexes[2] === 0 || id === "id2" && sortedIndexes[2] === 1 
-     || id === "id3" && sortedIndexes[2] === 2 || id === "id4" && sortedIndexes[2] === 3
-     || id === "id5" && sortedIndexes[2] === 4) {
+     if ((id === "id1" && sortedIndexes[2] === 0) || (id === "id2" && sortedIndexes[2] === 1) 
+     || (id === "id3" && sortedIndexes[2] === 2) || (id === "id4" && sortedIndexes[2] === 3)
+     || (id === "id5" && sortedIndexes[2] === 4)) {
         setGuessAnswer('No marks added')
      }
-     if (id === "id1" && sortedIndexes[3] === 0 || id === "id2" && sortedIndexes[3] === 1 
-     || id === "id3" && sortedIndexes[3] === 2 || id === "id4" && sortedIndexes[3] === 3
-     || id === "id5" && sortedIndexes[3] === 4) {
+     if ((id === "id1" && sortedIndexes[3] === 0) || (id === "id2" && sortedIndexes[3] === 1) 
+     || (id === "id3" && sortedIndexes[3] === 2) || (id === "id4" && sortedIndexes[3] === 3)
+     || (id === "id5" && sortedIndexes[3] === 4)) {
         setGuessAnswer('Second Farest answer, 5 marks deducted')
      }
      if (id === "id1" && sortedIndexes[4] === 0 || id === "id2" && sortedIndexes[4] === 1 
@@ -198,9 +206,10 @@ export default function AnswerGuess(props) {
         setGuessAnswer('Farest answer, 10 marks deducted')
      }
 
-
-
+    */
+    
   }
+
   function changeheight() {
 
     document.getElementById('id1').style.height = (percentageNever * 4 + 20).toString() + 'px'
@@ -211,7 +220,7 @@ export default function AnswerGuess(props) {
 
 
   }
-  
+
   return (
 
     <div className="div-container">
@@ -270,31 +279,31 @@ export default function AnswerGuess(props) {
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
-          <button name='never' id="id1" className="ans-btn trigger" onClick={() => { updateAfterGuess(this.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
+          <button name='never' id="id1" className="ans-btn trigger" onClick={(e) => { updateAfterGuess( e, e.target.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
           <div className="hidden"><p> Never</p></div>
         </div>
 
         <div className="graph2">
-          <button name='rarely' id="id2" className="ans-btn trigger" onClick={() => { updateAfterGuess(this.id); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
+          <button name='rarely' id="id2" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e, e.target.id); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
           <div className="hidden"><p> Rarely</p></div>
         </div>
         <div className="graph3">
-          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={() => { updateAfterGuess(this.id); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
+          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e, e.target.id); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
           <div className="hidden"><p> Sometimes</p></div>
         </div>
 
         <div className="graph4">
-          <button name='usually' id="id4" className="ans-btn trigger" onClick={() => { updateAfterGuess(this.id); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
+          <button name='usually' id="id4" className="ans-btn trigger" onClick={(e) => { updateAfterGuess( e, e.target.id); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
           <div className="hidden"><p> usually</p></div>
         </div>
 
 
         <div className="graph5">
-          <button name='always' id="id5" className="ans-btn trigger" onClick={() => updateAfterGuess(this.id)}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
+          <button name='always' id="id5" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e, e.target.id);}}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
           <div className="hidden"><p> always</p></div>
         </div>
       </div>
-     
+      <div className="guess"> {guessAnswer}</div>
       </div>
       
     </div>
