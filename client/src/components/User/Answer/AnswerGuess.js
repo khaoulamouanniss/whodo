@@ -156,59 +156,98 @@ export default function AnswerGuess(props) {
         return res.data;
       })
   }
+  //returns the maximum value in an array of objects
+  function maxOfArray (arr) {
+   let max = Number(arr[0].nbanswers);
+   let i = 1;
+   for (let i = 1 ; i < arr.length ; i++) {
+      console.log( 'bonjour from for')
+      if (max < Number(arr[i].nbanswers)) {
+        console.log('bonjour from if')
+        max = Number(arr[i].nbanswers) 
+      
+      }
+    }
+    
+     return max;
+  }
   //return answers for each item
-  const answersForItem =  () => {
+  const updateAfterGuess= (buttonId) => {
 console.log(id)
     axios.get(`http://localhost:8001/answer/${id}/guess`)
      .then(res => {
        console.log(res.data);
        setArrayAnswers(res.data);
-       console.log(arrayAnswers)
-       return res.data
+       let sortedIndexes = []
+       let levels = []
+       let fillingIntoLevels = 0
+       //counter on the array of levels 
+       let l = 0;
+       //initialiaze the array of level 0 for highest rate 5 for lowest
+       for (let c = 0; c < 5; c++) {
+         levels[c] = [];
+       }
+       //make a copy of the nb of answers for each option
+       let copyArrayAnswers = [...arrayAnswers];
+       console.log(copyArrayAnswers)
+       //we may fill into one level three option when users answer 4 answers for example for never, rarely, usually
+       while(fillingIntoLevels < 5) {
+          let max = maxOfArray(copyArrayAnswers);
+          console.log(max)
+          for (let i = 0 ; i < copyArrayAnswers.length; i++) {
+            if (Number(copyArrayAnswers[i].nbanswers) === max){
+              levels[l].push(i)
+              fillingIntoLevels++;
+              copyArrayAnswers[i] = {nbanswers: "-1"};
+          } 
+          
+          }
+          l++;
+          
+        
+      }
+  console.log(levels)
+        if(levels[0]) {
+          if ((buttonId === "id1" && levels[0].includes(0)) || (buttonId === "id2" && levels[0].includes(1)) 
+          || (buttonId === "id3" && levels[0].includes(2)) || (buttonId === "id4" && levels[0].includes(3))
+          || (buttonId === "id5" && levels[0].includes(4) )){
+             setGuessAnswer('Perfect Guess, 10 marks added')
+          }
+        }
+       if (levels[1]) {
+        if ((buttonId === "id1" && levels[1].includes(0)) || (buttonId === "id2" && levels[1].includes(1)) 
+        || (buttonId === "id3" && levels[1].includes(2)) || (buttonId === "id4" && levels[1].includes(3))
+        || (buttonId === "id5" && levels[1].includes(4))) {
+           setGuessAnswer('Almost there, 5 marks added')
+        }
+       }
+       if (levels[2]) {
+        if ((buttonId === "id1" && levels[2].includes(0)) || (buttonId === "id2" && levels[2].includes(1)) 
+        || (buttonId === "id3" && levels[2].includes(2)) || (buttonId === "id4" && levels[2].includes(3))
+        || (buttonId === "id5" && levels[2].includes(4))) {
+           setGuessAnswer('No marks added')
+        }
+       }
+       if (levels[3]) {
+        if ((buttonId === "id1" && levels[3].includes(0)) || (buttonId === "id2" && levels[3].includes(1)) 
+        || (buttonId === "id3" && levels[3].includes(2)) || (buttonId === "id4" && levels[3].includes(3))
+        || (buttonId === "id5" && levels[3].includes(4))) {
+           setGuessAnswer('Second Farest answer, 5 marks deducted')
+        }
+       }
+       if (levels[4]) {
+        if (buttonId === "id1" && levels[4].includes(0) || buttonId === "id2" && levels[4].includes(1)
+        || buttonId === "id3" && levels[4].includes(2) || buttonId === "id4" && levels[4].includes(3)
+        || buttonId === "id5" && levels[4].includes(4)) {
+           setGuessAnswer('Farest answer, 10 marks deducted')
+        }
+       }
+       
+        console.log(guessAnswer)
      })
      .catch((err) => console.log(err))
    }
-  async function updateAfterGuess(e, id) {
-    e.preventDefault();
-const arrayA = await answersForItem();
-  console.log(arrayA)
-    let sortedIndexes = [];
-    /*let copyArrayAnswers = [...answers];
-    console.log(copyArrayAnswers)
-     for (let i = 0; i < copyArrayAnswers.length; i++) {
-       let maxIndex = Array.IndexOf(Math.max(copyArrayAnswers))
-       sortedIndexes.push(copyArrayAnswers[maxIndex]);
-       copyArrayAnswers[maxIndex] = -1;
-     }
-     if ((id === "id1" && sortedIndexes[0] === 0) || (id === "id2" && sortedIndexes[0] === 1) 
-     || (id === "id3" && sortedIndexes[0] === 2) || (id === "id4" && sortedIndexes[0] === 3)
-     || (id === "id5" && sortedIndexes[0] === 4)) {
-        setGuessAnswer('Perfect Guess, 10 marks added')
-     }
-     if ((id === "id1" && sortedIndexes[1] === 0) || (id === "id2" && sortedIndexes[1] === 1) 
-     || (id === "id3" && sortedIndexes[1] === 2) || (id === "id4" && sortedIndexes[1] === 3)
-     || (id === "id5" && sortedIndexes[1] === 4)) {
-        setGuessAnswer('Almost there, 5 marks added')
-     }
-     if ((id === "id1" && sortedIndexes[2] === 0) || (id === "id2" && sortedIndexes[2] === 1) 
-     || (id === "id3" && sortedIndexes[2] === 2) || (id === "id4" && sortedIndexes[2] === 3)
-     || (id === "id5" && sortedIndexes[2] === 4)) {
-        setGuessAnswer('No marks added')
-     }
-     if ((id === "id1" && sortedIndexes[3] === 0) || (id === "id2" && sortedIndexes[3] === 1) 
-     || (id === "id3" && sortedIndexes[3] === 2) || (id === "id4" && sortedIndexes[3] === 3)
-     || (id === "id5" && sortedIndexes[3] === 4)) {
-        setGuessAnswer('Second Farest answer, 5 marks deducted')
-     }
-     if (id === "id1" && sortedIndexes[4] === 0 || id === "id2" && sortedIndexes[4] === 1 
-     || id === "id3" && sortedIndexes[4] === 2 || id === "id4" && sortedIndexes[4] === 3
-     || id === "id5" && sortedIndexes[4] === 4) {
-        setGuessAnswer('Farest answer, 10 marks deducted')
-     }
-
-    */
-    
-  }
+ 
 
   function changeheight() {
 
@@ -279,16 +318,16 @@ const arrayA = await answersForItem();
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
-          <button name='never' id="id1" className="ans-btn trigger" onClick={(e) => { updateAfterGuess( e, e.target.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
+          <button name='never' id="id1" className="ans-btn trigger" onClick={(e) => { updateAfterGuess( e.target.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
           <div className="hidden"><p> Never</p></div>
         </div>
 
         <div className="graph2">
-          <button name='rarely' id="id2" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e, e.target.id); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
+          <button name='rarely' id="id2" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e.target.id); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
           <div className="hidden"><p> Rarely</p></div>
         </div>
         <div className="graph3">
-          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e, e.target.id); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
+          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e.target.id); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
           <div className="hidden"><p> Sometimes</p></div>
         </div>
 
@@ -299,11 +338,11 @@ const arrayA = await answersForItem();
 
 
         <div className="graph5">
-          <button name='always' id="id5" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e, e.target.id);}}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
+          <button name='always' id="id5" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e.target.id);}}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
           <div className="hidden"><p> always</p></div>
         </div>
       </div>
-      <div className="guess"> {guessAnswer}</div>
+      <div className="guess" style={{color:"black",fontSize:20,marginLeft:40}}> {guessAnswer}</div>
       </div>
       
     </div>
