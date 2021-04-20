@@ -1,9 +1,10 @@
 .ans-btn {
   height:80px;
-  max-height: 150px;
+  max-height: 200px;
   width:50px;
   display: block;
   text-align: left;
+ 
   background-color: black;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px ; 
@@ -20,9 +21,11 @@ div.hidden { display:none; position:fixed}
  }
 .itemAndButtons {
   display: flex;
+  flex: 3;
   flex-direction: column;
   align-items: center;
   align-content: center;
+  
   justify-content: space-around;
 height: 500px;
 max-height: 500px ;
@@ -153,7 +156,7 @@ p {
   display: flex;
   justify-content:center;
   align-items: flex-end;
-  bottom: 0;
+  bottom: 0 fixed;
   margin-bottom:0 fixed;
 }
 
@@ -188,6 +191,7 @@ justify-content: flex-end;
  }
  .next {
    display: flex;
+
    align-items: center;
    align-self: center;
  }

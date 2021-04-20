@@ -11,7 +11,7 @@ import "./Answer.css"
 
 
 export default function AnswerGuess(props) {
-  console.log('answer props', props)
+
   let id = props.item.id;
   let user_id = props.user.id;
   let [showValues, setShowValues] = useState(false);
@@ -20,7 +20,7 @@ export default function AnswerGuess(props) {
   let [classNameButton, setClassNameButton] = useState('ans-btn trigger')
  
   //a message that will be displayed to the user after guessing 
-  const [guessAnswer, setGuessAnswer] = useState("")
+
   //contains five cells containing the count for the five answer options
   const [arrayAnswers, setArrayAnswers] = useState([])
   const [nextItem, setNextItem] = useState({})
@@ -98,10 +98,6 @@ export default function AnswerGuess(props) {
     })
   }, [props.item.item])
 
-  useEffect(() => {
-
-    changeheight();
-  }, [voteOption])
 
   //this function will be called everytime the user clicks on shar button 
   function expandMenu(socialState) {
@@ -165,19 +161,22 @@ export default function AnswerGuess(props) {
       if (max < Number(arr[i].nbanswers)) {
         console.log('bonjour from if')
         max = Number(arr[i].nbanswers) 
-      
       }
     }
-    
      return max;
   }
   //return answers for each item
   const updateAfterGuess= (buttonId) => {
-console.log(id)
+ 
+   
+    let guessAnswer =""
+console.log(buttonId)
+setVoteOption(true)
     axios.get(`http://localhost:8001/answer/${id}/guess`)
      .then(res => {
        console.log(res.data);
        setArrayAnswers(res.data);
+       console.log(arrayAnswers)
        let sortedIndexes = []
        let levels = []
        let fillingIntoLevels = 0
@@ -211,39 +210,39 @@ console.log(id)
           if ((buttonId === "id1" && levels[0].includes(0)) || (buttonId === "id2" && levels[0].includes(1)) 
           || (buttonId === "id3" && levels[0].includes(2)) || (buttonId === "id4" && levels[0].includes(3))
           || (buttonId === "id5" && levels[0].includes(4) )){
-             setGuessAnswer('Perfect Guess, 10 marks added')
+             guessAnswer = ('Perfect Guess, 10 marks added')
           }
         }
        if (levels[1]) {
         if ((buttonId === "id1" && levels[1].includes(0)) || (buttonId === "id2" && levels[1].includes(1)) 
         || (buttonId === "id3" && levels[1].includes(2)) || (buttonId === "id4" && levels[1].includes(3))
         || (buttonId === "id5" && levels[1].includes(4))) {
-           setGuessAnswer('Almost there, 5 marks added')
+           guessAnswer ='Almost there, 5 marks added'
         }
        }
        if (levels[2]) {
         if ((buttonId === "id1" && levels[2].includes(0)) || (buttonId === "id2" && levels[2].includes(1)) 
         || (buttonId === "id3" && levels[2].includes(2)) || (buttonId === "id4" && levels[2].includes(3))
         || (buttonId === "id5" && levels[2].includes(4))) {
-           setGuessAnswer('No marks added')
+           guessAnswer= ('No marks added')
         }
        }
        if (levels[3]) {
         if ((buttonId === "id1" && levels[3].includes(0)) || (buttonId === "id2" && levels[3].includes(1)) 
         || (buttonId === "id3" && levels[3].includes(2)) || (buttonId === "id4" && levels[3].includes(3))
         || (buttonId === "id5" && levels[3].includes(4))) {
-           setGuessAnswer('Second Farest answer, 5 marks deducted')
+           guessAnswer =('Second Farest answer, 5 marks deducted')
         }
        }
        if (levels[4]) {
         if (buttonId === "id1" && levels[4].includes(0) || buttonId === "id2" && levels[4].includes(1)
         || buttonId === "id3" && levels[4].includes(2) || buttonId === "id4" && levels[4].includes(3)
         || buttonId === "id5" && levels[4].includes(4)) {
-           setGuessAnswer('Farest answer, 10 marks deducted')
+          guessAnswer =('Farest answer, 10 marks deducted')
         }
        }
-       
-        console.log(guessAnswer)
+       if (guessAnswer) { alert(guessAnswer)}
+          changeheight();
      })
      .catch((err) => console.log(err))
    }
@@ -318,31 +317,31 @@ console.log(id)
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
-          <button name='never' id="id1" className="ans-btn trigger" onClick={(e) => { updateAfterGuess( e.target.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
+          <button name='never' id="id1" className="ans-btn trigger" onClick={async(e) => { await updateAfterGuess(e.target.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
           <div className="hidden"><p> Never</p></div>
         </div>
 
         <div className="graph2">
-          <button name='rarely' id="id2" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e.target.id); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
+          <button name='rarely' id="id2" className="ans-btn trigger" onClick={async(e) => { await updateAfterGuess(e.target.id); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
           <div className="hidden"><p> Rarely</p></div>
         </div>
         <div className="graph3">
-          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e.target.id); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
+          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={async (e) => {await updateAfterGuess(e.target.id); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
           <div className="hidden"><p> Sometimes</p></div>
         </div>
 
         <div className="graph4">
-          <button name='usually' id="id4" className="ans-btn trigger" onClick={(e) => { updateAfterGuess( e, e.target.id); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
+          <button name='usually' id="id4" className="ans-btn trigger" onClick={async (e) => { await updateAfterGuess( e.target.id); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
           <div className="hidden"><p> usually</p></div>
         </div>
 
 
         <div className="graph5">
-          <button name='always' id="id5" className="ans-btn trigger" onClick={(e) => { updateAfterGuess(e.target.id);}}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
+          <button name='always' id="id5" className="ans-btn trigger" onClick={async (e) => { await updateAfterGuess(e.target.id);}}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
           <div className="hidden"><p> always</p></div>
         </div>
       </div>
-      <div className="guess" style={{color:"black",fontSize:20,marginLeft:40}}> {guessAnswer}</div>
+     
       </div>
       
     </div>
