@@ -327,12 +327,12 @@ const deleteItem = (id,db) => {
   }
 }
 //add a guess for about an item 
-const addItemGuess = (item_id,user_id,guess, db) => {
+const addItemGuess = (item_id,user_id,guess, points, db) => {
   if (user_id){
-  db.query(`INSERT INTO guess_items (item_id, user_id, guess, date)
-  VALUES ($1, $2, $3, NOW())
+  db.query(`INSERT INTO guess_items (item_id, user_id, guess, date, points)
+  VALUES ($1, $2, $3, NOW(), $4)
   RETURNING *;`, 
-  [item_id, user_id, guess])
+  [item_id, user_id, guess, points])
   .then(res => {
     console.log("the inserted row about guess is",res.rows[0])
     return res.rows[0];
@@ -504,6 +504,7 @@ module.exports = {
   addUserLoginGF,
   getRandomItemForTopic,
   updateUserPic, 
-  getAnswersForItem
+  getAnswersForItem,
+  addItemGuess
 
 };

@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, 
   deleteItem,getNbAnswersForOption,getNbAnswersForOptionByGender, getNbAnswersforOptionById,
-  getNbAnswersForOptionByRelation, addItemAnswer, getRandomItemForTopic} = require ("../helpers");
+  getNbAnswersForOptionByRelation, addItemAnswer, getRandomItemForTopic, addItemGuess} = require ("../helpers");
 
 module.exports = db => {
   //returns an array of answers for each item
@@ -196,6 +196,18 @@ router.post('/answer/add',  async (req, res) => {
         res.send(addedAnswer);
         
       }else { console.log('something wrong with the insertion')}
+});
+
+//when the user chooses a guess of what is the highest answered option to an item
+router.post('/guess/add',  async (req, res) => {
+  const { user_id, guess, item_id, points} = req.body
+ 
+    const addedGuess = await   addItemGuess( item_id, user_id,  guess, points, db)
+    if (addedGuess){
+      
+        res.send(addedGuess);
+        
+      } else { console.log('something wrong with the guess insertion')}
 });
 
   router.post('/answer', async (req, res) => {
