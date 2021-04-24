@@ -355,6 +355,9 @@ let history = useHistory();
        <Route path="/answer">
          <AnswerApp item ={currentItem} setCurrentItem={setCurrentItem} getNbAnsByOption={getNbAnsByOption} topics={topics} user={user}/>
        </Route>
+       <Route path="/myScore">
+         <MyScore />
+       </Route>
        <Route path="/submit">
          <Submit  change={change} setChange={setChange} user={user}/>
        </Route>

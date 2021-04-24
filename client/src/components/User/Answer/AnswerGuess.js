@@ -19,8 +19,8 @@ export default function AnswerGuess(props) {
   let shareUrl = "http://whodo.co";
   let [classNameButton, setClassNameButton] = useState('ans-btn trigger')
  
-  //a message that will be displayed to the user after guessing 
-
+  //a boolean to tell if the user guessed or not
+  const [didGuess, setDidGuess] = useState(false)
   //contains five cells containing the count for the five answer options
   const [arrayAnswers, setArrayAnswers] = useState([])
   const [nextItem, setNextItem] = useState({})
@@ -65,45 +65,36 @@ export default function AnswerGuess(props) {
   percentageAlways = Math.round(percentageAlways)
 
   useEffect(() => {
-    expandMenu(socialState);
+   
     props.getNbAnsByOption(props.item.item).then((data) => {
-
       setNeverOption(Number(data[0].nbanswers));
       setRarelyOption(Number(data[1].nbanswers));
       setSometimesOption(Number(data[2].nbanswers));
       setUsuallyOption(Number(data[3].nbanswers));
       setAlwaysOption(Number(data[4].nbanswers));
-      backToNormalButtonHeights();
+      
+  //    backToNormalButtonHeights();
+
+
+    })
+  }, [didGuess])
+
+ 
+  useEffect(() => {
+   
+    props.getNbAnsByOption(props.item.item).then((data) => {
+      console.log('just bringing the nb answers');
+      
+  //    backToNormalButtonHeights();
 
 
     })
   }, [])
 
-  useEffect(() => {
-
-    props.getNbAnsByOption(props.item.item).then((data) => {
-
-      setNeverOption(Number(data[0].nbanswers));
-      setRarelyOption(Number(data[1].nbanswers));
-      setSometimesOption(Number(data[2].nbanswers));
-      setUsuallyOption(Number(data[3].nbanswers));
-      setAlwaysOption(Number(data[4].nbanswers));
-
-      enableAllButtons();
-      backToNormalButtonHeights();
-      setShowChartEducation(false);
-      setShowChartGender(false);
-      setShowChartRelation(false);
-
-    })
-  }, [props.item.item])
-
-
   //this function will be called everytime the user clicks on shar button 
   function expandMenu(socialState) {
     if (socialState === false) {
       document.getElementById('icon-list').style.transform = 'scaleX(0)';
-
       setSocialState(true);
     }
     else {
@@ -167,13 +158,14 @@ export default function AnswerGuess(props) {
   }
   //return answers for each item
   const updateAfterGuess= (buttonId) => {
- 
-   
+    
+   setDidGuess(true)
     let guessAnswer =""
 console.log(buttonId)
 setVoteOption(true)
     axios.get(`http://localhost:8001/answer/${id}/guess`)
      .then(res => {
+       console.log('hi there')
        console.log(res.data);
        setArrayAnswers(res.data);
        console.log(arrayAnswers)
@@ -317,27 +309,27 @@ setVoteOption(true)
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
-          <button name='never' id="id1" className="ans-btn trigger" onClick={async(e) => { await updateAfterGuess(e.target.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
+          <button name='never' id="id1" className="ans-btn trigger" onClick={(e) => {updateAfterGuess(e.target.id); }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
           <div className="hidden"><p> Never</p></div>
         </div>
 
         <div className="graph2">
-          <button name='rarely' id="id2" className="ans-btn trigger" onClick={async(e) => { await updateAfterGuess(e.target.id); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
+          <button name='rarely' id="id2" className="ans-btn trigger" onClick={(e) => {updateAfterGuess(e.target.id); }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
           <div className="hidden"><p> Rarely</p></div>
         </div>
         <div className="graph3">
-          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={async (e) => {await updateAfterGuess(e.target.id); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
+          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={(e) => {updateAfterGuess(e.target.id); }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
           <div className="hidden"><p> Sometimes</p></div>
         </div>
 
         <div className="graph4">
-          <button name='usually' id="id4" className="ans-btn trigger" onClick={async (e) => { await updateAfterGuess( e.target.id); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
+          <button name='usually' id="id4" className="ans-btn trigger" onClick={(e) => {updateAfterGuess( e.target.id); }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
           <div className="hidden"><p> usually</p></div>
         </div>
 
 
         <div className="graph5">
-          <button name='always' id="id5" className="ans-btn trigger" onClick={async (e) => { await updateAfterGuess(e.target.id);}}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
+          <button name='always' id="id5" className="ans-btn trigger" onClick={(e) => {updateAfterGuess(e.target.id);}}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
           <div className="hidden"><p> always</p></div>
         </div>
       </div>

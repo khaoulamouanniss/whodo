@@ -310,6 +310,7 @@ const deleteItem = (id,db) => {
        
      })
  }
+ //add an answer for an item
  const addItemAnswer = (item_id,user_id,answer, db) => {
   if (user_id){
   db.query(`INSERT INTO answer_items (item_id, user_id, answer, date)
@@ -325,7 +326,22 @@ const deleteItem = (id,db) => {
   });
   }
 }
-
+//add a guess for about an item 
+const addItemGuess = (item_id,user_id,guess, db) => {
+  if (user_id){
+  db.query(`INSERT INTO guess_items (item_id, user_id, guess, date)
+  VALUES ($1, $2, $3, NOW())
+  RETURNING *;`, 
+  [item_id, user_id, guess])
+  .then(res => {
+    console.log("the inserted row about guess is",res.rows[0])
+    return res.rows[0];
+  })
+  .catch(e => {
+    return null;
+  });
+  }
+}
  const getNbAnswersForOption = (question,option,  db) => {
   let sql = `
     SELECT count(A.id) as nbAnswers

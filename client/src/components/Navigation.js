@@ -34,6 +34,7 @@ export default function Navigation(props) {
         <div className="nav-button">
           <Link to={"/signup"}  ><i className="fas fa-user-plus"></i>Sign-Up</Link> 
         </div>
+        
       </div>
     </div>
   ): (props.user.type === "normal" ? (

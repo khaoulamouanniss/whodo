@@ -30,6 +30,12 @@ export const ProfileMenu = [
     cName:'nav-text'
   },
   {
+    title: 'My score',
+    path: '/myScore',
+    icon:<BsIcons.BsFileSpreadsheet></BsIcons.BsFileSpreadsheet>,
+    cName: 'nav-text'
+  },
+  {
     title: 'Logout',
     path: '/',
     icon: <BsIcons.BsPower></BsIcons.BsPower>,

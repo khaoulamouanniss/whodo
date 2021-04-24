@@ -96,9 +96,9 @@ export default function Answer(props) {
     });
   }, [props.item.item]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     changeheight();
-  }, [voteOption]);
+  }, [voteOption]);*/
 
   //this function will be called everytime the user clicks on shar button
   function expandMenu(socialState) {
@@ -222,6 +222,7 @@ export default function Answer(props) {
       setVoteOption(5);
       addAnswer(5, id);
     }
+    document.getElementById(id).style.backgroundColor = "orange";
   }
 
   return (
