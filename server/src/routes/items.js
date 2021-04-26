@@ -190,7 +190,7 @@ malePromises.push( getNbAnswersForOptionByGender(item_id, i, 'male', db));
 router.post('/answer/add',  async (req, res) => {
   const { user_id, answer, item_id} = req.body
  
-    const addedAnswer = await   addItemAnswer( item_id, user_id,  answer, db)
+    const addedAnswer = await addItemAnswer( item_id, user_id,  answer, db)
     if (addedAnswer){
       
         res.send(addedAnswer);
@@ -201,10 +201,11 @@ router.post('/answer/add',  async (req, res) => {
 //when the user chooses a guess of what is the highest answered option to an item
 router.post('/guess/add',  async (req, res) => {
   const { user_id, guess, item_id, points} = req.body
- 
-    const addedGuess = await   addItemGuess( item_id, user_id,  guess, points, db)
+    console.log(user_id, guess, item_id, points)
+    const addedGuess = await addItemGuess( item_id, user_id, guess, points, db)
+    console.log('added guess is', addedGuess)
     if (addedGuess){
-      
+      console.log('added guess')
         res.send(addedGuess);
         
       } else { console.log('something wrong with the guess insertion')}

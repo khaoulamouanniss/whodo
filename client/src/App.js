@@ -14,6 +14,7 @@ import ListItems from './components/User/ListItems';
 import Topics from './components/Admin/Topics';
 import TopicShow from './components/Admin/TopicShow';
 import ItemShow from './components/User/ItemShow';
+import MyScore from './components/User/Answer/MyScore'
 import Items from './components/Admin/Items';
 import Users from './components/Admin/Users';
 import ItemsApprove from './components/Admin/ItemsApprove';

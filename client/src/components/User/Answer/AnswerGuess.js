@@ -20,8 +20,14 @@ export default function AnswerGuess(props) {
   let [classNameButton, setClassNameButton] = useState('ans-btn trigger')
   //number of points gained after each guess
   const [points, setPoints] = useState(0);
+  //a string state to tell the user how is his guess
+  const [guessAnswer, setGuessAnswer] = useState("")
+  //an array state to tell what is the highest rate for
+  const [arrayHighest, setArrayHighest] = useState([])
   //a boolean to tell if the user guessed or not
   const [didGuess, setDidGuess] = useState(false)
+  //a number to tell what option has been chosen for the guess
+  const [guessOption, setGuessOption] = useState(0)
   //contains five cells containing the count for the five answer options
   const [arrayAnswers, setArrayAnswers] = useState([])
   const [nextItem, setNextItem] = useState({})
@@ -105,11 +111,11 @@ export default function AnswerGuess(props) {
 
   }
 //on clicking on the guess button, you will execute this function that'll add your guess to the database
-  const addGuess = (guess, points, id) => {
+  const addGuess = (guessOption, points, id) => {
     axios
       .post("http://localhost:8001/guess/add", {
         user_id: user_id,
-        guess: guess,
+        guess: guessOption,
         item_id: id,
         points: points
       })
@@ -170,8 +176,9 @@ export default function AnswerGuess(props) {
      return max;
   }
   //return answers for each item
-  const updateAfterGuess= (buttonId) => {
-    
+  const updateAfterGuess= (e) => {
+    let guessAns=""
+   const buttonId = e.target.id; 
    setDidGuess(true)
     let guessAnswer =""
 console.log(buttonId)
@@ -191,6 +198,7 @@ setVoteOption(true)
        for (let c = 0; c < 5; c++) {
          levels[c] = [];
        }
+       setArrayHighest([])
        //make a copy of the nb of answers for each option
        let copyArrayAnswers = [...arrayAnswers];
        console.log(copyArrayAnswers)
@@ -207,16 +215,20 @@ setVoteOption(true)
           
           }
           l++;
-          
+       
         
       }
+      setArrayHighest(levels[0]) 
+     console.log(arrayHighest)
+      
   console.log(levels)
         if(levels[0]) {
           if ((buttonId === "id1" && levels[0].includes(0)) || (buttonId === "id2" && levels[0].includes(1)) 
           || (buttonId === "id3" && levels[0].includes(2)) || (buttonId === "id4" && levels[0].includes(3))
           || (buttonId === "id5" && levels[0].includes(4) )){
-            setPoints(10)
-             guessAnswer = ('Perfect Guess, 10 marks added')
+            
+            addGuess(guessOption, 10, id)
+            guessAns=('Perfect Guess, 10 marks added \n')
           }
         }
        if (levels[1]) {
@@ -224,7 +236,8 @@ setVoteOption(true)
         || (buttonId === "id3" && levels[1].includes(2)) || (buttonId === "id4" && levels[1].includes(3))
         || (buttonId === "id5" && levels[1].includes(4))) {
           setPoints(5)
-           guessAnswer ='Almost there, 5 marks added'
+          addGuess(guessOption, 5, id)
+          guessAns=('Almost there, 5 marks added \n')
         }
        }
        if (levels[2]) {
@@ -232,7 +245,8 @@ setVoteOption(true)
         || (buttonId === "id3" && levels[2].includes(2)) || (buttonId === "id4" && levels[2].includes(3))
         || (buttonId === "id5" && levels[2].includes(4))) {
           setPoints(0)
-           guessAnswer= ('No marks added')
+          addGuess(guessOption, 0, id)
+          guessAns=('No marks added \n')
         }
        }
        if (levels[3]) {
@@ -240,7 +254,8 @@ setVoteOption(true)
         || (buttonId === "id3" && levels[3].includes(2)) || (buttonId === "id4" && levels[3].includes(3))
         || (buttonId === "id5" && levels[3].includes(4))) {
           setPoints(-5)
-           guessAnswer =('Second Farest answer, 5 marks deducted')
+          addGuess(guessOption, -5, id)
+          guessAns=('Second Farest answer, 5 marks deducted \n')
         }
        }
        if (levels[4]) {
@@ -248,9 +263,31 @@ setVoteOption(true)
         || buttonId === "id3" && levels[4].includes(2) || buttonId === "id4" && levels[4].includes(3)
         || buttonId === "id5" && levels[4].includes(4)) {
           setPoints(-10)
-          guessAnswer =('Farest answer, 10 marks deducted')
+          addGuess(guessOption, -10, id)
+          guessAns=('Farest answer, 10 marks deducted \n')
         }
        }
+       guessAns +='\n '
+       guessAns+='Most people answered'
+       for (const c in arrayHighest) {
+         console.log(arrayHighest[c], c, arrayHighest.length)
+         if (arrayHighest[c] === 0) {
+          guessAns += ' Never '
+         }
+         if (arrayHighest[c] === 1) {
+          guessAns+=' Rarely '
+         }
+         if (arrayHighest[c] === 2) {
+          guessAns+=' Sometimes '
+         }
+         if (arrayHighest[c] === 3) {
+          guessAns+='Usually'
+         }
+         if (arrayHighest[c] === 4) {
+          guessAns+='Always'
+         }
+       }
+       setGuessAnswer(guessAns)
        if (guessAnswer) { alert(guessAnswer)}
           changeheight();
      })
@@ -276,13 +313,15 @@ setVoteOption(true)
       <div className="itemAndButtons">
       <div className='itemHashtagSocialShare'>
         <div className='itemHashtag'>
+        <h3>Guess what most people do???</h3>
           <div className='hashtag'>
             <Link style={{ textDecoration: "none" }} to="/answer" onClick={() => randomItem(topic)} >
               <h5>#{topic}</h5>
             </Link>
           </div>
           <div className='itemContent'>
-            <h2>second page{props.item.item}</h2>
+          
+            <h2>{props.item.item}</h2>
           </div>
 
         </div>  {/*end of the title without social share */}
@@ -327,34 +366,34 @@ setVoteOption(true)
       {/*second component of our flexBox*/}
       <div className='voteButtons'>
         <div className="graph1">
-          <button name='never' id="id1" className="ans-btn trigger" onClick={(e) => {updateAfterGuess(e.target.id);
-          setVoteOption(1) }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
+          <button name='never' id="id1" className="ans-btn trigger" onClick={(e) => {e.preventDefault(); setGuessOption(1); updateAfterGuess(e);
+           }}> {showValues && !enableButtons ? `${percentageNever}%` : ''} </button>
           <div className="hidden"><p> Never</p></div>
         </div>
 
         <div className="graph2">
-          <button name='rarely' id="id2" className="ans-btn trigger" onClick={(e) => {updateAfterGuess(e.target.id); setVoteOption(2) }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
+          <button name='rarely' id="id2" className="ans-btn trigger" onClick={(e) => {e.preventDefault();setGuessOption(2); updateAfterGuess(e);  }}>{showValues && !enableButtons ? `${percentageRarely}%` : ''} </button>
           <div className="hidden"><p> Rarely</p></div>
         </div>
         <div className="graph3">
-          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={(e) => {updateAfterGuess(e.target.id); setVoteOption(3) }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
+          <button name='sometimes' id="id3" className="ans-btn trigger" onClick={(e) => {e.preventDefault();setGuessOption(3); updateAfterGuess(e);  }}> {showValues && !enableButtons ? `${percentageSometimes}%` : ''} </button>
           <div className="hidden"><p> Sometimes</p></div>
         </div>
 
         <div className="graph4">
-          <button name='usually' id="id4" className="ans-btn trigger" onClick={(e) => {updateAfterGuess( e.target.id); setVoteOption(4) }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
+          <button name='usually' id="id4" className="ans-btn trigger" onClick={(e) => {e.preventDefault();setGuessOption(4); updateAfterGuess( e);  }}>{showValues && !enableButtons ? `${percentageUsually}%` : ''} </button>
           <div className="hidden"><p> usually</p></div>
         </div>
 
 
         <div className="graph5">
-          <button name='always' id="id5" className="ans-btn trigger" onClick={(e) => {updateAfterGuess(e.target.id); setVoteOption(5)}}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
+          <button name='always' id="id5" className="ans-btn trigger" onClick={(e) => {e.preventDefault();setGuessOption(5); updateAfterGuess(e); }}> {showValues && !enableButtons ? `${percentageAlways}%` : ''} </button>
           <div className="hidden"><p> always</p></div>
         </div>
       </div>
-     
+      <div> {guessAnswer}</div>
       </div>
-      
+     
     </div>
 
   )
