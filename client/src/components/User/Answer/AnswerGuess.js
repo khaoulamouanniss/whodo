@@ -391,7 +391,7 @@ setVoteOption(true)
           <div className="hidden"><p> always</p></div>
         </div>
       </div>
-      <div> {guessAnswer}</div>
+      <h3> {guessAnswer}</h3>
       </div>
      
     </div>
