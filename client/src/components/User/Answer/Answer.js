@@ -190,7 +190,7 @@ export default function Answer(props) {
       })
       .then((res) => {
         console.log("shoufou resultat", res.data);
-        return res.data;
+        return (res.data);
       });
   };
   function updateAfterClick(id) {
