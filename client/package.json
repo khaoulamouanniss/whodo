@@ -29,6 +29,7 @@
     "react-select": "^4.1.0",
     "react-share": "^4.3.1",
     "react-share-button": "^0.0.4",
+    "react-step-builder": "^2.0.10",
     "react-wordcloud": "^1.2.7",
     "styled-components": "^5.2.1",
     "web-vitals": "^1.1.0",

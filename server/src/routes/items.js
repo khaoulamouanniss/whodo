@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const {getItemsAndTopicsByUserType, addItem, addTopic, addItemTopic, 
   deleteItem,getNbAnswersForOption,getNbAnswersForOptionByGender, getNbAnswersforOptionById,
-  getNbAnswersForOptionByRelation, addItemAnswer, getRandomItemForTopic, addItemGuess} = require ("../helpers");
+  getNbAnswersForOptionByRelation, addItemAnswer, getRandomItemForTopic, addItemGuess, getItemsAndScores} = require ("../helpers");
 
 module.exports = db => {
   //returns an array of answers for each item
@@ -210,7 +210,7 @@ router.post('/guess/add',  async (req, res) => {
         
       } else { console.log('something wrong with the guess insertion')}
 });
-
+//getting the number of answers for each question for each option
   router.post('/answer', async (req, res) => {
     const { item, user_id, voteOption } = req.body;
     const promises =[];
@@ -225,6 +225,15 @@ router.post('/guess/add',  async (req, res) => {
     ).then(data => {
       res.send(data);
     })
+  });
+  //getting a list of items and their scores for a user
+  router.post('/MyScore', async (req, res) => {
+    const { user } = req.body;
+  console.log('user for my score', user)
+    //making an array of items and their responses
+    getItemsAndScores(user, db).then( data => {
+      console.log(data) 
+      res.send(data)})
   });
   
 

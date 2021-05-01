@@ -342,6 +342,7 @@ const addItemGuess = (item_id,user_id,guess, points, db) => {
   });
   }
 }
+//getting how many user has answered x option for x item
  const getNbAnswersForOption = (question,option,  db) => {
   let sql = `
     SELECT count(A.id) as nbAnswers
@@ -356,6 +357,26 @@ const addItemGuess = (item_id,user_id,guess, points, db) => {
       return res.rows[0];
     }
       return {nbanswers: '0'}
+    })
+    .catch(e => {
+      return null;
+    });
+  };
+  
+  //getting how many user has answered x option for x item
+ const getItemsAndScores = (user,  db) => {
+  let sql = `
+    SELECT A.item_id as item_id, B.item as item, A.user_id as user_id,  A.guess as guess, A.points as points 
+    FROM guess_items A
+    LEFT OUTER Join items B on B.id = A.item_id
+    WHERE A.user_id = $1
+    GROUP BY A.item_id, B.item, A.user_id, A.guess, A.points ;   
+    ` ;
+  return db.query(sql, [user])
+    .then(res => {
+     if (res.rows) {
+      return res.rows;
+    }
     })
     .catch(e => {
       return null;
@@ -505,6 +526,7 @@ module.exports = {
   getRandomItemForTopic,
   updateUserPic, 
   getAnswersForItem,
-  addItemGuess
+  addItemGuess, 
+  getItemsAndScores
 
 };

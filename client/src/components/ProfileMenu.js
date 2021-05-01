@@ -31,7 +31,7 @@ export const ProfileMenu = [
   },
   {
     title: 'My score',
-    path: '/myScore',
+    path: '/MyScore',
     icon:<BsIcons.BsFileSpreadsheet></BsIcons.BsFileSpreadsheet>,
     cName: 'nav-text'
   },

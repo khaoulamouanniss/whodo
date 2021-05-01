@@ -236,6 +236,7 @@ let history = useHistory();
     console.log(error)
   })
 }
+
   //Admin functions
   
   const showItemsByTopic = (id) =>
@@ -356,7 +357,8 @@ let history = useHistory();
        <Route path="/answer">
          <AnswerApp item ={currentItem} setCurrentItem={setCurrentItem} getNbAnsByOption={getNbAnsByOption} topics={topics} user={user}/>
        </Route>
-       <Route path="/myScore">
+       <Route path="/MyScore">
+         <MyScore item={currentItem} user={user}  />
          <MyScore />
        </Route>
        <Route path="/submit">
@@ -383,6 +385,7 @@ let history = useHistory();
        <Route path="/myitems">
          <SubmittedItems items={submittedItems} setCurrentItem={setCurrentItem} deleteItem={deleteItem}/>
        </Route>
+    
        <Route path="/users">
          <Users users={users}/>
        </Route>

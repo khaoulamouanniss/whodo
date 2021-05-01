@@ -7,29 +7,43 @@ import ChartByEducation from "../ChartByEducation";
 import {
   FacebookShareButton,
   WhatsappShareButton,
+  LinkedinShareButton,
   TwitterShareButton,
 } from "react-share";
-import { FacebookIcon, WhatsappIcon, TwitterIcon } from "react-share";
+import {
+  FacebookIcon,
+  WhatsappIcon,
+  LinkedinIcon,
+  TwitterIcon,
+} from "react-share";
 import "./Answer.css";
-import AnswerGuess from "./AnswerGuess.js";
 
-export default function Answer(props) {
-  console.log("answer props", props);
+export default function oldAnswerGuess(props) {
   let id = props.item.id;
   let user_id = props.user.id;
   let [showValues, setShowValues] = useState(false);
   // let shareUrl = window.location.href;
   let shareUrl = "http://whodo.co";
-  let [classNameButton, setClassNameButton] = useState("ans-btn trigger");
-  console.log(shareUrl);
+
+  //number of points gained after each guess
+  const [points, setPoints] = useState(0);
+  //a string state to tell the user how is his guess
+  const [guessAnswer, setGuessAnswer] = useState("");
+  //an array state to tell what is the highest rate for
+  const [arrayHighest, setArrayHighest] = useState([]);
+  //a boolean to tell if the user guessed or not
+  const [didGuess, setDidGuess] = useState(false);
+  //a number to tell what option has been chosen for the guess
+  const [guessOption, setGuessOption] = useState(0);
+  //contains five cells containing the count for the five answer options
+  const [arrayAnswers, setArrayAnswers] = useState([]);
   const [nextItem, setNextItem] = useState({});
   const [showFilter, setShowFilter] = useState(false);
-
   //boolean variables to allow the display of the charts
   const [showChartGender, setShowChartGender] = useState(false);
   const [showChartRelation, setShowChartRelation] = useState(false);
   const [showChartEducation, setShowChartEducation] = useState(false);
-  //buttons should be disabled after clicking on them
+
   const [enableButtons, setEnableButtons] = useState(true);
   //it is the array that contains the item answers by relation : single or engaged
   const [dataArrayRelation, setDataArrayRelation] = useState({});
@@ -65,49 +79,50 @@ export default function Answer(props) {
   percentageAlways = Math.round(percentageAlways);
 
   useEffect(() => {
-    expandMenu(socialState);
     props.getNbAnsByOption(props.item.item).then((data) => {
       setNeverOption(Number(data[0].nbanswers));
       setRarelyOption(Number(data[1].nbanswers));
       setSometimesOption(Number(data[2].nbanswers));
       setUsuallyOption(Number(data[3].nbanswers));
       setAlwaysOption(Number(data[4].nbanswers));
-      backToNormalButtonHeights();
+
+      //    backToNormalButtonHeights();
     });
-  }, []);
+  }, [didGuess]);
 
   useEffect(() => {
     props.getNbAnsByOption(props.item.item).then((data) => {
-      setNeverOption(Number(data[0].nbanswers));
-      setRarelyOption(Number(data[1].nbanswers));
-      setSometimesOption(Number(data[2].nbanswers));
-      setUsuallyOption(Number(data[3].nbanswers));
-      setAlwaysOption(Number(data[4].nbanswers));
+      console.log("just bringing the nb answers");
 
-      enableAllButtons();
-      backToNormalButtonHeights();
-      setShowChartEducation(false);
-      setShowChartGender(false);
-      setShowChartRelation(false);
+      //    backToNormalButtonHeights();
     });
-  }, [props.item.item]);
-
-  /*useEffect(() => {
-    changeheight();
-  }, [voteOption]);*/
+  }, []);
 
   //this function will be called everytime the user clicks on shar button
   function expandMenu(socialState) {
     if (socialState === false) {
       document.getElementById("icon-list").style.transform = "scaleX(0)";
-
       setSocialState(true);
     } else {
       document.getElementById("icon-list").style.transform = "scaleX(1)";
-
       setSocialState(false);
     }
   }
+  //on clicking on the guess button, you will execute this function that'll add your guess to the database
+  const addGuess = (guessOption, points, id) => {
+    axios
+      .post("http://localhost:8001/guess/add", {
+        user_id: user_id,
+        guess: guessOption,
+        item_id: id,
+        points: points,
+      })
+      .then((res) => {
+        console.log("result of adding a guess", res.data);
+        return res.data;
+      });
+  };
+
   function backToNormalButtonHeights() {
     document.getElementById("id1").style.height = "20px";
     document.getElementById("id2").style.height = "20px";
@@ -134,7 +149,164 @@ export default function Answer(props) {
     document.getElementById("id5").disabled = false;
     setEnableButtons(true);
   }
-  //this function return what has people answered for a specific item
+  const randomItem = (nextTopic) => {
+    axios
+      .post("http://localhost:8001/answer/random", { topic: nextTopic })
+      .then((res) => {
+        props.setCurrentItem(res.data);
+        return res.data;
+      });
+  };
+  //returns the maximum value in an array of objects
+  function maxOfArray(arr) {
+    let max = Number(arr[0].nbanswers);
+    let i = 1;
+    for (let i = 1; i < arr.length; i++) {
+      console.log("bonjour from for");
+      if (max < Number(arr[i].nbanswers)) {
+        console.log("bonjour from if");
+        max = Number(arr[i].nbanswers);
+      }
+    }
+    return max;
+  }
+  //return answers for each item
+  const updateAfterGuess = (e) => {
+    let guessAns = "";
+    const buttonId = e.target.id;
+    setDidGuess(true);
+    let guessAnswer = "";
+    console.log(buttonId);
+    setVoteOption(true);
+    axios
+      .get(`http://localhost:8001/answer/${id}/guess`)
+      .then((res) => {
+        console.log("hi there");
+        console.log(res.data);
+        setArrayAnswers(res.data);
+        console.log(arrayAnswers);
+        let sortedIndexes = [];
+        let levels = [];
+        let fillingIntoLevels = 0;
+        //counter on the array of levels
+        let l = 0;
+        //initialiaze the array of level 0 for highest rate 5 for lowest
+        for (let c = 0; c < 5; c++) {
+          levels[c] = [];
+        }
+        setArrayHighest([]);
+        //make a copy of the nb of answers for each option
+        let copyArrayAnswers = [...arrayAnswers];
+        console.log(copyArrayAnswers);
+        //we may fill into one level three option when users answer 4 answers for example for never, rarely, usually
+        while (fillingIntoLevels < 5) {
+          let max = maxOfArray(copyArrayAnswers);
+          console.log(max);
+          for (let i = 0; i < copyArrayAnswers.length; i++) {
+            if (Number(copyArrayAnswers[i].nbanswers) === max) {
+              levels[l].push(i);
+              fillingIntoLevels++;
+              copyArrayAnswers[i] = { nbanswers: "-1" };
+            }
+          }
+          l++;
+        }
+        setArrayHighest(levels[0]);
+        console.log(arrayHighest);
+
+        console.log(levels);
+        if (levels[0]) {
+          if (
+            (buttonId === "id1" && levels[0].includes(0)) ||
+            (buttonId === "id2" && levels[0].includes(1)) ||
+            (buttonId === "id3" && levels[0].includes(2)) ||
+            (buttonId === "id4" && levels[0].includes(3)) ||
+            (buttonId === "id5" && levels[0].includes(4))
+          ) {
+            addGuess(guessOption, 10, id);
+            guessAns = "Perfect Guess, 10 marks added \n";
+          }
+        }
+        if (levels[1]) {
+          if (
+            (buttonId === "id1" && levels[1].includes(0)) ||
+            (buttonId === "id2" && levels[1].includes(1)) ||
+            (buttonId === "id3" && levels[1].includes(2)) ||
+            (buttonId === "id4" && levels[1].includes(3)) ||
+            (buttonId === "id5" && levels[1].includes(4))
+          ) {
+            setPoints(5);
+            addGuess(guessOption, 5, id);
+            guessAns = "Almost there, 5 marks added \n";
+          }
+        }
+        if (levels[2]) {
+          if (
+            (buttonId === "id1" && levels[2].includes(0)) ||
+            (buttonId === "id2" && levels[2].includes(1)) ||
+            (buttonId === "id3" && levels[2].includes(2)) ||
+            (buttonId === "id4" && levels[2].includes(3)) ||
+            (buttonId === "id5" && levels[2].includes(4))
+          ) {
+            setPoints(0);
+            addGuess(guessOption, 0, id);
+            guessAns = "No marks added \n";
+          }
+        }
+        if (levels[3]) {
+          if (
+            (buttonId === "id1" && levels[3].includes(0)) ||
+            (buttonId === "id2" && levels[3].includes(1)) ||
+            (buttonId === "id3" && levels[3].includes(2)) ||
+            (buttonId === "id4" && levels[3].includes(3)) ||
+            (buttonId === "id5" && levels[3].includes(4))
+          ) {
+            setPoints(-5);
+            addGuess(guessOption, -5, id);
+            guessAns = "Second Farest answer, 5 marks deducted \n";
+          }
+        }
+        if (levels[4]) {
+          if (
+            (buttonId === "id1" && levels[4].includes(0)) ||
+            (buttonId === "id2" && levels[4].includes(1)) ||
+            (buttonId === "id3" && levels[4].includes(2)) ||
+            (buttonId === "id4" && levels[4].includes(3)) ||
+            (buttonId === "id5" && levels[4].includes(4))
+          ) {
+            setPoints(-10);
+            addGuess(guessOption, -10, id);
+            guessAns = "Farest answer, 10 marks deducted \n";
+          }
+        }
+        guessAns += "\n ";
+        guessAns += "Most people answered";
+        for (const c in arrayHighest) {
+          console.log(arrayHighest[c], c, arrayHighest.length);
+          if (arrayHighest[c] === 0) {
+            guessAns += " Never ";
+          }
+          if (arrayHighest[c] === 1) {
+            guessAns += " Rarely ";
+          }
+          if (arrayHighest[c] === 2) {
+            guessAns += " Sometimes ";
+          }
+          if (arrayHighest[c] === 3) {
+            guessAns += "Usually";
+          }
+          if (arrayHighest[c] === 4) {
+            guessAns += "Always";
+          }
+        }
+        setGuessAnswer(guessAns);
+        if (guessAnswer) {
+          alert(guessAnswer);
+        }
+        changeheight();
+      })
+      .catch((err) => console.log(err));
+  };
 
   function changeheight() {
     document.getElementById("id1").style.height =
@@ -148,78 +320,6 @@ export default function Answer(props) {
     document.getElementById("id5").style.height =
       (percentageAlways * 4 + 20).toString() + "px";
   }
-  //return the results according to the filter selected by the user
-  function filterAnswers(id, filter) {
-    if (filter === "gender") {
-      axios
-        .get(`http://localhost:8001/answer/${id}/filter/gender`)
-        .then((res) => {
-          setDataArrayGender(res.data);
-          setShowChartRelation(false);
-          setShowChartEducation(false);
-          setShowChartGender(true);
-        })
-        .catch((err) => console.log(err));
-    } else if (filter === "relation") {
-      axios
-        .get(`http://localhost:8001/answer/${id}/filter/relation`)
-        .then((res) => {
-          setDataArrayRelation(res.data);
-          setShowChartGender(false);
-          setShowChartEducation(false);
-          setShowChartRelation(true);
-        })
-        .catch((err) => console.log(err));
-    } else {
-      setShowChartRelation(false);
-      setShowChartGender(false);
-      setShowChartEducation(true);
-    }
-  }
-  //function responsible of adding a new response to answer_items table
-  const addAnswer = (voteOption, id) => {
-    axios
-      .post("http://localhost:8001/answer/add", {
-        user_id: user_id,
-        answer: voteOption,
-        item_id: id,
-      })
-      .then((res) => {
-        console.log("shoufou resultat", res.data);
-        return res.data;
-      });
-  };
-  function updateAfterClick(id) {
-    disableAllButtons();
-    setShowValues(true);
-    setShowFilter(true);
-    if (id === "id1") {
-      setNeverOption(neverOption + 1);
-      setVoteOption(1);
-      addAnswer(1, id);
-    }
-    if (id === "id2") {
-      setRarelyOption(rarelyOption + 1);
-      setVoteOption(2);
-      addAnswer(2, id);
-    }
-    if (id === "id3") {
-      setSometimesOption(sometimesOption + 1);
-      setVoteOption(3);
-      addAnswer(3, id);
-    }
-    if (id === "id4") {
-      setUsuallyOption(usuallyOption + 1);
-      setVoteOption(4);
-      addAnswer(4, id);
-    }
-    if (id === "id5") {
-      setAlwaysOption(alwaysOption + 1);
-      setVoteOption(5);
-      addAnswer(5, id);
-    }
-    document.getElementById(id).style.backgroundColor = "orange";
-  }
 
   return (
     <div className="div-container">
@@ -227,10 +327,12 @@ export default function Answer(props) {
       <div className="itemAndButtons">
         <div className="itemHashtagSocialShare">
           <div className="itemHashtag">
+            <h3>Guess what most people do???</h3>
             <div className="hashtag">
               <Link
                 style={{ textDecoration: "none" }}
-                to="/answer" /*onClick={() => randomItem(topic)}*/
+                to="/answer"
+                onClick={() => randomItem(topic)}
               >
                 <h5>#{topic}</h5>
               </Link>
@@ -296,26 +398,6 @@ export default function Answer(props) {
             {/*end of social share component */}
           </div>
         </div>
-        {/*third part of our item title*/}
-        {/*<div class='changeYourTopic'>
-          <div className="answer-label">
-          <h6>Change topic</h6>
-          </div>
-          <div>
-          <select className="answer-select" name="other-topics" id="otherTopics" value={topic} onChange={async event => {
-         await  setTopic(event.target.value); 
-             randomItem(event.target.value);
-             enableAllButtons();
-           }
-          }>
-            {props.topics.map((c) => {
-              return (<option value={c.topic}> {c.topic}</option>)
-            })}
-          
-          </select>
-          </div>
-        </div>
-        */}
 
         {/*second component of our flexBox*/}
         <div className="voteButtons">
@@ -325,7 +407,9 @@ export default function Answer(props) {
               id="id1"
               className="ans-btn trigger"
               onClick={(e) => {
-                updateAfterClick(e.target.id);
+                e.preventDefault();
+                setGuessOption(1);
+                updateAfterGuess(e);
               }}
             >
               {" "}
@@ -342,7 +426,9 @@ export default function Answer(props) {
               id="id2"
               className="ans-btn trigger"
               onClick={(e) => {
-                updateAfterClick(e.target.id);
+                e.preventDefault();
+                setGuessOption(2);
+                updateAfterGuess(e);
               }}
             >
               {showValues && !enableButtons ? `${percentageRarely}%` : ""}{" "}
@@ -357,7 +443,9 @@ export default function Answer(props) {
               id="id3"
               className="ans-btn trigger"
               onClick={(e) => {
-                updateAfterClick(e.target.id);
+                e.preventDefault();
+                setGuessOption(3);
+                updateAfterGuess(e);
               }}
             >
               {" "}
@@ -376,7 +464,9 @@ export default function Answer(props) {
               id="id4"
               className="ans-btn trigger"
               onClick={(e) => {
-                updateAfterClick(e.target.id);
+                e.preventDefault();
+                setGuessOption(4);
+                updateAfterGuess(e);
               }}
             >
               {showValues && !enableButtons ? `${percentageUsually}%` : ""}{" "}
@@ -392,7 +482,9 @@ export default function Answer(props) {
               id="id5"
               className="ans-btn trigger"
               onClick={(e) => {
-                updateAfterClick(e.target.id);
+                e.preventDefault();
+                setGuessOption(5);
+                updateAfterGuess(e);
               }}
             >
               {" "}
@@ -403,43 +495,8 @@ export default function Answer(props) {
             </div>
           </div>
         </div>
+        <h3> {guessAnswer}</h3>
       </div>
-
-      {/*third component of our flex*/}
-
-      {/*  {showFilter &&  <div className='filterResults'>
-
-    <div className='filterTitle'>
-       <h6>filter results by:</h6>
-        </div>
-        <div className='filterSelect'>
-           <select className="answer-select" name="filter" id="filter" value={filter} onChange={event => {
-            setFilter(event.target.value);
-            filterAnswers(props.item.id, event.target.value);
-          }
-          }>
-            <option value='gender'> Filter by gender</option>
-            <option value='relation'> Filter by relation</option>
-            <option value='education'> Filter by education</option>
-          </select>
-        </div>
-
-        <div className='charts'>
-          first subcomponent of chart flex 
-          <div className='chartsByGender'>
-            {showChartGender && <ChartByGender data={dataArrayGender} />}
-          </div>
-          second subcomponent of chart flex 
-          <div className='chartsByRelation'>
-            {showChartRelation && <ChartByRelation data={dataArrayRelation} />}
-          </div>
-          <br />
-          <div className='chartsByEducation'>
-            {showChartEducation && <ChartByEducation />}
-          </div>
-          <br />
-        </div>
-      </div>} */}
     </div>
   );
 }
