@@ -41,21 +41,26 @@ export default function MyScore(props) {
       <div className="score-title">
         <h1>check your score</h1>
         <div className="score-results">
-          {arrayOfScores.length ? (
-            arrayOfScores.map((i) => {
-              return (
-                <table className="arrayScores">
+          <table className="arrayScores">
+            <tr>
+              <td className="scoreItem header">Item</td>
+              <td className="scoreItem header">Your response</td>
+              <td className="scoreItem header">Score</td>
+            </tr>
+            {arrayOfScores.length ? (
+              arrayOfScores.map((i) => {
+                return (
                   <tr>
                     <td className="scoreItem">{i.item}</td>
                     <td className="scoreItem">{arrayOfGuesses[i.guess - 1]}</td>
                     <td className="scoreItem"> {i.points}</td>
                   </tr>
-                </table>
-              );
-            })
-          ) : (
-            <p>You haven't guessed yet</p>
-          )}
+                );
+              })
+            ) : (
+              <p>You haven't guessed yet</p>
+            )}
+          </table>
         </div>
       </div>
     </div>
