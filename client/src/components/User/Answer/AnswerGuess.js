@@ -36,19 +36,20 @@ export default function AnswerGuess(props) {
       console.log(optionValues);
     });
   }, []);
-  //changing the height of each option according to its value brought from the database
-  function changeheight() {
+
+  //change the heights of the buttons according to the value in the database
+  useEffect(() => {
     document.getElementById("id1").style.height =
-      (optionValues[0] * 4 + 20).toString() + "px";
+      (Math.round((optionValues[0] / total) * 100) * 4 + 20).toString() + "px";
     document.getElementById("id2").style.height =
-      (optionValues[1] * 4 + 20).toString() + "px";
+      (Math.round((optionValues[1] / total) * 100) * 4 + 20).toString() + "px";
     document.getElementById("id3").style.height =
-      (optionValues[2] * 4 + 20).toString() + "px";
+      (Math.round((optionValues[2] / total) * 100) * 4 + 20).toString() + "px";
     document.getElementById("id4").style.height =
-      (optionValues[3] * 4 + 20).toString() + "px";
+      (Math.round((optionValues[3] / total) * 100) * 4 + 20).toString() + "px";
     document.getElementById("id5").style.height =
-      (optionValues[4] * 4 + 20).toString() + "px";
-  }
+      (Math.round((optionValues[4] / total) * 100) * 4 + 20).toString() + "px";
+  }, [didGuess]);
 
   //returns the maximum value in an array of objects
   function maxOfArray(arr) {
@@ -215,7 +216,6 @@ export default function AnswerGuess(props) {
     if (guessAnswer) {
       alert(guessAnswer);
     }
-    changeheight();
   };
   //on clicking on the guess button, you will execute this function that'll add your guess to the database
   const addGuess = (guessOption, points, id) => {
