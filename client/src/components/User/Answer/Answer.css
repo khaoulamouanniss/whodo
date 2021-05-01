@@ -158,6 +158,9 @@ p {
 .ans-btn:hover {
   background-color: rgb(247, 137, 37);
 }
+.pressed {
+  background-color: rgb(247, 137, 37);
+}
 
 .answer-select {
   border-width: 3px;

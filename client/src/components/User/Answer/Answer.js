@@ -8,6 +8,7 @@ export default function Answer(props) {
   let user_id = props.user.id;
   const [currentStep, setCurrentStep] = useState(1);
   const [topic, setTopic] = useState(props.item.topic);
+
   const [voteOption, setVoteOption] = useState(0);
   const [showValues, setShowValues] = useState(false);
 
@@ -17,7 +18,12 @@ export default function Answer(props) {
   //3:disabling the buttons after voting
 
   //getting the number of answers for each option from the database when the page load
-  useEffect(() => {}, [voteOption]);
+  useEffect(() => {
+    if (voteOption) {
+      document.getElementById(`id${voteOption}`).style.backgroundColor =
+        "orange";
+    }
+  }, [voteOption]);
   //function responsible of adding a new response to answer_items table
   const addAnswer = (voteOption) => {
     axios
@@ -44,7 +50,7 @@ export default function Answer(props) {
             e.preventDefault();
             setVoteOption(id);
             addAnswer(id);
-            e.currentTarget.style.backgroundColor = "orange";
+
             alert(
               "thank you for your response, now you can guess and get points"
             );
