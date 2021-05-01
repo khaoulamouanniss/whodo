@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
 
-export default function AnswerGuess(props) {
+export default function Answer(props) {
   let item_id = props.item.id;
   let user_id = props.user.id;
   const [currentStep, setCurrentStep] = useState(1);
@@ -17,7 +17,7 @@ export default function AnswerGuess(props) {
   //3:disabling the buttons after voting
 
   //getting the number of answers for each option from the database when the page load
-  useEffect(() => {}, []);
+  useEffect(() => {}, [voteOption]);
   //function responsible of adding a new response to answer_items table
   const addAnswer = (voteOption) => {
     axios
@@ -33,7 +33,7 @@ export default function AnswerGuess(props) {
   };
 
   //creating a component for the button to be called
-  const ButtonForAnswer = ({ id, nameButton, percentage, styleButton }) => {
+  const ButtonForAnswer = ({ id, nameButton, percentage }) => {
     return (
       <div className={`graph${id}`}>
         <button
@@ -43,9 +43,13 @@ export default function AnswerGuess(props) {
           onClick={(e) => {
             e.preventDefault();
             setVoteOption(id);
-            addAnswer(voteOption);
-            e.target.style = { styleButton };
+            addAnswer(id);
+            e.currentTarget.style.backgroundColor = "orange";
+            alert(
+              "thank you for your response, now you can guess and get points"
+            );
           }}
+          disabled={voteOption ? true : false}
         >
           {" "}
           {showValues ? `${percentage[{ id }]}%` : ""}{" "}
@@ -62,7 +66,6 @@ export default function AnswerGuess(props) {
       {/*first component of our flexBox*/}
       <div className="itemAndButtons">
         <div className="itemHashtag">
-          <h3>Guess what most people do second page???</h3>
           <div className="hashtag">
             <Link style={{ textDecoration: "none" }} to="/answer">
               <h5>#{topic}</h5>
@@ -102,7 +105,6 @@ export default function AnswerGuess(props) {
             id={5}
             nameButton={"Sometimes"}
             className="ans-btn trigger"
-            styleButton ={background-color: 'orange'}
           />
         </div>
         {/*<h3> {guessAnswer}</h3>*/}
