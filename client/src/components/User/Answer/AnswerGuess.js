@@ -12,7 +12,7 @@ export default function AnswerGuess(props) {
   const [guessOption, setGuessOption] = useState(0);
   const [showValues, setShowValues] = useState(false);
   const [total, setTotal] = useState(0);
-  const [arrayHighest, setArrayHighest] = useState([]);
+
   const [points, setPoints] = useState(0);
   const [guessAnswer, setGuessAnswer] = useState("");
   const [didGuess, setDidGuess] = useState(false);
@@ -39,6 +39,9 @@ export default function AnswerGuess(props) {
 
   //change the heights of the buttons according to the value in the database
   useEffect(() => {
+    optionValues.map((i) => {
+      console.log("i in this case is", i);
+    });
     document.getElementById("id1").style.height =
       (Math.round((optionValues[0] / total) * 100) * 4 + 20).toString() + "px";
     document.getElementById("id2").style.height =
@@ -65,6 +68,60 @@ export default function AnswerGuess(props) {
     return max;
   }
 
+  //getting the message that assess our guess
+  function getGuessAssessment(levels, choice) {
+    let guessAns = "";
+    console.log(levels);
+    console.log(choice);
+    if (levels[0].includes(choice)) {
+      console.log("donno why the message isnt showing");
+      guessAns += "Perfect Guess, 10 marks added \n";
+      addGuess(choice, 10, id);
+    } else if (levels[1].includes(choice)) {
+      console.log("donno why the message isnt showing");
+      guessAns += "Almost there, 5 marks added \n";
+      setPoints(5);
+      addGuess(choice, 5, id);
+    } else if (levels[2].includes(choice)) {
+      console.log("donno why the message isnt showing");
+      guessAns += "No marks added \n";
+      setPoints(0);
+      addGuess(choice, 0, id);
+    } else if (levels[3].includes(choice)) {
+      console.log("donno why the message isnt showing");
+      guessAns += "Second Farest answer, 5 marks deducted \n";
+      setPoints(-5);
+      addGuess(choice, -5, id);
+    } else if (levels[4].includes(choice)) {
+      console.log("donno why the message isnt showing");
+      guessAns += "Farest answer, 10 marks deducted \n";
+      setPoints(-10);
+      addGuess(choice, -10, id);
+    }
+    guessAns += " Most people answered ";
+    levels[0].map((el) => {
+      switch (el) {
+        case 0:
+          guessAns += "Never ";
+          break;
+        case 1:
+          guessAns += "Rarely ";
+          break;
+        case 2:
+          guessAns += "Sometimes ";
+          break;
+        case 3:
+          guessAns += "Usually ";
+          break;
+        case 4:
+          guessAns += "Always ";
+          break;
+      }
+    });
+
+    return guessAns;
+  }
+
   //creating a component for the button to be called
   const ButtonForGuess = ({ id, nameButton, percentage, styleButton }) => {
     return (
@@ -74,9 +131,8 @@ export default function AnswerGuess(props) {
           id={`id${id}`}
           className="ans-btn trigger"
           onClick={(e) => {
-            e.preventDefault();
-            setDidGuess(true);
             setGuessOption(id);
+            setDidGuess(true);
             updateAfterGuess(e);
             e.target.style = { styleButton };
           }}
@@ -94,8 +150,26 @@ export default function AnswerGuess(props) {
   //the event to be triggered when the user click on a button to guess
   const updateAfterGuess = (e) => {
     const buttonId = e.target.id;
-    let guessAns = "";
-
+    let valueGuess;
+    switch (buttonId) {
+      case "id1":
+        valueGuess = 1;
+        break;
+      case "id2":
+        valueGuess = 2;
+        break;
+      case "id3":
+        valueGuess = 3;
+        break;
+      case "id4":
+        valueGuess = 4;
+        break;
+      case "id5":
+        valueGuess = 5;
+        break;
+    }
+    /* a table that contains an array of arrays ordered from higher answers to lower answer, in each cell more 
+than one element because we can have same number of answers for different options */
     let levels = [];
     e.target.style = { height: `{ percentage } px` };
     //counter on the number of cells in each subArray
@@ -124,97 +198,14 @@ export default function AnswerGuess(props) {
       }
       l++;
     }
-    setArrayHighest(levels[0]);
-    console.log(arrayHighest);
 
     console.log(levels);
-    if (levels[0]) {
-      if (
-        (buttonId === "id1" && levels[0].includes(0)) ||
-        (buttonId === "id2" && levels[0].includes(1)) ||
-        (buttonId === "id3" && levels[0].includes(2)) ||
-        (buttonId === "id4" && levels[0].includes(3)) ||
-        (buttonId === "id5" && levels[0].includes(4))
-      ) {
-        addGuess(guessOption, 10, id);
-        guessAns = "Perfect Guess, 10 marks added \n";
-      }
-    }
-    if (levels[1]) {
-      if (
-        (buttonId === "id1" && levels[1].includes(0)) ||
-        (buttonId === "id2" && levels[1].includes(1)) ||
-        (buttonId === "id3" && levels[1].includes(2)) ||
-        (buttonId === "id4" && levels[1].includes(3)) ||
-        (buttonId === "id5" && levels[1].includes(4))
-      ) {
-        setPoints(5);
-        addGuess(guessOption, 5, id);
-        guessAns = "Almost there, 5 marks added \n";
-      }
-    }
-    if (levels[2]) {
-      if (
-        (buttonId === "id1" && levels[2].includes(0)) ||
-        (buttonId === "id2" && levels[2].includes(1)) ||
-        (buttonId === "id3" && levels[2].includes(2)) ||
-        (buttonId === "id4" && levels[2].includes(3)) ||
-        (buttonId === "id5" && levels[2].includes(4))
-      ) {
-        setPoints(0);
-        addGuess(guessOption, 0, id);
-        guessAns = "No marks added \n";
-      }
-    }
-    if (levels[3]) {
-      if (
-        (buttonId === "id1" && levels[3].includes(0)) ||
-        (buttonId === "id2" && levels[3].includes(1)) ||
-        (buttonId === "id3" && levels[3].includes(2)) ||
-        (buttonId === "id4" && levels[3].includes(3)) ||
-        (buttonId === "id5" && levels[3].includes(4))
-      ) {
-        setPoints(-5);
-        addGuess(guessOption, -5, id);
-        guessAns = "Second Farest answer, 5 marks deducted \n";
-      }
-    }
-    if (levels[4]) {
-      if (
-        (buttonId === "id1" && levels[4].includes(0)) ||
-        (buttonId === "id2" && levels[4].includes(1)) ||
-        (buttonId === "id3" && levels[4].includes(2)) ||
-        (buttonId === "id4" && levels[4].includes(3)) ||
-        (buttonId === "id5" && levels[4].includes(4))
-      ) {
-        setPoints(-10);
-        addGuess(guessOption, -10, id);
-        guessAns = "Farest answer, 10 marks deducted \n";
-      }
-    }
-    guessAns += "\n ";
-    guessAns += "Most people answered";
-    for (const c in arrayHighest) {
-      console.log(arrayHighest[c], c, arrayHighest.length);
-      if (arrayHighest[c] === 0) {
-        guessAns += " Never ";
-      }
-      if (arrayHighest[c] === 1) {
-        guessAns += " Rarely ";
-      }
-      if (arrayHighest[c] === 2) {
-        guessAns += " Sometimes ";
-      }
-      if (arrayHighest[c] === 3) {
-        guessAns += "Usually";
-      }
-      if (arrayHighest[c] === 4) {
-        guessAns += "Always";
-      }
-    }
-    setGuessAnswer(guessAns);
+
+    console.log(valueGuess);
+
+    setGuessAnswer(getGuessAssessment(levels, valueGuess - 1));
     if (guessAnswer) {
-      alert(guessAnswer);
+      console.log(guessAnswer);
     }
   };
   //on clicking on the guess button, you will execute this function that'll add your guess to the database
@@ -237,7 +228,7 @@ export default function AnswerGuess(props) {
       {/*first component of our flexBox*/}
       <div className="itemAndButtons">
         <div className="itemHashtag">
-          <h3>Guess what most people do second page???</h3>
+          <h3>Guess what most people do???</h3>
           <div className="hashtag">
             <Link style={{ textDecoration: "none" }} to="/answer">
               <h5>#{topic}</h5>
@@ -291,7 +282,7 @@ export default function AnswerGuess(props) {
 
           <ButtonForGuess
             id={5}
-            nameButton={"Sometimes"}
+            nameButton={"Always"}
             percentage={Math.round((optionValues[id] / total) * 100)}
             styleButton={{
               height: `${Math.round((optionValues[id] / total) * 100)} px`,

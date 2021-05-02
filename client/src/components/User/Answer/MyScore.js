@@ -25,9 +25,7 @@ export default function MyScore(props) {
   //useEffect to fill in the array whenever the page is loaded
   useEffect(() => {
     if (props.user) {
-      console.log("inside the if");
       getAnswersWithScores(props.user.id).then((data) => {
-        console.log("before setting the array");
         console.log(data);
         setArrayOfScores(data);
         console.log(arrayOfScores);
@@ -47,7 +45,7 @@ export default function MyScore(props) {
               <td className="scoreItem header">Your response</td>
               <td className="scoreItem header">Score</td>
             </tr>
-            {arrayOfScores.length ? (
+            {arrayOfScores.length > 0 &&
               arrayOfScores.map((i) => {
                 return (
                   <tr>
@@ -56,10 +54,7 @@ export default function MyScore(props) {
                     <td className="scoreItem"> {i.points}</td>
                   </tr>
                 );
-              })
-            ) : (
-              <p>You haven't guessed yet</p>
-            )}
+              })}
           </table>
         </div>
       </div>
