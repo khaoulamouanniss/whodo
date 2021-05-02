@@ -109,7 +109,7 @@ export default function Answer(props) {
 
           <ButtonForAnswer
             id={5}
-            nameButton={"Sometimes"}
+            nameButton={"Always"}
             className="ans-btn trigger"
           />
         </div>

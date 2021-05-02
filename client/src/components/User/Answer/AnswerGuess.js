@@ -290,7 +290,7 @@ than one element because we can have same number of answers for different option
             className="ans-btn trigger"
           />
         </div>
-        {/*<h3> {guessAnswer}</h3>*/}
+        <h3> {guessAnswer}</h3>
       </div>
     </div>
   );

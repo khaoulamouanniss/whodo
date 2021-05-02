@@ -37,7 +37,7 @@ export default function MyScore(props) {
     <div className="score-container">
       {/*first component of our flexBox*/}
       <div className="score-title">
-        <h1>check your score</h1>
+        <h1 style={{ textAlign: "center" }}>check your score</h1>
         <div className="score-results">
           <table className="arrayScores">
             <tr>
@@ -50,7 +50,7 @@ export default function MyScore(props) {
                 return (
                   <tr>
                     <td className="scoreItem">{i.item}</td>
-                    <td className="scoreItem">{arrayOfGuesses[i.guess - 1]}</td>
+                    <td className="scoreItem">{arrayOfGuesses[i.guess]}</td>
                     <td className="scoreItem"> {i.points}</td>
                   </tr>
                 );
