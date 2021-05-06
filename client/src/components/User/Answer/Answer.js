@@ -73,10 +73,6 @@ export default function Answer(props) {
             localStorage.setItem("clicked", true);
             setVoteOption(id);
             addAnswer(id);
-
-            alert(
-              "thank you for your response, now you can guess and get points"
-            );
           }}
           disabled={voteOption ? true : false}
         >
@@ -93,10 +89,7 @@ export default function Answer(props) {
   return (
     <div className="div-container">
       {/*first component of our flexBox*/}
-      <div className="yourScore"> Points : {}</div>
-      {/*second component of our flexBox*/}
       <div className="itemAndButtons">
-        {/*first component of the second component of our flexBox*/}
         <div className="itemHashtag">
           <div className="hashtag">
             <Link style={{ textDecoration: "none" }} to="/answer">
@@ -107,7 +100,6 @@ export default function Answer(props) {
             <h3>{props.item.item}</h3>
           </div>
         </div>
-
         {/*second component of the second component of our flexBox*/}
         <div className="buttonsAndLabel">
           <div className="youDo optionIndication">You do</div>
@@ -148,16 +140,25 @@ export default function Answer(props) {
           {/*voteButtons ended here*/}
         </div>
       </div>
-      <Link
-        style={{ textDecoration: "none" }}
-        to="/answer"
-        onClick={randomItem}
-      >
-        <button className="skip">
-          skip
-          <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
-        </button>
-      </Link>
+      {!voteOption ? (
+        <Link
+          style={{ textDecoration: "none" }}
+          to="/answer"
+          onClick={randomItem}
+        >
+          <button className="skip">
+            skip
+            <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
+          </button>
+        </Link>
+      ) : (
+        <Link style={{ textDecoration: "none" }} to="/answerGuess">
+          <button className="skip">
+            Next
+            <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
+          </button>
+        </Link>
+      )}
     </div>
   );
 }

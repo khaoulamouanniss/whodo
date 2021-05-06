@@ -14,6 +14,7 @@ import SignUp from "./components/User/SignUp";
 import Form3 from "./components/User/SignUp/Form3";
 import Submit from "./components/User/Submit";
 import Answer from "./components/User/Answer/Answer";
+import AnswerGuess from "./components/User/Answer/AnswerGuess";
 import Account from "./components/User/Account";
 import ListItems from "./components/User/ListItems";
 import Topics from "./components/Admin/Topics";
@@ -389,6 +390,16 @@ export default function App() {
 
             <Route path="/answer">
               <Answer
+                items={items}
+                item={currentItem}
+                setCurrentItem={setCurrentItem}
+                getNbAnsByOption={getNbAnsByOption}
+                topics={topics}
+                user={user}
+              />
+            </Route>
+            <Route path="/answerguess">
+              <AnswerGuess
                 items={items}
                 item={currentItem}
                 setCurrentItem={setCurrentItem}
