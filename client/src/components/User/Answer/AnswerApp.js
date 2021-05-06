@@ -1,56 +1,79 @@
-import React from "react";
-import { Steps, Step } from "react-step-builder";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Step1 from "./Answer";
+import axios from "axios";
 import Step2 from "./AnswerGuess";
 
-const Navigation = (props) => {
-  console.log({ props });
-  return (
-    <div
-      className="next"
-      style={{
-        position: "absolute",
-        left: "50%",
-        top: "90%",
-        transform: "translate(-50%, -50%)",
-      }}
-    >
-      <p>Next</p>
-      <i class="fas fa-chevron-right" onClick={props.next}></i>
-    </div>
-  );
-};
-
 function AnswerApp(props) {
-  const config = {
-    navigation: {
-      component: Navigation, // a React component with special props provided automatically
-      location: "after", // or before
-    },
-  };
-
-  return (
-    <div className="App">
-      <Steps config={config}>
-        <Step
-          item={props.item}
-          setCurrentItem={props.setCurrentItem}
-          getNbAnsByOption={props.getNbAnsByOption}
-          topics={props.topics}
-          user={props.user}
-          component={Step1}
-        />
-        <Step
-          item={props.item}
-          setCurrentItem={props.setCurrentItem}
-          getNbAnsByOption={props.getNbAnsByOption}
-          topics={props.topics}
-          user={props.user}
-          component={Step2}
-        />
-      </Steps>
-    </div>
+  const [ClickedChoice, setClickedChoice] = useState(
+    localStorage.getItem("clicked") || false
   );
+
+  const [currentStep, setCurrentStep] = useState(1);
+  if (!ClickedChoice) {
+    switch (currentStep) {
+      case 1:
+        return (
+          <>
+            <Step1
+              currentStep={currentStep}
+              items={props.items}
+              item={props.item}
+              setCurrentItem={props.setCurrentItem}
+              getNbAnsByOption={props.getNbAnsByOption}
+              topics={props.topics}
+              user={props.user}
+            />{" "}
+          </>
+        );
+      case 2:
+        return (
+          <>
+            {" "}
+            <Step1
+              currentStep={currentStep}
+              items={props.items}
+              item={props.items[Math.floor(Math.random() * props.items.length)]}
+              setCurrentItem={props.setCurrentItem}
+              getNbAnsByOption={props.getNbAnsByOption}
+              topics={props.topics}
+              user={props.user}
+            />
+          </>
+        );
+    }
+  } else {
+    switch (currentStep) {
+      case 1:
+        return (
+          <>
+            <Step1
+              currentStep={currentStep}
+              items={props.items}
+              item={props.item}
+              setCurrentItem={props.setCurrentItem}
+              getNbAnsByOption={props.getNbAnsByOption}
+              topics={props.topics}
+              user={props.user}
+            />
+          </>
+        );
+      case 3:
+        return (
+          <>
+            <Step1
+              currentStep={currentStep}
+              items={props.items}
+              item={props.item}
+              setCurrentItem={props.setCurrentItem}
+              getNbAnsByOption={props.getNbAnsByOption}
+              topics={props.topics}
+              user={props.user}
+            />{" "}
+          </>
+        );
+    }
+  }
 }
 
 export default AnswerApp;

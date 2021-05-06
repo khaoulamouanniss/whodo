@@ -37,21 +37,83 @@ export default function MyScore(props) {
     <div className="score-container">
       {/*first component of our flexBox*/}
       <div className="score-title">
-        <h1 style={{ textAlign: "center" }}>check your score</h1>
+        <h1
+          style={{
+            textAlign: "center",
+            margin: "30px",
+            fontFamily: "serif",
+            color: "orangered",
+            padding: "20px",
+          }}
+        >
+          check your score
+        </h1>
         <div className="score-results">
           <table className="arrayScores">
             <tr>
-              <td className="scoreItem header">Item</td>
-              <td className="scoreItem header">Your response</td>
-              <td className="scoreItem header">Score</td>
+              <td
+                className="scoreItem header"
+                style={{
+                  textAlign: "center",
+                  fontSize: "Bold",
+                  fontFamily: "serif",
+                  color: "orangered",
+                }}
+              >
+                Item
+              </td>
+              <td
+                className="scoreItem header"
+                style={{
+                  textAlign: "center",
+                  fontSize: "Bold",
+                  fontFamily: "serif",
+                  color: "orangered",
+                }}
+              >
+                Your response
+              </td>
+              <td
+                className="scoreItem header"
+                style={{
+                  textAlign: "center",
+                  fontSize: "Bold",
+                  fontFamily: "serif",
+                  color: "orangered",
+                }}
+              >
+                Score
+              </td>
             </tr>
             {arrayOfScores.length > 0 &&
               arrayOfScores.map((i) => {
                 return (
                   <tr>
-                    <td className="scoreItem">{i.item}</td>
-                    <td className="scoreItem">{arrayOfGuesses[i.guess]}</td>
-                    <td className="scoreItem"> {i.points}</td>
+                    <td
+                      className="scoreItem"
+                      style={{
+                        fontFamily: "serif",
+                      }}
+                    >
+                      {i.item}
+                    </td>
+                    <td
+                      className="scoreItem"
+                      style={{
+                        fontFamily: "serif",
+                      }}
+                    >
+                      {arrayOfGuesses[i.guess]}
+                    </td>
+                    <td
+                      className="scoreItem"
+                      style={{
+                        fontFamily: "serif",
+                      }}
+                    >
+                      {" "}
+                      {i.points}
+                    </td>
                   </tr>
                 );
               })}

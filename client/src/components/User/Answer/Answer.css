@@ -1,12 +1,11 @@
 .ans-btn {
-  height: 20px;
-  max-height: 200px;
+  height: 50px;
   width: 50px;
   display: block;
   text-align: left;
   background-color: black;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-radius: 8px;
+
   bottom: 0 fixed;
   margin-bottom: 0 fixed;
   outline: none;
@@ -23,19 +22,49 @@ div.hidden {
   font-size: 140%;
   /* margin-top:2%; */
 }
+.optionIndication {
+  color: black;
+  margin: 10px;
+  font-family: "Trocchi", serif;
+  font-size: 25px;
+  font-weight: normal;
+}
+.skip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  transition-duration: 0.4s;
+  text-align: center;
+  color: #f16f05;
+  font-size: 16px;
+  margin: 20px;
+  height: 50px;
+  width: 100px;
+}
+.skip:hover {
+  background-color: gray;
+}
 .itemAndButtons {
   display: flex;
   flex-direction: column;
   align-items: center;
   align-content: center;
-  justify-content: space-around;
+  justify-content: space-between;
   height: 500px;
   max-height: 500px;
   width: 60%;
   border-radius: 25px;
   border: 2px solid #f16f05;
+  background-image: url("../../images/singleUser.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 20px;
   margin-top: 20px;
+}
+.youDo {
+  display: flex;
+  align-self: center;
 }
 .trigger {
   font-size: 140%;
@@ -69,20 +98,27 @@ div.hidden {
   border: 2px;
   padding: 20px;
 }
-.charts {
-  height: 400px;
-  width: 400px;
+.buttonsAndLabel {
+  display: flex;
+  flex-direction: column;
 }
 
 .div-container {
   display: flex;
+  flex-direction: column;
   height: 100%;
-  flex-direction: row;
   align-self: center;
   align-items: center;
   justify-content: center;
   font-size: 10px;
   width: 100%;
+}
+.yourScore {
+  padding: 20px;
+  color: black;
+  font-family: "Trocchi", serif;
+  font-size: 35px;
+  font-weight: normal;
 }
 .shareAndFav {
   display: flex;

@@ -4,6 +4,7 @@ import axios from "axios";
 import "./Answer.css";
 
 export default function AnswerGuess(props) {
+  console.log("props de guessanswer", props);
   let id = props.item.id;
   let user_id = props.user.id;
   const [currentStep, setCurrentStep] = useState(1);
@@ -228,7 +229,15 @@ than one element because we can have same number of answers for different option
       {/*first component of our flexBox*/}
       <div className="itemAndButtons">
         <div className="itemHashtag">
-          <h3>Guess what most people do???</h3>
+          <h3
+            style={{
+              color: "orangered",
+              fontFamily: "serif",
+              fontSize: "Bold",
+            }}
+          >
+            Guess what most people do???
+          </h3>
           <div className="hashtag">
             <Link style={{ textDecoration: "none" }} to="/answer">
               <h5>#{topic}</h5>
@@ -290,7 +299,12 @@ than one element because we can have same number of answers for different option
             className="ans-btn trigger"
           />
         </div>
-        <h3> {guessAnswer}</h3>
+        <h3
+          style={{ color: "orangered", fontFamily: "serif", fontSize: "Bold" }}
+        >
+          {" "}
+          {guessAnswer}
+        </h3>
       </div>
     </div>
   );

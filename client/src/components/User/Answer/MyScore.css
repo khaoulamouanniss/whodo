@@ -2,6 +2,7 @@
   margin-top: 10px;
   width: 150px;
   height: 20px;
+  border-style: ridge;
   background: orange;
 }
 .scoreItem header {
