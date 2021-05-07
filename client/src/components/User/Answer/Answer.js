@@ -89,6 +89,9 @@ export default function Answer(props) {
   return (
     <div className="div-container">
       {/*first component of our flexBox*/}
+
+      <div className="yourScore"> Points : {}</div>
+      {/*second component of our flexBox*/}
       <div className="itemAndButtons">
         <div className="itemHashtag">
           <div className="hashtag">

@@ -53,7 +53,7 @@ export default function AnswerGuess(props) {
       (Math.round((optionValues[3] / total) * 100) * 4 + 20).toString() + "px";
     document.getElementById("id5").style.height =
       (Math.round((optionValues[4] / total) * 100) * 4 + 20).toString() + "px";
-  }, [didGuess]);
+  }, [guessAnswer]);
 
   //returns the maximum value in an array of objects
   function maxOfArray(arr) {
@@ -134,7 +134,6 @@ export default function AnswerGuess(props) {
           onClick={(e) => {
             setGuessOption(id);
             setDidGuess(true);
-            updateAfterGuess(e);
             e.target.style = { styleButton };
           }}
         >
@@ -227,6 +226,9 @@ than one element because we can have same number of answers for different option
   return (
     <div className="div-container">
       {/*first component of our flexBox*/}
+
+      <div className="yourScore"> Points : {}</div>
+      {/*second component of our flexBox*/}
       <div className="itemAndButtons">
         <div className="itemHashtag">
           <h3
@@ -248,64 +250,56 @@ than one element because we can have same number of answers for different option
           </div>
         </div>
         {/*second component of our flexBox*/}
-        <div className="voteButtons">
-          <ButtonForGuess
-            id={1}
-            nameButton={"Never"}
-            percentage={Math.round((optionValues[id] / total) * 100)}
-            styleButton={{
-              height: `${Math.round((optionValues[id] / total) * 100)} px`,
-            }}
-            className="ans-btn trigger"
-          />
+        <div className="buttonsAndLabel">
+          <div className="youDo optionIndication">Most people do</div>
+          <div className="voteButtons">
+            <div className="optionIndication">Never</div>
+            <ButtonForGuess
+              id={1}
+              nameButton={"Never"}
+              className="ans-btn trigger"
+            />
 
-          <ButtonForGuess
-            id={2}
-            nameButton={"Rarely"}
-            percentage={Math.round((optionValues[id] / total) * 100)}
-            styleButton={{
-              height: `${Math.round((optionValues[id] / total) * 100)} px`,
-            }}
-            className="ans-btn trigger"
-          />
+            <ButtonForGuess
+              id={2}
+              nameButton={"Rarely"}
+              className="ans-btn trigger"
+            />
 
-          <ButtonForGuess
-            id={3}
-            nameButton={"Sometimes"}
-            percentage={Math.round((optionValues[id] / total) * 100)}
-            styleButton={{
-              height: `${Math.round((optionValues[id] / total) * 100)} px`,
-            }}
-            className="ans-btn trigger"
-          />
+            <ButtonForGuess
+              id={3}
+              nameButton={"Sometimes"}
+              className="ans-btn trigger"
+            />
 
-          <ButtonForGuess
-            id={4}
-            nameButton={"Usually"}
-            percentage={Math.round((optionValues[id] / total) * 100)}
-            styleButton={{
-              height: `${Math.round((optionValues[id] / total) * 100)} px`,
-            }}
-            className="ans-btn trigger"
-          />
+            <ButtonForGuess
+              id={4}
+              nameButton={"Usually"}
+              className="ans-btn trigger"
+            />
 
-          <ButtonForGuess
-            id={5}
-            nameButton={"Always"}
-            percentage={Math.round((optionValues[id] / total) * 100)}
-            styleButton={{
-              height: `${Math.round((optionValues[id] / total) * 100)} px`,
-            }}
-            className="ans-btn trigger"
-          />
+            <ButtonForGuess
+              id={5}
+              nameButton={"Always"}
+              className="ans-btn trigger"
+            />
+
+            <div className="optionIndication">Always</div>
+          </div>
+          {/*voteButtons ended here*/}
         </div>
-        <h3
-          style={{ color: "orangered", fontFamily: "serif", fontSize: "Bold" }}
-        >
-          {" "}
-          {guessAnswer}
-        </h3>
       </div>
+      {didGuess && (
+        <button
+          className="skip"
+          onClick={(e) => {
+            updateAfterGuess(e);
+          }}
+        >
+          Done
+          <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
+        </button>
+      )}
     </div>
   );
 }
