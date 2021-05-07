@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import DelayLink from "react-delay-link";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
@@ -155,12 +156,17 @@ export default function Answer(props) {
           </button>
         </Link>
       ) : (
-        <Link style={{ textDecoration: "none" }} to="/answerGuess">
+        <DelayLink
+          delay={2000}
+          to="/answerguess"
+          style={{ textDecoration: "none" }}
+          replace={false}
+        >
           <button className="skip">
             Next
             <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
           </button>
-        </Link>
+        </DelayLink>
       )}
     </div>
   );

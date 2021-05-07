@@ -37,8 +37,8 @@ div.hidden {
   font-weight: 300;
   line-height: 1.2;
   text-align: left;
-  margin-top: 0.4em;
-  margin-bottom: 0.4em;
+  margin-top: auto;
+  margin-bottom: auto;
   background: transparent;
   color: white;
   background: #2ecc71;

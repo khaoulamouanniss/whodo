@@ -288,7 +288,9 @@ than one element because we can have same number of answers for different option
           </div>
           {/*voteButtons ended here*/}
         </div>
-        {showAlert && <div className="Absolute-Center">{guessAnswer}</div>}
+        {showAlert && (
+          <div className="Absolute-Center">{alert(guessAnswer)}</div>
+        )}
       </div>
       {didGuess && (
         <button
