@@ -13,7 +13,7 @@ export default function AnswerGuess(props) {
   const [guessOption, setGuessOption] = useState(0);
   const [showValues, setShowValues] = useState(false);
   const [total, setTotal] = useState(0);
-
+  const [showAlert, setShowAlert] = useState(false);
   const [points, setPoints] = useState(0);
   const [guessAnswer, setGuessAnswer] = useState("");
   const [didGuess, setDidGuess] = useState(false);
@@ -288,12 +288,14 @@ than one element because we can have same number of answers for different option
           </div>
           {/*voteButtons ended here*/}
         </div>
+        {showAlert && <div className="Absolute-Center">{guessAnswer}</div>}
       </div>
       {didGuess && (
         <button
           className="skip"
           onClick={(e) => {
             updateAfterGuess(e);
+            setShowAlert(true);
           }}
         >
           Done
