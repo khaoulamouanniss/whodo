@@ -140,6 +140,7 @@ export default function AnswerGuess(props) {
   //the event to be triggered when the user click on a button to guess
   const updateAfterGuess = (e) => {
     const buttonId = e.target.id;
+
     let valueGuess;
     switch (buttonId) {
       case "id1":
@@ -272,7 +273,7 @@ than one element because we can have same number of answers for different option
           {/*voteButtons ended here*/}
         </div>
         {showAlert && (
-          <div className="Absolute-Center" id="Absolute-Center">
+          <div id="idPoints" className="Absolute-Center">
             <div className="points">{points}</div>
           </div>
         )}
@@ -282,11 +283,10 @@ than one element because we can have same number of answers for different option
           className="skip"
           onClick={(e) => {
             console.log(guessOption);
-            document.getElementById(`id${guessOption}`).style.backgroundColor =
-              "blue";
-            document.getElementById("Absolute-center").style.display = "block";
             updateAfterGuess(e);
             setShowAlert(true);
+            document.getElementById(`id${guessOption}`).style.backgroundColor =
+              "blue";
           }}
         >
           Done
