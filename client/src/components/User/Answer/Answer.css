@@ -29,19 +29,24 @@ div.hidden {
   font-weight: normal;
 }
 .Absolute-Center {
-  position: relative;
   display: block;
-  padding: 1em 1.8em;
-  font-size: 0.9em;
-  font-weight: 300;
-  line-height: 1.2;
+
+  height: 200px;
+  width: 200px;
   text-align: left;
   margin-top: auto;
   margin-bottom: auto;
   background: transparent;
-  color: white;
-  background: #2ecc71;
-  border: 1px solid #27ae60;
+  top: 50%;
+  border: 1px solid #f16f05;
+  background-color: #fff;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  text-align: center;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, 0.2);
+  border-radius: 50%;
+  display: none;
 }
 
 .skip {

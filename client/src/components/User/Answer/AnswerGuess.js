@@ -4,7 +4,6 @@ import axios from "axios";
 import "./Answer.css";
 
 export default function AnswerGuess(props) {
-  console.log("props de guessanswer", props);
   let id = props.item.id;
   let user_id = props.user.id;
   const [currentStep, setCurrentStep] = useState(1);
@@ -16,7 +15,9 @@ export default function AnswerGuess(props) {
   const [showAlert, setShowAlert] = useState(false);
   const [points, setPoints] = useState(0);
   const [guessAnswer, setGuessAnswer] = useState("");
+
   const [didGuess, setDidGuess] = useState(false);
+
   //tell about the page state
   //1:see the question and click my guess
   //2:calculating the score I got for my guess
@@ -34,15 +35,12 @@ export default function AnswerGuess(props) {
       setTotal(tempOptionValues.reduce((a, b) => a + b));
       if (total) alert(total);
       setOptionValues(tempOptionValues);
-      console.log(optionValues);
     });
   }, []);
 
   //change the heights of the buttons according to the value in the database
   useEffect(() => {
-    optionValues.map((i) => {
-      console.log("i in this case is", i);
-    });
+    optionValues.map((i) => {});
     document.getElementById("id1").style.height =
       (Math.round((optionValues[0] / total) * 100) * 4 + 20).toString() + "px";
     document.getElementById("id2").style.height =
@@ -231,22 +229,15 @@ than one element because we can have same number of answers for different option
       {/*second component of our flexBox*/}
       <div className="itemAndButtons">
         <div className="itemHashtag">
-          <h3
-            style={{
-              color: "orangered",
-              fontFamily: "serif",
-              fontSize: "Bold",
-            }}
-          >
-            Guess what most people do???
-          </h3>
           <div className="hashtag">
             <Link style={{ textDecoration: "none" }} to="/answer">
               <h5>#{topic}</h5>
             </Link>
           </div>
           <div className="itemContent">
-            <h3>{props.item.item}</h3>
+            <h3>
+              {props.item.item.replace("your", "their").replace("you", "they")}
+            </h3>
           </div>
         </div>
         {/*second component of our flexBox*/}
@@ -289,7 +280,9 @@ than one element because we can have same number of answers for different option
           {/*voteButtons ended here*/}
         </div>
         {showAlert && (
-          <div className="Absolute-Center">{alert(guessAnswer)}</div>
+          <div className="Absolute-Center">
+            <div className="points">{points}</div>
+          </div>
         )}
       </div>
       {didGuess && (
