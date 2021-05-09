@@ -29,8 +29,6 @@ div.hidden {
   font-weight: normal;
 }
 .Absolute-Center {
-  display: block;
-
   height: 200px;
   width: 200px;
   text-align: left;

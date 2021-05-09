@@ -6,7 +6,7 @@ import "./Answer.css";
 export default function AnswerGuess(props) {
   let id = props.item.id;
   let user_id = props.user.id;
-  const [currentStep, setCurrentStep] = useState(1);
+
   const [topic, setTopic] = useState(props.item.topic);
   const [optionValues, setOptionValues] = useState([0, 0, 0, 0, 0]);
   const [guessOption, setGuessOption] = useState(0);
@@ -58,9 +58,7 @@ export default function AnswerGuess(props) {
     let max = arr[0];
 
     for (let i = 1; i < arr.length; i++) {
-      console.log("bonjour from for");
       if (max < arr[i]) {
-        console.log("bonjour from if");
         max = arr[i];
       }
     }
@@ -70,29 +68,23 @@ export default function AnswerGuess(props) {
   //getting the message that assess our guess
   function getGuessAssessment(levels, choice) {
     let guessAns = "";
-    console.log(levels);
-    console.log(choice);
+
     if (levels[0].includes(choice)) {
-      console.log("donno why the message isnt showing");
       guessAns += "Perfect Guess, 10 marks added \n";
       addGuess(choice, 10, id);
     } else if (levels[1].includes(choice)) {
-      console.log("donno why the message isnt showing");
       guessAns += "Almost there, 5 marks added \n";
       setPoints(5);
       addGuess(choice, 5, id);
     } else if (levels[2].includes(choice)) {
-      console.log("donno why the message isnt showing");
       guessAns += "No marks added \n";
       setPoints(0);
       addGuess(choice, 0, id);
     } else if (levels[3].includes(choice)) {
-      console.log("donno why the message isnt showing");
       guessAns += "Second Farest answer, 5 marks deducted \n";
       setPoints(-5);
       addGuess(choice, -5, id);
     } else if (levels[4].includes(choice)) {
-      console.log("donno why the message isnt showing");
       guessAns += "Farest answer, 10 marks deducted \n";
       setPoints(-10);
       addGuess(choice, -10, id);
@@ -280,7 +272,7 @@ than one element because we can have same number of answers for different option
           {/*voteButtons ended here*/}
         </div>
         {showAlert && (
-          <div className="Absolute-Center">
+          <div className="Absolute-Center" id="Absolute-Center">
             <div className="points">{points}</div>
           </div>
         )}
@@ -289,6 +281,10 @@ than one element because we can have same number of answers for different option
         <button
           className="skip"
           onClick={(e) => {
+            console.log(guessOption);
+            document.getElementById(`id${guessOption}`).style.backgroundColor =
+              "blue";
+            document.getElementById("Absolute-center").style.display = "block";
             updateAfterGuess(e);
             setShowAlert(true);
           }}
