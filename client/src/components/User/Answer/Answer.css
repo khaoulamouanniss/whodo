@@ -5,7 +5,6 @@
   text-align: left;
   background-color: black;
   border-radius: 8px;
-
   bottom: 0 fixed;
   margin-bottom: 0 fixed;
   outline: none;
@@ -88,19 +87,12 @@ div.hidden {
   /* font-weight:bold; */
   text-align: center;
 }
-.graph1 {
-  margin-right: 0.2%;
-}
-.graph2 {
-  margin-right: 0.2%;
-}
-.graph3 {
-  margin-right: 0.2%;
-}
-.graph4 {
-  margin-right: 0.2%;
-}
-.graph5 {
+
+.graph1,
+graph2,
+graph3,
+graph4,
+graph5 {
   margin-right: 0.2%;
 }
 
@@ -152,9 +144,14 @@ div.hidden {
   flex-basis: 20%;
   justify-content: space-between;
 }
+.faded {
+  color: #5f5541;
+  opacity: 1;
+}
 .itemHashtag {
   display: flex;
   flex-direction: column;
+  color: black;
 }
 /* border-bottom: 1px solid rgb(173, 100, 16); */
 .socialMedia {
@@ -174,11 +171,30 @@ ul {
 }
 
 .itemContent {
-  color: #5f5541;
+  color: black;
   font-family: "Trocchi", serif;
   font-size: 35px;
   font-weight: normal;
 }
+.faded {
+  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+
+  -moz-animation: fadein 2s; /* Firefox < 16 */
+  -ms-animation: fadein 2s; /* Internet Explorer */
+  -o-animation: fadein 2s; /* Opera < 12.1 */
+  animation: fadein 2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.2;
+  }
+}
+
 #check {
   display: none;
 }

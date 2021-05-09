@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import DelayLink from "react-delay-link";
-import { Link } from "react-router-dom";
+
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
 
@@ -13,12 +13,13 @@ export default function Answer(props) {
   const [topics, setTopics] = useState([]);
   const [voteOption, setVoteOption] = useState(0);
   const [showValues, setShowValues] = useState(false);
-
+  const [clickedNext, setClickedNext] = useState(false);
   //tell about the page state
   //1:see the question and click on the option we chose
   //2:sending my choice to the database to be stored
   //3:disabling the buttons after voting
-
+  const history = useHistory();
+  const linkGuess = "/answerguess";
   useEffect(() => {
     let temporaryArray = [];
     props.topics.map((topic) => {
@@ -27,6 +28,15 @@ export default function Answer(props) {
     });
     setTopics(temporaryArray);
   }, []);
+
+  //function to delay passing to the next page
+  function delayAndGo(e) {
+    e.preventDefault();
+    setClickedNext(true);
+
+    setTimeout(() => history.push(linkGuess), 3000);
+  }
+
   //getting a random item according to a random topic
   const randomItem = () => {
     axios
@@ -68,9 +78,10 @@ export default function Answer(props) {
         <button
           name={nameButton}
           id={`id${id}`}
-          className="ans-btn trigger"
+          className={`ans-btn trigger${clickedNext ? "faded" : ""}`}
           onClick={(e) => {
             e.preventDefault();
+            setClickedNext(true);
             localStorage.setItem("clicked", true);
             setVoteOption(id);
             addAnswer(id);
@@ -94,7 +105,7 @@ export default function Answer(props) {
       <div className="yourScore"> Points : {}</div>
       {/*second component of our flexBox*/}
       <div className="itemAndButtons">
-        <div className="itemHashtag">
+        <div className={`itemHashtag ${voteOption ? "faded" : ""}`}>
           <div className="hashtag">
             <Link style={{ textDecoration: "none" }} to="/answer">
               <h5>#{topic}</h5>
@@ -156,17 +167,12 @@ export default function Answer(props) {
           </button>
         </Link>
       ) : (
-        <DelayLink
-          delay={2000}
-          to="/answerguess"
-          style={{ textDecoration: "none" }}
-          replace={false}
-        >
-          <button className="skip">
+        <Link to={linkGuess} style={{ textDecoration: "none" }}>
+          <button className="skip" onClick={delayAndGo}>
             Next
             <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
           </button>
-        </DelayLink>
+        </Link>
       )}
     </div>
   );
