@@ -3,7 +3,11 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
-
+//tell about the page state
+//1:see the question and click on the option we chose or skip to choose another item.
+//2:sending my choice to the database to be stored
+//3: click on next to move to guess part
+//3:fading the item (question)
 export default function Answer(props) {
   console.log("props de answer", props);
   let item_id = props.item.id;
@@ -14,16 +18,14 @@ export default function Answer(props) {
   const [voteOption, setVoteOption] = useState(0);
   const [showValues, setShowValues] = useState(false);
   const [clickedNext, setClickedNext] = useState(false);
-  //tell about the page state
-  //1:see the question and click on the option we chose
-  //2:sending my choice to the database to be stored
-  //3:disabling the buttons after voting
+  // we are using history to delay passing to next page
   const history = useHistory();
+  //the route we are moving to when we click next
   const linkGuess = "/answerguess";
+  //loading the list of existing topics in an array at the start
   useEffect(() => {
     let temporaryArray = [];
     props.topics.map((topic) => {
-      console.log(topic.topic);
       temporaryArray.push(topic.topic);
     });
     setTopics(temporaryArray);
@@ -34,7 +36,7 @@ export default function Answer(props) {
     e.preventDefault();
     setClickedNext(true);
 
-    setTimeout(() => history.push(linkGuess), 3000);
+    setTimeout(() => history.push(linkGuess), 2000);
   }
 
   //getting a random item according to a random topic
@@ -78,13 +80,12 @@ export default function Answer(props) {
         <button
           name={nameButton}
           id={`id${id}`}
-          className={`ans-btn trigger${clickedNext ? "faded" : ""}`}
+          className="ans-btn trigger"
           onClick={(e) => {
             e.preventDefault();
-            setClickedNext(true);
+            addAnswer(id);
             localStorage.setItem("clicked", true);
             setVoteOption(id);
-            addAnswer(id);
           }}
           disabled={voteOption ? true : false}
         >
@@ -105,7 +106,7 @@ export default function Answer(props) {
       <div className="yourScore"> Points : {}</div>
       {/*second component of our flexBox*/}
       <div className="itemAndButtons">
-        <div className={`itemHashtag ${voteOption ? "faded" : ""}`}>
+        <div className={`itemHashtag ${clickedNext ? "faded" : ""}`}>
           <div className="hashtag">
             <Link style={{ textDecoration: "none" }} to="/answer">
               <h5>#{topic}</h5>

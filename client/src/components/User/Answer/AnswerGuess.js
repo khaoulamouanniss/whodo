@@ -109,7 +109,7 @@ export default function AnswerGuess(props) {
           break;
       }
     });
-
+    console.log(points);
     return guessAns;
   }
 
@@ -274,7 +274,7 @@ than one element because we can have same number of answers for different option
         </div>
         {showAlert && (
           <div id="idPoints" className="Absolute-Center">
-            <div className="points">{points}</div>
+            <div className="points">+{points}</div>
           </div>
         )}
       </div>
