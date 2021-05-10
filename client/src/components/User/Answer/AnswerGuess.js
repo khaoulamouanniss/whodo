@@ -268,7 +268,28 @@ than one element because we can have same number of answers for different option
         </div>
         {/*second component of our flexBox*/}
         <div className="buttonsAndLabel">
-          <div className="youDo optionIndication">Most people do</div>
+          <div className="youDo optionIndication">
+            Most people do{" "}
+            {levels[0].map((i) => {
+              switch (i) {
+                case 0:
+                  return "Never ";
+                  break;
+                case 1:
+                  return "Rarely ";
+                  break;
+                case 2:
+                  return "Sometimes ";
+                  break;
+                case 3:
+                  return "Usually ";
+                  break;
+                case 4:
+                  return "Always ";
+                  break;
+              }
+            })}
+          </div>
           <div className="voteButtons">
             <div className="optionIndication">Never</div>
             <ButtonForGuess
