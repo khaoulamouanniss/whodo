@@ -593,6 +593,26 @@ const getRandomItemForTopic = (topic, db) => {
     });
 };
 
+const getScoreForUser = (user, db) => {
+  return db
+    .query(
+      `
+    SELECT SUM(score)
+    FROM guess_items
+ 
+    WHERE user_id = $1;
+  `,
+      [user]
+    )
+    .then((res) => {
+      consolelog("score got");
+      return res.rows[0];
+    })
+    .catch((e) => {
+      return null;
+    });
+};
+
 const verifyJWT = (req, res, next) => {
   console.log("token in verifyJWT", req.headers);
   const token = req.headers("x-access-token");
@@ -613,6 +633,7 @@ const verifyJWT = (req, res, next) => {
 module.exports = {
   getUserByEmail,
   addUser,
+  getScoreForUser,
   getItemsAndTopicsByUserType,
   getItemsByTopic,
   getNbAnswersByItem,

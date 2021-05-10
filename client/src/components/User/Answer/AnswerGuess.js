@@ -8,6 +8,7 @@ export default function AnswerGuess(props) {
   let user_id = props.user.id;
 
   const [topic, setTopic] = useState(props.item.topic);
+  const [score, setScore] = useState();
   const [levels, setLevels] = useState([[]]);
   const [topics, setTopics] = useState([]);
   const [optionValues, setOptionValues] = useState([0, 0, 0, 0, 0]);
@@ -46,6 +47,7 @@ export default function AnswerGuess(props) {
       temporaryArray.push(topic.topic);
     });
     setTopics(temporaryArray);
+    getMyScore();
   }, []);
 
   useEffect(() => {
@@ -56,6 +58,21 @@ export default function AnswerGuess(props) {
       document.getElementById(i + 1).style.backgroundColor = "green";
     }
   }, [showValues]);
+  //updating the score after each guess
+  useEffect(() => {
+    getMyScore();
+  }, [guessOption]);
+  //getting the score of a specific user
+  const getMyScore = () => {
+    axios
+      .post("http://localhost:8001/guess/score", {
+        user: user_id,
+      })
+      .then((res) => {
+        setScore(res.data);
+        return res.data;
+      });
+  };
   //getting a random item according to a random topic
   const randomItem = () => {
     axios
@@ -231,7 +248,7 @@ than one element because we can have same number of answers for different option
     <div className="div-container">
       {/*first component of our flexBox*/}
 
-      <div className="yourScore"> Points : {}</div>
+      <div className="yourScore"> Points : {score}</div>
       {/*second component of our flexBox*/}
       <div className="itemAndButtons">
         <div className="itemHashtag">
@@ -315,16 +332,32 @@ than one element because we can have same number of answers for different option
         </button>
       )}
       {showValues && (
-        <Link
-          style={{ textDecoration: "none" }}
-          to="/answer"
-          onClick={randomItem}
-        >
-          <button className="skip">
-            Next
-            <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
-          </button>
-        </Link>
+        <>
+          <Link
+            style={{ textDecoration: "none" }}
+            to="/answer"
+            onClick={randomItem}
+          >
+            <button className="skip">
+              Next
+              <i
+                className="fas fa-angle-right"
+                style={{ fontSize: "36px" }}
+              ></i>
+            </button>
+          </Link>
+
+          <div className="likeAndShare">
+            <div className="like">
+              {" "}
+              <i class="fas fa-heart"></i>
+            </div>
+
+            <div className="share">
+              <i class="fas fa-share"></i>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

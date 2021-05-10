@@ -136,7 +136,18 @@ div.hidden {
   flex-direction: column-reverse;
   margin-bottom: 0;
 }
-
+.likeAndShare {
+  display: flex;
+  flex-direction: row;
+  justify-items: space-between;
+  justify-content: space-between;
+}
+.like {
+  margin: 10px;
+}
+.share {
+  margin: 10px;
+}
 .filterResults {
   display: flex;
   flex-direction: column;

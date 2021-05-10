@@ -13,6 +13,7 @@ const {
   getRandomItemForTopic,
   addItemGuess,
   getItemsAndScores,
+  getScoreForUser,
 } = require("../helpers");
 
 module.exports = (db) => {
@@ -259,6 +260,14 @@ module.exports = (db) => {
     let { topic } = req.body;
 
     getRandomItemForTopic(topic, db).then((item) => {
+      res.send(item);
+    });
+  });
+
+  router.post("/guess/score", (req, res) => {
+    let { user } = req.body;
+
+    getScoreForUser(user, db).then((item) => {
       res.send(item);
     });
   });

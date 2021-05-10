@@ -83,9 +83,10 @@ export default function Answer(props) {
           className="ans-btn trigger"
           onClick={(e) => {
             e.preventDefault();
-            addAnswer(id);
+
             localStorage.setItem("clicked", true);
             setVoteOption(id);
+            console.log(voteOption);
           }}
           disabled={voteOption ? true : false}
         >
@@ -169,7 +170,14 @@ export default function Answer(props) {
         </Link>
       ) : (
         <Link to={linkGuess} style={{ textDecoration: "none" }}>
-          <button className="skip" onClick={delayAndGo}>
+          <button
+            className="skip"
+            onClick={(e) => {
+              console.log(voteOption);
+              addAnswer(voteOption);
+              delayAndGo(e);
+            }}
+          >
             Next
             <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
           </button>
