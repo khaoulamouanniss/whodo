@@ -8,6 +8,7 @@ export default function AnswerGuess(props) {
   let user_id = props.user.id;
 
   const [topic, setTopic] = useState(props.item.topic);
+  const [levels, setLevels] = useState([[]]);
   const [topics, setTopics] = useState([]);
   const [optionValues, setOptionValues] = useState([0, 0, 0, 0, 0]);
   const [guessOption, setGuessOption] = useState(0);
@@ -46,6 +47,15 @@ export default function AnswerGuess(props) {
     });
     setTopics(temporaryArray);
   }, []);
+
+  useEffect(() => {
+    if (guessOption) {
+      document.getElementById(guessOption).style.backgroundColor = "blue";
+    }
+    for (const i of levels[0]) {
+      document.getElementById(i + 1).style.backgroundColor = "green";
+    }
+  }, [showValues]);
   //getting a random item according to a random topic
   const randomItem = () => {
     axios
@@ -86,33 +96,33 @@ export default function AnswerGuess(props) {
   }
 
   //getting the message that assess our guess
-  function getGuessAssessment(levels, choice) {
+  function getGuessAssessment(levelsAns, choice) {
     let guessAns = "";
     console.log(levels);
     console.log(choice);
-    if (levels[0].includes(choice)) {
+    if (levelsAns[0].includes(choice)) {
       guessAns += "Perfect Guess, 10 marks added \n";
       setPoints(10);
       addGuess(choice, 10, id);
-    } else if (levels[1].includes(choice)) {
+    } else if (levelsAns[1].includes(choice)) {
       guessAns += "Almost there, 5 marks added \n";
       setPoints(5);
       addGuess(choice, 5, id);
-    } else if (levels[2].includes(choice)) {
+    } else if (levelsAns[2].includes(choice)) {
       guessAns += "No marks added \n";
       setPoints(0);
       addGuess(choice, 0, id);
-    } else if (levels[3].includes(choice)) {
+    } else if (levelsAns[3].includes(choice)) {
       guessAns += "Second Farest answer, 5 marks deducted \n";
       setPoints(-5);
       addGuess(choice, -5, id);
-    } else if (levels[4].includes(choice)) {
+    } else if (levelsAns[4].includes(choice)) {
       guessAns += "Farest answer, 10 marks deducted \n";
       setPoints(-10);
       addGuess(choice, -10, id);
     }
     guessAns += " Most people answered ";
-    levels[0].map((el) => {
+    levelsAns[0].map((el) => {
       switch (el) {
         case 0:
           guessAns += "Never ";
@@ -164,27 +174,9 @@ export default function AnswerGuess(props) {
   const updateAfterGuess = (e) => {
     const buttonId = e.target.id;
 
-    let valueGuess;
-    switch (buttonId) {
-      case "id1":
-        valueGuess = 1;
-        break;
-      case "id2":
-        valueGuess = 2;
-        break;
-      case "id3":
-        valueGuess = 3;
-        break;
-      case "id4":
-        valueGuess = 4;
-        break;
-      case "id5":
-        valueGuess = 5;
-        break;
-    }
     /* a table that contains an array of arrays ordered from higher answers to lower answer, in each cell more 
 than one element because we can have same number of answers for different options */
-    let levels = [];
+    let levelsAns = [];
     e.target.style = { height: `{ percentage } px` };
     //counter on the number of cells in each subArray
     let levelsCounter = 0;
@@ -192,7 +184,7 @@ than one element because we can have same number of answers for different option
     let l = 0;
     //initialiaze the array of level(array of arrays): index 0 contains the highest rates and  5 for lowest rates
     for (let c = 0; c < 5; c++) {
-      levels[c] = [];
+      levelsAns[c] = [];
     }
 
     //make a copy of the nb of answers for each option
@@ -205,17 +197,17 @@ than one element because we can have same number of answers for different option
       for (let i = 0; i < copyOptionValues.length; i++) {
         if (copyOptionValues[i] === max) {
           //storing in each sub array of optionValues the index of options having the highest rate
-          levels[l].push(i);
+          levelsAns[l].push(i);
           levelsCounter++;
           copyOptionValues[i] = -1;
         }
       }
       l++;
     }
-
+    setLevels(levelsAns);
     console.log(levels);
 
-    setGuessAnswer(getGuessAssessment(levels, guessOption - 1));
+    setGuessAnswer(getGuessAssessment(levelsAns, guessOption - 1));
     if (guessAnswer) {
       console.log(guessAnswer);
     }
@@ -316,9 +308,6 @@ than one element because we can have same number of answers for different option
             updateAfterGuess(e);
             setShowValues(true);
             setShowAlert(true);
-
-            document.getElementById(guessOption - 1).style.backgroundColor =
-              "blue";
           }}
         >
           Done

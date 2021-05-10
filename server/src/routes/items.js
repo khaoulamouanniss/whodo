@@ -44,7 +44,7 @@ module.exports = (db) => {
       response.json(items);
     });
   });
-
+  //home page
   router.post("/", (req, res) => {
     const { email, type } = req.body;
     getItemsAndTopicsByUserType(email, type, db)
@@ -57,6 +57,7 @@ module.exports = (db) => {
         }
       });
   });
+  //get a specific item
   router.get("/items/:id", (req, res) => {
     db.query(
       `
@@ -87,6 +88,7 @@ module.exports = (db) => {
     }
     res.send(newItem);
   });
+  //return all items for a specific topic
   router.get("/itemsoftopic/:id", (req, res) => {
     const id = Number(req.params.id);
     db.query(
