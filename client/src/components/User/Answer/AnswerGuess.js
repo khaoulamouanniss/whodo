@@ -8,6 +8,7 @@ export default function AnswerGuess(props) {
   let user_id = props.user.id;
 
   const [topic, setTopic] = useState(props.item.topic);
+  const [topics, setTopics] = useState([]);
   const [optionValues, setOptionValues] = useState([0, 0, 0, 0, 0]);
   const [guessOption, setGuessOption] = useState(0);
   const [showValues, setShowValues] = useState(false);
@@ -15,12 +16,11 @@ export default function AnswerGuess(props) {
   const [showAlert, setShowAlert] = useState(false);
   const [points, setPoints] = useState(0);
   const [guessAnswer, setGuessAnswer] = useState("");
-
   const [didGuess, setDidGuess] = useState(false);
 
   //tell about the page state
   //1:see the question and click my guess
-  //2:calculating the score I got for my guess
+  //2:calculating the score I got for my guess and showing it
   //3:sending my guess and the score to the server
   //4:getting all the responses
   //5:visualizing all the responses
@@ -32,24 +32,44 @@ export default function AnswerGuess(props) {
       data.map((i) => {
         tempOptionValues.push(Number(i.nbanswers));
       });
+      console.log(tempOptionValues.reduce((a, b) => a + b));
       setTotal(tempOptionValues.reduce((a, b) => a + b));
       if (total) alert(total);
       setOptionValues(tempOptionValues);
     });
   }, []);
-
+  //loading the list of existing topics in an array at the start
+  useEffect(() => {
+    let temporaryArray = [];
+    props.topics.map((topic) => {
+      temporaryArray.push(topic.topic);
+    });
+    setTopics(temporaryArray);
+  }, []);
+  //getting a random item according to a random topic
+  const randomItem = () => {
+    axios
+      .post("http://localhost:8001/answer/random", {
+        topic: topics[Math.floor(Math.random() * topics.length)],
+      })
+      .then((res) => {
+        props.setCurrentItem(res.data);
+        setTopic(topics[Math.floor(Math.random() * topics.length)]);
+        return res.data;
+      });
+  };
   //change the heights of the buttons according to the value in the database
   useEffect(() => {
     optionValues.map((i) => {});
-    document.getElementById("id1").style.height =
+    document.getElementById("1").style.height =
       (Math.round((optionValues[0] / total) * 100) * 4 + 20).toString() + "px";
-    document.getElementById("id2").style.height =
+    document.getElementById("2").style.height =
       (Math.round((optionValues[1] / total) * 100) * 4 + 20).toString() + "px";
-    document.getElementById("id3").style.height =
+    document.getElementById("3").style.height =
       (Math.round((optionValues[2] / total) * 100) * 4 + 20).toString() + "px";
-    document.getElementById("id4").style.height =
+    document.getElementById("4").style.height =
       (Math.round((optionValues[3] / total) * 100) * 4 + 20).toString() + "px";
-    document.getElementById("id5").style.height =
+    document.getElementById("5").style.height =
       (Math.round((optionValues[4] / total) * 100) * 4 + 20).toString() + "px";
   }, [guessAnswer]);
 
@@ -68,9 +88,11 @@ export default function AnswerGuess(props) {
   //getting the message that assess our guess
   function getGuessAssessment(levels, choice) {
     let guessAns = "";
-
+    console.log(levels);
+    console.log(choice);
     if (levels[0].includes(choice)) {
       guessAns += "Perfect Guess, 10 marks added \n";
+      setPoints(10);
       addGuess(choice, 10, id);
     } else if (levels[1].includes(choice)) {
       guessAns += "Almost there, 5 marks added \n";
@@ -119,7 +141,8 @@ export default function AnswerGuess(props) {
       <div className={`graph${id}`}>
         <button
           name={nameButton}
-          id={`id${id}`}
+          // id={`id${id}`}
+          id={id}
           className="ans-btn trigger"
           onClick={(e) => {
             setGuessOption(id);
@@ -128,11 +151,11 @@ export default function AnswerGuess(props) {
           }}
         >
           {" "}
-          {showValues ? `${percentage[{ id }]}%` : ""}{" "}
         </button>
         <div className="hidden">
           <p> {nameButton}</p>
         </div>
+        {showValues && <div className="percentage">{percentage}%</div>}
       </div>
     );
   };
@@ -192,9 +215,7 @@ than one element because we can have same number of answers for different option
 
     console.log(levels);
 
-    console.log(valueGuess);
-
-    setGuessAnswer(getGuessAssessment(levels, valueGuess - 1));
+    setGuessAnswer(getGuessAssessment(levels, guessOption - 1));
     if (guessAnswer) {
       console.log(guessAnswer);
     }
@@ -229,7 +250,10 @@ than one element because we can have same number of answers for different option
           </div>
           <div className="itemContent">
             <h3>
-              {props.item.item.replace("your", "their").replace("you", "they")}
+              {props.item.item
+                .replace("yourself", "themselves")
+                .replace("your", "their")
+                .replace("you", "they")}
             </h3>
           </div>
         </div>
@@ -242,30 +266,35 @@ than one element because we can have same number of answers for different option
               id={1}
               nameButton={"Never"}
               className="ans-btn trigger"
+              percentage={Math.round((optionValues[0] / total) * 100) || 0}
             />
 
             <ButtonForGuess
               id={2}
               nameButton={"Rarely"}
               className="ans-btn trigger"
+              percentage={Math.round((optionValues[1] / total) * 100) || 0}
             />
 
             <ButtonForGuess
               id={3}
               nameButton={"Sometimes"}
               className="ans-btn trigger"
+              percentage={Math.round((optionValues[2] / total) * 100) || 0}
             />
 
             <ButtonForGuess
               id={4}
               nameButton={"Usually"}
               className="ans-btn trigger"
+              percentage={Math.round((optionValues[3] / total) * 100) || 0}
             />
 
             <ButtonForGuess
               id={5}
               nameButton={"Always"}
               className="ans-btn trigger"
+              percentage={Math.round((optionValues[4] / total) * 100) || 0}
             />
 
             <div className="optionIndication">Always</div>
@@ -282,16 +311,31 @@ than one element because we can have same number of answers for different option
         <button
           className="skip"
           onClick={(e) => {
+            setDidGuess(false);
             console.log(guessOption);
             updateAfterGuess(e);
+            setShowValues(true);
             setShowAlert(true);
-            document.getElementById(`id${guessOption}`).style.backgroundColor =
+
+            document.getElementById(guessOption - 1).style.backgroundColor =
               "blue";
           }}
         >
           Done
           <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
         </button>
+      )}
+      {showValues && (
+        <Link
+          style={{ textDecoration: "none" }}
+          to="/answer"
+          onClick={randomItem}
+        >
+          <button className="skip">
+            Next
+            <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
+          </button>
+        </Link>
       )}
     </div>
   );
