@@ -6,11 +6,12 @@ import "./Answer.css";
 export default function AnswerGuess(props) {
   let id = props.item.id;
   let user_id = props.user.id;
-
+  console.log(props);
   const [topic, setTopic] = useState(props.item.topic);
-  const [score, setScore] = useState();
+
   const [levels, setLevels] = useState([[]]);
   const [topics, setTopics] = useState([]);
+  const [score, setScore] = useState(props.score);
   const [optionValues, setOptionValues] = useState([0, 0, 0, 0, 0]);
   const [guessOption, setGuessOption] = useState(0);
   const [showValues, setShowValues] = useState(false);
@@ -39,15 +40,12 @@ export default function AnswerGuess(props) {
       if (total) alert(total);
       setOptionValues(tempOptionValues);
     });
-  }, []);
-  //loading the list of existing topics in an array at the start
-  useEffect(() => {
+    //loading the list of existing topics in an array at the start
     let temporaryArray = [];
     props.topics.map((topic) => {
       temporaryArray.push(topic.topic);
     });
     setTopics(temporaryArray);
-    getMyScore();
   }, []);
 
   useEffect(() => {
@@ -59,11 +57,9 @@ export default function AnswerGuess(props) {
     }
   }, [showValues]);
   //updating the score after each guess
-  useEffect(() => {
-    getMyScore();
-  }, [guessOption]);
+
   //getting the score of a specific user
-  const getMyScore = () => {
+  /*const getMyScore = () => {
     axios
       .post("http://localhost:8001/guess/score", {
         user: user_id,
@@ -72,7 +68,7 @@ export default function AnswerGuess(props) {
         setScore(res.data);
         return res.data;
       });
-  };
+  };*/
   //getting a random item according to a random topic
   const randomItem = () => {
     axios
@@ -120,10 +116,12 @@ export default function AnswerGuess(props) {
     if (levelsAns[0].includes(choice)) {
       guessAns += "Perfect Guess, 10 marks added \n";
       setPoints(10);
+      setScore(Number(score) + 10);
       addGuess(choice, 10, id);
     } else if (levelsAns[1].includes(choice)) {
       guessAns += "Almost there, 5 marks added \n";
       setPoints(5);
+      setScore(Number(score) + 5);
       addGuess(choice, 5, id);
     } else if (levelsAns[2].includes(choice)) {
       guessAns += "No marks added \n";
@@ -132,10 +130,12 @@ export default function AnswerGuess(props) {
     } else if (levelsAns[3].includes(choice)) {
       guessAns += "Second Farest answer, 5 marks deducted \n";
       setPoints(-5);
+      setScore(Number(score) - 5);
       addGuess(choice, -5, id);
     } else if (levelsAns[4].includes(choice)) {
       guessAns += "Farest answer, 10 marks deducted \n";
       setPoints(-10);
+      setScore(Number(score) - 10);
       addGuess(choice, -10, id);
     }
     guessAns += " Most people answered ";

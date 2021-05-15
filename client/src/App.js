@@ -82,9 +82,21 @@ export default function App() {
   const [currentItem, setCurrentItem] = useState({});
   const [itemsOfTopic, setItemsOfTopic] = useState([]);
   const [items, setItems] = useState([]);
+  const [score, setScore] = useState(0);
   const [currentTopic, setCurrentTopic] = useState({ topic_id: 1 });
   const [itemsToApprove, setItemsToApprove] = useState([]);
   const [submittedItems, setSubmittedItems] = useState([]);
+  useEffect(() => {
+    axios
+      .post("http://localhost:8001/guess/score", {
+        user: user.id,
+      })
+      .then((res) => {
+        console.log("getting the scores", res.data);
+        setScore(res.data);
+        return res.data;
+      });
+  }, [currentItem]);
   useEffect(() => {
     Promise.all([
       axios.get("http://localhost:8001/topics"),
@@ -391,6 +403,7 @@ export default function App() {
             <Route path="/answer">
               <Answer
                 items={items}
+                score={score}
                 item={currentItem}
                 setCurrentItem={setCurrentItem}
                 getNbAnsByOption={getNbAnsByOption}
@@ -401,6 +414,7 @@ export default function App() {
             <Route path="/answerguess">
               <AnswerGuess
                 items={items}
+                score={score}
                 item={currentItem}
                 setCurrentItem={setCurrentItem}
                 getNbAnsByOption={getNbAnsByOption}

@@ -597,16 +597,16 @@ const getScoreForUser = (user, db) => {
   return db
     .query(
       `
-    SELECT SUM(score)
+    SELECT SUM (points)
     FROM guess_items
- 
     WHERE user_id = $1;
+  
   `,
       [user]
     )
     .then((res) => {
-      consolelog("score got");
-      return res.rows[0];
+      console.log("score got", res.rows);
+      return res.rows[0].sum;
     })
     .catch((e) => {
       return null;

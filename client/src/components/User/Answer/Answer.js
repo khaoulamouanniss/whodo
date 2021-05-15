@@ -14,6 +14,7 @@ export default function Answer(props) {
   let user_id = props.user.id;
 
   const [topic, setTopic] = useState(props.item.topic);
+  const [score, setScore] = useState(props.score);
   const [topics, setTopics] = useState([]);
   const [voteOption, setVoteOption] = useState(0);
   const [showValues, setShowValues] = useState(false);
@@ -22,6 +23,18 @@ export default function Answer(props) {
   const history = useHistory();
   //the route we are moving to when we click next
   const linkGuess = "/answerguess";
+  //bring the score of the user when the page loads
+  useEffect(() => {
+    axios
+      .post("http://localhost:8001/guess/score", {
+        user: user_id,
+      })
+      .then((res) => {
+        console.log("getting the scores", res.data);
+        setScore(res.data);
+        return res.data;
+      });
+  }, []);
   //loading the list of existing topics in an array at the start
   useEffect(() => {
     let temporaryArray = [];
@@ -104,7 +117,7 @@ export default function Answer(props) {
     <div className="div-container">
       {/*first component of our flexBox*/}
 
-      <div className="yourScore"> Points : {}</div>
+      <div className="yourScore"> Points : {score}</div>
       {/*second component of our flexBox*/}
       <div className="itemAndButtons">
         <div className={`itemHashtag ${clickedNext ? "faded" : ""}`}>

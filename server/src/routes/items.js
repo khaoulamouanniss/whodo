@@ -268,6 +268,7 @@ module.exports = (db) => {
     let { user } = req.body;
 
     getScoreForUser(user, db).then((item) => {
+      console.log("the item you re looking for is ", item);
       res.send(item);
     });
   });
