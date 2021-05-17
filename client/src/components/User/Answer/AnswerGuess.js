@@ -250,7 +250,7 @@ than one element because we can have same number of answers for different option
 
       <div className="yourScore"> Points : {score}</div>
       {/*second component of our flexBox*/}
-      <div className="itemAndButtons">
+      <div className="itemAndButtonsGuess">
         <div className="itemHashtag">
           <div className="hashtag">
             <Link style={{ textDecoration: "none" }} to="/answer">
