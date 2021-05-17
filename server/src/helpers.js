@@ -554,7 +554,7 @@ const updateUser = (userdata, db) => {
       return null;
     });
 };
-
+//update the profile picture for the user
 const updateUserPic = (profile_pic, email, db) => {
   return db
     .query(`Update users SET profile_pic = $1 where email = $2 returning *;`, [
@@ -570,7 +570,22 @@ const updateUserPic = (profile_pic, email, db) => {
       return null;
     });
 };
-
+//update the level of the user
+const upUserLevel = (id, l, db) => {
+  return db
+    .query(`Update users SET user_level = $1 where id = $2 returning *;`, [
+      user_level,
+      id,
+    ])
+    .then((res) => {
+      //console.log(res)
+      return res.rows[0];
+    })
+    .catch((e) => {
+      //console.log(e)
+      return null;
+    });
+};
 //randomly return an item for a specific topic
 const getRandomItemForTopic = (topic, db) => {
   return db
@@ -657,4 +672,5 @@ module.exports = {
   getAnswersForItem,
   addItemGuess,
   getItemsAndScores,
+  upUserLevel,
 };

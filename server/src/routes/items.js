@@ -14,6 +14,7 @@ const {
   addItemGuess,
   getItemsAndScores,
   getScoreForUser,
+  upUserLevel,
 } = require("../helpers");
 
 module.exports = (db) => {
@@ -256,6 +257,17 @@ module.exports = (db) => {
     });
   });
 
+  //updates the level of a user after submitting his guess
+
+  router.post("/upLevel", (req, res) => {
+    let { id, l } = req.body;
+
+    upUserLevel(user_id, user_level, db).then((item) => {
+      res.send(item);
+    });
+  });
+
+  //get a random itm for the topic passed in parameters
   router.post("/answer/random", (req, res) => {
     let { topic } = req.body;
 

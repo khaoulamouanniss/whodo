@@ -69,6 +69,16 @@ export default function AnswerGuess(props) {
         return res.data;
       });
   };*/
+  //updating level of a user
+
+  updateLevel = (id, l) => {
+    axios.post("http://localhost:8001/upLevel"),
+      {
+        id: id,
+      }.then((res) => {
+        return res.data;
+      });
+  };
   //getting a random item according to a random topic
   const randomItem = () => {
     axios
@@ -116,8 +126,29 @@ export default function AnswerGuess(props) {
     if (levelsAns[0].includes(choice)) {
       guessAns += "Perfect Guess, 10 marks added \n";
       setPoints(10);
-      setScore(Number(score) + 10);
       addGuess(choice, 10, id);
+      //after adding the guess, we calculate the score and see if the user level will upgrade
+      setScore(Number(score) + 10).then((res) => {
+        if (res > 500) {
+          updateLevel(user_id, 10);
+        } else if (res > 410) {
+          updateLevel(user_id, 9);
+        } else if (res > 330) {
+          updateLevel(user_id, 8);
+        } else if (res > 260) {
+          updateLevel(user_id, 7);
+        } else if (res > 200) {
+          updateLevel(user_id, 6);
+        } else if (res > 150) {
+          updateLevel(user_id, 5);
+        } else if (res > 110) {
+          updateLevel(user_id, 4);
+        } else if (res > 80) {
+          updateLevel(user_id, 3);
+        } else if (res > 60) {
+          updateLevel(user_id, 2);
+        }
+      });
     } else if (levelsAns[1].includes(choice)) {
       guessAns += "Almost there, 5 marks added \n";
       setPoints(5);
