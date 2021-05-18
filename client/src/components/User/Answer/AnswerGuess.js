@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
@@ -11,6 +12,7 @@ export default function AnswerGuess(props) {
 
   const [levels, setLevels] = useState([[]]);
   const [topics, setTopics] = useState([]);
+
   const [score, setScore] = useState(props.score);
   const [optionValues, setOptionValues] = useState([0, 0, 0, 0, 0]);
   const [guessOption, setGuessOption] = useState(0);
@@ -71,11 +73,15 @@ export default function AnswerGuess(props) {
   };*/
   //updating level of a user
 
-  updateLevel = (id, l) => {
-    axios.post("http://localhost:8001/upLevel"),
-      {
+  const updateLevel = (id, l) => {
+    console.log("getting into update level");
+    axios
+      .post("http://localhost:8001/upLevel", {
         id: id,
-      }.then((res) => {
+        l: l,
+      })
+      .then((res) => {
+        console.log("about up in axios", res.data);
         return res.data;
       });
   };
@@ -90,6 +96,32 @@ export default function AnswerGuess(props) {
         setTopic(topics[Math.floor(Math.random() * topics.length)]);
         return res.data;
       });
+  };
+
+  //update the level of the user according to the score
+  const updateLevelByScore = (score) => {
+    console.log("calling into update level");
+    if (score > 500) {
+      updateLevel(user_id, 10);
+    } else if (score > 410) {
+      updateLevel(user_id, 9);
+    } else if (score > 330) {
+      updateLevel(user_id, 8);
+    } else if (score > 260) {
+      updateLevel(user_id, 7);
+    } else if (score > 200) {
+      updateLevel(user_id, 6);
+    } else if (score > 150) {
+      updateLevel(user_id, 5);
+    } else if (score > 110) {
+      updateLevel(user_id, 4);
+    } else if (score > 80) {
+      updateLevel(user_id, 3);
+    } else if (score > 60) {
+      updateLevel(user_id, 2);
+    } else {
+      updateLevel(user_id, 1);
+    }
   };
   //change the heights of the buttons according to the value in the database
   useEffect(() => {
@@ -127,28 +159,9 @@ export default function AnswerGuess(props) {
       guessAns += "Perfect Guess, 10 marks added \n";
       setPoints(10);
       addGuess(choice, 10, id);
+      setScore(Number(score) + 10);
+
       //after adding the guess, we calculate the score and see if the user level will upgrade
-      setScore(Number(score) + 10).then((res) => {
-        if (res > 500) {
-          updateLevel(user_id, 10);
-        } else if (res > 410) {
-          updateLevel(user_id, 9);
-        } else if (res > 330) {
-          updateLevel(user_id, 8);
-        } else if (res > 260) {
-          updateLevel(user_id, 7);
-        } else if (res > 200) {
-          updateLevel(user_id, 6);
-        } else if (res > 150) {
-          updateLevel(user_id, 5);
-        } else if (res > 110) {
-          updateLevel(user_id, 4);
-        } else if (res > 80) {
-          updateLevel(user_id, 3);
-        } else if (res > 60) {
-          updateLevel(user_id, 2);
-        }
-      });
     } else if (levelsAns[1].includes(choice)) {
       guessAns += "Almost there, 5 marks added \n";
       setPoints(5);
@@ -169,6 +182,8 @@ export default function AnswerGuess(props) {
       setScore(Number(score) - 10);
       addGuess(choice, -10, id);
     }
+    updateLevelByScore(score);
+
     guessAns += " Most people answered ";
     levelsAns[0].map((el) => {
       switch (el) {

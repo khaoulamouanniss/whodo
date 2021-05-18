@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS guess_items CASCADE;
 CREATE TABLE users(id SERIAL PRIMARY KEY,name VARCHAR(255) NOT NULL,last_name VARCHAR(255) ,
 birth_date VARCHAR(20) ,gender VARCHAR(255),email VARCHAR(255) NOT NULL,password VARCHAR(255),
 profile_pic VARCHAR(255),country VARCHAR(255),city VARCHAR(255),referrer VARCHAR(255),type VARCHAR(255),
-relationship VARCHAR(255));
+relationship VARCHAR(255), user_level SMALLINT DEFAULT 1);
 
 
 CREATE TABLE topics(id SERIAL PRIMARY KEY,topic VARCHAR(255) NOT NULL, level SMALLINT NOT NULL);
@@ -32,7 +32,7 @@ isFavorite BOOLEAN NOT NULL DEFAULT false);
 CREATE TABLE guess_items(id SERIAL PRIMARY KEY,
 item_id INTEGER REFERENCES items(id) ON DELETE CASCADE,
 user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,guess SMALLINT NOT NULL, date timestamp NOT NULL, 
-points INTEGER, user_level SMALLINT );
+points INTEGER );
 
 
 CREATE TABLE item_topics(id SERIAL PRIMARY KEY,

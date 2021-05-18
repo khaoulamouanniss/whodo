@@ -261,8 +261,8 @@ module.exports = (db) => {
 
   router.post("/upLevel", (req, res) => {
     let { id, l } = req.body;
-
-    upUserLevel(user_id, user_level, db).then((item) => {
+    console.log("function uplevel called server side");
+    upUserLevel(id, l, db).then((item) => {
       res.send(item);
     });
   });

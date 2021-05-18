@@ -6,17 +6,17 @@ VALUES
 ('Mahdi', ' Slii', '1985-04-23', 'male','mahdi_sli3i@live.fr', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', 'https://avatars.githubusercontent.com/u/38138018?s=400&u=6053abab35bca9174bbc6b545987513dee321cdf&v=4','Canada', 'Ottawa', 'a', 'normal',  'single'),
 ('Sharukh', ' Sharon', '1991-04-23', 'male','Sharukh_sharon@live.fr','$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', 'https://avatars.githubusercontent.com/u/67440072?s=400&u=44de8f15d1d2b0718d60426a603508cc829aedc6&v=4','Canada', 'Ottawa', 'a', 'normal', 'single'),
 ('Hedi', ' Mouanniss', '1989-04-23', 'male', 'Hedi_mouannis@live.fr', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u', 'https://avatars.githubusercontent.com/u/71297492?s=400&u=19580f47790205d7ab04bae3188b7696536df4de&v=4', 'Canada', 'Ottawa', 'a', 'normal', 'single');
-INSERT INTO topics (topic)
+INSERT INTO topics (topic, level)
 VALUES
-('Public/strangers'),
-('Family'),
-('Romance'),
-('Friends'),
-('Partner/Dating'),
-('Neighbors'),
-('School'),
-('Work'),
-('General');
+('Public/strangers', 1),
+('Family', 2),
+('Romance', 3),
+('Friends', 4),
+('Partner/Dating', 5),
+('Neighbors', 6),
+('School', 7),
+('Work', 8),
+('General', 9);
 
 INSERT INTO items (creator_id, item, time, approved)
 VALUES

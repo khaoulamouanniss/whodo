@@ -104,6 +104,9 @@ export default function App() {
         email: user.email,
         type: user.type,
       }),
+      axios.post("http://localhost:8001/guess/score", {
+        user: user.id,
+      }),
       axios.get("http://localhost:8001/itemstoapprove"),
       axios.get(`http://localhost:8001/itemsoftopic/${currentTopic.topic_id}`),
       axios.get(`http://localhost:8001/submitteditems/${user.id}`),
@@ -113,9 +116,10 @@ export default function App() {
       //console.log("items to approve",all[2].data)
       setTopics(all[0].data);
       setItems(all[1].data);
-      setItemsToApprove(all[2].data);
-      setItemsOfTopic(all[3].data);
-      setSubmittedItems(all[4].data);
+      setScore(all[2].data);
+      setItemsToApprove(all[3].data);
+      setItemsOfTopic(all[4].data);
+      setSubmittedItems(all[5].data);
     });
   }, [user, change]);
 

@@ -574,11 +574,11 @@ const updateUserPic = (profile_pic, email, db) => {
 const upUserLevel = (id, l, db) => {
   return db
     .query(`Update users SET user_level = $1 where id = $2 returning *;`, [
-      user_level,
+      l,
       id,
     ])
     .then((res) => {
-      //console.log(res)
+      console.log("about updating level", res);
       return res.rows[0];
     })
     .catch((e) => {
