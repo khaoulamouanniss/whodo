@@ -4,25 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
 
-export default function AnswerGuess(props) {
-  let id = props.item.id;
-  let user_id = props.user.id;
-  console.log(props);
-  const [topic, setTopic] = useState(props.item.topic);
-
-  const [levels, setLevels] = useState([[]]);
-  const [topics, setTopics] = useState([]);
-  const startScore = props.score;
-  const [score, setScore] = useState(props.score);
-  const [optionValues, setOptionValues] = useState([0, 0, 0, 0, 0]);
-  const [guessOption, setGuessOption] = useState(0);
-  const [showValues, setShowValues] = useState(false);
-  const [total, setTotal] = useState(0);
-  const [showAlert, setShowAlert] = useState(false);
-  const [points, setPoints] = useState(0);
-  const [guessAnswer, setGuessAnswer] = useState("");
-  const [didGuess, setDidGuess] = useState(false);
-
+export default function NewLevel(props) {
   //tell about the page state
   //1:see the question and click my guess
   //2:calculating the score I got for my guess and showing it
@@ -295,138 +277,22 @@ than one element because we can have same number of answers for different option
     <div className="div-container">
       {/*first component of our flexBox*/}
 
-      <div className="yourScore"> Points : {score}</div>
-      {/*second component of our flexBox*/}
-      <div className="itemAndButtonsGuess">
-        <div className="itemHashtag">
-          <div className="hashtag">
-            <Link style={{ textDecoration: "none" }} to="/answer">
-              <h5>#{topic}</h5>
-            </Link>
-          </div>
-          <div className="itemContent">
-            <h3>
-              {props.item.item
-                .replace("yourself", "themselves")
-                .replace("your", "their")
-                .replace("you", "they")}
-            </h3>
-          </div>
-        </div>
-        {/*second component of our flexBox*/}
-        <div className="buttonsAndLabel">
-          <div className="youDo optionIndication">
-            Most people do{" "}
-            {levels[0].map((i) => {
-              switch (i) {
-                case 0:
-                  return "Never ";
-                  break;
-                case 1:
-                  return "Rarely ";
-                  break;
-                case 2:
-                  return "Sometimes ";
-                  break;
-                case 3:
-                  return "Usually ";
-                  break;
-                case 4:
-                  return "Always ";
-                  break;
-              }
-            })}
-          </div>
-          <div className="voteButtons">
-            <div className="optionIndication">Never</div>
-            <ButtonForGuess
-              id={1}
-              nameButton={"Never"}
-              className="ans-btn trigger"
-              percentage={Math.round((optionValues[0] / total) * 100) || 0}
-            />
-
-            <ButtonForGuess
-              id={2}
-              nameButton={"Rarely"}
-              className="ans-btn trigger"
-              percentage={Math.round((optionValues[1] / total) * 100) || 0}
-            />
-
-            <ButtonForGuess
-              id={3}
-              nameButton={"Sometimes"}
-              className="ans-btn trigger"
-              percentage={Math.round((optionValues[2] / total) * 100) || 0}
-            />
-
-            <ButtonForGuess
-              id={4}
-              nameButton={"Usually"}
-              className="ans-btn trigger"
-              percentage={Math.round((optionValues[3] / total) * 100) || 0}
-            />
-
-            <ButtonForGuess
-              id={5}
-              nameButton={"Always"}
-              className="ans-btn trigger"
-              percentage={Math.round((optionValues[4] / total) * 100) || 0}
-            />
-
-            <div className="optionIndication">Always</div>
-          </div>
-          {/*voteButtons ended here*/}
-        </div>
-        {showAlert && (
-          <div id="idPoints" className="Absolute-Center">
-            <div className="points">+{points}</div>
-          </div>
-        )}
-      </div>
-      {didGuess && (
-        <button
-          className="skip"
-          onClick={(e) => {
-            setDidGuess(false);
-            console.log(guessOption);
-            updateAfterGuess(e);
-            setShowValues(true);
-            setShowAlert(true);
-          }}
-        >
-          Done
-          <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
-        </button>
-      )}
-      {showValues && (
-        <>
-          <Link
-            style={{ textDecoration: "none" }}
-            to="/answer"
-            onClick={randomItem}
-          >
-            <button className="skip">
-              Next
-              <i
-                className="fas fa-angle-right"
-                style={{ fontSize: "36px" }}
-              ></i>
-            </button>
-          </Link>
-
-          <div className="likeAndShare">
-            <div className="like">
-              {" "}
-              <i class="fas fa-heart"></i>
-            </div>
-
-            <div className="share">
-              <i class="fas fa-share"></i>
-            </div>
-          </div>
-        </>
-      )}
+      <h3>You have unlocked</h3>
+      <h1>level {props.level}</h1>
+      <h6>{props.score} to pass</h6>
+      <h3>New topics</h3>
+      <h4>{openedTopics.map((item)=> { return <div> item</div>}}
+      </h4>
+      <Link
+      style={{ textDecoration: "none" }}
+      to="/answer"
+      onClick={randomItem}
+    >
+      <button className="skip">
+        skip
+        <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
+      </button>
+    </Link>
     </div>
   );
 }

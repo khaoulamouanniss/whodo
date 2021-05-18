@@ -49,7 +49,7 @@ export default function Answer(props) {
     e.preventDefault();
     setClickedNext(true);
 
-    setTimeout(() => history.push(linkGuess), 2000);
+    setTimeout(() => history.push(linkGuess), 1500);
   }
 
   //getting a random item according to a random topic

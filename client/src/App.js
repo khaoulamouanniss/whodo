@@ -14,6 +14,7 @@ import SignUp from "./components/User/SignUp";
 import Form3 from "./components/User/SignUp/Form3";
 import Submit from "./components/User/Submit";
 import Answer from "./components/User/Answer/Answer";
+import NewLevel from "./components/User/Answer/NewLevel";
 import AnswerGuess from "./components/User/Answer/AnswerGuess";
 import Account from "./components/User/Account";
 import ListItems from "./components/User/ListItems";
@@ -406,6 +407,17 @@ export default function App() {
 
             <Route path="/answer">
               <Answer
+                items={items}
+                score={score}
+                item={currentItem}
+                setCurrentItem={setCurrentItem}
+                getNbAnsByOption={getNbAnsByOption}
+                topics={topics}
+                user={user}
+              />
+            </Route>
+            <Route path="/newLevel">
+              <NewLevel
                 items={items}
                 score={score}
                 item={currentItem}
