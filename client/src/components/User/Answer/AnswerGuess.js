@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
 
@@ -13,6 +13,7 @@ export default function AnswerGuess(props) {
   const [levels, setLevels] = useState([[]]);
   const [topics, setTopics] = useState([]);
   const startScore = props.score;
+  const [switchToLevel, setSwitchToLevel] = useState(false);
   const [score, setScore] = useState(props.score);
   const [optionValues, setOptionValues] = useState([0, 0, 0, 0, 0]);
   const [guessOption, setGuessOption] = useState(0);
@@ -22,7 +23,8 @@ export default function AnswerGuess(props) {
   const [points, setPoints] = useState(0);
   const [guessAnswer, setGuessAnswer] = useState("");
   const [didGuess, setDidGuess] = useState(false);
-
+  let linknewLevel = "/newLevel";
+  const history = useHistory();
   //tell about the page state
   //1:see the question and click my guess
   //2:calculating the score I got for my guess and showing it
@@ -75,6 +77,7 @@ export default function AnswerGuess(props) {
 
   const updateLevel = (id, l) => {
     console.log("getting into update level");
+
     axios
       .post("http://localhost:8001/upLevel", {
         id: id,
@@ -84,7 +87,6 @@ export default function AnswerGuess(props) {
         console.log("about up in axios", res.data);
         return res.data;
       });
-    <Link to="/newLevel" style={{ textDecoration: "none" }}></Link>;
   };
   //getting a random item according to a random topic
   const randomItem = () => {
@@ -100,43 +102,52 @@ export default function AnswerGuess(props) {
   };
 
   //update the level of the user according to the score
-  const updateLevelByScore = (score) => {
+  const updateLevelByScore = (value, add) => {
     console.log("calling into update level");
-    if (score > 500 && startScore <= 500) {
+    console.log("points", add);
+    console.log(value + add, "and", startScore);
+    if (value + add > 500 && score <= 500) {
+      setSwitchToLevel(true);
       updateLevel(user_id, 10);
-    } else if (score > 410 && startScore <= 410) {
+    } else if (value + add > 410 && props.score <= 410) {
+      setSwitchToLevel(true);
       updateLevel(user_id, 9);
-    } else if (score > 330 && startScore <= 330) {
+    } else if (value + add > 330 && props.score <= 330) {
+      setSwitchToLevel(true);
       updateLevel(user_id, 8);
-    } else if (score > 260 && startScore <= 260) {
+    } else if (value + add > 230 && props.score <= 230) {
+      setSwitchToLevel(true);
       updateLevel(user_id, 7);
-    } else if (score > 200 && startScore <= 200) {
+    } else if (value + add > 200 && props.score <= 200) {
+      setSwitchToLevel(true);
       updateLevel(user_id, 6);
-    } else if (score > 150 && startScore <= 150) {
+    } else if (value + add > 150 && props.score <= 150) {
+      setSwitchToLevel(true);
       updateLevel(user_id, 5);
-    } else if (score > 110 && startScore <= 110) {
+    } else if (value + add > 110 && props.score <= 110) {
+      setSwitchToLevel(true);
       updateLevel(user_id, 4);
-    } else if (score > 80 && startScore <= 80) {
+    } else if (value + add > 80 && props.score <= 80) {
+      setSwitchToLevel(true);
       updateLevel(user_id, 3);
-    } else if (score > 60 && startScore <= 60) {
+    } else if (value + add > 60 && props.score <= 60) {
+      setSwitchToLevel(true);
       updateLevel(user_id, 2);
-    } else {
-      updateLevel(user_id, 1);
     }
   };
   //change the heights of the buttons according to the value in the database
   useEffect(() => {
     optionValues.map((i) => {});
     document.getElementById("1").style.height =
-      (Math.round((optionValues[0] / total) * 100) * 4 + 20).toString() + "px";
+      (Math.round((optionValues[0] / total) * 100) * 3 + 20).toString() + "px";
     document.getElementById("2").style.height =
-      (Math.round((optionValues[1] / total) * 100) * 4 + 20).toString() + "px";
+      (Math.round((optionValues[1] / total) * 100) * 3 + 20).toString() + "px";
     document.getElementById("3").style.height =
-      (Math.round((optionValues[2] / total) * 100) * 4 + 20).toString() + "px";
+      (Math.round((optionValues[2] / total) * 100) * 3 + 20).toString() + "px";
     document.getElementById("4").style.height =
-      (Math.round((optionValues[3] / total) * 100) * 4 + 20).toString() + "px";
+      (Math.round((optionValues[3] / total) * 100) * 3 + 20).toString() + "px";
     document.getElementById("5").style.height =
-      (Math.round((optionValues[4] / total) * 100) * 4 + 20).toString() + "px";
+      (Math.round((optionValues[4] / total) * 100) * 3 + 20).toString() + "px";
   }, [guessAnswer]);
 
   //returns the maximum value in an array of objects
@@ -151,6 +162,13 @@ export default function AnswerGuess(props) {
     return max;
   }
 
+  //to delay passing to newLevel page
+  function delayAndGo(e) {
+    e.preventDefault();
+
+    setTimeout(() => history.push(linknewLevel), 1500);
+  }
+
   //getting the message that assess our guess
   function getGuessAssessment(levelsAns, choice) {
     let guessAns = "";
@@ -158,32 +176,42 @@ export default function AnswerGuess(props) {
     console.log(choice);
     if (levelsAns[0].includes(choice)) {
       guessAns += "Perfect Guess, 10 marks added \n";
+
       setPoints(10);
+
       addGuess(choice, 10, id);
       setScore(Number(score) + 10);
-
+      updateLevelByScore(score, 10);
       //after adding the guess, we calculate the score and see if the user level will upgrade
     } else if (levelsAns[1].includes(choice)) {
       guessAns += "Almost there, 5 marks added \n";
+
       setPoints(5);
+
       setScore(Number(score) + 5);
       addGuess(choice, 5, id);
+      updateLevelByScore(score, 5);
     } else if (levelsAns[2].includes(choice)) {
       guessAns += "No marks added \n";
+
       setPoints(0);
+
       addGuess(choice, 0, id);
     } else if (levelsAns[3].includes(choice)) {
       guessAns += "Second Farest answer, 5 marks deducted \n";
+
       setPoints(-5);
+      updateLevelByScore(score, -5);
       setScore(Number(score) - 5);
       addGuess(choice, -5, id);
     } else if (levelsAns[4].includes(choice)) {
       guessAns += "Farest answer, 10 marks deducted \n";
+
       setPoints(-10);
+      updateLevelByScore(score, -10);
       setScore(Number(score) - 10);
       addGuess(choice, -10, id);
     }
-    updateLevelByScore(score);
 
     guessAns += " Most people answered ";
     levelsAns[0].map((el) => {
@@ -237,7 +265,6 @@ export default function AnswerGuess(props) {
   //the event to be triggered when the user click on a button to guess
   const updateAfterGuess = (e) => {
     const buttonId = e.target.id;
-
     /* a table that contains an array of arrays ordered from higher answers to lower answer, in each cell more 
 than one element because we can have same number of answers for different options */
     let levelsAns = [];
@@ -272,9 +299,6 @@ than one element because we can have same number of answers for different option
     console.log(levels);
 
     setGuessAnswer(getGuessAssessment(levelsAns, guessOption - 1));
-    if (guessAnswer) {
-      console.log(guessAnswer);
-    }
   };
   //on clicking on the guess button, you will execute this function that'll add your guess to the database
   const addGuess = (guessOption, points, id) => {
@@ -385,20 +409,24 @@ than one element because we can have same number of answers for different option
         )}
       </div>
       {didGuess && (
-        <button
-          className="skip"
-          onClick={(e) => {
-            setDidGuess(false);
-            console.log(guessOption);
-            updateAfterGuess(e);
-            setShowValues(true);
-            setShowAlert(true);
-          }}
-        >
-          Done
-          <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
-        </button>
+        <>
+          <button
+            className="skip"
+            onClick={(e) => {
+              setDidGuess(false);
+              console.log(guessOption);
+              updateAfterGuess(e);
+              setShowValues(true);
+              setShowAlert(true);
+              delayAndGo(e);
+            }}
+          >
+            Done
+            <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
+          </button>
+        </>
       )}
+      {switchToLevel && <Link to={linknewLevel}></Link>}
       {showValues && (
         <>
           <Link
