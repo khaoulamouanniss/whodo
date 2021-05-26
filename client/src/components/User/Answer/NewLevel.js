@@ -5,6 +5,7 @@ import axios from "axios";
 import "./Answer.css";
 
 export default function NewLevel(props) {
+  console.log(props);
   //1:bring the topics unlocked
   //2:show the user the level he locked
   //3:enable the user to start answering new items of unlocked topics
@@ -12,28 +13,40 @@ export default function NewLevel(props) {
   const [topic, setTopic] = useState("");
   const [level, setLevel] = useState(1);
   const [topics, setTopics] = useState([]);
+  const [pointsToNext, setPointsToNext] = useState(0);
   let user_id = props.user.id;
 
   //getting the unlocked topics at the page load
   useEffect(() => {
     console.log(user_id);
-    getUnlockedTopics();
+    getUnlockedTopics(user_id);
     axios
       .post("http://localhost:8001/newLevel", {
         user: user_id,
       })
       .then((res) => {
-        console.log("getting the level", res.data);
+        console.log("getting the level", res);
         setLevel(res.data);
         return res.data;
       });
 
     let temporaryArray = [];
     props.topics.map((topic) => {
+      console.log(topic);
       temporaryArray.push(topic.topic);
     });
+    console.log(temporaryArray);
     setTopics(temporaryArray);
+    if (level === 1) {
+      setPointsToNext(50 - Number(props.score));
+    } else if (level === 2) {
+      setPointsToNext(60 - Number(props.score));
+    } else if (level === 3) {
+      setPointsToNext(80 - Number(props.score));
+    }
   }, []);
+
+  //returns the number of marks missing to go to next level
 
   //getting a random item according to a random topic
   const randomItem = () => {
@@ -50,13 +63,17 @@ export default function NewLevel(props) {
 
   //set the state openedTopics to all unlocked topics
   const getUnlockedTopics = () => {
+    let unlocked = [];
     axios
       .post("http://localhost:8001/unlockedTopics", {
         user: user_id,
       })
       .then((res) => {
+        res.data.map((topic) => {
+          unlocked.push(topic.topic);
+        });
         console.log(res);
-        setOpenedTopics(res.data);
+        setOpenedTopics(unlocked);
         return res.data;
       });
   };
@@ -68,9 +85,12 @@ export default function NewLevel(props) {
         {/*first component of our flexBox*/}
 
         <h3>You have unlocked</h3>
-        <h1>level {props.level}</h1>
-        <h6>{props.score} to pass</h6>
-        <h3> Your newest topics</h3>
+        <h1>level {level}</h1>
+        <h6>
+          {pointsToNext}
+          to pass
+        </h6>
+        <h3> New topics</h3>
 
         {openedTopics &&
           openedTopics.map((item) => {

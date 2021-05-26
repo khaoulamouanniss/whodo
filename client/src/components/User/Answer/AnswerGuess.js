@@ -139,15 +139,15 @@ export default function AnswerGuess(props) {
   useEffect(() => {
     optionValues.map((i) => {});
     document.getElementById("1").style.height =
-      (Math.round((optionValues[0] / total) * 100) * 3 + 20).toString() + "px";
+      (Math.round((optionValues[0] / total) * 100) * 2 + 20).toString() + "px";
     document.getElementById("2").style.height =
-      (Math.round((optionValues[1] / total) * 100) * 3 + 20).toString() + "px";
+      (Math.round((optionValues[1] / total) * 100) * 2 + 20).toString() + "px";
     document.getElementById("3").style.height =
-      (Math.round((optionValues[2] / total) * 100) * 3 + 20).toString() + "px";
+      (Math.round((optionValues[2] / total) * 100) * 2 + 20).toString() + "px";
     document.getElementById("4").style.height =
-      (Math.round((optionValues[3] / total) * 100) * 3 + 20).toString() + "px";
+      (Math.round((optionValues[3] / total) * 100) * 2 + 20).toString() + "px";
     document.getElementById("5").style.height =
-      (Math.round((optionValues[4] / total) * 100) * 3 + 20).toString() + "px";
+      (Math.round((optionValues[4] / total) * 100) * 2 + 20).toString() + "px";
   }, [guessAnswer]);
 
   //returns the maximum value in an array of objects
@@ -165,8 +165,7 @@ export default function AnswerGuess(props) {
   //to delay passing to newLevel page
   function delayAndGo(e) {
     e.preventDefault();
-
-    setTimeout(() => history.push(linknewLevel), 1500);
+    if (switchToLevel) setTimeout(() => history.push(linknewLevel), 1500);
   }
 
   //getting the message that assess our guess
@@ -426,7 +425,7 @@ than one element because we can have same number of answers for different option
           </button>
         </>
       )}
-      {switchToLevel && <Link to={linknewLevel}></Link>}
+
       {showValues && (
         <>
           <Link

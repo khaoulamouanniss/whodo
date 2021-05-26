@@ -607,7 +607,7 @@ const getRandomItemForTopic = (topic, db) => {
       return null;
     });
 };
-
+//get the sum of points (score) a user accumulated
 const getScoreForUser = (user, db) => {
   return db
     .query(
@@ -622,6 +622,46 @@ const getScoreForUser = (user, db) => {
     .then((res) => {
       console.log("score got", res.rows);
       return res.rows[0].sum;
+    })
+    .catch((e) => {
+      return null;
+    });
+};
+
+//get the topics opened for specific user
+const getTopicsForUser = (user, db) => {
+  return db
+    .query(
+      `
+    SELECT topic
+    FROM topics
+    WHERE topic_level = (1);
+  `
+    )
+    .then((res) => {
+      console.log("topics got", res.rows);
+      return res.rows;
+    })
+    .catch((e) => {
+      return null;
+    });
+};
+
+//get the level of a certain user
+const getLevelForUser = (user, db) => {
+  return db
+    .query(
+      `
+    SELECT user_level
+    FROM users
+    WHERE id = $1;
+  
+  `,
+      [user]
+    )
+    .then((res) => {
+      console.log("level got", res.rows);
+      return res.rows[0].user_level;
     })
     .catch((e) => {
       return null;
@@ -673,4 +713,6 @@ module.exports = {
   addItemGuess,
   getItemsAndScores,
   upUserLevel,
+  getLevelForUser,
+  getTopicsForUser,
 };

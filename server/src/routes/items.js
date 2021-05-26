@@ -15,6 +15,8 @@ const {
   getItemsAndScores,
   getScoreForUser,
   upUserLevel,
+  getLevelForUser,
+  getTopicsForUser,
 } = require("../helpers");
 
 module.exports = (db) => {
@@ -213,6 +215,7 @@ module.exports = (db) => {
 
     const addedAnswer = await addItemAnswer(item_id, user_id, answer, db);
     if (addedAnswer) {
+      console.log("added answer", addedAnswer);
       res.send(addedAnswer);
     } else {
       console.log("something wrong with the insertion");
@@ -247,7 +250,7 @@ module.exports = (db) => {
     });
   });
   //getting a list of items and their scores for a user
-  router.post("/MyScore", async (req, res) => {
+  /* router.post("/MyScore", async (req, res) => {
     const { user } = req.body;
     console.log("user for my score", user);
     //making an array of items and their responses
@@ -255,12 +258,12 @@ module.exports = (db) => {
       console.log(data);
       res.send(data);
     });
-  });
+  });*/
 
   //updates the level of a user after submitting his guess
 
   router.post("/upLevel", (req, res) => {
-    let { id, l } = req.body;
+    const { id, l } = req.body;
     console.log("function uplevel called server side");
     upUserLevel(id, l, db).then((item) => {
       res.send(item);
@@ -280,7 +283,25 @@ module.exports = (db) => {
     let { user } = req.body;
 
     getScoreForUser(user, db).then((item) => {
-      console.log("the item you re looking for is ", item);
+      console.log("the score you re looking for is ", item);
+      res.send(item);
+    });
+  });
+
+  router.post("/newLevel", (req, res) => {
+    let { user } = req.body;
+
+    getLevelForUser(user, db).then((item) => {
+      console.log("the level you re looking for is ", item);
+      res.status(200).send(item.toString());
+    });
+  });
+
+  router.post("/unlockedTopics", (req, res) => {
+    let { user } = req.body;
+    console.log(user);
+    getTopicsForUser(user, db).then((item) => {
+      console.log("the unlocked topics you re looking for are ", item);
       res.send(item);
     });
   });

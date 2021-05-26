@@ -84,6 +84,7 @@ export default function App() {
   const [itemsOfTopic, setItemsOfTopic] = useState([]);
   const [items, setItems] = useState([]);
   const [score, setScore] = useState(0);
+  const [level, setLevel] = useState(1);
   const [currentTopic, setCurrentTopic] = useState({ topic_id: 1 });
   const [itemsToApprove, setItemsToApprove] = useState([]);
   const [submittedItems, setSubmittedItems] = useState([]);
@@ -100,29 +101,45 @@ export default function App() {
   }, [currentItem]);
   useEffect(() => {
     Promise.all([
-      axios.get("http://localhost:8001/topics"),
       axios.post("http://localhost:8001/", {
         email: user.email,
         type: user.type,
       }),
+      axios.get("http://localhost:8001/topics"),
+
       axios.post("http://localhost:8001/guess/score", {
         user: user.id,
       }),
       axios.get("http://localhost:8001/itemstoapprove"),
       axios.get(`http://localhost:8001/itemsoftopic/${currentTopic.topic_id}`),
       axios.get(`http://localhost:8001/submitteditems/${user.id}`),
+      axios.post("http://localhost:8001/newLevel", { user: user.id }),
     ]).then((all) => {
+      console.log(all);
       //console.log("topics",all[0].data)
       //console.log("items",all[1].data)
       //console.log("items to approve",all[2].data)
-      setTopics(all[0].data);
-      setItems(all[1].data);
+      setItems(all[0].data);
+      setTopics(all[1].data);
       setScore(all[2].data);
       setItemsToApprove(all[3].data);
       setItemsOfTopic(all[4].data);
       setSubmittedItems(all[5].data);
+      setLevel(all[6].data);
     });
   }, [user, change]);
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:8001/newLevel", {
+        user: user.id,
+      })
+      .then((res) => {
+        console.log("getting the level", res.data);
+        setLevel(res.data);
+        return res.data;
+      });
+  }, [user]);
 
   //   useEffect(() => {
   //   const newUser = decoder();
@@ -425,6 +442,7 @@ export default function App() {
                 getNbAnsByOption={getNbAnsByOption}
                 topics={topics}
                 user={user}
+                level={level}
               />
             </Route>
             <Route path="/answerguess">

@@ -32,7 +32,6 @@ export default function Answer(props) {
       .then((res) => {
         console.log("getting the scores", res.data);
         setScore(res.data);
-        return res.data;
       });
   }, []);
   //loading the list of existing topics in an array at the start
@@ -119,7 +118,7 @@ export default function Answer(props) {
 
       <div className="yourScore"> Points : {score}</div>
       {/*second component of our flexBox*/}
-      <div className="itemAndButtons">
+      <div className={`itemAndButtons ${clickedNext ? "faded" : ""}`}>
         <div className={`itemHashtag ${clickedNext ? "faded" : ""}`}>
           <div className="hashtag">
             <Link style={{ textDecoration: "none" }} to="/answer">
