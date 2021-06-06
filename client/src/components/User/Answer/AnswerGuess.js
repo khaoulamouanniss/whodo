@@ -3,7 +3,11 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
-const { updateLevelByScore } = require("./updateLevelByScore");
+const {
+  updateLevelByScore,
+  getGuessAssessment,
+  mostPeopleDO,
+} = require("./updateLevelByScore");
 export default function AnswerGuess(props) {
   let id = props.item.id;
   let user_id = props.user.id;
@@ -133,57 +137,6 @@ export default function AnswerGuess(props) {
     if (switchToLevel) setTimeout(() => history.push(linknewLevel), 1500);
   }
 
-  //getting the message that assess our guess
-  function getGuessAssessment(levelsAns, choice) {
-    let guessAns = "";
-    let answersArray = [
-      ["Perfect Guess, 10 marks added \n", "10"],
-      ["Almost there, 5 marks added \n", "5"],
-      ["No marks added \n", "0"],
-      ["Second Farest answer, 5 marks deducted \n", "-5"],
-      ["Farest answer, 10 marks deducted \n", "-10"],
-    ];
-
-    console.log(levels);
-    console.log(choice);
-    for (let count = 0; count < levelsAns.length; count++) {
-      if (levelsAns[count].includes(choice)) {
-        guessAns += answersArray[count][0];
-        console.log(Number(answersArray[count][1]));
-        setPoints(Number(answersArray[count][1]));
-        addGuess(choice, Number(answersArray[count][1]), id);
-        setScore(Number(score) + Number(answersArray[count][1]));
-        const newLevel = updateLevelByScore(
-          score,
-          Number(answersArray[count][1])
-        );
-      }
-    }
-
-    guessAns += " Most people answered ";
-    levelsAns[0].map((el) => {
-      switch (el) {
-        case 0:
-          guessAns += "Never ";
-          break;
-        case 1:
-          guessAns += "Rarely ";
-          break;
-        case 2:
-          guessAns += "Sometimes ";
-          break;
-        case 3:
-          guessAns += "Usually ";
-          break;
-        case 4:
-          guessAns += "Always ";
-          break;
-      }
-    });
-    console.log(points);
-    return guessAns;
-  }
-
   //creating a component for the button to be called
   const ButtonForGuess = ({ id, nameButton, percentage, styleButton }) => {
     return (
@@ -215,7 +168,6 @@ export default function AnswerGuess(props) {
     /* a table that contains an array of arrays ordered from higher answers to lower answer, in each cell more 
 than one element because we can have same number of answers for different options */
     let levelsAns = [];
-    e.target.style = { height: `{ percentage } px` };
     //counter on the number of cells in each subArray
     let levelsCounter = 0;
     //counter on how many array in the matrix
@@ -224,7 +176,6 @@ than one element because we can have same number of answers for different option
     for (let c = 0; c < 5; c++) {
       levelsAns[c] = [];
     }
-
     //make a copy of the nb of answers for each option
     let copyOptionValues = [...optionValues];
     console.log(copyOptionValues);
@@ -244,8 +195,11 @@ than one element because we can have same number of answers for different option
     }
     setLevels(levelsAns);
     console.log(levels);
-
-    setGuessAnswer(getGuessAssessment(levelsAns, guessOption - 1));
+    let guessResult = getGuessAssessment(levelsAns, guessOption - 1, score, id);
+    console.log("guessResult", guessResult);
+    setScore(score + Number(guessResult[1]));
+    setPoints(Number(guessResult[1]));
+    addGuess(guessOption, Number(guessResult[1], id));
   };
   //on clicking on the guess button, you will execute this function that'll add your guess to the database
   const addGuess = (guessOption, points, id) => {
