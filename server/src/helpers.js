@@ -173,7 +173,7 @@ const addUser = (userData, db) => {
       console.log("error in router signup");
     });
 };
-
+//the items and topics
 const getItemsAndTopicsByUserType = (email, type, db) => {
   let sql;
 
@@ -192,14 +192,11 @@ const getItemsAndTopicsByUserType = (email, type, db) => {
     WHERE F.email = $1 AND A.approved = true
     GROUP BY A.id, A.item, D.topic
     ORDER BY random ()
-    LIMIT 20;
+    LIMIT 30;
     `,
         [email]
       )
       .then((res) => {
-        // console.log("query of getitemsbyusertype",sql)
-        // console.log("items in function getItemByUserType",res.rows)
-
         return res.rows;
       });
   } else if (type === "super") {
@@ -607,7 +604,7 @@ const getRandomItemForTopic = (topic, db) => {
       return null;
     });
 };
-//get the sum of points (score) a user accumulated
+//get the sum of points (score) a user accumulated knowing his id
 const getScoreForUser = (user, db) => {
   return db
     .query(
@@ -635,8 +632,9 @@ const getTopicsForUser = (user, db) => {
       `
     SELECT topic
     FROM topics
-    WHERE topic_level = (1);
-  `
+    WHERE topic_level = $1;
+  `,
+      [user]
     )
     .then((res) => {
       console.log("topics got", res.rows);
@@ -647,7 +645,7 @@ const getTopicsForUser = (user, db) => {
     });
 };
 
-//get the level of a certain user
+//get the level of a certain user knowing his id
 const getLevelForUser = (user, db) => {
   return db
     .query(

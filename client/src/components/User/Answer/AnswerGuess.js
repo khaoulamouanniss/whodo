@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
-
+const { updateLevelByScore } = require("./updateLevelByScore");
 export default function AnswerGuess(props) {
   let id = props.item.id;
   let user_id = props.user.id;
@@ -101,40 +101,6 @@ export default function AnswerGuess(props) {
       });
   };
 
-  //update the level of the user according to the score
-  const updateLevelByScore = (value, add) => {
-    console.log("calling into update level");
-    console.log("points", add);
-    console.log(value + add, "and", startScore);
-    if (value + add > 500 && score <= 500) {
-      setSwitchToLevel(true);
-      updateLevel(user_id, 10);
-    } else if (value + add > 410 && props.score <= 410) {
-      setSwitchToLevel(true);
-      updateLevel(user_id, 9);
-    } else if (value + add > 330 && props.score <= 330) {
-      setSwitchToLevel(true);
-      updateLevel(user_id, 8);
-    } else if (value + add > 230 && props.score <= 230) {
-      setSwitchToLevel(true);
-      updateLevel(user_id, 7);
-    } else if (value + add > 200 && props.score <= 200) {
-      setSwitchToLevel(true);
-      updateLevel(user_id, 6);
-    } else if (value + add > 150 && props.score <= 150) {
-      setSwitchToLevel(true);
-      updateLevel(user_id, 5);
-    } else if (value + add > 110 && props.score <= 110) {
-      setSwitchToLevel(true);
-      updateLevel(user_id, 4);
-    } else if (value + add > 80 && props.score <= 80) {
-      setSwitchToLevel(true);
-      updateLevel(user_id, 3);
-    } else if (value + add > 60 && props.score <= 60) {
-      setSwitchToLevel(true);
-      updateLevel(user_id, 2);
-    }
-  };
   //change the heights of the buttons according to the value in the database
   useEffect(() => {
     optionValues.map((i) => {});
@@ -164,52 +130,34 @@ export default function AnswerGuess(props) {
 
   //to delay passing to newLevel page
   function delayAndGo(e) {
-    e.preventDefault();
     if (switchToLevel) setTimeout(() => history.push(linknewLevel), 1500);
   }
 
   //getting the message that assess our guess
   function getGuessAssessment(levelsAns, choice) {
     let guessAns = "";
+    let answersArray = [
+      ["Perfect Guess, 10 marks added \n", "10"],
+      ["Almost there, 5 marks added \n", "5"],
+      ["No marks added \n", "0"],
+      ["Second Farest answer, 5 marks deducted \n", "-5"],
+      ["Farest answer, 10 marks deducted \n", "-10"],
+    ];
+
     console.log(levels);
     console.log(choice);
-    if (levelsAns[0].includes(choice)) {
-      guessAns += "Perfect Guess, 10 marks added \n";
-
-      setPoints(10);
-
-      addGuess(choice, 10, id);
-      setScore(Number(score) + 10);
-      updateLevelByScore(score, 10);
-      //after adding the guess, we calculate the score and see if the user level will upgrade
-    } else if (levelsAns[1].includes(choice)) {
-      guessAns += "Almost there, 5 marks added \n";
-
-      setPoints(5);
-
-      setScore(Number(score) + 5);
-      addGuess(choice, 5, id);
-      updateLevelByScore(score, 5);
-    } else if (levelsAns[2].includes(choice)) {
-      guessAns += "No marks added \n";
-
-      setPoints(0);
-
-      addGuess(choice, 0, id);
-    } else if (levelsAns[3].includes(choice)) {
-      guessAns += "Second Farest answer, 5 marks deducted \n";
-
-      setPoints(-5);
-      updateLevelByScore(score, -5);
-      setScore(Number(score) - 5);
-      addGuess(choice, -5, id);
-    } else if (levelsAns[4].includes(choice)) {
-      guessAns += "Farest answer, 10 marks deducted \n";
-
-      setPoints(-10);
-      updateLevelByScore(score, -10);
-      setScore(Number(score) - 10);
-      addGuess(choice, -10, id);
+    for (let count = 0; count < levelsAns.length; count++) {
+      if (levelsAns[count].includes(choice)) {
+        guessAns += answersArray[count][0];
+        console.log(Number(answersArray[count][1]));
+        setPoints(Number(answersArray[count][1]));
+        addGuess(choice, Number(answersArray[count][1]), id);
+        setScore(Number(score) + Number(answersArray[count][1]));
+        const newLevel = updateLevelByScore(
+          score,
+          Number(answersArray[count][1])
+        );
+      }
     }
 
     guessAns += " Most people answered ";
@@ -412,6 +360,7 @@ than one element because we can have same number of answers for different option
           <button
             className="skip"
             onClick={(e) => {
+              e.preventDefault();
               setDidGuess(false);
               console.log(guessOption);
               updateAfterGuess(e);

@@ -43,43 +43,7 @@ export default function App() {
   const [user, setUser] = useState(userLocalStorage.user || { id: 1 });
   const [change, setChange] = useState(true);
 
-  // localStorage.setItem("token",res.data.token)
-
-  // useEffect(() => {
-  //   localStorage.setItem("token",user)
-  // },[user])
-
-  //const userInStorage = useState(localStorage.getItem("user"));
-  //const [user, setUser] = useState(userInStorage ? userInStorage : null);
-  // useEffect(() => {
-  //   const localUser = localStorage.getItem("user")
-  //   console.log("LocalUser",localUser)
-  //   setUser(localUser)
-  // }, [])
-  // useEffect(() => {
-  //   localStorage.setItem("user", user)
-  // }, [user])
   const [topics, setTopics] = useState([]);
-  /*
-  const chooseTopics = topics => {
-    axios.post("http://localhost:8001/topics",{ 
-        topic: topics.topic
-  })
-  .then( res =>
-    {
-        console.log(res.data);
-        setTopics([...topic]);
-    }
-    )
-  }
-  const generateRandomTopics = () => {
-    let arrayTopicIds =[];
-    for (const i = 0 ; i <4 ; i++) {
-        arrayTopicIds.push (Math.floor(Math.random() * 10));
-    }
-    return arrayTopicIds;
-}
-*/
   const [currentItem, setCurrentItem] = useState({});
   const [itemsOfTopic, setItemsOfTopic] = useState([]);
   const [items, setItems] = useState([]);
@@ -88,6 +52,7 @@ export default function App() {
   const [currentTopic, setCurrentTopic] = useState({ topic_id: 1 });
   const [itemsToApprove, setItemsToApprove] = useState([]);
   const [submittedItems, setSubmittedItems] = useState([]);
+  //when the page is loaded, we get the score of the user from the database
   useEffect(() => {
     axios
       .post("http://localhost:8001/guess/score", {
@@ -99,6 +64,7 @@ export default function App() {
         return res.data;
       });
   }, [currentItem]);
+  //whenever the page is loaded, we get the topics, the score, the items of all sort, the level
   useEffect(() => {
     Promise.all([
       axios.post("http://localhost:8001/", {
@@ -116,9 +82,7 @@ export default function App() {
       axios.post("http://localhost:8001/newLevel", { user: user.id }),
     ]).then((all) => {
       console.log(all);
-      //console.log("topics",all[0].data)
-      //console.log("items",all[1].data)
-      //console.log("items to approve",all[2].data)
+
       setItems(all[0].data);
       setTopics(all[1].data);
       setScore(all[2].data);
@@ -128,7 +92,7 @@ export default function App() {
       setLevel(all[6].data);
     });
   }, [user, change]);
-
+  //if the user changes, we update the level got
   useEffect(() => {
     axios
       .post("http://localhost:8001/newLevel", {

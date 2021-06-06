@@ -53,6 +53,7 @@ module.exports = (db) => {
     const { email, type } = req.body;
     getItemsAndTopicsByUserType(email, type, db)
       .then((items) => {
+        console.log("nshouf fel items wbarra", items);
         res.send(items);
       })
       .catch((e) => {
