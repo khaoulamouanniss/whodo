@@ -16,7 +16,7 @@ export const updateLevelByScore = (value, add) => {
     [200, 6],
     [150, 5],
     [110, 4],
-    [80, 3],
+    [50, 3],
     [30, 2],
   ];
   levels.map((level) => {
@@ -54,6 +54,7 @@ export const getGuessAssessment = (levelsAns, choice, score, id) => {
         console.log(answersArray[count]);
         return answersArray[count];
       }
+      answersArray[count].push(localStorage.getItem("userLevel"));
       return answersArray[count];
       break;
     }

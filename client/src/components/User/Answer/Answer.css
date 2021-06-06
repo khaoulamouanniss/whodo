@@ -76,8 +76,7 @@ div.hidden {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 150px;
-
+  font-size: 15px;
   color: #f16f05;
   padding: 10px;
 }

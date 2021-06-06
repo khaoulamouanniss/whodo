@@ -196,10 +196,15 @@ than one element because we can have same number of answers for different option
     setLevels(levelsAns);
     console.log(levels);
     let guessResult = getGuessAssessment(levelsAns, guessOption - 1, score, id);
+    setGuessAnswer(guessResult[0]);
+
     console.log("guessResult", guessResult);
     setScore(score + Number(guessResult[1]));
     setPoints(Number(guessResult[1]));
     addGuess(guessOption, Number(guessResult[1], id));
+    if (localStorage.getItem("userLevel") !== guessResult[2]) {
+      setSwitchToLevel(true);
+    }
   };
   //on clicking on the guess button, you will execute this function that'll add your guess to the database
   const addGuess = (guessOption, points, id) => {
@@ -305,7 +310,9 @@ than one element because we can have same number of answers for different option
         </div>
         {showAlert && (
           <div id="idPoints" className="Absolute-Center">
-            <div className="points">+{points}</div>
+            <div className="points">
+              {guessAnswer} +{points}
+            </div>
           </div>
         )}
       </div>
