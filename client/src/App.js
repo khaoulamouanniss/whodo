@@ -48,7 +48,7 @@ export default function App() {
   const [itemsOfTopic, setItemsOfTopic] = useState([]);
   const [items, setItems] = useState([]);
   const [score, setScore] = useState(0);
-  const [level, setLevel] = useState(1);
+  const [level, setLevel] = useState(localStorage.getItem("userLevel"));
   const [currentTopic, setCurrentTopic] = useState({ topic_id: 1 });
   const [itemsToApprove, setItemsToApprove] = useState([]);
   const [submittedItems, setSubmittedItems] = useState([]);

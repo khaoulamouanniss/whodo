@@ -1,9 +1,3 @@
-import React, { useState, useEffect } from "react";
-
-import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
-import "./Answer.css";
-
 //update the level of the user according to the score
 export const updateLevelByScore = (value, add) => {
   console.log("calling into update level", value);
@@ -19,6 +13,8 @@ export const updateLevelByScore = (value, add) => {
     [50, 3],
     [30, 2],
   ];
+  localStorage.setItem("userLevel", 1);
+
   levels.map((level) => {
     if (value + add > level[0] && value <= level[0]) {
       console.log(level[1]);
@@ -26,8 +22,7 @@ export const updateLevelByScore = (value, add) => {
       return level[1];
     }
   });
-  localStorage.setItem("userLevel", 1);
-  return 1;
+  return localStorage.getItem("userLevel");
 };
 
 //getting the message that assess our guess
@@ -42,7 +37,7 @@ export const getGuessAssessment = (levelsAns, choice, score, id) => {
   ];
 
   console.log(choice);
-  const startLevel = localStorage.getItem("userLevel");
+  const startLevel = localStorage.getItem("userLevel") || 1;
   for (let count = 0; count < levelsAns.length; count++) {
     if (levelsAns[count].includes(choice)) {
       const newLevel = updateLevelByScore(
@@ -50,6 +45,7 @@ export const getGuessAssessment = (levelsAns, choice, score, id) => {
         Number(answersArray[count][1])
       );
       if (startLevel !== newLevel) {
+        localStorage.setItem("userLevel", newLevel);
         answersArray[count].push(newLevel);
         console.log(answersArray[count]);
         return answersArray[count];

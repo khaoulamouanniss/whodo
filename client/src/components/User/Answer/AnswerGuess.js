@@ -134,7 +134,7 @@ export default function AnswerGuess(props) {
 
   //to delay passing to newLevel page
   function delayAndGo(e) {
-    if (switchToLevel) setTimeout(() => history.push(linknewLevel), 1500);
+    setTimeout(() => history.push(linknewLevel), 1500);
   }
 
   //creating a component for the button to be called
@@ -204,6 +204,7 @@ than one element because we can have same number of answers for different option
     addGuess(guessOption, Number(guessResult[1], id));
     if (localStorage.getItem("userLevel") !== guessResult[2]) {
       setSwitchToLevel(true);
+      updateLevel(user_id, guessResult[2]);
     }
   };
   //on clicking on the guess button, you will execute this function that'll add your guess to the database
@@ -327,7 +328,9 @@ than one element because we can have same number of answers for different option
               updateAfterGuess(e);
               setShowValues(true);
               setShowAlert(true);
-              delayAndGo(e);
+              {
+                switchToLevel && delayAndGo(e);
+              }
             }}
           >
             Done
