@@ -28,8 +28,8 @@ export default function NewLevel(props) {
         setScore(res.data);
         const levels = [500, 410, 330, 230, 200, 150, 110, 50, 30];
         for (let counter = 0; counter < levels.length - 1; counter++) {
-          if (score <= levels[counter] && score > levels[counter + 1]) {
-            setPointsToNext(Number(levels[counter] - score));
+          if (res.data <= levels[counter] && res.data > levels[counter + 1]) {
+            setPointsToNext(Number(levels[counter] - res.data));
             break;
           }
         }
