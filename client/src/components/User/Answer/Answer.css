@@ -107,8 +107,25 @@ div.hidden {
   max-height: 500px;
   width: 60%;
   border-radius: 25px;
-  border: 2px solid #f16f05;
+
   background: url("../../images/You_BG.png") no-repeat center center;
+  background-size: 450px;
+
+  padding: 20px;
+  margin-top: 20px;
+}
+.newLevel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  height: 500px;
+  max-height: 500px;
+  width: 60%;
+  border-radius: 25px;
+
+  background-color: pink;
   background-size: 450px;
 
   padding: 20px;

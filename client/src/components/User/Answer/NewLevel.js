@@ -93,7 +93,7 @@ export default function NewLevel(props) {
   return (
     <div className="div-container">
       <div className="yourScore"></div>
-      <div className="itemAndButtons">
+      <div className="newLevel">
         {/*first component of our flexBox*/}
         <h4>Points : {score}</h4>
         <h3 className="capitalize">You have unlocked</h3>
