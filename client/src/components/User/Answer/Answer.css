@@ -114,7 +114,15 @@ div.hidden {
   padding: 20px;
   margin-top: 20px;
 }
-
+.capitalize {
+  text-transform: uppercase;
+}
+.points {
+  display: flex;
+}
+.orangeText {
+  color: rgb(255, 153, 0);
+}
 .itemAndButtonsGuess {
   display: flex;
   flex-direction: column;

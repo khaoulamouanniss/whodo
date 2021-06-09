@@ -14,7 +14,7 @@ export default function Answer(props) {
   let user_id = props.user.id;
 
   const [topic, setTopic] = useState(props.item.topic);
-  const [score, setScore] = useState(props.score);
+  const [score, setScore] = useState(props.score) || 0;
   const [topics, setTopics] = useState([]);
   const [voteOption, setVoteOption] = useState(0);
   const [showValues, setShowValues] = useState(false);

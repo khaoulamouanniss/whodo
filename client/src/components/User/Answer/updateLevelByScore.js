@@ -13,13 +13,14 @@ export const updateLevelByScore = (value, add) => {
     [50, 3],
     [30, 2],
   ];
-  localStorage.setItem("userLevel", 1);
 
   levels.map((level) => {
     if (value + add > level[0] && value <= level[0]) {
       console.log(level[1]);
       localStorage.setItem("userLevel", level[1]);
-      return level[1];
+    }
+    if (value + add <= 30 && value <= 30) {
+      localStorage.setItem("userLevel", 1);
     }
   });
   return localStorage.getItem("userLevel");
@@ -45,7 +46,6 @@ export const getGuessAssessment = (levelsAns, choice, score, id) => {
         Number(answersArray[count][1])
       );
       if (startLevel !== newLevel) {
-        localStorage.setItem("userLevel", newLevel);
         answersArray[count].push(newLevel);
         console.log(answersArray[count]);
         return answersArray[count];

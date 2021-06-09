@@ -10,12 +10,31 @@ export default function NewLevel(props) {
   //2:show the user the level he locked
   //3:enable the user to start answering new items of unlocked topics
   const [openedTopics, setOpenedTopics] = useState([]);
+  const [score, setScore] = useState(0);
   const [topic, setTopic] = useState("");
-  const [level, setLevel] = useState(1);
+  const [level, setLevel] = useState(localStorage.getItem("userLevel"));
   const [topics, setTopics] = useState([]);
   const [pointsToNext, setPointsToNext] = useState(0);
   let user_id = props.user.id;
 
+  //getting the score of the user
+  useEffect(() => {
+    axios
+      .post("http://localhost:8001/guess/score", {
+        user: user_id,
+      })
+      .then((res) => {
+        console.log("getting the scores", res.data);
+        setScore(res.data);
+        const levels = [500, 410, 330, 230, 200, 150, 110, 50, 30];
+        for (let counter = 0; counter < levels.length - 1; counter++) {
+          if (score <= levels[counter] && score > levels[counter + 1]) {
+            setPointsToNext(Number(levels[counter] - score));
+            break;
+          }
+        }
+      });
+  }, []);
   //getting the unlocked topics at the page load
   useEffect(() => {
     console.log(user_id);
@@ -37,13 +56,6 @@ export default function NewLevel(props) {
     });
     console.log(temporaryArray);
     setTopics(temporaryArray);
-    if (level === 1) {
-      setPointsToNext(50 - Number(props.score));
-    } else if (level === 2) {
-      setPointsToNext(60 - Number(props.score));
-    } else if (level === 3) {
-      setPointsToNext(80 - Number(props.score));
-    }
   }, []);
 
   //returns the number of marks missing to go to next level
@@ -83,24 +95,23 @@ export default function NewLevel(props) {
       <div className="yourScore"></div>
       <div className="itemAndButtons">
         {/*first component of our flexBox*/}
-
-        <h3>You have unlocked</h3>
-        <h1>level {level}</h1>
-        <h6>
-          {pointsToNext}
-          to pass
-        </h6>
+        <h4>Points : {score}</h4>
+        <h3 className="capitalize">You have unlocked</h3>
+        <h1 className="capitalize orangeText">
+          level {localStorage.getItem("userLevel")}
+        </h1>
+        <h6>{pointsToNext} points to pass</h6>
         <h3> New topics</h3>
-
-        {openedTopics &&
-          openedTopics.map((item) => {
-            return (
-              <h4>
-                <div> {item}</div>
-              </h4>
-            );
-          })}
-
+        <div className="orangeText">
+          {openedTopics &&
+            openedTopics.map((item) => {
+              return (
+                <h4>
+                  <div> #{item}</div>
+                </h4>
+              );
+            })}
+        </div>
         <Link
           style={{ textDecoration: "none" }}
           to="/answer"
