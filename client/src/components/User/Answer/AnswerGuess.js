@@ -13,6 +13,7 @@ export default function AnswerGuess(props) {
   const [levels, setLevels] = useState([[]]);
   const [topics, setTopics] = useState([]);
   const startScore = props.score;
+  const [level, setLevel] = useState(localStorage.getItem("userLevel"));
   const [switchToLevel, setSwitchToLevel] = useState(false);
   const [score, setScore] = useState();
   const [optionValues, setOptionValues] = useState([0, 0, 0, 0, 0]);
@@ -52,6 +53,7 @@ export default function AnswerGuess(props) {
     setTopics(temporaryArray);
   }, []);
   useEffect(() => {
+    const levels = [30, 50, 110, 150, 200, 230, 330, 410, 500];
     axios
       .post("http://localhost:8001/guess/score", {
         user: user_id,
@@ -59,8 +61,20 @@ export default function AnswerGuess(props) {
       .then((res) => {
         console.log("getting the scores", res.data);
         setScore(res.data);
+
+        for (let counter = 0; counter < 9; counter++) {
+          if (levels[counter] > props.score) {
+            setLevel(counter + 1);
+            return;
+          }
+        }
       });
   }, []);
+  useEffect(() => {
+    if (switchToLevel) {
+      delayAndGo();
+    }
+  }, [switchToLevel]);
 
   useEffect(() => {
     if (guessOption) {
@@ -140,7 +154,6 @@ export default function AnswerGuess(props) {
 
   //to delay passing to newLevel page
   function delayAndGo(e) {
-    e.preventDefault();
     setTimeout(() => history.push(linknewLevel), 1500);
   }
 
@@ -201,7 +214,7 @@ than one element because we can have same number of answers for different option
       l++;
     }
     setLevels(levelsAns);
-    console.log(levels);
+    console.log(levelsAns);
     let guessResult = getGuessAssessment(levelsAns, guessOption - 1, score, id);
     setGuessAnswer(guessResult[0]);
 
@@ -210,8 +223,9 @@ than one element because we can have same number of answers for different option
     setPoints(Number(guessResult[1]));
     addGuess(guessOption, Number(guessResult[1], id));
 
-    updateLevel(user_id, guessResult[2]);
-    setSwitchToLevel(true);
+    if (guessResult[3]) {
+      setSwitchToLevel(true);
+    }
   };
   //on clicking on the guess button, you will execute this function that'll add your guess to the database
   const addGuess = (guessOption, points, id) => {
@@ -334,9 +348,6 @@ than one element because we can have same number of answers for different option
               updateAfterGuess(e);
               setShowValues(true);
               setShowAlert(true);
-              if (switchToLevel) {
-                delayAndGo(e);
-              }
             }}
           >
             Done

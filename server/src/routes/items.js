@@ -299,9 +299,9 @@ module.exports = (db) => {
   });
 
   router.post("/unlockedTopics", (req, res) => {
-    let { user } = req.body;
-    console.log(user);
-    getTopicsForUser(user, db).then((item) => {
+    let { level } = req.body;
+    console.log(level);
+    getTopicsForUser(level, db).then((item) => {
       console.log("the unlocked topics you re looking for are ", item);
       res.send(item);
     });

@@ -626,15 +626,15 @@ const getScoreForUser = (user, db) => {
 };
 
 //get the topics opened for specific user
-const getTopicsForUser = (user, db) => {
+const getTopicsForUser = (level, db) => {
   return db
     .query(
       `
     SELECT topic
     FROM topics
-    WHERE topic_level = $1;
+    WHERE topic_level <= $1;
   `,
-      [user]
+      [level]
     )
     .then((res) => {
       console.log("topics got", res.rows);

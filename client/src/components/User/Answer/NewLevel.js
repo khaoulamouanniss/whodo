@@ -5,7 +5,6 @@ import axios from "axios";
 import "./Answer.css";
 
 export default function NewLevel(props) {
-  console.log(props);
   //1:bring the topics unlocked
   //2:show the user the level he locked
   //3:enable the user to start answering new items of unlocked topics
@@ -37,11 +36,11 @@ export default function NewLevel(props) {
   }, []);
   //getting the unlocked topics at the page load
   useEffect(() => {
-    console.log(user_id);
-    getUnlockedTopics(user_id);
+    console.log(level);
+    getUnlockedTopics(level);
     axios
       .post("http://localhost:8001/newLevel", {
-        user: user_id,
+        level: level,
       })
       .then((res) => {
         console.log("getting the level", res);
@@ -74,11 +73,11 @@ export default function NewLevel(props) {
   };
 
   //set the state openedTopics to all unlocked topics
-  const getUnlockedTopics = () => {
+  const getUnlockedTopics = (level) => {
     let unlocked = [];
     axios
       .post("http://localhost:8001/unlockedTopics", {
-        user: user_id,
+        level: level,
       })
       .then((res) => {
         res.data.map((topic) => {
@@ -86,7 +85,7 @@ export default function NewLevel(props) {
         });
         console.log(res);
         setOpenedTopics(unlocked);
-        return res.data;
+        return openedTopics;
       });
   };
 
