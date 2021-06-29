@@ -116,7 +116,7 @@ export default function Answer(props) {
     <div className="div-container">
       {/*first component of our flexBox*/}
 
-      <div className="yourScore"> Points : {score}</div>
+      <div className="yourScore"> Points : {score ? score : 0}</div>
       {/*second component of our flexBox*/}
       <div className={`itemAndButtons ${clickedNext ? "faded" : ""}`}>
         <div className={`itemHashtag ${clickedNext ? "faded" : ""}`}>

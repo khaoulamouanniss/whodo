@@ -250,16 +250,6 @@ module.exports = (db) => {
       res.send(data);
     });
   });
-  //getting a list of items and their scores for a user
-  /* router.post("/MyScore", async (req, res) => {
-    const { user } = req.body;
-    console.log("user for my score", user);
-    //making an array of items and their responses
-    getItemsAndScores(user, db).then((data) => {
-      console.log(data);
-      res.send(data);
-    });
-  });*/
 
   //updates the level of a user after submitting his guess
 
