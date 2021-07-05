@@ -174,55 +174,26 @@ const addUser = (userData, db) => {
     });
 };
 //the items and topics
-const getItemsAndTopicsByUserType = (email, type, db) => {
+const getItemsAndTopicsByLevel = (level, db) => {
   let sql;
 
-  if (type === "normal") {
-    //console.log("I am in normal", email)
-    return db
-      .query(
-        `
-    SELECT A.id, item, D.topic AS topic, count(B.id) as answers
+  return db
+    .query(
+      `
+    SELECT A.id, item, D.id as topic_id, D.topic AS topic, count(B.id) as answers
     FROM items A
     LEFT OUTER JOIN answer_items B ON A.id = B.item_id
     JOIN item_topics C ON C.item_id = A.id
     JOIN topics D ON C.topic_id = D.id
     JOIN user_topics E ON D.id = E.topic_id
     JOIN users F ON E.user_id = F.id
-    WHERE F.email = $1 AND A.approved = true
+    WHERE D.id <=  $1 AND A.approved = true
     GROUP BY A.id, A.item, D.topic
     ORDER BY random ()
     LIMIT 30;
     `,
-        [email]
-      )
-      .then((res) => {
-        return res.rows;
-      });
-  } else if (type === "super") {
-    console.log("I am in super");
-    sql = `
-    SELECT A.id, item, D.topic AS topic, count(B.id) as answers
-    FROM items A
-    LEFT OUTER JOIN answer_items B ON A.id = B.item_id
-    LEFT OUTER JOIN item_topics C ON  A.id = C.item_id
-    LEFT OUTER JOIN topics D ON C.topic_id = D.id
-    GROUP BY A.id, A.item, D.topic;`;
-  } else {
-    // console.log("I am in anonymous")
-    sql = `
-    SELECT A.id, item, D.topic AS topic, count(B.id) as answers
-    FROM items A
-    LEFT OUTER JOIN answer_items B ON A.id = B.item_id
-    JOIN item_topics C ON  A.id = C.item_id
-    JOIN topics D ON C.topic_id = D.id
-    WHERE A.approved = true
-    GROUP BY A.id, A.item, D.topic
-    ORDER BY random ()
-    LIMIT 20;`;
-  }
-  return db
-    .query(sql)
+      [level]
+    )
     .then((res) => {
       return res.rows;
     })
@@ -687,7 +658,7 @@ module.exports = {
   getUserByEmail,
   addUser,
   getScoreForUser,
-  getItemsAndTopicsByUserType,
+  getItemsAndTopicsByLevel,
   getItemsByTopic,
   getNbAnswersByItem,
   addItem,

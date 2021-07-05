@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-  getItemsAndTopicsByUserType,
+  getItemsAndTopicsByLevel,
   addItem,
   addTopic,
   addItemTopic,
@@ -50,8 +50,8 @@ module.exports = (db) => {
   });
   //home page
   router.post("/", (req, res) => {
-    const { email, type } = req.body;
-    getItemsAndTopicsByUserType(email, type, db)
+    const { level } = req.body;
+    getItemsAndTopicsByLevel(level, db)
       .then((items) => {
         res.send(items);
       })

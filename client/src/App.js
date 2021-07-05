@@ -68,8 +68,7 @@ export default function App() {
   useEffect(() => {
     Promise.all([
       axios.post("http://localhost:8001/", {
-        email: user.email,
-        type: user.type,
+        level: localStorage.getItem("userLevel"),
       }),
       axios.get("http://localhost:8001/topics"),
 
@@ -83,6 +82,7 @@ export default function App() {
     ]).then((all) => {
       console.log(all);
       //return only the items for opened topics
+      console.log("nlawej fi id mte3 topic", all[0].data);
       setItems(
         all[0].data.filter(function (item) {
           return item.topic === "Friends";
