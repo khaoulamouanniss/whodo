@@ -53,7 +53,6 @@ module.exports = (db) => {
     const { email, type } = req.body;
     getItemsAndTopicsByUserType(email, type, db)
       .then((items) => {
-        console.log("nshouf fel items wbarra", items);
         res.send(items);
       })
       .catch((e) => {
@@ -256,7 +255,7 @@ module.exports = (db) => {
   router.post("/upLevel", (req, res) => {
     const { id, l } = req.body;
     console.log("function uplevel called server side");
-    upUserLevel(id, l, db).then((item) => {
+    upUserLevel(l, id, db).then((item) => {
       res.send(item);
     });
   });

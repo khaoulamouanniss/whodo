@@ -568,18 +568,18 @@ const updateUserPic = (profile_pic, email, db) => {
     });
 };
 //update the level of the user
-const upUserLevel = (id, l, db) => {
+const upUserLevel = (l, id, db) => {
   return db
     .query(`Update users SET user_level = $1 where id = $2 returning *;`, [
       l,
       id,
     ])
     .then((res) => {
-      console.log("about updating level", res);
+      console.log("about updating level", res.rows[0]);
       return res.rows[0];
     })
     .catch((e) => {
-      //console.log(e)
+      console.log(e);
       return null;
     });
 };

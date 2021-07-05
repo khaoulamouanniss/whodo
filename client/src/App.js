@@ -82,13 +82,18 @@ export default function App() {
       axios.post("http://localhost:8001/newLevel", { user: user.id }),
     ]).then((all) => {
       console.log(all);
-
-      setItems(all[0].data);
+      //return only the items for opened topics
+      setItems(
+        all[0].data.filter(function (item) {
+          return item.topic === "Friends";
+        })
+      );
       setTopics(all[1].data);
       setScore(all[2].data);
       setItemsToApprove(all[3].data);
       setItemsOfTopic(all[4].data);
       setSubmittedItems(all[5].data);
+      console.log("newest level", all[6].data);
       setLevel(all[6].data);
     });
   }, [user, change]);

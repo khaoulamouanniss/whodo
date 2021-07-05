@@ -104,11 +104,11 @@ export default function AnswerGuess(props) {
 
     axios
       .post("http://localhost:8001/upLevel", {
-        id: id,
+        id: user_id,
         l: l,
       })
       .then((res) => {
-        console.log("about up in axios", res.data);
+        console.log("about up in axios", res);
         return res.data;
       });
   };
@@ -222,8 +222,10 @@ than one element because we can have same number of answers for different option
     setScore(score + Number(guessResult[1]));
     setPoints(Number(guessResult[1]));
     addGuess(guessOption, Number(guessResult[1], id));
-
+    localStorage.setItem("userLevel", guessResult[2]);
+    updateLevel(user_id, guessResult[2]);
     if (guessResult[3]) {
+      updateLevel(user_id, guessResult[2]);
       setSwitchToLevel(true);
     }
   };
