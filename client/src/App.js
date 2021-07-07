@@ -83,11 +83,7 @@ export default function App() {
       console.log(all);
       //return only the items for opened topics
       console.log("nlawej fi id mte3 topic", all[0].data);
-      setItems(
-        all[0].data.filter(function (item) {
-          return item.topic === "Friends";
-        })
-      );
+      setItems(all[0].data);
       setTopics(all[1].data);
       setScore(all[2].data);
       setItemsToApprove(all[3].data);
