@@ -69,6 +69,7 @@ export default function App() {
     Promise.all([
       axios.post("http://localhost:8001/", {
         level: localStorage.getItem("userLevel"),
+        id: user.id,
       }),
       axios.get("http://localhost:8001/topics"),
 
@@ -379,6 +380,7 @@ export default function App() {
             <Route path="/" exact>
               {user.type !== "super" && (
                 <ListItems
+                  user={user.id}
                   email={user.email}
                   items={items}
                   setCurrentItem={setCurrentItem}

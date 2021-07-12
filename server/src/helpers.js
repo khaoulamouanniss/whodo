@@ -174,27 +174,57 @@ const addUser = (userData, db) => {
     });
 };
 //the items and topics
-const getItemsAndTopicsByLevel = (level, db) => {
+/*const getItemsAndTopicsByLevel = (level, id, db) => {
   let sql;
 
   return db
     .query(
       `
-    SELECT A.id, item, D.id as topic_id, D.topic AS topic, count(B.id) as answers
+    SELECT A.id, item, B.id as id_answer, B.user_id as user_id, D.id as topic_id, D.topic AS topic, count(B.id) as answers
     FROM items A
     LEFT OUTER JOIN answer_items B ON A.id = B.item_id
     JOIN item_topics C ON C.item_id = A.id
     JOIN topics D ON C.topic_id = D.id
     JOIN user_topics E ON D.id = E.topic_id
     JOIN users F ON E.user_id = F.id
-    WHERE D.id <=  $1 AND A.approved = true
-    GROUP BY A.id, A.item, D.topic
+    WHERE D.id <=  $1 AND A.approved = true AND B.user_id = $2
+    GROUP BY A.id, A.item, D.topic, B.id, D.id
     ORDER BY random ()
+    LIMIT 30;
+    `,
+      [level, id]
+    )
+    .then((res) => {
+      console.log(res.rows);
+      return res.rows;
+    })
+    .catch((e) => {
+      return null;
+    });
+};*/
+
+//the items and topics
+const getItemsAndTopicsByLevel = (level, db) => {
+  let sql;
+
+  return db
+    .query(
+      `
+    SELECT A.id,  A.item, B.topic_id as topic_id, count(C.id) as answers, D.topic as topic, C.user_id as user_id
+    FROM items A
+    JOIN item_topics B ON B.item_id = A.id
+    JOIN answer_items C ON C.item_id=A.id
+    JOIN topics D on D.id = B.topic_id
+    WHERE D.id <=  3  AND A.approved = true
+    GROUP BY A.id, A.item, B.topic_id, D.topic, C.user_id
+        ORDER BY random ()
     LIMIT 30;
     `,
       [level]
     )
     .then((res) => {
+      console.log(res.rows);
+
       return res.rows;
     })
     .catch((e) => {

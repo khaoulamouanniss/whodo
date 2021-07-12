@@ -9,7 +9,6 @@ import "./Answer.css";
 //3: click on next to move to guess part
 //3:fading the item (question)
 export default function Answer(props) {
-  console.log("props de answer", props);
   let item_id = props.item.id;
   let user_id = props.user.id;
 
@@ -31,6 +30,7 @@ export default function Answer(props) {
       })
       .then((res) => {
         console.log("getting the scores", res.data);
+        localStorage.setItem("userScore", res.data);
         setScore(res.data);
       });
   }, []);

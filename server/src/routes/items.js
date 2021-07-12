@@ -50,7 +50,7 @@ module.exports = (db) => {
   });
   //home page
   router.post("/", (req, res) => {
-    const { level } = req.body;
+    const { level, id } = req.body;
     getItemsAndTopicsByLevel(level, db)
       .then((items) => {
         res.send(items);

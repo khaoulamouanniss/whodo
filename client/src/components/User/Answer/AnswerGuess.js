@@ -248,7 +248,10 @@ than one element because we can have same number of answers for different option
     <div className="div-container">
       {/*first component of our flexBox*/}
 
-      <div className="yourScore"> Points : {score ? score : 0}</div>
+      <div className="yourScore">
+        {" "}
+        Points : {localStorage.getItem("userScore") ? score : 0}
+      </div>
       {/*second component of our flexBox*/}
       <div className="itemAndButtonsGuess">
         <div className="itemHashtag">

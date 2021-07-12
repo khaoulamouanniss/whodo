@@ -32,6 +32,9 @@ export default function NewLevel(props) {
             break;
           }
         }
+        if (res.data < 30) {
+          setPointsToNext(30 - res.data);
+        }
       });
   }, []);
   //getting the unlocked topics at the page load
