@@ -122,7 +122,7 @@ export default function Answer(props) {
         <div className={`itemHashtag ${clickedNext ? "faded" : ""}`}>
           <div className="hashtag">
             <Link style={{ textDecoration: "none" }} to="/answer">
-              <h5>#{topic}</h5>
+              <h5>#{props.item.topic}</h5>
             </Link>
           </div>
           <div className="itemContent">

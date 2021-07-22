@@ -66,11 +66,12 @@ export default function NewLevel(props) {
   const randomItem = () => {
     axios
       .post("http://localhost:8001/answer/random", {
-        topic: topics[Math.floor(Math.random() * topics.length)],
+        topic: openedTopics[Math.floor(Math.random() * openedTopics.length)],
       })
       .then((res) => {
+        console.log("besh ntalla3 winou topic", res.data);
         props.setCurrentItem(res.data);
-        setTopic(topics[Math.floor(Math.random() * topics.length)]);
+        setTopic(res.data.topic);
         return res.data;
       });
   };
@@ -120,7 +121,7 @@ export default function NewLevel(props) {
           onClick={randomItem}
         >
           <button className="skip">
-            skip
+            Next
             <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
           </button>
         </Link>
