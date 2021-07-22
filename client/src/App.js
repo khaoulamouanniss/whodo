@@ -57,7 +57,6 @@ export default function App() {
         user: user.id,
       })
       .then((res) => {
-        console.log("getting the scores", res.data);
         setScore(res.data);
         return res.data;
       });
