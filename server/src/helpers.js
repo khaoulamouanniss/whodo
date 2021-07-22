@@ -205,8 +205,6 @@ const addUser = (userData, db) => {
 
 //the items and topics
 const getItemsAndTopicsByLevel = (level, db) => {
-  let sql;
-
   return db
     .query(
       `
@@ -215,7 +213,7 @@ const getItemsAndTopicsByLevel = (level, db) => {
     JOIN item_topics B ON B.item_id = A.id
     JOIN answer_items C ON C.item_id=A.id
     JOIN topics D on D.id = B.topic_id
-    WHERE D.id <=  3  AND A.approved = true
+    WHERE D.id <=  $1  AND A.approved = true
     GROUP BY A.id, A.item, B.topic_id, D.topic, C.user_id
         ORDER BY random ()
     LIMIT 30;
@@ -223,8 +221,7 @@ const getItemsAndTopicsByLevel = (level, db) => {
       [level]
     )
     .then((res) => {
-      console.log(res.rows);
-
+      console.log("what are the items", res.rows);
       return res.rows;
     })
     .catch((e) => {
@@ -618,7 +615,6 @@ const getScoreForUser = (user, db) => {
       [user]
     )
     .then((res) => {
-      console.log("score got", res.rows);
       return res.rows[0].sum;
     })
     .catch((e) => {
@@ -659,7 +655,6 @@ const getLevelForUser = (user, db) => {
       [user]
     )
     .then((res) => {
-      console.log("level got", res.rows);
       return res.rows[0].user_level;
     })
     .catch((e) => {

@@ -34,17 +34,15 @@ import { decoder } from "./decode";
 export default function App() {
   const userLocalStorage = decoder() || {};
 
-  /*const adminUser = {
-    email : 'test@test.com',
-    password : 'test'
-  }
-*/
+  //set the state openedTopics to all unlocked topics
+
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState(userLocalStorage.user || { id: 1 });
   const [change, setChange] = useState(true);
 
   const [topics, setTopics] = useState([]);
   const [currentItem, setCurrentItem] = useState({});
+  const [unlockedTopics, setUnlockedTopics] = useState([]);
   const [itemsOfTopic, setItemsOfTopic] = useState([]);
   const [items, setItems] = useState([]);
   const [score, setScore] = useState(0);
@@ -69,7 +67,6 @@ export default function App() {
     Promise.all([
       axios.post("http://localhost:8001/", {
         level: localStorage.getItem("userLevel"),
-        id: user.id,
       }),
       axios.get("http://localhost:8001/topics"),
 
@@ -80,18 +77,22 @@ export default function App() {
       axios.get(`http://localhost:8001/itemsoftopic/${currentTopic.topic_id}`),
       axios.get(`http://localhost:8001/submitteditems/${user.id}`),
       axios.post("http://localhost:8001/newLevel", { user: user.id }),
+      axios.post("http://localhost:8001/unlockedTopics", {
+        level: level,
+      }),
     ]).then((all) => {
       console.log(all);
       //return only the items for opened topics
-      console.log("nlawej fi id mte3 topic", all[0].data);
+
       setItems(all[0].data);
       setTopics(all[1].data);
       setScore(all[2].data);
       setItemsToApprove(all[3].data);
       setItemsOfTopic(all[4].data);
       setSubmittedItems(all[5].data);
-      console.log("newest level", all[6].data);
       setLevel(all[6].data);
+      console.log("unlocked topics are", all[7].data);
+      setUnlockedTopics(all[7].data.map((item) => item.topic));
     });
   }, [user, change]);
   //if the user changes, we update the level got
@@ -101,7 +102,6 @@ export default function App() {
         user: user.id,
       })
       .then((res) => {
-        console.log("getting the level", res.data);
         setLevel(res.data);
         return res.data;
       });
@@ -384,6 +384,7 @@ export default function App() {
                   email={user.email}
                   items={items}
                   setCurrentItem={setCurrentItem}
+                  unlockedTopics={unlockedTopics}
                   topics={topics}
                 />
               )}
@@ -395,6 +396,7 @@ export default function App() {
                 score={score}
                 item={currentItem}
                 setCurrentItem={setCurrentItem}
+                unlockedTopics={unlockedTopics}
                 getNbAnsByOption={getNbAnsByOption}
                 topics={topics}
                 user={user}
@@ -406,6 +408,7 @@ export default function App() {
                 score={score}
                 item={currentItem}
                 setCurrentItem={setCurrentItem}
+                unlockedTopics={unlockedTopics}
                 getNbAnsByOption={getNbAnsByOption}
                 topics={topics}
                 user={user}
@@ -418,6 +421,7 @@ export default function App() {
                 score={score}
                 item={currentItem}
                 setCurrentItem={setCurrentItem}
+                unlockedTopics={unlockedTopics}
                 getNbAnsByOption={getNbAnsByOption}
                 topics={topics}
                 user={user}
@@ -434,6 +438,7 @@ export default function App() {
               <Topics
                 topics={topics}
                 setCurrentTopic={setCurrentTopic}
+                unlockedTopics={unlockedTopics}
                 showItemsByTopic={showItemsByTopic}
                 addTopic={addTopic}
                 deleteTopic={deleteTopic}
@@ -443,6 +448,7 @@ export default function App() {
               <TopicShow
                 currentTopic={currentTopic}
                 items={itemsOfTopic}
+                unlockedTopics={unlockedTopics}
                 setCurrentItem={setCurrentItem}
                 addItem={addItem}
                 deleteItem={deleteItem}
@@ -455,6 +461,7 @@ export default function App() {
               <Items
                 items={items}
                 setCurrentItem={setCurrentItem}
+                unlockedTopics={unlockedTopics}
                 submitItem={submitItem}
                 deleteItem={deleteItem}
               />
@@ -463,6 +470,7 @@ export default function App() {
               <ItemsApprove
                 items={itemsToApprove}
                 setCurrentItem={setCurrentItem}
+                unlockedTopics={unlockedTopics}
                 approveItem={approveItem}
                 deleteItem={deleteItem}
               />
@@ -470,6 +478,7 @@ export default function App() {
             <Route path="/myitems">
               <SubmittedItems
                 items={submittedItems}
+                unlockedTopics={unlockedTopics}
                 setCurrentItem={setCurrentItem}
                 deleteItem={deleteItem}
               />

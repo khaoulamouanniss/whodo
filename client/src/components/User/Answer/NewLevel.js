@@ -8,6 +8,7 @@ export default function NewLevel(props) {
   //1:bring the topics unlocked
   //2:show the user the level he locked
   //3:enable the user to start answering new items of unlocked topics
+  let { setCurrentTopics } = props;
   const [openedTopics, setOpenedTopics] = useState([]);
   const [score, setScore] = useState(0);
   const [topic, setTopic] = useState("");
@@ -15,7 +16,20 @@ export default function NewLevel(props) {
   const [topics, setTopics] = useState([]);
   const [pointsToNext, setPointsToNext] = useState(0);
   let user_id = props.user.id;
-
+  useEffect(() => {
+    let unlocked = [];
+    axios
+      .post("http://localhost:8001/unlockedTopics", {
+        level: level,
+      })
+      .then((res) => {
+        res.data.map((topic) => {
+          unlocked.push(topic.topic);
+        });
+        console.log("mte3 unlocked", res);
+        setCurrentTopics = { unlocked };
+      });
+  }, []);
   //getting the score of the user
   useEffect(() => {
     axios
@@ -39,14 +53,11 @@ export default function NewLevel(props) {
   }, []);
   //getting the unlocked topics at the page load
   useEffect(() => {
-    console.log(level);
-    getUnlockedTopics(level);
     axios
       .post("http://localhost:8001/newLevel", {
         level: level,
       })
       .then((res) => {
-        console.log("getting the level", res);
         setLevel(res.data);
         return res.data;
       });
@@ -76,23 +87,6 @@ export default function NewLevel(props) {
       });
   };
 
-  //set the state openedTopics to all unlocked topics
-  const getUnlockedTopics = (level) => {
-    let unlocked = [];
-    axios
-      .post("http://localhost:8001/unlockedTopics", {
-        level: level,
-      })
-      .then((res) => {
-        res.data.map((topic) => {
-          unlocked.push(topic.topic);
-        });
-        console.log(res);
-        setOpenedTopics(unlocked);
-        return openedTopics;
-      });
-  };
-
   return (
     <div className="div-container">
       <div className="yourScore"></div>
@@ -106,8 +100,8 @@ export default function NewLevel(props) {
         <h6>{pointsToNext} points to pass</h6>
         <h3> New topics</h3>
         <div className="orangeText">
-          {openedTopics &&
-            openedTopics.map((item) => {
+          {props.unlockedTopics &&
+            props.unlockedTopics.map((item) => {
               return (
                 <h4>
                   <div> #{item}</div>

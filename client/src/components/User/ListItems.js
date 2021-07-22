@@ -7,6 +7,7 @@ import "./Item.css";
 //import wordcloud2 from 'wordcloud2';
 
 export default function ListItems(props) {
+  console.log("listItems props", props);
   const itemData = props.items.map((i) => (
     <Item
       user={props.user}

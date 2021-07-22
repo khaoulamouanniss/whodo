@@ -50,9 +50,10 @@ module.exports = (db) => {
   });
   //home page
   router.post("/", (req, res) => {
-    const { level, id } = req.body;
+    const { level } = req.body;
     getItemsAndTopicsByLevel(level, db)
       .then((items) => {
+        console.log("my items to check", items);
         res.send(items);
       })
       .catch((e) => {
@@ -273,7 +274,6 @@ module.exports = (db) => {
     let { user } = req.body;
 
     getScoreForUser(user, db).then((item) => {
-      console.log("the score you re looking for is ", item);
       res.send(item);
     });
   });
@@ -282,7 +282,6 @@ module.exports = (db) => {
     let { user } = req.body;
 
     getLevelForUser(user, db).then((item) => {
-      console.log("the level you re looking for is ", item);
       res.status(200).send(item.toString());
     });
   });
