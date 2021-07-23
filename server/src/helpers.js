@@ -213,7 +213,7 @@ const getItemsAndTopicsByLevel = (level, db) => {
     JOIN item_topics B ON B.item_id = A.id
     JOIN answer_items C ON C.item_id=A.id
     JOIN topics D on D.id = B.topic_id
-    WHERE D.id <=  $1  AND A.approved = true
+    WHERE D.id <=  $1 AND A.approved = true
     GROUP BY A.id, A.item, B.topic_id, D.topic, C.user_id
         ORDER BY random ()
     LIMIT 30;
@@ -295,7 +295,6 @@ const addTopic = (t, db) => {
             [t]
           )
           .then((res1) => {
-            // console.log("topic id added in the function addTopic",res1.rows[0])
             return res1.rows[0];
           })
           .catch((e) => {

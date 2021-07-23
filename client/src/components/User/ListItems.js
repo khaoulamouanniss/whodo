@@ -8,6 +8,7 @@ import "./Item.css";
 
 export default function ListItems(props) {
   console.log("listItems props", props);
+
   const itemData = props.items.map((i) => (
     <Item
       user={props.user}
@@ -19,6 +20,7 @@ export default function ListItems(props) {
       setCurrentItem={props.setCurrentItem}
     />
   ));
+
   return (
     <div>
       <div className="item-container">{itemData}</div>

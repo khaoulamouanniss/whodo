@@ -8,70 +8,27 @@ export default function NewLevel(props) {
   //1:bring the topics unlocked
   //2:show the user the level he locked
   //3:enable the user to start answering new items of unlocked topics
-  let { setCurrentTopics } = props;
+  let { unlockedTopics } = props;
   const [openedTopics, setOpenedTopics] = useState([]);
   const [score, setScore] = useState(0);
   const [topic, setTopic] = useState("");
   const [level, setLevel] = useState(localStorage.getItem("userLevel"));
   const [topics, setTopics] = useState([]);
   const [pointsToNext, setPointsToNext] = useState(0);
-  let user_id = props.user.id;
-  useEffect(() => {
-    let unlocked = [];
-    axios
-      .post("http://localhost:8001/unlockedTopics", {
-        level: level,
-      })
-      .then((res) => {
-        res.data.map((topic) => {
-          unlocked.push(topic.topic);
-        });
-        console.log("mte3 unlocked", res);
-        setCurrentTopics = { unlocked };
-      });
-  }, []);
-  //getting the score of the user
-  useEffect(() => {
-    axios
-      .post("http://localhost:8001/guess/score", {
-        user: user_id,
-      })
-      .then((res) => {
-        console.log("getting the scores", res.data);
-        setScore(res.data);
-        const levels = [500, 410, 330, 230, 200, 150, 110, 50, 30];
-        for (let counter = 0; counter < levels.length - 1; counter++) {
-          if (res.data <= levels[counter] && res.data > levels[counter + 1]) {
-            setPointsToNext(Number(levels[counter] - res.data));
-            break;
-          }
-        }
-        if (res.data < 30) {
-          setPointsToNext(30 - res.data);
-        }
-      });
-  }, []);
-  //getting the unlocked topics at the page load
-  useEffect(() => {
-    axios
-      .post("http://localhost:8001/newLevel", {
-        level: level,
-      })
-      .then((res) => {
-        setLevel(res.data);
-        return res.data;
-      });
-
-    let temporaryArray = [];
-    props.topics.map((topic) => {
-      console.log(topic);
-      temporaryArray.push(topic.topic);
-    });
-    console.log(temporaryArray);
-    setTopics(temporaryArray);
-  }, []);
 
   //returns the number of marks missing to go to next level
+  useEffect(() => {
+    const levels = [500, 410, 330, 230, 200, 150, 110, 50, 30];
+    for (let counter = 0; counter < levels.length - 1; counter++) {
+      if (props.score <= levels[counter] && props.score > levels[counter + 1]) {
+        setPointsToNext(Number(levels[counter] - props.score));
+        break;
+      }
+    }
+    if (props.score < 30) {
+      setPointsToNext(30 - props.score);
+    }
+  }, []);
 
   //getting a random item according to a random topic
   const randomItem = () => {
@@ -94,14 +51,12 @@ export default function NewLevel(props) {
         {/*first component of our flexBox*/}
         <h4>Points : {score}</h4>
         <h3 className="capitalize">You have unlocked</h3>
-        <h1 className="capitalize orangeText">
-          level {localStorage.getItem("userLevel")}
-        </h1>
+        <h1 className="capitalize orangeText">level {level}</h1>
         <h6>{pointsToNext} points to pass</h6>
         <h3> New topics</h3>
         <div className="orangeText">
-          {props.unlockedTopics &&
-            props.unlockedTopics.map((item) => {
+          {unlockedTopics &&
+            unlockedTopics.map((item) => {
               return (
                 <h4>
                   <div> #{item}</div>

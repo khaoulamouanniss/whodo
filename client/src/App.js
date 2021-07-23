@@ -50,6 +50,17 @@ export default function App() {
   const [currentTopic, setCurrentTopic] = useState({ topic_id: 1 });
   const [itemsToApprove, setItemsToApprove] = useState([]);
   const [submittedItems, setSubmittedItems] = useState([]);
+
+  //when the page load, we bring the user level from newLevel route
+  useEffect(() => {
+    axios
+      .post("http://localhost:8001/newLevel", { user: user.id })
+      .then((res) => {
+        setLevel(res.data);
+        return res.data;
+      });
+  }, []);
+
   //when the page is loaded, we get the score of the user from the database
   useEffect(() => {
     axios
@@ -61,11 +72,12 @@ export default function App() {
         return res.data;
       });
   }, [currentItem]);
+
   //whenever the page is loaded, we get the topics, the score, the items of all sort, the level
   useEffect(() => {
     Promise.all([
       axios.post("http://localhost:8001/", {
-        level: localStorage.getItem("userLevel"),
+        level: level,
       }),
       axios.get("http://localhost:8001/topics"),
 
@@ -75,7 +87,7 @@ export default function App() {
       axios.get("http://localhost:8001/itemstoapprove"),
       axios.get(`http://localhost:8001/itemsoftopic/${currentTopic.topic_id}`),
       axios.get(`http://localhost:8001/submitteditems/${user.id}`),
-      axios.post("http://localhost:8001/newLevel", { user: user.id }),
+
       axios.post("http://localhost:8001/unlockedTopics", {
         level: level,
       }),
@@ -89,9 +101,9 @@ export default function App() {
       setItemsToApprove(all[3].data);
       setItemsOfTopic(all[4].data);
       setSubmittedItems(all[5].data);
-      setLevel(all[6].data);
-      console.log("unlocked topics are", all[7].data);
-      setUnlockedTopics(all[7].data.map((item) => item.topic));
+
+      console.log("unlocked topics are", all[6].data);
+      setUnlockedTopics(all[6].data.map((item) => item.topic));
     });
   }, [user, change]);
   //if the user changes, we update the level got

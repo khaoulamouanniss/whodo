@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import "./Submit.css";
@@ -6,28 +6,16 @@ import "./Submit.css";
 export default function Submit(props) {
   const { change, setChange, user } = props;
   let history = useHistory();
-
-  const submitItem = (submittedItem, approved) => {
-    const re = /#([a-zA-Z0-9])+/gm;
-    let submittedTopics = [];
-    let matches = [];
-    let topic = "";
-    let item = submittedItem;
-    while ((matches = re.exec(submittedItem))) {
-      topic = matches[0].replace("#", "");
-      submittedTopics.push(topic);
-      console.log("topic", topic);
-      item = item.replace(matches[0], "").trimEnd();
-      console.log("item", item);
-    }
+  const [tags, setTags] = useState([]);
+  const submitItem = (submittedItem, topics, approved) => {
     let time = new Date();
     axios
       .post("http://localhost:8001/items", {
         creator: user.id,
-        item: item,
+        item: submittedItem,
         time: time,
         approved: approved,
-        topics: submittedTopics,
+        topics: topics,
       })
       .then((res) => {
         console.log("submittedItem", res.data);
@@ -37,20 +25,15 @@ export default function Submit(props) {
   };
   function handleSubmitTag(e) {
     e.preventDefault();
-    let input = document.getElementById("hashtags");
-    let container = document.getElementById("tag-container");
-
-    if (e.which === 13 && input.value.length > 0) {
-      var text = document.createTextNode(input.value);
-      var p = document.createElement("p");
-      container.appendChild(p);
-      p.appendChild(text);
-      p.classList.add("tag");
-      input.value = "";
+    let temporaryTags = [...tags];
+    if (e.keyCode === 13) {
+      temporaryTags.push(e.target.value);
+      setTags(temporaryTags);
+      e.target.value = "";
     }
   }
   const handleChange = () => {
-    submitItem(document.getElementById("item").value, false);
+    submitItem(document.getElementById("item").value, tags, false);
     console.log("history", history);
   };
   /* let item="";
@@ -97,6 +80,9 @@ export default function Submit(props) {
               Add some keywords to help people find your submission starting
               with # (it might be something like work, love, money,
               restaurants...).
+            </div>
+            <div className="tags">
+              <div className="tag">{tags.map((tag) => "#" + tag + "  ")}</div>
             </div>
             <input
               type="text"

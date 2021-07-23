@@ -88,8 +88,10 @@ module.exports = (db) => {
     let topic;
     for (let t of topics) {
       topic = await addTopic(t, db);
-
-      addItemTopic(newItem.id, topic.id, db);
+      console.log("tfarrej fel topic fissa3", topic);
+      addItemTopic(newItem.id, topic.id, db).then((added) =>
+        console.log(added)
+      );
     }
     res.send(newItem);
   });
@@ -272,15 +274,12 @@ module.exports = (db) => {
 
   router.post("/guess/score", (req, res) => {
     let { user } = req.body;
-
     getScoreForUser(user, db).then((item) => {
       res.send(item);
     });
   });
-
   router.post("/newLevel", (req, res) => {
     let { user } = req.body;
-
     getLevelForUser(user, db).then((item) => {
       res.status(200).send(item.toString());
     });
