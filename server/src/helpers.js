@@ -555,7 +555,7 @@ const upUserLevel = (l, id, db) => {
     });
 };
 //randomly return an item for a specific topic
-const getRandomItemForTopic = (topic, db) => {
+/*const getRandomItemForTopic = (topic, db) => {
   return db
     .query(
       `
@@ -574,7 +574,33 @@ const getRandomItemForTopic = (topic, db) => {
     .catch((e) => {
       return null;
     });
+};*/
+const getRandomItemForTopic = (id, topic, db) => {
+  return db
+    .query(
+      ` select
+  distinct A.id,  A.item, B.topic_id as topic_id,D.topic as topic,
+  counts.ans_count as countss,
+  (case when counts.ans_count > -1 then counts.ans_count else 0 end) as count,
+  (case when userAns.user_id = $1 then TRUE else FALSE end) as replied
+  FROM items A
+  left JOIN item_topics B ON B.item_id = A.id
+  left JOIN (select count(*) as ans_count, item_id from answer_items group by item_id ) as counts on counts.item_id = A.id 
+  left join (select item_id, user_id from answer_items where user_id = 1)  as userAns on userAns.item_id = A.id  
+  JOIN topics D on D.id = B.topic_id
+  WHERE D.topic = $2 AND A.approved = true
+  ORDER BY A.id
+  LIMIT 1 `,
+      [id, topic]
+    )
+    .then((res) => {
+      return res.rows[0];
+    })
+    .catch((e) => {
+      return null;
+    });
 };
+
 //get the sum of points (score) a user accumulated knowing his id
 const getScoreForUser = (user, db) => {
   return db

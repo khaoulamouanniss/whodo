@@ -15,7 +15,14 @@ export default function Item(props) {
           <span>
             <Link
               to="/itemShow"
-              onClick={() => setCurrentItem({ id: id, item: item })}
+              onClick={() =>
+                setCurrentItem({
+                  id: id,
+                  item: item,
+                  topic: topics,
+                  replied: replied,
+                })
+              }
             >
               {item}{" "}
             </Link>
@@ -37,12 +44,5 @@ export default function Item(props) {
         </div>
       </div>
     </div>
-
-    /* <tr >
-      <td className = "itemstd"><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{item} </Link></td>
-      <td className = "itemstd"><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{topics}</Link></td>
-      <td className = "itemstd"><Link to="/itemShow" onClick={()=>setCurrentItem({id:id,item:item})}>{answers}</Link></td>
-      <td className= "itemstd"><button onClick={() => deleteItem(id)}>Delete</button></td>
-      </tr> */
   );
 }

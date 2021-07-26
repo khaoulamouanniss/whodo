@@ -263,9 +263,9 @@ module.exports = (db) => {
 
   //get a random itm for the topic passed in parameters
   router.post("/answer/random", (req, res) => {
-    let { topic } = req.body;
+    let { id, topic } = req.body;
 
-    getRandomItemForTopic(topic, db).then((item) => {
+    getRandomItemForTopic(id, topic, db).then((item) => {
       res.send(item);
     });
   });

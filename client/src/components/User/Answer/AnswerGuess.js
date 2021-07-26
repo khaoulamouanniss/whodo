@@ -9,7 +9,7 @@ export default function AnswerGuess(props) {
   let user_id = props.user.id;
   console.log("props of guessAnswer", props);
   const [topic, setTopic] = useState(props.item.topic);
-
+  const { unlockedTopics } = props;
   const [levels, setLevels] = useState([[]]);
   const [topics, setTopics] = useState([]);
   const startScore = props.score;
@@ -114,13 +114,16 @@ export default function AnswerGuess(props) {
   };
   //getting a random item according to a random topic
   const randomItem = () => {
+    const myTopic =
+      unlockedTopics[Math.floor(Math.random() * unlockedTopics.length)];
     axios
       .post("http://localhost:8001/answer/random", {
-        topic: topics[Math.floor(Math.random() * topics.length)],
+        id: user_id,
+        topic: myTopic,
       })
       .then((res) => {
         props.setCurrentItem(res.data);
-        setTopic(topics[Math.floor(Math.random() * topics.length)]);
+        setTopic(myTopic);
         return res.data;
       });
   };

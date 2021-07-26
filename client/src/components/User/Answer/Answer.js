@@ -12,7 +12,7 @@ export default function Answer(props) {
   let item_id = props.item.id;
   let user_id = props.user.id;
   let { unlockedTopics } = props;
-  console.log("here are the unlocked topics", unlockedTopics);
+  console.log("here are props to see replied", props.item.replied);
   const [topic, setTopic] = useState(props.item.topic);
   const [score, setScore] = useState(props.score) || 0;
   const [topics, setTopics] = useState([]);
@@ -58,6 +58,7 @@ export default function Answer(props) {
       unlockedTopics[Math.floor(Math.random() * unlockedTopics.length)];
     axios
       .post("http://localhost:8001/answer/random", {
+        id: user_id,
         topic: myTopic,
       })
       .then((res) => {
@@ -137,6 +138,11 @@ export default function Answer(props) {
           <div className="itemContent">
             <h3>{props.item.item}</h3>
           </div>
+          {props.item.replied && (
+            <div>
+              "You wont be able to answer, you have already answered this item"
+            </div>
+          )}
         </div>
         {/*second component of the second component of our flexBox*/}
         <div className="buttonsAndLabel">

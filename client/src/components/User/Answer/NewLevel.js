@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
+import User from "../../Admin/User";
 
 export default function NewLevel(props) {
+  console.log("props of newLevel", props);
   //1:bring the topics unlocked
   //2:show the user the level he locked
   //3:enable the user to start answering new items of unlocked topics
@@ -31,14 +33,16 @@ export default function NewLevel(props) {
 
   //getting a random item according to a random topic
   const randomItem = () => {
+    const myTopic =
+      unlockedTopics[Math.floor(Math.random() * unlockedTopics.length)];
     axios
       .post("http://localhost:8001/answer/random", {
-        topic:
-          unlockedTopics[Math.floor(Math.random() * unlockedTopics.length)],
+        id: props.user,
+        topic: myTopic,
       })
       .then((res) => {
         props.setCurrentItem(res.data);
-        setTopic(res.data.topic);
+        setTopic(myTopic);
         return res.data;
       });
   };

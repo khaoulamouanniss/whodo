@@ -6,19 +6,18 @@ import User from "../Admin/User";
 //import useVisualMode from "../hooks/useVisualMode"
 
 export default function Item(props) {
-  let { replied, topics } = props;
-  // if(props.user.type!== "super") {
-
+  console.log("have a look at the props of the item", props.replied);
   return (
     <div>
       <Link
         to="/answer"
-        className={replied ? "item-button-disabled" : "item-button"}
+        className={props.replied ? "item-button-disabled" : "item-button"}
         onClick={() =>
           props.setCurrentItem({
             id: props.id,
             item: props.item,
             topic: props.topics,
+            replied: props.replied,
           })
         }
       >
@@ -33,7 +32,7 @@ export default function Item(props) {
             style={{ color: "rgb(247,137,37)", fonSize: "11px" }}
             className="item-topic"
           >
-            {topics}
+            {props.topics}
           </div>
         </div>
       </Link>
