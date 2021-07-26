@@ -586,11 +586,10 @@ const getRandomItemForTopic = (id, topic, db) => {
   FROM items A
   left JOIN item_topics B ON B.item_id = A.id
   left JOIN (select count(*) as ans_count, item_id from answer_items group by item_id ) as counts on counts.item_id = A.id 
-  left join (select item_id, user_id from answer_items where user_id = 1)  as userAns on userAns.item_id = A.id  
+  left join (select item_id, user_id from answer_items where user_id = $1 ORDER BY Random())  as userAns on userAns.item_id = A.id  
   JOIN topics D on D.id = B.topic_id
   WHERE D.topic = $2 AND A.approved = true
-  ORDER BY A.id
-  LIMIT 1 `,
+  LIMIT 10`,
       [id, topic]
     )
     .then((res) => {
