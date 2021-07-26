@@ -12,6 +12,7 @@ export default function Answer(props) {
   let item_id = props.item.id;
   let user_id = props.user.id;
   let { unlockedTopics } = props;
+  console.log("here are the unlocked topics", unlockedTopics);
   const [topic, setTopic] = useState(props.item.topic);
   const [score, setScore] = useState(props.score) || 0;
   const [topics, setTopics] = useState([]);
@@ -53,16 +54,15 @@ export default function Answer(props) {
 
   //getting a random item according to a random topic
   const randomItem = () => {
+    const myTopic =
+      unlockedTopics[Math.floor(Math.random() * unlockedTopics.length)];
     axios
       .post("http://localhost:8001/answer/random", {
-        topic:
-          unlockedTopics[Math.floor(Math.random() * unlockedTopics.length)],
+        topic: myTopic,
       })
       .then((res) => {
         props.setCurrentItem(res.data);
-        setTopic(
-          unlockedTopics[Math.floor(Math.random() * unlockedTopics.length)]
-        );
+        setTopic(myTopic);
         return res.data;
       });
   };

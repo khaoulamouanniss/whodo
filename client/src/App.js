@@ -57,10 +57,22 @@ export default function App() {
       .post("http://localhost:8001/newLevel", { user: user.id })
       .then((res) => {
         setLevel(res.data);
+        localStorage.setItem("userLevel", res.data);
         return res.data;
       });
   }, []);
 
+  //refresh the list of unlocked topics whenever the level changes
+  useEffect(() => {
+    axios
+      .post("http://localhost:8001/unlockedTopics", {
+        level: level,
+      })
+      .then((res) => {
+        setUnlockedTopics(res.data.map((item) => item.topic));
+        return res.data;
+      });
+  }, [level]);
   //when the page is loaded, we get the score of the user from the database
   useEffect(() => {
     axios
