@@ -17,13 +17,20 @@ export default function ListItems(props) {
       topics={i.topic}
       answers={i.answers}
       user_item={i.user_id}
+      replied={i.replied}
       setCurrentItem={props.setCurrentItem}
     />
   ));
 
   return (
     <div>
-      <div className="item-container">{itemData}</div>
+      <div
+        className={
+          itemData.replied ? "item-container-disabled" : "item-container"
+        }
+      >
+        {itemData}
+      </div>
     </div>
   );
 }

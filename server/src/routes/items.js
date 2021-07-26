@@ -50,8 +50,8 @@ module.exports = (db) => {
   });
   //home page
   router.post("/", (req, res) => {
-    const { level } = req.body;
-    getItemsAndTopicsByLevel(level, db)
+    const { id, level } = req.body;
+    getItemsAndTopicsByLevel(id, level, db)
       .then((items) => {
         console.log("my items to check", items);
         res.send(items);

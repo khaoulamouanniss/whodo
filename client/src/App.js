@@ -77,6 +77,7 @@ export default function App() {
   useEffect(() => {
     Promise.all([
       axios.post("http://localhost:8001/", {
+        id: user.id,
         level: level,
       }),
       axios.get("http://localhost:8001/topics"),
@@ -117,15 +118,6 @@ export default function App() {
         return res.data;
       });
   }, [user]);
-
-  //   useEffect(() => {
-  //   const newUser = decoder();
-  //   if(newUser){
-  //     setUser(newUser.user);
-  //   }
-  //   setChange(!change);
-
-  // },[])
 
   const [error, setError] = useState(null);
   //const [loading, setLoading] = useState(false);
@@ -275,7 +267,7 @@ export default function App() {
       .post("http://localhost:8001/addtopic", { topic: topic })
       .then((res) => {
         topics.push(res.data);
-        setChange("add topic");
+        setChange(!change);
         return res.data;
       });
   };
@@ -489,7 +481,7 @@ export default function App() {
             <Route path="/myitems">
               <SubmittedItems
                 items={submittedItems}
-                unlockedTopics={unlockedTopics}
+                topics={topics}
                 setCurrentItem={setCurrentItem}
                 deleteItem={deleteItem}
               />

@@ -40,6 +40,7 @@ module.exports = (db) => {
   router.post("/addtopic", (req, res) => {
     const { topic } = req.body;
     addTopic(topic, db).then((newTopic) => {
+      console.log("tabba3 topic tzed wallala", newTopic);
       res.send(newTopic);
     });
   });

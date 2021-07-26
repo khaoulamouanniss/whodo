@@ -1,16 +1,14 @@
-.itemscontainer{
+.itemscontainer {
   display: flex;
   justify-content: space-evenly;
   /* box-shadow:2px 2px black, 0 2px 2px 0 black; */
-  padding:10px;
-  width:93%;
+  padding: 10px;
+  width: 93%;
   /* border-radius: 40px; */
-  border:1px solid black;
- border-spacing: 35%;
- height:60px;
- margin:10px;
-
-
+  border: 1px solid black;
+  border-spacing: 35%;
+  height: 60px;
+  margin: 10px;
 }
 
 .itemstable {
@@ -18,49 +16,49 @@
   flex-flow: column nowrap;
   font-size: 1.5rem;
   /* margin-top:5%; */
-  margin-left:5%;
-  margin-right:10%;
-  line-height:0.0;
+  margin-left: 5%;
+  margin-right: 10%;
+  line-height: 0;
   width: 98%;
   justify-content: center;
-
+}
+span .notClickable {
+  pointer-events: none;
+  color: red;
+  opacity: 0.4;
 }
 
 .itemsth {
   display: flex;
   justify-content: space-between;
-  margin:2%;
+  margin: 2%;
   font-weight: 700;
-  background-color:orange;
-  width:95%;
-  margin-right:10%;
-
+  background-color: orange;
+  width: 95%;
+  margin-right: 10%;
 }
 .itemstd-container {
-  display:flex;
+  display: flex;
   flex-direction: column;
   flex-grow: 1;
-  margin:2%;
+  margin: 2%;
 }
 
 .itemstd {
   display: flex;
-  
 }
 
 .itemstr {
   width: 100%;
   display: flex;
-  flex-flow:1;
+  flex-flow: 1;
   justify-content: space-between;
 }
 
-
-
 .itemstd {
   display: flex;
-  flex-flow:1;
-  flex-grow:1;
+  flex-flow: 1;
+  flex-grow: 1;
   flex-basis: 0;
   padding: 0.5em;
   overflow: hidden;
@@ -70,23 +68,20 @@
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: 25px;
-  color:black;
+  color: black;
 }
 
 .itemsfas2 {
   display: flex;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: 45px;
-  color:black;
-  
+  color: black;
 }
 .itemsinput {
   margin-top: 30px;
-  padding:10px;
-  border-radius:20px;
-  width:30%;
-  outline:none;
-  border:3px solid black;
-  
+  padding: 10px;
+  border-radius: 20px;
+  width: 30%;
+  outline: none;
+  border: 3px solid black;
 }
-

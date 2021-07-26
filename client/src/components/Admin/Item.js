@@ -4,15 +4,15 @@ import "./Items.css";
 
 export default function Item(props) {
   console.log("props of one item", props);
-  const { id, item, setCurrentItem, deleteItem, user } = props;
+  const { id, item, setCurrentItem, deleteItem, user, replied } = props;
   let topics = props.topics ? " #" + props.topics.replace("/", " #") : "";
   let answers = props.answers ? " " + props.answers + " answers" : "";
 
   return (
-    <div className="itemstr ">
+    <div className="itemstr">
       <div className="itemscontainer">
         <div className="itemstd" style={{ flexGrow: "55" }}>
-          <span>
+          <span className={replied ? "notClickable" : "clickable"}>
             <Link
               to="/itemShow"
               onClick={() => setCurrentItem({ id: id, item: item })}
