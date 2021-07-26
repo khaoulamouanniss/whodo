@@ -69,6 +69,7 @@ export default function App() {
       })
       .then((res) => {
         setScore(res.data);
+        localStorage.setItem("userScore", res.data);
         return res.data;
       });
   }, [currentItem]);

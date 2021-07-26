@@ -221,6 +221,7 @@ than one element because we can have same number of answers for different option
     console.log("guessResult", guessResult);
     setScore(score + Number(guessResult[1]));
     setPoints(Number(guessResult[1]));
+    localStorage.setItem("userScore", Number(guessResult[1]));
     addGuess(guessOption, Number(guessResult[1], id));
     localStorage.setItem("userLevel", guessResult[2]);
     updateLevel(user_id, guessResult[2]);

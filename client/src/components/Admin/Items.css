@@ -22,11 +22,6 @@
   width: 98%;
   justify-content: center;
 }
-span .notClickable {
-  pointer-events: none;
-  color: red;
-  opacity: 0.4;
-}
 
 .itemsth {
   display: flex;

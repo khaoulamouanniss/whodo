@@ -10,23 +10,22 @@ export default function NewLevel(props) {
   //3:enable the user to start answering new items of unlocked topics
   let { unlockedTopics } = props;
   const [openedTopics, setOpenedTopics] = useState([]);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(localStorage.getItem("userScore"));
   const [topic, setTopic] = useState("");
   const [level, setLevel] = useState(localStorage.getItem("userLevel"));
-  const [topics, setTopics] = useState([]);
   const [pointsToNext, setPointsToNext] = useState(0);
 
   //returns the number of marks missing to go to next level
   useEffect(() => {
     const levels = [500, 410, 330, 230, 200, 150, 110, 50, 30];
     for (let counter = 0; counter < levels.length - 1; counter++) {
-      if (props.score <= levels[counter] && props.score > levels[counter + 1]) {
-        setPointsToNext(Number(levels[counter] - props.score));
+      if (score <= levels[counter] && score > levels[counter + 1]) {
+        setPointsToNext(Number(levels[counter] - score));
         break;
       }
     }
-    if (props.score < 30) {
-      setPointsToNext(30 - props.score);
+    if (score < 30) {
+      setPointsToNext(30 - score);
     }
   }, []);
 

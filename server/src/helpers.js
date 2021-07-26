@@ -173,35 +173,6 @@ const addUser = (userData, db) => {
       console.log("error in router signup");
     });
 };
-//the items and topics
-/*const getItemsAndTopicsByLevel = (level, id, db) => {
-  let sql;
-
-  return db
-    .query(
-      `
-    SELECT A.id, item, B.id as id_answer, B.user_id as user_id, D.id as topic_id, D.topic AS topic, count(B.id) as answers
-    FROM items A
-    LEFT OUTER JOIN answer_items B ON A.id = B.item_id
-    JOIN item_topics C ON C.item_id = A.id
-    JOIN topics D ON C.topic_id = D.id
-    JOIN user_topics E ON D.id = E.topic_id
-    JOIN users F ON E.user_id = F.id
-    WHERE D.id <=  $1 AND A.approved = true AND B.user_id = $2
-    GROUP BY A.id, A.item, D.topic, B.id, D.id
-    ORDER BY random ()
-    LIMIT 30;
-    `,
-      [level, id]
-    )
-    .then((res) => {
-      console.log(res.rows);
-      return res.rows;
-    })
-    .catch((e) => {
-      return null;
-    });
-};*/
 
 //the items and topics
 const getItemsAndTopicsByLevel = (id, level, db) => {
@@ -234,7 +205,7 @@ const getItemsAndTopicsByLevel = (id, level, db) => {
 
 const getItemsByTopic = (topics) => {
   const itemsForTopic = [];
-  itemsForTopic = topics.map((topic) =>
+  return (itemsForTopic = topics.map((topic) =>
     db
       .query(
         `
@@ -251,10 +222,11 @@ const getItemsByTopic = (topics) => {
       .catch((e) => {
         return null;
       })
-  );
+  ));
 };
 const getNbAnswersByItem = (item) => {
-  db.query("SELECT COUNT(id) FROM answer_items  WHERE item_id = $1;", [item])
+  return db
+    .query("SELECT COUNT(id) FROM answer_items  WHERE item_id = $1;", [item])
     .then((res) => {
       return res.rows[0];
     })
@@ -329,12 +301,13 @@ RETURNING *;`,
 };
 
 const addUserTopic = (user_id, topic_id, db) => {
-  db.query(
-    `INSERT INTO user_topics (user_id, topic_id)
+  return db
+    .query(
+      `INSERT INTO user_topics (user_id, topic_id)
   VALUES ($1,$2)
   RETURNING *;`,
-    [user_id, topic_id]
-  )
+      [user_id, topic_id]
+    )
     .then((res) => {
       //console.log("Association user_topics added in the function addFavTopic",res.rows[0])
       return res.rows[0];
@@ -392,31 +365,30 @@ const deleteItem = (id, db) => {
 };
 //add an answer for an item
 const addItemAnswer = (item_id, user_id, answer, db) => {
-  if (user_id) {
-    db.query(
+  return db
+    .query(
       `INSERT INTO answer_items (item_id, user_id, answer, date)
   VALUES ($1, $2, $3, NOW())
   RETURNING *;`,
       [item_id, user_id, answer]
     )
-      .then((res) => {
-        console.log("the inserted row is", res.rows[0]);
-        return res.rows[0];
-      })
-      .catch((e) => {
-        return null;
-      });
-  }
+    .then((res) => {
+      return res.rows[0];
+    })
+    .catch((e) => {
+      return null;
+    });
 };
 //add a guess for about an item
 const addItemGuess = (item_id, user_id, guess, points, db) => {
   if (user_id) {
-    db.query(
-      `INSERT INTO guess_items (item_id, user_id, guess, date, points)
+    return db
+      .query(
+        `INSERT INTO guess_items (item_id, user_id, guess, date, points)
   VALUES ($1, $2, $3, NOW(), $4)
   RETURNING *;`,
-      [item_id, user_id, guess, points]
-    )
+        [item_id, user_id, guess, points]
+      )
       .then((res) => {
         console.log("the inserted row about guess is", res.rows[0]);
         return res.rows[0];

@@ -12,7 +12,7 @@ export default function Item(props) {
     <div className="itemstr">
       <div className="itemscontainer">
         <div className="itemstd" style={{ flexGrow: "55" }}>
-          <span className={replied ? "notClickable" : "clickable"}>
+          <span>
             <Link
               to="/itemShow"
               onClick={() => setCurrentItem({ id: id, item: item })}

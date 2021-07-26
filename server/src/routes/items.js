@@ -213,16 +213,14 @@ module.exports = (db) => {
     });
   });
   //when the user chooses a response to an item
-  router.post("/answer/add", async (req, res) => {
+  router.post("/answer/add", (req, res) => {
     const { user_id, answer, item_id } = req.body;
-
-    const addedAnswer = await addItemAnswer(item_id, user_id, answer, db);
-    if (addedAnswer) {
+    console.log("were in the answer add before calling the query");
+    addItemAnswer(item_id, user_id, answer, db).then((addedAnswer) => {
+      console.log("were in the answer add after calling the query");
       console.log("added answer", addedAnswer);
       res.send(addedAnswer);
-    } else {
-      console.log("something wrong with the insertion");
-    }
+    });
   });
 
   //when the user chooses a guess of what is the highest answered option to an item
@@ -275,6 +273,7 @@ module.exports = (db) => {
   router.post("/guess/score", (req, res) => {
     let { user } = req.body;
     getScoreForUser(user, db).then((item) => {
+      console.log("trying to get score for user", item);
       res.send(item);
     });
   });

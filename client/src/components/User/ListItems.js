@@ -24,13 +24,7 @@ export default function ListItems(props) {
 
   return (
     <div>
-      <div
-        className={
-          itemData.replied ? "item-container-disabled" : "item-container"
-        }
-      >
-        {itemData}
-      </div>
+      <div className="item-container">{itemData}</div>
     </div>
   );
 }
