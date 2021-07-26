@@ -9,7 +9,7 @@ export default function NewLevel(props) {
   //2:show the user the level he locked
   //3:enable the user to start answering new items of unlocked topics
   let { unlockedTopics } = props;
-  const [openedTopics, setOpenedTopics] = useState([]);
+
   const [score, setScore] = useState(localStorage.getItem("userScore"));
   const [topic, setTopic] = useState("");
   const [level, setLevel] = useState(localStorage.getItem("userLevel"));
@@ -33,10 +33,10 @@ export default function NewLevel(props) {
   const randomItem = () => {
     axios
       .post("http://localhost:8001/answer/random", {
-        topic: openedTopics[Math.floor(Math.random() * openedTopics.length)],
+        topic:
+          unlockedTopics[Math.floor(Math.random() * unlockedTopics.length)],
       })
       .then((res) => {
-        console.log("besh ntalla3 winou topic", res.data);
         props.setCurrentItem(res.data);
         setTopic(res.data.topic);
         return res.data;

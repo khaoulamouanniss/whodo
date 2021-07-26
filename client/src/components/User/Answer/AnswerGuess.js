@@ -7,7 +7,7 @@ const { getGuessAssessment, mostPeopleDO } = require("./updateLevelByScore");
 export default function AnswerGuess(props) {
   let id = props.item.id;
   let user_id = props.user.id;
-  console.log(props);
+  console.log("props of guessAnswer", props);
   const [topic, setTopic] = useState(props.item.topic);
 
   const [levels, setLevels] = useState([[]]);
@@ -221,8 +221,11 @@ than one element because we can have same number of answers for different option
     console.log("guessResult", guessResult);
     setScore(score + Number(guessResult[1]));
     setPoints(Number(guessResult[1]));
-    localStorage.setItem("userScore", Number(guessResult[1]));
-    addGuess(guessOption, Number(guessResult[1], id));
+    localStorage.setItem(
+      "userScore",
+      Number(localStorage.getItem("userScore")) + Number(guessResult[1])
+    );
+    addGuess(guessOption, Number(guessResult[1]));
     localStorage.setItem("userLevel", guessResult[2]);
     updateLevel(user_id, guessResult[2]);
     if (guessResult[3]) {
@@ -231,12 +234,12 @@ than one element because we can have same number of answers for different option
     }
   };
   //on clicking on the guess button, you will execute this function that'll add your guess to the database
-  const addGuess = (guessOption, points, id) => {
+  const addGuess = (guessOption, points) => {
     axios
       .post("http://localhost:8001/guess/add", {
         user_id: user_id,
         guess: guessOption,
-        item_id: id,
+        item_id: props.item.id,
         points: points,
       })
       .then((res) => {

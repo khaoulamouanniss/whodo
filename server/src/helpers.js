@@ -381,22 +381,20 @@ const addItemAnswer = (item_id, user_id, answer, db) => {
 };
 //add a guess for about an item
 const addItemGuess = (item_id, user_id, guess, points, db) => {
-  if (user_id) {
-    return db
-      .query(
-        `INSERT INTO guess_items (item_id, user_id, guess, date, points)
+  return db
+    .query(
+      `INSERT INTO guess_items (item_id, user_id, guess, date, points)
   VALUES ($1, $2, $3, NOW(), $4)
   RETURNING *;`,
-        [item_id, user_id, guess, points]
-      )
-      .then((res) => {
-        console.log("the inserted row about guess is", res.rows[0]);
-        return res.rows[0];
-      })
-      .catch((e) => {
-        return null;
-      });
-  }
+      [item_id, user_id, guess, points]
+    )
+    .then((res) => {
+      console.log("the inserted row about guess is", res.rows[0]);
+      return res.rows[0];
+    })
+    .catch((e) => {
+      return null;
+    });
 };
 //getting how many user has answered x option for x item
 const getNbAnswersForOption = (question, option, db) => {
