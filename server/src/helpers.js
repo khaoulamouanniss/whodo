@@ -261,11 +261,15 @@ const addTopic = (t, db) => {
       [t]
     )
     .then((res) => {
-      if (res.rows.length === 0) {
+      if (res.rows.length > 0) {
+        console.log("ken l9ah");
+        return res.rows[0];
+      } else {
+        console.log("ken mal9ahesh");
         return db
           .query(
-            `INSERT INTO topics (topic)
-            VALUES ($1)
+            `INSERT INTO topics (topic, topic_level)
+            VALUES ($1, 1)
             RETURNING *;`,
             [t]
           )
@@ -274,11 +278,8 @@ const addTopic = (t, db) => {
             return res1.rows[0];
           })
           .catch((e) => {
-            return null;
+            console.log("error detected");
           });
-      } else {
-        // console.log("line 131 of addTopic");
-        return res.rows[0];
       }
     });
 };

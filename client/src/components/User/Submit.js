@@ -7,15 +7,17 @@ export default function Submit(props) {
   const { change, setChange, user } = props;
   let history = useHistory();
   const [tags, setTags] = useState([]);
-  const submitItem = (submittedItem, topics, approved) => {
+  const submitItem = (submittedItem, tags, approved) => {
+    console.log("tags are", tags);
     let time = new Date();
+
     axios
       .post("http://localhost:8001/items", {
         creator: user.id,
         item: submittedItem,
         time: time,
         approved: approved,
-        topics: topics,
+        topics: tags,
       })
       .then((res) => {
         console.log("submittedItem", res.data);
@@ -33,8 +35,12 @@ export default function Submit(props) {
     }
   }
   const handleChange = () => {
-    submitItem(document.getElementById("item").value, tags, false);
-    console.log("history", history);
+    if (tags.length > 0) {
+      submitItem(document.getElementById("item").value, tags, false);
+      console.log("history", history);
+    } else {
+      alert("you should add a tag before");
+    }
   };
   /* let item="";
   onChange={(event) => item=event.target.value}*/
