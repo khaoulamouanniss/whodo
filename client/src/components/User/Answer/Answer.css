@@ -9,6 +9,9 @@
   margin-bottom: 0 fixed;
   outline: none;
 }
+.ans-btn disabled {
+  pointer-events: none;
+}
 div.hidden {
   display: none;
   position: fixed;

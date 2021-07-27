@@ -27,6 +27,7 @@
     "react-delay-link": "^1.1.4",
     "react-router-dom": "^5.2.0",
     "react-step-builder": "^2.0.10",
+    "reactjs-popup": "^2.0.5",
     "rsuite": "^4.9.3"
   }
 }

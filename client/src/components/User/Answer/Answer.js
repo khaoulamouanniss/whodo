@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import Popup from "reactjs-popup";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
@@ -152,31 +152,41 @@ export default function Answer(props) {
             <ButtonForAnswer
               id={1}
               nameButton={"Never"}
-              className="ans-btn trigger"
+              className={
+                props.item.replied ? "ans-btn disabled" : "ans-btn trigger"
+              }
             />
 
             <ButtonForAnswer
               id={2}
               nameButton={"Rarely"}
-              className="ans-btn trigger"
+              className={
+                props.item.replied ? "ans-btn disabled" : "ans-btn trigger"
+              }
             />
 
             <ButtonForAnswer
               id={3}
               nameButton={"Sometimes"}
-              className="ans-btn trigger"
+              className={
+                props.item.replied ? "ans-btn disabled" : "ans-btn trigger"
+              }
             />
 
             <ButtonForAnswer
               id={4}
               nameButton={"Usually"}
-              className="ans-btn trigger"
+              className={
+                props.item.replied ? "ans-btn disabled" : "ans-btn trigger"
+              }
             />
 
             <ButtonForAnswer
               id={5}
               nameButton={"Always"}
-              className="ans-btn trigger"
+              className={
+                props.item.replied ? "ans-btn disabled" : "ans-btn trigger"
+              }
             />
 
             <div className="optionIndication">Always</div>
