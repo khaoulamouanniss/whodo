@@ -9,8 +9,12 @@
   margin-bottom: 0 fixed;
   outline: none;
 }
-.ans-btn disabled {
+.disabled {
+  cursor: not-allowed;
   pointer-events: none;
+  /*Button disabled - CSS color class*/
+  color: #c0c0c0;
+  background-color: #ffffff;
 }
 div.hidden {
   display: none;

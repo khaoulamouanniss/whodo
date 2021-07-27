@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^4.12.2",
     "@reactchartjs/react-chart.js": "^1.0.0-rc.3",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",

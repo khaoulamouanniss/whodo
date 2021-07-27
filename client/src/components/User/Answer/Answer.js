@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Popup from "reactjs-popup";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
 import { Link, useHistory } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 import axios from "axios";
 import "./Answer.css";
 //tell about the page state
@@ -15,6 +20,7 @@ export default function Answer(props) {
   console.log("here are props to see replied", props.item.replied);
   const [topic, setTopic] = useState(props.item.topic);
   const [score, setScore] = useState(props.score) || 0;
+
   const [topics, setTopics] = useState([]);
   const [voteOption, setVoteOption] = useState(0);
   const [showValues, setShowValues] = useState(false);
@@ -23,6 +29,40 @@ export default function Answer(props) {
   const history = useHistory();
   //the route we are moving to when we click next
   const linkGuess = "/answerguess";
+  const [open, setOpen] = useState(false);
+  const handleClickToOpen = () => {
+    setOpen(true);
+    alertUsedItem();
+  };
+
+  const handleToClose = () => {
+    setOpen(false);
+  };
+  const alertUsedItem = () => {
+    return (
+      <>
+        <Dialog open={open} onClose={handleToClose}>
+          <DialogTitle>{"How are you?"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              I am Good, Hope the same for you!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleToClose} color="primary" autoFocus>
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    );
+  };
+  //if the item is already answered, alert you cant answer it
+  useEffect(() => {
+    if (props.item.replied) {
+      setTimeout(() => handleClickToOpen(), 500);
+    }
+  }, [props.item]);
   //bring the score of the user when the page loads
   useEffect(() => {
     axios
@@ -96,7 +136,9 @@ export default function Answer(props) {
         <button
           name={nameButton}
           id={`id${id}`}
-          className="ans-btn trigger"
+          className={
+            props.item.replied ? "ans-btn disabled" : "ans-btn trigger"
+          }
           onClick={(e) => {
             e.preventDefault();
 
@@ -119,7 +161,6 @@ export default function Answer(props) {
   return (
     <div className="div-container">
       {/*first component of our flexBox*/}
-
       <div className="yourScore">
         {" "}
         Points :{" "}
@@ -149,45 +190,15 @@ export default function Answer(props) {
           <div className="youDo optionIndication">You do</div>
           <div className="voteButtons">
             <div className="optionIndication">Never</div>
-            <ButtonForAnswer
-              id={1}
-              nameButton={"Never"}
-              className={
-                props.item.replied ? "ans-btn disabled" : "ans-btn trigger"
-              }
-            />
+            <ButtonForAnswer id={1} nameButton={"Never"} />
 
-            <ButtonForAnswer
-              id={2}
-              nameButton={"Rarely"}
-              className={
-                props.item.replied ? "ans-btn disabled" : "ans-btn trigger"
-              }
-            />
+            <ButtonForAnswer id={2} nameButton={"Rarely"} />
 
-            <ButtonForAnswer
-              id={3}
-              nameButton={"Sometimes"}
-              className={
-                props.item.replied ? "ans-btn disabled" : "ans-btn trigger"
-              }
-            />
+            <ButtonForAnswer id={3} nameButton={"Sometimes"} />
 
-            <ButtonForAnswer
-              id={4}
-              nameButton={"Usually"}
-              className={
-                props.item.replied ? "ans-btn disabled" : "ans-btn trigger"
-              }
-            />
+            <ButtonForAnswer id={4} nameButton={"Usually"} />
 
-            <ButtonForAnswer
-              id={5}
-              nameButton={"Always"}
-              className={
-                props.item.replied ? "ans-btn disabled" : "ans-btn trigger"
-              }
-            />
+            <ButtonForAnswer id={5} nameButton={"Always"} />
 
             <div className="optionIndication">Always</div>
           </div>
