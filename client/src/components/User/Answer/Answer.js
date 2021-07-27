@@ -29,11 +29,7 @@ export default function Answer(props) {
   const history = useHistory();
   //the route we are moving to when we click next
   const linkGuess = "/answerguess";
-  const [open, setOpen] = useState(false);
-  const handleClickToOpen = () => {
-    setOpen(true);
-    alertUsedItem();
-  };
+  const [open, setOpen] = useState(true);
 
   const handleToClose = () => {
     setOpen(false);
@@ -42,10 +38,10 @@ export default function Answer(props) {
     return (
       <>
         <Dialog open={open} onClose={handleToClose}>
-          <DialogTitle>{"How are you?"}</DialogTitle>
+          <DialogTitle>{"Answered Item"}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              I am Good, Hope the same for you!
+              You have already answered this item!
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -60,7 +56,8 @@ export default function Answer(props) {
   //if the item is already answered, alert you cant answer it
   useEffect(() => {
     if (props.item.replied) {
-      setTimeout(() => handleClickToOpen(), 500);
+      setOpen(true);
+      alertUsedItem();
     }
   }, [props.item]);
   //bring the score of the user when the page loads
@@ -104,7 +101,6 @@ export default function Answer(props) {
       .then((res) => {
         props.setCurrentItem(res.data);
         setTopic(myTopic);
-        return res.data;
       });
   };
 
@@ -161,6 +157,7 @@ export default function Answer(props) {
   return (
     <div className="div-container">
       {/*first component of our flexBox*/}
+      {props.item.replied && alertUsedItem()}
       <div className="yourScore">
         {" "}
         Points :{" "}
