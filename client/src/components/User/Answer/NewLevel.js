@@ -37,7 +37,7 @@ export default function NewLevel(props) {
       unlockedTopics[Math.floor(Math.random() * unlockedTopics.length)];
     axios
       .post("http://localhost:8001/answer/random", {
-        id: props.user,
+        id: props.user.id,
         topic: myTopic,
       })
       .then((res) => {
