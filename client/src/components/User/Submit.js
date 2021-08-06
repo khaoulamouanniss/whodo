@@ -7,6 +7,7 @@ export default function Submit(props) {
   const { change, setChange, user } = props;
   let history = useHistory();
   const [tags, setTags] = useState([]);
+  const [tagsSpace, setTagsSpace] = useState(false);
   const submitItem = (submittedItem, tags, approved) => {
     console.log("tags are", tags);
     let time = new Date();
@@ -27,8 +28,10 @@ export default function Submit(props) {
   };
   function handleSubmitTag(e) {
     e.preventDefault();
+
     let temporaryTags = [...tags];
     if (e.keyCode === 13) {
+      setTagsSpace(true);
       temporaryTags.push(e.target.value);
       setTags(temporaryTags);
       e.target.value = "";
@@ -88,7 +91,14 @@ export default function Submit(props) {
               restaurants...).
             </div>
             <div className="tags">
-              <div className="tag">{tags.map((tag) => "#" + tag + "  ")}</div>
+              {tags.map((tag) => {
+                return (
+                  <div className={tagsSpace ? "tag" : "noBackground"}>
+                    {" "}
+                    #{tag}
+                  </div>
+                );
+              })}
             </div>
             <input
               type="text"

@@ -10,8 +10,8 @@ export default function NewLevel(props) {
   //1:bring the topics unlocked
   //2:show the user the level he locked
   //3:enable the user to start answering new items of unlocked topics
-  let { unlockedTopics } = props;
 
+  const [unlockedTopics, setUnlockedTopics] = useState([]);
   const [score, setScore] = useState(localStorage.getItem("userScore"));
   const [topic, setTopic] = useState("");
   const [level, setLevel] = useState(localStorage.getItem("userLevel"));
@@ -29,6 +29,17 @@ export default function NewLevel(props) {
     if (score < 30) {
       setPointsToNext(30 - score);
     }
+  }, []);
+  //bring the unlocked items from the database
+  useEffect(() => {
+    axios
+      .post("http://localhost:8001/unlockedTopics", {
+        level: level,
+      })
+      .then((res) => {
+        setUnlockedTopics(res.data.map((item) => item.topic));
+        return res.data;
+      });
   }, []);
 
   //getting a random item according to a random topic
@@ -73,7 +84,7 @@ export default function NewLevel(props) {
           onClick={randomItem}
         >
           <button className="skip">
-            Next
+            Start
             <i className="fas fa-angle-right" style={{ fontSize: "36px" }}></i>
           </button>
         </Link>

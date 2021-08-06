@@ -71,7 +71,7 @@ export default function Answer(props) {
         localStorage.setItem("userScore", res.data);
         setScore(res.data);
       });
-  }, []);
+  }, [props.currentItem]);
   //loading the list of existing topics in an array at the start
   useEffect(() => {
     let temporaryArray = [];
@@ -158,13 +158,7 @@ export default function Answer(props) {
     <div className="div-container">
       {/*first component of our flexBox*/}
       {props.item.replied && alertUsedItem()}
-      <div className="yourScore">
-        {" "}
-        Points :{" "}
-        {localStorage.getItem("userScore")
-          ? localStorage.getItem("userScore")
-          : 0}
-      </div>
+      <div className="yourScore"> Points : {score ? score : 0}</div>
       {/*second component of our flexBox*/}
       <div className={`itemAndButtons ${clickedNext ? "faded" : ""}`}>
         <div className={`itemHashtag ${clickedNext ? "faded" : ""}`}>

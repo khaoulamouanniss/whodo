@@ -94,7 +94,6 @@ export default function App() {
         level: level,
       }),
       axios.get("http://localhost:8001/topics"),
-
       axios.post("http://localhost:8001/guess/score", {
         user: user.id,
       }),
@@ -128,6 +127,7 @@ export default function App() {
       })
       .then((res) => {
         setLevel(res.data);
+
         return res.data;
       });
   }, [user]);

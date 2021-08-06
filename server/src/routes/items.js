@@ -213,28 +213,27 @@ module.exports = (db) => {
     });
   });
   //when the user chooses a response to an item
-  router.post("/answer/add", (req, res) => {
+  router.post("/answer/add", async (req, res) => {
     const { user_id, answer, item_id } = req.body;
     console.log("were in the answer add before calling the query");
-    addItemAnswer(item_id, user_id, answer, db).then((addedAnswer) => {
-      console.log("were in the answer add after calling the query");
-      console.log("added answer", addedAnswer);
-      res.send(addedAnswer);
-    });
+    const addedAnswer = await addItemAnswer(item_id, user_id, answer, db);
+    console.log("were in the answer add after calling the query");
+    console.log("added answer", addedAnswer);
+    res.send(addedAnswer);
   });
 
   //when the user chooses a guess of what is the highest answered option to an item
   router.post("/guess/add", async (req, res) => {
     const { user_id, guess, item_id, points } = req.body;
     console.log(user_id, guess, item_id, points);
-    const addedGuess = await addItemGuess(item_id, user_id, guess, points, db);
-    console.log("added guess is", addedGuess);
-    if (addedGuess) {
-      console.log("added guess");
-      res.send(addedGuess);
-    } else {
-      console.log("something wrong with the guess insertion");
-    }
+    addItemGuess(item_id, user_id, guess, points, db)
+      .then((addedGuess) => {
+        console.log("added guess", addedGuess);
+        res.send(addedGuess);
+      })
+      .catch((e) => {
+        console.log("something wrong with the guess insertion");
+      });
   });
   //getting the number of answers for each question for each option
   router.post("/answer", async (req, res) => {

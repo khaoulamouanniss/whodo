@@ -40,7 +40,10 @@ export default function AnswerGuess(props) {
       data.map((i) => {
         tempOptionValues.push(Number(i.nbanswers));
       });
-      console.log(tempOptionValues.reduce((a, b) => a + b));
+      console.log(
+        "total",
+        tempOptionValues.reduce((a, b) => a + b)
+      );
       setTotal(tempOptionValues.reduce((a, b) => a + b));
       if (total) alert(total);
       setOptionValues(tempOptionValues);
