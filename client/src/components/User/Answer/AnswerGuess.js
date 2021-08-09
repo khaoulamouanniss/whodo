@@ -87,20 +87,6 @@ export default function AnswerGuess(props) {
       document.getElementById(i + 1).style.backgroundColor = "green";
     }
   }, [showValues]);
-  //updating the score after each guess
-
-  //getting the score of a specific user
-  /*const getMyScore = () => {
-    axios
-      .post("http://localhost:8001/guess/score", {
-        user: user_id,
-      })
-      .then((res) => {
-        setScore(res.data);
-        return res.data;
-      });
-  };*/
-  //updating level of a user
 
   const updateLevel = (id, l) => {
     console.log("getting into update level");
@@ -119,6 +105,7 @@ export default function AnswerGuess(props) {
   const randomItem = () => {
     const myTopic =
       unlockedTopics[Math.floor(Math.random() * unlockedTopics.length)];
+    console.log("tfarrej fel mytopic", myTopic);
     axios
       .post("http://localhost:8001/answer/random", {
         id: user_id,

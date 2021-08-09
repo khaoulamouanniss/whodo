@@ -41,7 +41,8 @@ export default function Answer(props) {
           <DialogTitle>{"Answered Item"}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              You have already answered this item!
+              You have already answered this item! You can go to the home page
+              to see open items
             </DialogContentText>
           </DialogContent>
           <DialogActions>
