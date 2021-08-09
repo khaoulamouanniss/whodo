@@ -560,7 +560,7 @@ const upUserLevel = (l, id, db) => {
 const setFavorite = (id_user, id_item, db) => {
   return db
     .query(
-      `Update answer_items SET isFavorite = true where id_user = $1 and id_item= $2 returning *;`,
+      `Update answer_items SET isFavorite = true where user_id= $1 and item_id= $2 returning *;`,
       [id_user, id_item]
     )
     .then((res) => {
@@ -726,4 +726,5 @@ module.exports = {
   upUserLevel,
   getLevelForUser,
   getTopicsForUser,
+  setFavorite,
 };

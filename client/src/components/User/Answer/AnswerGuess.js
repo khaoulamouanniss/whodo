@@ -126,8 +126,7 @@ export default function AnswerGuess(props) {
         id_item: id,
       })
       .then((res) => {
-        props.setCurrentItem(res.data);
-        setTopic(myTopic);
+        console.log("the returned item favorite", res.data);
         return res.data;
       });
   };
