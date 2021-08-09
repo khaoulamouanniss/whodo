@@ -555,6 +555,23 @@ const upUserLevel = (l, id, db) => {
       return null;
     });
 };
+
+//update the item answered by the user to favorite
+const setFavorite = (id_user, id_item, db) => {
+  return db
+    .query(
+      `Update answer_items SET isFavorite = true where id_user = $1 and id_item= $2 returning *;`,
+      [id_user, id_item]
+    )
+    .then((res) => {
+      console.log("see the item after favorite", res.rows[0]);
+      return res.rows[0];
+    })
+    .catch((e) => {
+      console.log(e);
+      return null;
+    });
+};
 //randomly return an item for a specific topic
 /*const getRandomItemForTopic = (topic, db) => {
   return db

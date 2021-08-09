@@ -17,6 +17,7 @@ const {
   upUserLevel,
   getLevelForUser,
   getTopicsForUser,
+  setFavorite,
 } = require("../helpers");
 
 module.exports = (db) => {
