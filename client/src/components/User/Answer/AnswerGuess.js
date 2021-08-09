@@ -403,8 +403,7 @@ than one element because we can have same number of answers for different option
           <div className="likeAndShare">
             <div className="like">
               <i
-                class="fa fa-heart-o"
-                aria-hidden="true"
+                class="fas fa-heart"
                 style={{ color: "black" }}
                 onClick={(e) => addToFavorite(e)}
               ></i>
