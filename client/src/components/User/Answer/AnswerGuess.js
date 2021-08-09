@@ -117,7 +117,20 @@ export default function AnswerGuess(props) {
         return res.data;
       });
   };
+  //adding an item to favorite items List
 
+  const addToFavorite = () => {
+    axios
+      .post("http://localhost:8001/answer/favorite", {
+        id: user_id,
+        topic: myTopic,
+      })
+      .then((res) => {
+        props.setCurrentItem(res.data);
+        setTopic(myTopic);
+        return res.data;
+      });
+  };
   //change the heights of the buttons according to the value in the database
   useEffect(() => {
     optionValues.map((i) => {});
@@ -377,7 +390,7 @@ than one element because we can have same number of answers for different option
           <div className="likeAndShare">
             <div className="like">
               {" "}
-              <i class="fas fa-heart"></i>
+              <i class="fas fa-heart" onClick={addToFavorite}></i>
             </div>
 
             <div className="share">
