@@ -263,9 +263,9 @@ module.exports = (db) => {
 
   //update an item answered by the user to a favorite item
   router.post("/answer/favorite", (req, res) => {
-    const { id_user, id_item } = req.body;
+    const { id_user, id_item, clickedFavorite } = req.body;
     console.log("function updating to favorite an item");
-    setFavorite(id_user, id_item, db).then((item) => {
+    setFavorite(id_user, id_item, clickedFavorite, db).then((item) => {
       res.send(item);
     });
   });

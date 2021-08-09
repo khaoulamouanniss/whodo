@@ -557,11 +557,11 @@ const upUserLevel = (l, id, db) => {
 };
 
 //update the item answered by the user to favorite
-const setFavorite = (id_user, id_item, db) => {
+const setFavorite = (id_user, id_item, clickedFavorite, db) => {
   return db
     .query(
-      `Update answer_items SET isFavorite = true where user_id= $1 and item_id= $2 returning *;`,
-      [id_user, id_item]
+      `Update answer_items SET isFavorite = $3 where user_id= $1 and item_id= $2 returning *;`,
+      [id_user, id_item, clickedFavorite]
     )
     .then((res) => {
       console.log("see the item after favorite", res.rows[0]);

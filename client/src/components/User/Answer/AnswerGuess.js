@@ -122,17 +122,23 @@ export default function AnswerGuess(props) {
   //adding an item to favorite items List
 
   const addToFavorite = (e) => {
+    setClickedFavorite(!clickedFavorite);
     axios
       .post("http://localhost:8001/answer/favorite", {
         id_user: user_id,
         id_item: id,
+        clickedFavorite: clickedFavorite,
       })
       .then((res) => {
         console.log("the returned item favorite", res.data);
-        setClickedFavorite(!clickedFavorite);
+
+        console.log("clickedfavorite", clickedFavorite);
         if (clickedFavorite) {
           console.log(e.target.style);
-          e.target.style.backgroundColor = "orange";
+          e.target.style.color = "orange";
+        } else {
+          console.log(e.target.style);
+          e.target.style.color = "black";
         }
         console.log("I tried to style your heart");
         return res.data;
@@ -399,6 +405,7 @@ than one element because we can have same number of answers for different option
               <i
                 class="fa fa-heart-o"
                 aria-hidden="true"
+                style={{ color: "black" }}
                 onClick={(e) => addToFavorite(e)}
               ></i>
             </div>
