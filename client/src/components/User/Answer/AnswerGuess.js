@@ -122,8 +122,8 @@ export default function AnswerGuess(props) {
   const addToFavorite = () => {
     axios
       .post("http://localhost:8001/answer/favorite", {
-        id: user_id,
-        topic: myTopic,
+        id_user: user_id,
+        id_item: id,
       })
       .then((res) => {
         props.setCurrentItem(res.data);
