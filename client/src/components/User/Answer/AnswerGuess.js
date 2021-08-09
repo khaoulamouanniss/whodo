@@ -24,6 +24,7 @@ export default function AnswerGuess(props) {
   const [points, setPoints] = useState(0);
   const [guessAnswer, setGuessAnswer] = useState("");
   const [didGuess, setDidGuess] = useState(false);
+  const [clickedFavorite, setClickedFavorite] = useState(false);
   let linknewLevel = "/newLevel";
   const history = useHistory();
   //tell about the page state
@@ -88,6 +89,7 @@ export default function AnswerGuess(props) {
     }
   }, [showValues]);
 
+  //updating the level of a user
   const updateLevel = (id, l) => {
     console.log("getting into update level");
 
@@ -119,7 +121,7 @@ export default function AnswerGuess(props) {
   };
   //adding an item to favorite items List
 
-  const addToFavorite = () => {
+  const addToFavorite = (e) => {
     axios
       .post("http://localhost:8001/answer/favorite", {
         id_user: user_id,
@@ -127,6 +129,12 @@ export default function AnswerGuess(props) {
       })
       .then((res) => {
         console.log("the returned item favorite", res.data);
+        setClickedFavorite(!clickedFavorite);
+        if (clickedFavorite) {
+          console.log(e.target.style);
+          e.target.style.backgroundColor = "orange";
+        }
+        console.log("I tried to style your heart");
         return res.data;
       });
   };
@@ -388,8 +396,11 @@ than one element because we can have same number of answers for different option
 
           <div className="likeAndShare">
             <div className="like">
-              {" "}
-              <i class="fas fa-heart" onClick={addToFavorite}></i>
+              <i
+                class="fa fa-heart-o"
+                aria-hidden="true"
+                onClick={(e) => addToFavorite(e)}
+              ></i>
             </div>
 
             <div className="share">

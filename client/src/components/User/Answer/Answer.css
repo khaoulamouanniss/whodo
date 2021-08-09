@@ -197,6 +197,11 @@ div.hidden {
 .share {
   margin: 10px;
 }
+.fas .fa-heart .selected {
+  color: #fff;
+  text-shadow: 1px 1px 1px #ccc;
+  font-size: 1.5em;
+}
 .filterResults {
   display: flex;
   flex-direction: column;
