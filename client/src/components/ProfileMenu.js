@@ -1,32 +1,35 @@
 import React from "react";
-import * as AiIcons from "react-icons/ai";
-import * as FaIcons from "react-icons/fa";
-import * as IoIcons from "react-icons/io";
 import * as BsIcons from "react-icons/bs";
-
+import * as FcIcons from "react-icons/fc";
 export const ProfileMenu = [
   {
     title: "Home",
     path: "/",
-    icon: <AiIcons.AiFillHome></AiIcons.AiFillHome>,
+    icon: <FcIcons.FcDepartment></FcIcons.FcDepartment>,
     cName: "nav-text",
   },
   {
-    title: "My items",
+    title: "proposed items",
     path: "/myitems",
-    icon: <BsIcons.BsListTask></BsIcons.BsListTask>,
+    icon: <FcIcons.FcIdea></FcIcons.FcIdea>,
+    cName: "nav-text",
+  },
+  {
+    title: "previous items",
+    path: "/previousItems",
+    icon: <FcIcons.FcViewDetails></FcIcons.FcViewDetails>,
     cName: "nav-text",
   },
   {
     title: "Submit Item",
     path: "/submit",
-    icon: <BsIcons.BsPencilSquare></BsIcons.BsPencilSquare>,
+    icon: <FcIcons.FcDataRecovery></FcIcons.FcDataRecovery>,
     cName: "nav-text",
   },
   {
     title: "My account",
     path: "/account",
-    icon: <BsIcons.BsPersonLinesFill></BsIcons.BsPersonLinesFill>,
+    icon: <FcIcons.FcBusinessman></FcIcons.FcBusinessman>,
     cName: "nav-text",
   },
 
