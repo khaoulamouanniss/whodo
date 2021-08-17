@@ -16,7 +16,7 @@ export const ProfileMenu = [
   },
   {
     title: "previous items",
-    path: "/previousItems",
+    path: "/previousitems",
     icon: <FcIcons.FcViewDetails></FcIcons.FcViewDetails>,
     cName: "nav-text",
   },

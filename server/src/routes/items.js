@@ -18,6 +18,7 @@ const {
   getLevelForUser,
   getTopicsForUser,
   setFavorite,
+  getPreviousItemsForUser,
 } = require("../helpers");
 
 module.exports = (db) => {
@@ -54,8 +55,26 @@ module.exports = (db) => {
     const { id, level } = req.body;
     getItemsAndTopicsByLevel(id, level, db)
       .then((items) => {
-        console.log("my items to check", items);
         res.send(items);
+      })
+      .catch((e) => {
+        if (e) {
+          res.status(401).json({ error: e.message });
+        }
+      });
+  });
+  //get the items answered by a certain user knowing his id
+  router.post("/previousitems", (req, res) => {
+    const { id } = req.body;
+    const previousItems = [];
+    getPreviousItemsForUser(id, db)
+      .then((items) => {
+        items.map((item) => {
+          if (item.replied === true) previousItems.push(item);
+        });
+
+        console.log("my items already answered to check", previousItems);
+        res.send(previousItems);
       })
       .catch((e) => {
         if (e) {

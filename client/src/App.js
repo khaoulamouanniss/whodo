@@ -11,6 +11,7 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import Login from "./components/User/Login";
 import SignUp from "./components/User/SignUp";
+import PreviousItems from "./components/User/PreviousItems";
 import Form3 from "./components/User/SignUp/Form3";
 import Submit from "./components/User/Submit";
 import Answer from "./components/User/Answer/Answer";
@@ -28,8 +29,6 @@ import ItemsApprove from "./components/Admin/ItemsApprove";
 import SubmittedItems from "./components/User/SubmittedItems";
 import "./App.css";
 import { decoder } from "./decode";
-//import users from '../../server/src/routes/users';
-//import Account from './components/Account';
 
 export default function App() {
   const userLocalStorage = decoder() || {};
@@ -46,10 +45,12 @@ export default function App() {
   const [itemsOfTopic, setItemsOfTopic] = useState([]);
   const [items, setItems] = useState([]);
   const [score, setScore] = useState(0);
+  const [handleSearch, setHandleSearch] = useState("");
   const [level, setLevel] = useState(localStorage.getItem("userLevel"));
   const [currentTopic, setCurrentTopic] = useState({ topic_id: 1 });
   const [itemsToApprove, setItemsToApprove] = useState([]);
   const [submittedItems, setSubmittedItems] = useState([]);
+  const [previousItems, setPreviousItems] = useState([]);
 
   //when the page load, we bring the user level from newLevel route
   useEffect(() => {
@@ -104,6 +105,9 @@ export default function App() {
       axios.post("http://localhost:8001/unlockedTopics", {
         level: level,
       }),
+      axios.post("http://localhost:8001/previousitems", {
+        id: user.id,
+      }),
     ]).then((all) => {
       console.log(all);
       //return only the items for opened topics
@@ -117,6 +121,8 @@ export default function App() {
 
       console.log("unlocked topics are", all[6].data);
       setUnlockedTopics(all[6].data.map((item) => item.topic));
+      console.log("already answered", all[7].data);
+      setPreviousItems(all[7].data);
     });
   }, [user, change]);
   //if the user changes, we update the level got
@@ -500,6 +506,12 @@ export default function App() {
               />
             </Route>
 
+            <Route path="/previousitems">
+              <PreviousItems
+                items={previousItems}
+                setHandleSearch={setHandleSearch}
+              />
+            </Route>
             <Route path="/users">
               <Users users={users} />
             </Route>
