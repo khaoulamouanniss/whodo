@@ -1,26 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
+
 import PreviousItem from "./PreviousItem";
 import "./PreviousItems.css";
 
 export default function PreviousItems(props) {
+  const [favoriteSearch, setFavoriteSearch] = useState(false);
   function onHandle(event) {
     event.preventDefault();
     props.setHandleSearch(event.target.value);
   }
+
   const itemData = props.items.map((i) => (
-    <PreviousItem id={i.id} item={i.item} answer={i.user_answer} />
+    <PreviousItem
+      id={i.id}
+      item={i.item}
+      answer={i.user_answer}
+      favorite={i.favorite}
+      favoriteSearch={favoriteSearch}
+    />
   ));
+
   return (
-    <div className="page-title">
-      {" "}
-      Items
+    <div className="previousContainer">
+      <div className="page-title-items">Items</div>
       <div className="search-bar">
-        {" "}
-        <input
-          type="text"
-          className="inputSearch"
-          onKeyUp={(e) => onHandle(e)}
-        />{" "}
+        <div className="search-input">
+          <input
+            type="text"
+            className="inputSearch"
+            onKeyUp={(e) => onHandle(e)}
+          />
+        </div>
+        <div className="like">
+          <i
+            class="fas fa-heart"
+            style={{ color: favoriteSearch ? "red" : "black" }}
+            onClick={() => setFavoriteSearch(!favoriteSearch)}
+          ></i>
+        </div>
+      </div>
+
+      <div className="prev-answer-details-title">
+        <div className="prev-item-title"> item </div>
+        <div className="your-answer-title">You </div>
+        <div className="most-ppl-answer-title">They answer</div>
       </div>
       {itemData}
     </div>

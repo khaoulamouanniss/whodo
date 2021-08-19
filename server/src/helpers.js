@@ -209,10 +209,10 @@ const getPreviousItemsForUser = (id, db) => {
   select
   distinct A.id,  A.item, B.topic_id as topic_id,D.topic as topic, (case when userAns.answer = 1 then 'never' when userAns.answer = 2 then 'rarely'
   when userAns.answer = 3 then 'sometimes'when userAns.answer = 4 then 'usually' when userAns.answer = 5 then 'always' end) as user_answer,
-  (case when userAns.user_id = $1 then TRUE else FALSE end) as replied 
+  (case when userAns.user_id = $1 then TRUE else FALSE end) as replied , (case when userAns.isFavorite = TRUE then TRUE else FALSE end) as favorite
   FROM items A
   left JOIN item_topics B ON B.item_id = A.id    
-  left join (select item_id, user_id, answer from answer_items where user_id = $1 ORDER BY Random() )  as userAns on userAns.item_id = A.id  
+  left join (select item_id, user_id, answer , favorite from answer_items where user_id = $1 ORDER BY Random() )  as userAns on userAns.item_id = A.id  
   JOIN topics D on D.id = B.topic_id 
   WHERE  A.approved = true 
   order by A.id `,

@@ -61,6 +61,15 @@ export default function App() {
         localStorage.setItem("userLevel", res.data);
         return res.data;
       });
+    axios
+      .post("http://localhost:8001/previousitems", {
+        id: user.id,
+      })
+      .then((res) => {
+        setPreviousItems(res.data);
+
+        return res.data;
+      });
   }, []);
 
   //refresh the list of unlocked topics whenever the level changes
@@ -105,14 +114,12 @@ export default function App() {
       axios.post("http://localhost:8001/unlockedTopics", {
         level: level,
       }),
-      axios.post("http://localhost:8001/previousitems", {
-        id: user.id,
-      }),
     ]).then((all) => {
       console.log(all);
       //return only the items for opened topics
 
       setItems(all[0].data);
+      console.log("items are", all[0].data);
       setTopics(all[1].data);
       setScore(all[2].data);
       setItemsToApprove(all[3].data);
@@ -121,8 +128,6 @@ export default function App() {
 
       console.log("unlocked topics are", all[6].data);
       setUnlockedTopics(all[6].data.map((item) => item.topic));
-      console.log("already answered", all[7].data);
-      setPreviousItems(all[7].data);
     });
   }, [user, change]);
   //if the user changes, we update the level got
@@ -360,6 +365,7 @@ export default function App() {
 
   const showUsers = () => {
     axios.get("http://localhost:8001/users").then((res) => {
+      setChange(!change);
       setUsers(res.data);
     });
   };
@@ -411,7 +417,6 @@ export default function App() {
                 />
               )}
             </Route>
-
             <Route path="/answer">
               <Answer
                 items={items}
@@ -449,7 +454,6 @@ export default function App() {
                 user={user}
               />
             </Route>
-
             <Route path="/submit">
               <Submit change={change} setChange={setChange} user={user} />
             </Route>
@@ -505,13 +509,12 @@ export default function App() {
                 deleteItem={deleteItem}
               />
             </Route>
-
             <Route path="/previousitems">
               <PreviousItems
                 items={previousItems}
                 setHandleSearch={setHandleSearch}
               />
-            </Route>
+            </Route>{" "}
             <Route path="/users">
               <Users users={users} />
             </Route>

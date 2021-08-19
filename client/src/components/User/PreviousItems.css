@@ -1,0 +1,50 @@
+.previousContainer {
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+}
+
+.page-title-items {
+  color: rgb(247, 137, 37);
+  font-size: 50px;
+  align-self: center;
+  margin: auto;
+  margin: 20px;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  align-self: center;
+}
+.prev-answer-details {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+
+  align-items: stretch;
+}
+.prev-answer-details > div {
+  flex: 1;
+}
+
+.prev-item {
+  margin: 10px;
+}
+.your-answer {
+  margin: 10px;
+}
+.most-ppl-answer {
+  margin: 10px;
+}
+
+.prev-answer-details-title {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  align-items: stretch;
+  font-size: 40px;
+}
+.prev-answer-details-title > div {
+  flex: 1;
+  margin: 15px;
+}
