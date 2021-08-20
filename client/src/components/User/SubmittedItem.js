@@ -39,8 +39,7 @@ export default function SubmittedItem(props) {
     <div className="item-cont">
       <div className="item">
         <i class="fas fa-spinner"></i>&nbsp;&nbsp;
-        {item}
-        {topics}
+        {item} {"  "}#{topics}
       </div>
       <div className="item-info">
         <div className="item-info-id">Waiting...</div>
