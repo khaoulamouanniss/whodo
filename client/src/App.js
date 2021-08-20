@@ -61,6 +61,10 @@ export default function App() {
         localStorage.setItem("userLevel", res.data);
         return res.data;
       });
+    axios.post("http://localhost:8001/", {
+      id: user.id,
+      level: level,
+    });
     axios
       .post("http://localhost:8001/previousitems", {
         id: user.id,
@@ -130,18 +134,6 @@ export default function App() {
       setUnlockedTopics(all[6].data.map((item) => item.topic));
     });
   }, [user, change]);
-  //if the user changes, we update the level got
-  useEffect(() => {
-    axios
-      .post("http://localhost:8001/newLevel", {
-        user: user.id,
-      })
-      .then((res) => {
-        setLevel(res.data);
-
-        return res.data;
-      });
-  }, [user]);
 
   const [error, setError] = useState(null);
   //const [loading, setLoading] = useState(false);
