@@ -268,7 +268,24 @@ const addItem = (creator, item, time, approved, db) => {
       [creator, item, time, approved]
     )
     .then((res) => {
-      // console.log("item added in the function addItem",res.rows[0])
+      console.log("item added in the function addItem", res.rows[0]);
+      return res.rows[0];
+    })
+    .catch((e) => {
+      console.log("error", e);
+      return e;
+    });
+};
+const addItemTopic = (item_id, topic_id, db) => {
+  return db
+    .query(
+      `INSERT INTO item_topics (item_id, topic_id)
+  VALUES ($1, $2)
+  RETURNING *;`,
+      [item_id, topic_id]
+    )
+    .then((res) => {
+      console.log("item added in the function itemTopic table", res.rows[0]);
       return res.rows[0];
     })
     .catch((e) => {
@@ -304,23 +321,6 @@ const addTopic = (t, db) => {
             console.log("error detected");
           });
       }
-    });
-};
-const addItemTopic = (item_id, topic_id, db) => {
-  // console.log("i am here")
-  return db
-    .query(
-      `INSERT INTO item_topics (item_id, topic_id)
-VALUES ($1,$2)
-RETURNING *;`,
-      [item_id, topic_id]
-    )
-    .then((res) => {
-      // console.log("Association item_topics added in the function addItemTopic",res.rows[0])
-      return res.rows[0];
-    })
-    .catch((e) => {
-      return null;
     });
 };
 
@@ -701,7 +701,15 @@ const getLevelForUser = (user, db) => {
       return null;
     });
 };
-
+const getTopicId = (topicSent, list) => {
+  let myId = 0;
+  list.map((myTopic, id) => {
+    console.log(myTopic.topic, topicSent);
+    if (myTopic.topic.toUpperCase().includes(topicSent.toUpperCase()))
+      myId = myTopic.id;
+  });
+  return myId;
+};
 const verifyJWT = (req, res, next) => {
   console.log("token in verifyJWT", req.headers);
   const token = req.headers("x-access-token");
@@ -751,4 +759,5 @@ module.exports = {
   getTopicsForUser,
   setFavorite,
   getPreviousItemsForUser,
+  getTopicId,
 };

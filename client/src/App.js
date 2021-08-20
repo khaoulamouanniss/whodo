@@ -296,7 +296,8 @@ export default function App() {
         item: item,
         time: time,
         approved: approved,
-        topics: topic,
+        submittedTopic: topic,
+        listOfTopics: topics,
       })
       .then((res) => {
         console.log("item added", res.data);
@@ -319,28 +320,16 @@ export default function App() {
     });
   };
 
-  const submitItem = (submittedItem, approved) => {
-    const re = /#([a-zA-Z0-9])+/gm;
-    let submittedTopics = [];
-    let matches = [];
-    let topic = "";
-    let item = submittedItem;
-    while ((matches = re.exec(submittedItem))) {
-      console.log(matches);
-      topic = matches[0].replace("#", "");
-      submittedTopics.push(topic);
-      console.log("topic", topic);
-      item = item.replace(matches[0], "").trimEnd();
-      console.log("item", item);
-    }
+  const submitItem = (submittedItem, topic, approved) => {
     let time = new Date();
     axios
       .post("http://localhost:8001/items", {
         creator: user.id,
-        item: item,
+        item: submittedItem,
         time: time,
         approved: approved,
-        topics: submittedTopics,
+        submittedTopic: topic,
+        listOfTopics: topics,
       })
       .then((res) => {
         console.log("submittedItem", res.data);
@@ -447,7 +436,13 @@ export default function App() {
               />
             </Route>
             <Route path="/submit">
-              <Submit change={change} setChange={setChange} user={user} />
+              <Submit
+                change={change}
+                setChange={setChange}
+                user={user}
+                unlockedTopics={unlockedTopics}
+                topics={topics}
+              />
             </Route>
             <Route path="/account">
               <Account update={update} error={error} user={user} />
@@ -496,7 +491,6 @@ export default function App() {
             <Route path="/myitems">
               <SubmittedItems
                 items={submittedItems}
-                topics={topics}
                 setCurrentItem={setCurrentItem}
                 deleteItem={deleteItem}
               />

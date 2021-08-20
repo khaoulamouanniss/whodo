@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import "./SubmittedItems.css";
 
 export default function SubmittedItem(props) {
-  const { id, item, approved, setCurrentItem, deleteItem, replied } = props;
-  let topics = props.topics ? " #" + props.topics.replace("/", " #") : "";
+  const { id, item, approved, setCurrentItem, deleteItem, replied, topics } =
+    props;
+
   let answers = props.answers ? " " + props.answers + " answers" : "";
 
   return approved ? (

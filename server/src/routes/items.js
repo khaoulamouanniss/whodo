@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {
   getItemsAndTopicsByLevel,
   addItem,
+  getTopicId,
   addTopic,
   addItemTopic,
   deleteItem,
@@ -102,17 +103,14 @@ module.exports = (db) => {
       });
   });
   router.post("/items", async (req, res) => {
-    const { creator, item, time, approved, topics } = req.body;
+    const { creator, item, time, approved, submittedTopic, listOfTopics } =
+      req.body;
 
     newItem = await addItem(creator, item, time, approved, db);
-    let topic;
-    for (let t of topics) {
-      topic = await addTopic(t, db);
-      console.log("tfarrej fel topic fissa3", topic);
-      addItemTopic(newItem.id, topic.id, db).then((added) =>
-        console.log(added)
-      );
-    }
+    const topic_id = getTopicId(submittedTopic, listOfTopics);
+    console.log("new item", newItem, submittedTopic, topic_id);
+    const itemTopic = await addItemTopic(newItem.id, topic_id, db);
+    console.log("and we added in the association table as well", itemTopic);
     res.send(newItem);
   });
   //return all items for a specific topic

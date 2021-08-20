@@ -17,7 +17,6 @@ export default function SubmittedItems(props) {
   return (
     <div className="items-container">
       <div className="item-message">
-        {" "}
         Here you can find your submitted messages and check if they are approved
       </div>
       {itemData}

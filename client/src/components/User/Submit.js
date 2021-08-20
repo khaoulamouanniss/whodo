@@ -4,21 +4,21 @@ import { Link, useHistory } from "react-router-dom";
 import "./Submit.css";
 
 export default function Submit(props) {
-  const { change, setChange, user } = props;
+  const { change, setChange, user, topics } = props;
   let history = useHistory();
-  const [tags, setTags] = useState([]);
-  const [tagsSpace, setTagsSpace] = useState(false);
-  const submitItem = (submittedItem, tags, approved) => {
-    console.log("tags are", tags);
-    let time = new Date();
 
+  const [topic, setTopic] = useState("Work");
+
+  const submitItem = (submittedItem, topic, approved) => {
+    let time = new Date();
     axios
       .post("http://localhost:8001/items", {
         creator: user.id,
         item: submittedItem,
         time: time,
         approved: approved,
-        topics: tags,
+        submittedTopic: topic,
+        listOfTopics: topics,
       })
       .then((res) => {
         console.log("submittedItem", res.data);
@@ -26,24 +26,10 @@ export default function Submit(props) {
         history.push("/myitems");
       });
   };
-  function handleSubmitTag(e) {
-    e.preventDefault();
 
-    let temporaryTags = [...tags];
-    if (e.keyCode === 13) {
-      setTagsSpace(true);
-      temporaryTags.push(e.target.value);
-      setTags(temporaryTags);
-      e.target.value = "";
-    }
-  }
   const handleChange = () => {
-    if (tags.length > 0) {
-      submitItem(document.getElementById("item").value, tags, false);
-      console.log("history", history);
-    } else {
-      alert("you should add a tag before");
-    }
+    submitItem(document.getElementById("item").value, topic, false);
+    console.log("history", history);
   };
   /* let item="";
   onChange={(event) => item=event.target.value}*/
@@ -78,7 +64,7 @@ export default function Submit(props) {
               <i style={{ color: "black" }} class="fas fa-question"></i>80
             </span>
           </div>
-          <div className="tag-container" id="tag-container">
+          {/*   <div className="tag-container" id="tag-container">
             <div
               style={{
                 color: "rgb(51, 50, 50)",
@@ -90,7 +76,7 @@ export default function Submit(props) {
               with # (it might be something like work, love, money,
               restaurants...).
             </div>
-            <div className="tags">
+           <div className="tags">
               {tags.map((tag) => {
                 return (
                   <div className={tagsSpace ? "tag" : "noBackground"}>
@@ -106,9 +92,22 @@ export default function Submit(props) {
               placeholder="add a hashtag"
               onKeyUp={(e) => handleSubmitTag(e)}
             />
-          </div>
+            </div>
         </div>
-        <div>
+        <div>*/}
+          <select
+            className="topic-select"
+            name="topic"
+            id="topic"
+            value={topic}
+            onChange={async (event) => {
+              await setTopic(event.target.value);
+            }}
+          >
+            {props.topics.map((c) => {
+              return <option value={c.topic}> {c.topic}</option>;
+            })}
+          </select>
           <Link className="text-button" to="/submit" onClick={handleChange}>
             <i style={{ fontSize: 20 }} class="fas fa-hashtag"></i>
             &nbsp;&nbsp;Submit
