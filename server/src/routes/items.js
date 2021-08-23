@@ -70,6 +70,7 @@ module.exports = (db) => {
     const previousItems = [];
     getPreviousItemsForUser(id, db)
       .then((items) => {
+        console.log("nshouff jew walale", items);
         items.map((item) => {
           if (item.replied === true) previousItems.push(item);
         });

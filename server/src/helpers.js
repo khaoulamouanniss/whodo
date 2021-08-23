@@ -212,7 +212,7 @@ const getPreviousItemsForUser = (id, db) => {
   (case when userAns.user_id = $1 then TRUE else FALSE end) as replied , (case when userAns.isFavorite = TRUE then TRUE else FALSE end) as favorite
   FROM items A
   left JOIN item_topics B ON B.item_id = A.id    
-  left join (select item_id, user_id, answer , favorite from answer_items where user_id = $1 ORDER BY Random() )  as userAns on userAns.item_id = A.id  
+  left join (select item_id, user_id, answer , isFavorite from answer_items where user_id = $1 ORDER BY Random() )  as userAns on userAns.item_id = A.id  
   JOIN topics D on D.id = B.topic_id 
   WHERE  A.approved = true 
   order by A.id `,
