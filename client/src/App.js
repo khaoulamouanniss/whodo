@@ -79,7 +79,7 @@ export default function App() {
 
         return res.data;
       });
-  }, [handleSearch]);
+  }, [handleSearch, level]);
 
   //refresh the list of unlocked topics whenever the level changes
   useEffect(() => {

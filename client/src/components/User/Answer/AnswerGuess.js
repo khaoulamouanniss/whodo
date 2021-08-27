@@ -55,7 +55,8 @@ export default function AnswerGuess(props) {
       temporaryArray.push(topic.topic);
     });
     setTopics(temporaryArray);
-  }, []);
+  }, [guessAnswer]);
+
   useEffect(() => {
     const levels = [30, 50, 110, 150, 200, 230, 330, 410, 500];
     axios
@@ -73,7 +74,7 @@ export default function AnswerGuess(props) {
           }
         }
       });
-  }, []);
+  }, [props.score]);
   useEffect(() => {
     if (switchToLevel) {
       delayAndGo();
@@ -121,19 +122,19 @@ export default function AnswerGuess(props) {
   };
   //adding an item to favorite items List
 
-  const addToFavorite = (e) => {
-    setClickedFavorite(!clickedFavorite);
+  const addToFavorite = (e, value) => {
+    e.preventDefault();
     axios
       .post("http://localhost:8001/answer/favorite", {
         id_user: user_id,
         id_item: id,
-        clickedFavorite: clickedFavorite,
+        clickedFavorite: value,
       })
       .then((res) => {
         console.log("the returned item favorite", res.data);
 
-        console.log("clickedfavorite", clickedFavorite);
-        if (clickedFavorite) {
+        console.log("clickedfavorite", value);
+        if (value) {
           console.log(e.target.style);
           e.target.style.color = "orange";
         } else {
@@ -144,20 +145,6 @@ export default function AnswerGuess(props) {
         return res.data;
       });
   };
-  //change the heights of the buttons according to the value in the database
-  useEffect(() => {
-    optionValues.map((i) => {});
-    document.getElementById("1").style.height =
-      (Math.round((optionValues[0] / total) * 100) * 2 + 20).toString() + "px";
-    document.getElementById("2").style.height =
-      (Math.round((optionValues[1] / total) * 100) * 2 + 20).toString() + "px";
-    document.getElementById("3").style.height =
-      (Math.round((optionValues[2] / total) * 100) * 2 + 20).toString() + "px";
-    document.getElementById("4").style.height =
-      (Math.round((optionValues[3] / total) * 100) * 2 + 20).toString() + "px";
-    document.getElementById("5").style.height =
-      (Math.round((optionValues[4] / total) * 100) * 2 + 20).toString() + "px";
-  }, [guessAnswer]);
 
   //returns the maximum value in an array of objects
   function maxOfArray(arr) {
@@ -177,7 +164,7 @@ export default function AnswerGuess(props) {
   }
 
   //creating a component for the button to be called
-  const ButtonForGuess = ({ id, nameButton, percentage, styleButton }) => {
+  const ButtonForGuess = ({ id, nameButton, percentage }) => {
     return (
       <div className={`graph${id}`}>
         <button
@@ -185,14 +172,13 @@ export default function AnswerGuess(props) {
           // id={`id${id}`}
           id={id}
           className="ans-btn trigger"
+          style={{ height: `${percentage * 2 + 20}px` }}
           onClick={(e) => {
             setGuessOption(id);
             setDidGuess(true);
-            e.target.style = { styleButton };
+            console.log(`${percentage * 2 + 20}px`);
           }}
-        >
-          {" "}
-        </button>
+        ></button>
         <div className="hidden">
           <p> {nameButton}</p>
         </div>
@@ -233,7 +219,7 @@ than one element because we can have same number of answers for different option
       l++;
     }
     setLevels(levelsAns);
-    console.log(levelsAns);
+    console.log("levels", levelsAns);
     let guessResult = getGuessAssessment(levelsAns, guessOption - 1, score, id);
     setGuessAnswer(guessResult[0]);
 
@@ -322,35 +308,45 @@ than one element because we can have same number of answers for different option
               id={1}
               nameButton={"Never"}
               className="ans-btn trigger"
-              percentage={Math.round((optionValues[0] / total) * 100) || 0}
+              percentage={
+                guessAnswer ? Math.round((optionValues[0] / total) * 100) : 15
+              }
             />
 
             <ButtonForGuess
               id={2}
               nameButton={"Rarely"}
               className="ans-btn trigger"
-              percentage={Math.round((optionValues[1] / total) * 100) || 0}
+              percentage={
+                guessAnswer ? Math.round((optionValues[1] / total) * 100) : 15
+              }
             />
 
             <ButtonForGuess
               id={3}
               nameButton={"Sometimes"}
               className="ans-btn trigger"
-              percentage={Math.round((optionValues[2] / total) * 100) || 0}
+              percentage={
+                guessAnswer ? Math.round((optionValues[2] / total) * 100) : 15
+              }
             />
 
             <ButtonForGuess
               id={4}
               nameButton={"Usually"}
               className="ans-btn trigger"
-              percentage={Math.round((optionValues[3] / total) * 100) || 0}
+              percentage={
+                guessAnswer ? Math.round((optionValues[3] / total) * 100) : 15
+              }
             />
 
             <ButtonForGuess
               id={5}
               nameButton={"Always"}
               className="ans-btn trigger"
-              percentage={Math.round((optionValues[4] / total) * 100) || 0}
+              percentage={
+                guessAnswer ? Math.round((optionValues[4] / total) * 100) : 15
+              }
             />
 
             <div className="optionIndication">Always</div>
@@ -405,7 +401,10 @@ than one element because we can have same number of answers for different option
               <i
                 class="fas fa-heart"
                 style={{ color: "black" }}
-                onClick={(e) => addToFavorite(e)}
+                onClick={(e) => {
+                  addToFavorite(e, !clickedFavorite);
+                  setClickedFavorite(!clickedFavorite);
+                }}
               ></i>
             </div>
 
