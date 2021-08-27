@@ -79,7 +79,7 @@ export default function App() {
 
         return res.data;
       });
-  }, [handleSearch, level]);
+  }, [handleSearch, level, currentItem]);
 
   //refresh the list of unlocked topics whenever the level changes
   useEffect(() => {
@@ -138,7 +138,7 @@ export default function App() {
       console.log("unlocked topics are", all[6].data);
       setUnlockedTopics(all[6].data.map((item) => item.topic));
     });
-  }, [user, change]);
+  }, [user, change, level, currentItem]);
 
   const [error, setError] = useState(null);
   //const [loading, setLoading] = useState(false);

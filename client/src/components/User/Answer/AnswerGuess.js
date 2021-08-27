@@ -10,6 +10,7 @@ export default function AnswerGuess(props) {
   console.log("props of guessAnswer", props);
   const [topic, setTopic] = useState(props.item.topic);
   const { unlockedTopics } = props;
+  const [colorButton, setColorButton] = useState("black");
   const [levels, setLevels] = useState([[]]);
   const [topics, setTopics] = useState([]);
   const startScore = props.score;
@@ -85,6 +86,7 @@ export default function AnswerGuess(props) {
     if (guessOption) {
       document.getElementById(guessOption).style.backgroundColor = "blue";
     }
+    console.log("levels of 0", levels[0]);
     for (const i of levels[0]) {
       document.getElementById(i + 1).style.backgroundColor = "green";
     }
@@ -172,10 +174,16 @@ export default function AnswerGuess(props) {
           // id={`id${id}`}
           id={id}
           className="ans-btn trigger"
-          style={{ height: `${percentage * 2 + 20}px` }}
+          style={{
+            height: `${percentage * 2 + 20}px`,
+            backgroundColor: { colorButton },
+          }}
           onClick={(e) => {
+            console.log(e.target);
             setGuessOption(id);
             setDidGuess(true);
+
+            e.target.style.backgroundColor = "blue";
             console.log(`${percentage * 2 + 20}px`);
           }}
         ></button>
