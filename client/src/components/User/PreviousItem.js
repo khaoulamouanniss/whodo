@@ -6,7 +6,7 @@ import srcShare from "../images/Share_Active.png";
 
 export default function PreviousItem(props) {
   const { favorite, id, favoriteSearch, item, answer } = props;
-  console.log("shouff element we7ed", props);
+
   return (
     <div>
       <div className="prev-item">

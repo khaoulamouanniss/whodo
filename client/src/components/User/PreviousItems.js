@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import PreviousItem from "./PreviousItem";
 import "./PreviousItems.css";
 
 export default function PreviousItems(props) {
   const [favoriteSearch, setFavoriteSearch] = useState(false);
+  const [keyWordSearch, setKeyWordSearch] = useState("");
+  useEffect(() => {
+    console.log("handleSearch", keyWordSearch);
+  }, [keyWordSearch]);
   function onHandle(event) {
     event.preventDefault();
-    props.setHandleSearch(event.target.value);
+    setKeyWordSearch(event.target.value);
   }
 
   const itemData = props.items.map((i) => (
