@@ -5,14 +5,6 @@ import "./PreviousItems.css";
 
 export default function PreviousItems(props) {
   const [favoriteSearch, setFavoriteSearch] = useState(false);
-  const [keyWordSearch, setKeyWordSearch] = useState("");
-  useEffect(() => {
-    console.log("handleSearch", keyWordSearch);
-  }, [keyWordSearch]);
-  function onHandle(event) {
-    event.preventDefault();
-    setKeyWordSearch(event.target.value);
-  }
 
   const itemData = props.items.map((i) => (
     <PreviousItem
@@ -32,7 +24,7 @@ export default function PreviousItems(props) {
           <input
             type="text"
             className="inputSearch"
-            onKeyUp={(e) => onHandle(e)}
+            onKeyUp={(e) => props.setHandleSearch(e.target.value)}
           />
         </div>
         <div className="like">

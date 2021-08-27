@@ -52,6 +52,10 @@ export default function App() {
   const [submittedItems, setSubmittedItems] = useState([]);
   const [previousItems, setPreviousItems] = useState([]);
 
+  useEffect(() => {
+    console.log("my new handle search", handleSearch);
+  }, [handleSearch]);
+
   //when the page load, we bring the user level from newLevel route
   useEffect(() => {
     axios
@@ -68,13 +72,14 @@ export default function App() {
     axios
       .post("http://localhost:8001/previousitems", {
         id: user.id,
+        keyWord: handleSearch,
       })
       .then((res) => {
         setPreviousItems(res.data);
 
         return res.data;
       });
-  }, []);
+  }, [handleSearch]);
 
   //refresh the list of unlocked topics whenever the level changes
   useEffect(() => {

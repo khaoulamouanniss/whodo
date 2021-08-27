@@ -66,13 +66,23 @@ module.exports = (db) => {
   });
   //get the items answered by a certain user knowing his id
   router.post("/previousitems", (req, res) => {
-    const { id } = req.body;
+    const { id, keyWord } = req.body;
     const previousItems = [];
     getPreviousItemsForUser(id, db)
       .then((items) => {
         console.log("nshouff jew walale", items);
         items.map((item) => {
-          if (item.replied === true) previousItems.push(item);
+          if (!keyWord) {
+            if (item.replied === true) previousItems.push(item);
+          } else {
+            if (
+              item.replied === true &&
+              (item.item.toUpperCase().includes(keyWord.toUpperCase()) ||
+                item.topic.toUpperCase().includes(keyWord.toUpperCase()))
+            ) {
+              previousItems.push(item);
+            }
+          }
         });
 
         console.log("my items already answered to check", previousItems);
