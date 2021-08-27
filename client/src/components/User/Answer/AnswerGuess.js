@@ -167,6 +167,15 @@ export default function AnswerGuess(props) {
 
   //creating a component for the button to be called
   const ButtonForGuess = ({ id, nameButton, percentage }) => {
+    console.log("nthabtou esse3a houa walale", levels[0], id - 1);
+    let myColor = "black";
+    if (levels[0].includes(id - 1)) {
+      myColor = "green";
+    } else {
+      if (guessOption === id) {
+        myColor = "blue";
+      }
+    }
     return (
       <div className={`graph${id}`}>
         <button
@@ -176,14 +185,13 @@ export default function AnswerGuess(props) {
           className="ans-btn trigger"
           style={{
             height: `${percentage * 2 + 20}px`,
-            backgroundColor: { colorButton },
+            backgroundColor: myColor,
           }}
           onClick={(e) => {
             console.log(e.target);
             setGuessOption(id);
             setDidGuess(true);
 
-            e.target.style.backgroundColor = "blue";
             console.log(`${percentage * 2 + 20}px`);
           }}
         ></button>
