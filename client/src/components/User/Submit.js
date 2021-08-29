@@ -27,9 +27,13 @@ export default function Submit(props) {
       });
   };
 
-  const handleChange = () => {
-    submitItem(document.getElementById("item").value, topic, false);
-    console.log("history", history);
+  const handleChange = (e) => {
+    if (!document.getElementById("item").value)
+      alert("you need to type your question");
+    else {
+      submitItem(document.getElementById("item").value, topic, false);
+      console.log("history", history);
+    }
   };
   /* let item="";
   onChange={(event) => item=event.target.value}*/

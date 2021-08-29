@@ -81,10 +81,7 @@ module.exports = (db) => {
               (item.item.toUpperCase().includes(keyWord.toUpperCase()) ||
                 item.topic.toUpperCase().includes(keyWord.toUpperCase()))
             ) {
-              previousItems.push({
-                item: item,
-                mostPeopleAnswer: getMostPeopleAnswer(item.id),
-              });
+              previousItems.push(item);
             }
           }
         });

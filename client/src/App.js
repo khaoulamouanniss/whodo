@@ -75,9 +75,9 @@ export default function App() {
         keyWord: handleSearch,
       })
       .then((res) => {
+        console.log("eli 0otli le ", res.data);
         setPreviousItems(res.data);
-
-        return res.data;
+        setChange(!change);
       });
   }, [handleSearch, level, currentItem]);
 

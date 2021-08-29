@@ -31,12 +31,15 @@
 
 .prev-item {
   margin: 10px;
+  width: 0 0 auto;
 }
 .your-answer {
   margin: 10px;
+  width: 0 0 auto;
 }
 .most-ppl-answer {
   margin: 10px;
+  width: 0 0 auto;
 }
 
 .prev-answer-details-title {
