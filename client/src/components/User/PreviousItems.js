@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
-
+import axios from "axios";
 import PreviousItem from "./PreviousItem";
 import "./PreviousItems.css";
 
 export default function PreviousItems(props) {
   const [favoriteSearch, setFavoriteSearch] = useState(false);
 
-  const itemData = props.items.map((i) => (
+  const { getNbAnsByOption, items } = props;
+  const itemData = items.map((i) => (
     <PreviousItem
       id={i.id}
       item={i.item}
       answer={i.user_answer}
       favorite={i.favorite}
       favoriteSearch={favoriteSearch}
+      getNbAnsByOption={getNbAnsByOption}
     />
   ));
 

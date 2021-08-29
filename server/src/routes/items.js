@@ -20,6 +20,7 @@ const {
   getTopicsForUser,
   setFavorite,
   getPreviousItemsForUser,
+  getMostPeopleAnswer,
 } = require("../helpers");
 
 module.exports = (db) => {
@@ -68,7 +69,7 @@ module.exports = (db) => {
   router.post("/previousitems", (req, res) => {
     const { id, keyWord } = req.body;
     const previousItems = [];
-    getPreviousItemsForUser(id, db)
+    getPreviousItemsForUser(id, keyWord, db)
       .then((items) => {
         console.log("nshouff jew walale", items);
         items.map((item) => {
@@ -80,7 +81,10 @@ module.exports = (db) => {
               (item.item.toUpperCase().includes(keyWord.toUpperCase()) ||
                 item.topic.toUpperCase().includes(keyWord.toUpperCase()))
             ) {
-              previousItems.push(item);
+              previousItems.push({
+                item: item,
+                mostPeopleAnswer: getMostPeopleAnswer(item.id),
+              });
             }
           }
         });

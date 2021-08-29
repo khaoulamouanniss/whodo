@@ -180,7 +180,6 @@ export default function AnswerGuess(props) {
       <div className={`graph${id}`}>
         <button
           name={nameButton}
-          // id={`id${id}`}
           id={id}
           className="ans-btn trigger"
           style={{

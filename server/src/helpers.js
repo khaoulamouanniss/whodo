@@ -22,6 +22,24 @@ const getNbAnswersforOptionById = (question, option, db) => {
     });
 };
 
+//returns the index of the max element in an array
+const indexOfMax = (arr) => {
+  if (arr.length === 0) {
+    return -1;
+  }
+
+  var max = arr[0];
+  var maxIndex = 0;
+
+  for (var i = 1; i < arr.length; i++) {
+    if (arr[i] > max) {
+      maxIndex = i;
+      max = arr[i];
+    }
+  }
+
+  return maxIndex;
+};
 const getUserByEmail = (email, db) => {
   return db
     .query(
@@ -43,6 +61,8 @@ const getUserByEmail = (email, db) => {
       return null;
     });
 };
+//get what most people answered to a certain item
+const getMostPeopleAnswer = (id, db) => {};
 //it will return an array containing five cells about the guesses for each of the five answer option
 const getAnswersForItem = (id, db) => {
   return db
@@ -202,7 +222,7 @@ const getItemsAndTopicsByLevel = (id, level, db) => {
     });
 };
 // get the items that the user has already answered
-const getPreviousItemsForUser = (id, db) => {
+const getPreviousItemsForUser = (id, keyWord, db) => {
   return db
     .query(
       `
@@ -760,4 +780,6 @@ module.exports = {
   setFavorite,
   getPreviousItemsForUser,
   getTopicId,
+  getMostPeopleAnswer,
+  indexOfMax,
 };

@@ -504,6 +504,7 @@ export default function App() {
               <PreviousItems
                 items={previousItems}
                 setHandleSearch={setHandleSearch}
+                getNbAnsByOption={getNbAnsByOption}
               />
             </Route>{" "}
             <Route path="/users">

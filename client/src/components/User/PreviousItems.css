@@ -44,7 +44,8 @@
   flex-direction: row;
   width: 100vw;
   align-items: stretch;
-  font-size: 40px;
+  font-size: 32px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .prev-answer-details-title > div {
   flex: 1;
