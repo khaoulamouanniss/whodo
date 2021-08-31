@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import { FacebookButton, TwitterButton } from "react-social";
+import { SocialIcon } from "react-social-icons";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import "./Answer.css";
@@ -11,6 +12,7 @@ export default function AnswerGuess(props) {
   const [topic, setTopic] = useState(props.item.topic);
   const { unlockedTopics } = props;
   const [colorButton, setColorButton] = useState("black");
+  const [showSocial, setShowSocial] = useState(false);
   const [levels, setLevels] = useState([[]]);
   const [topics, setTopics] = useState([]);
   const startScore = props.score;
@@ -286,10 +288,11 @@ than one element because we can have same number of answers for different option
           </div>
           <div className="itemContent">
             <h3>
-              {props.item.item
-                .replace("yourself", "themselves")
-                .replace("your", "their")
-                .replace("you", "they")}
+              {props.item.item &&
+                props.item.item
+                  .replace("yourself", "themselves")
+                  .replace("your", "their")
+                  .replace("you", "they")}
             </h3>
           </div>
         </div>
@@ -414,7 +417,7 @@ than one element because we can have same number of answers for different option
           <div className="likeAndShare">
             <div className="like">
               <i
-                class="fas fa-heart"
+                className="fas fa-heart"
                 style={{ color: "black" }}
                 onClick={(e) => {
                   addToFavorite(e, !clickedFavorite);
@@ -424,7 +427,25 @@ than one element because we can have same number of answers for different option
             </div>
 
             <div className="share">
-              <i class="fas fa-share"></i>
+              <i
+                className="fas fa-share"
+                onClick={() => setShowSocial(!showSocial)}
+              >
+                {" "}
+                {showSocial && (
+                  <div>
+                    <FacebookButton
+                      url={"https://github.com/"}
+                      appId={179472363976068}
+                    >
+                      <SocialIcon url="https://facebook.com/jaketrent" />
+                    </FacebookButton>
+                    <TwitterButton url={"https://github.com/"}>
+                      <SocialIcon url="https://Twitter.com/jaketrent" />
+                    </TwitterButton>
+                  </div>
+                )}
+              </i>
             </div>
           </div>
         </>

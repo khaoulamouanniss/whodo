@@ -28,6 +28,8 @@
     "react-chartjs-2": "^2.11.1",
     "react-delay-link": "^1.1.4",
     "react-router-dom": "^5.2.0",
+    "react-social": "^1.10.0",
+    "react-social-icons": "^5.6.1",
     "react-step-builder": "^2.0.10",
     "reactjs-popup": "^2.0.5",
     "rsuite": "^4.9.3"
